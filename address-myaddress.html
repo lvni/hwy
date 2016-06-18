@@ -21,34 +21,23 @@
     </a>
 </div>
 <div class="u-arrow-list">
-    <a href="address-dministration.html" class="list">
-        <div class="contbox">
-            <h3 class="title"><p class="name">洪五爷</p><span class="phone">13421137548</span></h3>
-            <p class="cont">广东省揭阳市揭东区磐东街道 阳美村创鸿广场东三栋东二门</p>
-        </div>
-        <img class="arrow" src="img/arrowright.png">
-    </a>
-    <a href="address-dministration.html" class="list">
-        <div class="contbox">
-            <h3 class="title"><p class="name">洪五爷</p><span class="phone">13421137548</span></h3>
-            <p class="cont">广东省揭阳市揭东区磐东街道 阳美村创鸿广场东三栋东二门</p>
-        </div>
-        <img class="arrow" src="img/arrowright.png">
-    </a>
-    <a href="address-dministration.html" class="list">
-        <div class="contbox">
-            <h3 class="title"><p class="name">洪五爷</p><span class="phone">13421137548</span></h3>
-            <p class="cont">广东省揭阳市揭东区磐东街道 阳美村创鸿广场东三栋东二门</p>
-        </div>
-        <img class="arrow" src="img/arrowright.png">
-    </a>
+    
+   
 </div>
 <div class="buttonbox">
     <button class="u-button-main" onclick="javascript:window.location.href='address-dministration.html'">
         <span>新增收货地址</span>
     </button>
 </div>
-
+<script id="tempate-address-list" type="text/template">
+<a href="address-dministration.html" class="list">
+        <div class="contbox">
+            <h3 class="title"><p class="name">{$consignee}</p><span class="phone">{$mobile}</span></h3>
+            <p class="cont">{$address}</p>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+</script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
 <script>

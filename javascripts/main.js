@@ -61,6 +61,16 @@ var Util = {
         window.location.href = config.page.login + "?" + callback;
         
     }
+    //请求接口
+    ,requestApi: function(api, data, callback) {
+        var url = config.api + api;
+        $.ajax({
+            url: url,
+            dataType: 'jsonp',
+            data: data,
+            success: callback
+        });
+    }
 };
 //存储相关
 var Storge = {
@@ -762,9 +772,34 @@ var Order = {
 
 //地址管理
 var Address = {
-    //管理主页
-    runMain: function() {
+
+
+    //渲染地址列表
+    renderAddressList: function(data) {
+        if (data.errno == 0) {
+            var tempate = $('#tempate-address-list').html();
+            var html = "";
+            for (i in data.data) {
+                var item = data.data[i];
+                item.address = item.province + item.city + item.address;
+                html += tempate.replace('{$consignee}', item.consignee)
+                               .replace('{$mobile}', item.mobile)
+                               .replace('{$address}', item.address);
+            }
+            $('.u-arrow-list').html(html);
+            
+        } else {
+            messageBox.toast(data.errmsg);
+        }
         
+    }
+    ,loadMyaddress: function() {
+        var api = "?r=address/list";
+        Util.requestApi(api, {}, this.renderAddressList);
+    }
+    //管理主页
+    ,runMain: function() {
+        this.loadMyaddress();
     }
 
 };
