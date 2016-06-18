@@ -1,0 +1,155 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>产品详情</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/details.css">
+</head>
+
+<body>
+<div class="details-slide">
+    <div class="top">
+        <a href="javascript:history.go(-1)" ><img src="img/details_03.png" class="back"></a>
+        <a href="#" ><img src="img/details_05.png" class="share"></a>
+    </div>
+    <div id="hl-swiper" class="hl-swiper cont">
+        <div class="position-nav"></div>
+        <div class="slides">
+        
+        </div>
+    </div>
+</div>
+<div class="productinfo-head">
+    <h3 class="title"> 加载中 ... </h3>
+    <p class="price red"><i>￥</i><span class="shop_price">0.00<span></p>
+    <div class="rightbox">
+        <p>点赞量：<i class="red likes">0</i></p>
+        <p>浏览量：<i class="red view">0</i></p>
+    </div>
+</div>
+<div class="u-list-arrow">
+    <a href="allproduct.html">
+        <i>商品分类</i>
+        <img src="img/arrowright.png">
+    </a>
+</div>
+<div class="productinfo-list">
+    <h4 class="details-title">商品详情</h4>
+    <div class="cont">
+        加载中 ...
+    </div>
+</div>
+
+<div class="video" style="display:none;">
+    <h4 class="details-title">视频展示</h4>
+    <img src="img/details_13.png" width="100%">
+</div>
+
+<div class="details-infobox">
+    <h4 class="details-title">图文详情</h4>
+    <div class="cont">
+        加载中 ...
+    </div>
+</div>
+<div class="comment">
+    <input type="text" class="cont">
+    <button class="submit">
+        <span>评论</span>
+    </button>
+</div>
+<div class="comment-listbox">
+    <h4 class="details-title">最新评论<i>（共3条）</i></h4>
+    <div class="comment-list">
+        <img src="img/hw_06.png" class="photo">
+        <p class="name">东方不败</p>
+        <p class="cont">看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好！</p>
+    </div>
+    <div class="comment-list">
+        <img src="img/hw_06.png" class="photo">
+        <p class="name">东方不败</p>
+        <p class="cont">看起来很好看！</p>
+    </div>
+</div>
+<div class="u-index-title">
+    <p>猜你喜欢</p>
+</div>
+<div class="u-box-left50-right50">
+    <div class="rightbox">
+        <div class="rows">
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_146.png" width="100%"> </div>
+            </div>
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_148.png" width="100%"> </div>
+            </div>
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_146.png" width="100%"> </div>
+            </div>
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_148.png" width="100%"> </div>
+            </div>
+        </div>
+        <div class="rows">
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_150.png" width="100%"> </div>
+            </div>
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_150.png" width="100%"> </div>
+            </div>
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_150.png" width="100%"> </div>
+            </div>
+            <div class="u-autoheight">
+                <div class="dummy"></div>
+                <div class="content"><img src="img/index_150.png" width="100%"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="#" class="u-backtop">
+    <img src="img/index_295.png">
+    回到顶部
+</a>
+
+<div class="details-bottombox">
+    <div class="icon">
+        <img src="img/details_27.png">
+        <p>客服</p>
+    </div>
+    <div class="icon" id="detail_collect">
+        <img src="img/details_22.png">
+        <p>收藏</p>
+    </div>
+    <div class="icon" id="detail_likes_up">
+        <img src="img/details_24.png">
+        <p>点赞</p>
+    </div>
+    <button class="add" id="add" onclick="javascript:;">
+        <span>加入购物车</span>
+    </button>
+    <button class="buy" id="buy" onclick="javascript:window.location.href='myorder-placeorder.html'">
+        <span>立即购买</span>
+    </button>
+</div>
+
+<script src="javascripts/hl-swiper.js"></script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    var ignoreNavi = true;
+    Bootstrap.rungoodsdetail();
+    goodsCart.bindAddEvent();
+});
+</script>
+
+</body>
+</html>

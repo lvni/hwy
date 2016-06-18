@@ -1,0 +1,1578 @@
+@charset "utf-8";
+@import "color";
+@import "extend";
+/*分不了组的组件*/
+
+/*用户页面头部*/
+.u-top-msg {
+  position: fixed;
+  top:0px;
+  left:0px;
+  padding:0px 70px 0 50px;
+  width:100%;
+  height:50px;
+  background: #ffffff;
+  box-sizing: border-box;
+  z-index: 99;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+  .turnback {
+    position: absolute;
+    left:15px;
+    top:50%;
+    margin:-12px 0 0 0;
+    &>img {
+      width:12px;
+      height:24px;
+    }
+  }
+  .searchbox {
+    padding:8px 0px;
+    width:100%;
+    &>.cont {
+      position: relative;
+      padding:6px 0 0 0;
+      height:28px;
+      border-bottom:1px solid $maincolor;
+      line-height: 28px;
+      text-align: center;
+      color:$maincolor;
+      &>img {
+        width:17px;
+        height:17px;
+        &.on {
+          position: absolute;
+          left:8px;
+          top:10px;
+        }
+      }
+      &:before,&:after  {
+        content:'';
+        position: absolute;
+        left:0px;
+        bottom:0px;
+        height:5px;
+        border-left:1px solid $maincolor;
+      }
+      &:after {
+        left:inherit;
+        right:0px;
+      }
+      input {
+        position: absolute;
+        left:0px;
+        bottom:0px;
+        padding:0px 10px 0 30px;
+        height:28px;
+        width:100%;
+        line-height: 28px;
+        border:none;
+        background: none;
+        outline: none;
+        box-sizing: border-box;
+        color:$fontcolorLv2;
+      }
+    }
+  }
+  .msgbox {
+    @extend %boxcenter;
+    position: absolute;
+    right:0px;
+    top:0px;
+    width:50px;
+    height:50px;
+    &>img {
+      width:25px;
+      height:25px;
+    }
+    .msg {
+      display: block;
+      position: absolute;
+      top:14px;
+      right:14px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background: $maincolor;
+
+    }
+  }
+  &>.title {
+    text-align: center;
+    font-size:18px;
+    color:$fontcolorLv2;
+    line-height: 50px;
+    span {
+      font-size:12px;
+    }
+    & + .msgbox {
+      border-left:1px solid $bordercolor;
+    }
+    .edit {
+      position: absolute;
+      right:50px;
+      padding:0px 15px;
+      font-size:15px;
+      color:$fontcolorLv2;
+    }
+  }
+  .saoyisao {
+    @extend %boxcenter;
+    position: absolute;
+    left:0px;
+    top:0px;
+    width:66px;
+    height:50px;
+    font-size:10px;
+    color: $maincolor;
+    text-align: center;
+    img {
+      width:28px;
+    }
+  }
+  &.indextitle {
+    padding: 0px 66px;
+    .msgbox {
+      width:66px;
+      .msg {
+        top:6px;
+        right:21px;
+      }
+      .index-msg {
+        font-size:10px;
+        color:$maincolor;
+        text-align: center;
+        img {
+          width:25px;
+          height:25px;
+        }
+      }
+    }
+  }
+  &>.u-mainbutton-little {
+    display: none;
+    position: absolute;
+    right:10px;
+    top:13px;
+  }
+}
+.u-searchhistory {
+  display: none;
+  position: fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  padding:50px 15px 0 15px;
+  background:$bgcolor;
+  color:$fontcolorLv2;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  z-index: 98;
+  &.on {
+    display: block;
+  }
+  &>.title {
+    position: relative;
+    font-size:14px;
+    color:$fontcolorLv3;
+    padding:20px 0 5px 0;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+  }
+  .cont {
+    &>li {
+      position: relative;
+      padding:10px 0;
+
+      &:after {
+        @extend %border-1px-bottom;
+      }
+    }
+  }
+  &>.buttonbox {
+    padding:30px 0 0 0;
+    text-align: center;
+  }
+}
+
+.u-person-head {
+  position: relative;
+  padding:47px 15px 30px 76px;
+  background: #ffffff;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+  &>.photo {
+    position: absolute;
+    left:10px;
+    top:35px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border: 1px solid $maincolor;
+  }
+  &>.name {
+    font-size:19px;
+    &>img {
+      position: relative;
+      top:-5px;
+      margin:0 5px 0 0;
+      width:26px;
+    }
+  }
+  &>.msgbox {
+    @extend %boxcenter;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 50px;
+    height: 50px;
+    &>img {
+      width: 25px;
+      height: 25px;
+    }
+    &>.msg {
+      display: block;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #a90125;
+    }
+  }
+}
+.u-person-cont {
+  display: -webkit-box;
+  height:65px;
+  margin:0 0 15px 0;
+  background: #ffffff;
+  &>a {
+    display: block;
+    padding: 10px 0 0 0;
+    text-align: center;
+    -webkit-box-flex: 1;
+    &>img {
+      width:30px;
+      height:30px;
+    }
+    &>p {
+      font-size:12px;
+    }
+  }
+}
+
+.u-person-order {
+  margin:15px 0;
+  background: #ffffff;
+  &>.title {
+    position: relative;
+    @extend %box-middle;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size:16px;
+    color:$fontcolorLv1;
+    &>span {
+      display: block;
+      width:100%;
+    }
+    .more {
+      float:right;
+      margin:0 30px 0 0;
+      font-size:12px;
+      line-height: 21px;
+    }
+    &:after {
+      @extend  %border-1px-bottom;
+    }
+  }
+  &>.cont {
+    display: -webkit-box;
+    &>a {
+      position: relative;
+      display: block;
+      padding:10px 0 0 0;
+      text-align: center;
+      font-size:12px;
+      color:$fontcolorLv2;
+      -webkit-box-flex: 1;
+    }
+    p {
+      padding:5px 0 5px 0;
+    }
+    img {
+      width:25px;
+    }
+    .count {
+      position: absolute;
+      top:7px;
+      right:13px;
+      width:20px;
+      height:20px;
+      line-height: 20px;
+      text-align: center;
+      border:1px solid $maincolor;
+      color:$maincolor;
+      border-radius:50%;
+      background: #ffffff;
+    }
+  }
+}
+
+
+/*固定底部的导航栏*/
+.u-bottomnav {
+  position: fixed;
+  bottom:0;
+  left:0px;
+  display: -webkit-box;
+  width:100%;
+  height:50px;
+  background: $maincolor;
+  z-index: 99;
+
+  &>a {
+    position: relative;
+    display: block;
+    padding:5px 0 0 0;
+    text-align: center;
+    -webkit-box-flex: 1;
+    font-size:10px;
+    line-height: 14px;
+    color:#ffffff;
+    &>img {
+      width:25px;
+      height:25px;
+    }
+    &>span {
+      position: absolute;
+      left:50%;
+      top:7px;
+      margin: 0 0 0 8px;
+      width:14px;
+      height:14px;
+      text-align: center;
+      line-height:14px;
+      background: #ffffff;
+      border-radius:50%;
+      color:$maincolor;
+
+    }
+  }
+}
+
+/*二维码分享*/
+.u-barcode {
+  @extend %boxcenter;
+  position: fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 99;
+  .cord {
+    display: block;
+    margin: 40px auto 0 auto;
+    width:200px;
+    height:200px;
+  }
+  .cont {
+    display: block;
+    padding:10px 0 0 0;
+    width:100%;
+    text-align: center;
+    font-size:13px;
+    color:#000000;
+    line-height:30px;
+    &>img {
+      margin:-5px 5px 0 0;
+      width:22px;
+      height:22px;
+    }
+  }
+  .tips {
+    position: absolute;
+    bottom:15px;
+    width:100%;
+    text-align: center;
+    color:$fontcolorLv2;
+  }
+  .contbox {
+    position: relative;
+    width:280px;
+    height:380px;
+    background: #ffffff;
+  }
+}
+
+/*购物车的结算*/
+.u-pay {
+  position: fixed;
+  bottom:50px;
+  left:0px;
+  padding:5px 105px 5px 75px;
+  width:100%;
+  min-height: 43px;
+  background: #ffffff;
+  box-sizing: border-box;
+  z-index: 9;
+  &>label {
+    position: absolute;
+    left:15px;
+    top:50%;
+    margin:-10px 0 0 0;
+    padding: 0 0 0 25px;
+    height:20px;
+    font-size:12px;
+    color:$fontcolorLv2;
+    line-height: 20px;
+    &>.u-choose {
+      position: absolute;
+      left:0px;
+      top:50%;
+      margin:-10px 0 0 0;
+    }
+  }
+  &>.paynow {
+    position: absolute;
+    right:0px;
+    top:0px;
+    color:$maincolor;
+    width:100px;
+    height:100%;
+    border-top:1px solid $maincolor;
+    border-left:1px solid $maincolor;
+    background: $bgcolor-red;
+    span {
+      font-size:12px;
+    }
+  }
+  &>.count {
+    font-size:15px;
+    text-align: right;
+    .tips {
+      font-size:12px;
+      color:$fontcolorLv3;
+    }
+  }
+  .share {
+    position: absolute;
+    right:0px;
+    font-size:0px;
+    text-align: right;
+    &>a {
+      display: inline-block;
+      min-width:70px;
+      color:$maincolor;
+      font-size:12px;
+      line-height: 33px;
+      text-align: center;
+    }
+    .shareimg {
+      width:15px;
+      margin: -2px 3px 0 0;
+    }
+  }
+}
+
+/*购物车的编辑框*/
+.u-classifybox {
+  position:fixed;
+  bottom:0px;
+  left:0px;
+  padding:0 0 60px 0;
+  width:100%;
+  background: #ffffff;
+  -webkit-transform:translate(0,100%);
+  -webkit-transition: transform 0.5s linear;
+  z-index: 98;
+  &.show {
+    -webkit-transform:translate(0,0);
+  }
+  &>.head {
+    position: relative;
+    padding: 0 0 0 145px;
+    min-height: 120px;
+    &>.title {
+      font-size:16px;
+      padding:20px 0 5px 0;
+    }
+    &>p:not(.red) {
+      font-size:15px;
+      line-height: 24px;
+      color:$fontcolorLv3;
+    }
+    &>img {
+      position: absolute;
+      left:10px;
+      top:-10px;
+      padding:5px;
+      border:1px solid $bordercolor;
+      width:110px;
+      height:110px;
+      background: #ffffff;
+      border-radius:2px;
+    }
+  }
+  .classify {
+    padding:0px 15px;
+    font-size:0px;
+    &>.title {
+      padding:10px 0 15px 0;
+      font-size:15px;
+      color:$fontcolorLv3;
+    }
+    &>button {
+      padding:0px 15px;
+      margin:0 10px 10px 0;
+      background: $maincolor;
+      color:#ffffff;
+      font-size:12px;
+      min-height: 30px;
+      border-radius:4px;
+    }
+  }
+  .buttonbox {
+    padding: 20px 0 0 0;
+    text-align: center;
+  }
+}
+
+.u-popodbg {
+  position: fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index:97;
+}
+
+/*排序的下拉*/
+.u-sortnav {
+  display: -webkit-box;
+  position: relative;
+  margin:2px 0 0 0;
+  height:34px;
+  background: #ffffff;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+  &>.cont {
+    position: relative;
+    -webkit-box-flex: 1;
+    &>select {
+      position: absolute;
+      top:0px;
+      left:0px;
+      width:100%;
+      height:100%;
+      opacity:0;
+      z-index: 9;
+    }
+    &>p {
+      line-height: 34px;
+      text-align: center;
+      color:$fontcolorLv2;
+      font-size:14px;
+      &>img {
+        margin:0px 5px;
+        width:6px;
+        -webkit-transition:linear 0.2s transform;
+      }
+    }
+    &.on {
+      &>p {
+        color:$maincolor;
+      }
+      img {
+        -webkit-transform: rotate(180deg);
+      }
+    }
+  }
+}
+/*排序的选中的类型*/
+.u-chooseclass {
+  padding:5px 0px;
+  font-size:0px;
+  background: $bgcolor;
+  &>.cont {
+    position: relative;
+    display: inline-block;
+    padding:0px 15px;
+    margin:0 5px 5px 5px;
+    border:1px solid $maincolor;
+    height:30px;
+    //min-width:90px;
+    line-height: 30px;
+    text-align: center;
+    font-size:12px;
+    color:$maincolor;
+    background: #ffffff;
+    box-sizing: border-box;
+    border-radius:2px;
+    &>img {
+      position: absolute;
+      bottom:0px;
+      right:0px;
+      width:15px;
+    }
+  }
+}
+
+/*公用的弹窗box*/
+.u-popodbox {
+  @extend %boxcenter;
+  position: fixed;
+  top:0px;
+  left:0px;
+  padding:5px;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.3);
+  box-sizing: border-box;
+  z-index: 999;
+  &>.editphoto {
+    width:100%;
+    border-radius:4px;
+    background: #ffffff;
+    &>.title {
+      border-bottom:2px solid $bordercolor ;
+    }
+    &>.title,&>p {
+      position: relative;
+      padding:10px 15px;
+      font-size:14px;
+      line-height: 18px;
+      color:$fontcolorLv2;
+    }
+    &>p {
+      &:after {
+        @extend %border-1px-bottom;
+      }
+      &>img {
+        margin-right:5px;
+        width:20px;
+        height:16px;
+      }
+    }
+  }
+  &>.cont {
+    padding:5px;
+    width:245px;
+    background: #ffffff;
+    &>.buttonbox {
+      display:-webkit-box;
+    }
+    button{
+      display: block;
+      -webkit-box-flex: 1;
+    }
+    button:first-child {
+      margin:0 5px 0 0;
+    }
+    &>h2 {
+      padding:20px 0;
+      font-size:16px;
+      line-height: 20px;
+      color:$fontcolorLv2;
+    }
+  }
+}
+
+/*头部筛选的内容*/
+.u-choosebox {
+  position: fixed;
+  top:50px;
+  left:0px;
+  width:100%;
+  z-index: 97;
+  background: $bgcolor;
+  &.on {
+    height:100%;
+    box-sizing: border-box;
+
+    &>.u-choosecontbox {
+      display: block;
+    }
+  }
+
+}
+.u-choosecontbox {
+  display: none;
+  padding:0 0 200px 0;
+  background: #ffffff;
+  &>.price-range {
+    position: relative;
+    display: -webkit-box;
+    padding:15px 10px 0px 125px;
+    font-size:14px;
+    color:$fontcolorLv2;
+    box-sizing: border-box;
+    &>.name {
+      position: absolute;
+      left:10px;
+      top:15px;
+      line-height: 25px;
+    }
+    &>.to {
+      padding: 0 10px;
+    }
+    &>:not(.name) {
+      display: block;
+    }
+    &>input {
+      padding:5px;
+      width:40px;
+      background: $inputbg;
+      border: none;
+      font-size:14px;
+      -webkit-box-flex:1;
+    }
+  }
+  &>.priceboxes {
+    position: relative;
+    padding:10px;
+    font-size:0px;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    &>a {
+      display: inline-block;
+      margin:0 0 5px 0;
+      width:30%;
+      height:22px;
+      line-height: 22px;
+      color:$fontcolorLv3;
+      font-size:11px;
+      background: $inputbg;
+      border-radius:4px;
+      text-align: center;
+      overflow: hidden;
+      &:not(:nth-child(3n)) {
+        margin-right: 5%;
+      }
+    }
+  }
+  &>.buttonbox {
+    padding:0 10px 0 0;
+    margin:20px auto 0 auto;
+    text-align: center;
+    &>.u-mainbutton-little {
+      width:100px;
+    }
+  }
+}
+
+/*自适应宽度导航*/
+.u-nav-autowidth {
+  position: fixed;
+  top:50px;
+  left:0px;
+  display: -webkit-box;
+  width:100%;
+  background: #ffffff;
+  z-index: 9;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+  &>div {
+    -webkit-box-flex: 1;
+    text-align: center;
+    font-size:14px;
+    line-height: 36px;
+    color:$fontcolorLv2;
+    &>span {
+      position: relative;
+      display: inline-block;
+      height:100%;
+      &:after {
+        content: '';
+        position: absolute;
+        bottom:0px;
+        left:0px;
+        height:2px;
+        width:100%;
+        background: $maincolor;
+        -webkit-transform:scale(0,1);
+        -webkit-transition: transform 0.2s linear;
+        z-index: 9;
+      }
+    }
+    &.on {
+      color:$maincolor;
+      &>span {
+        &:after {
+          -webkit-transform:scale(1,1);
+        }
+      }
+    }
+  }
+
+}
+/*运输费用说明*/
+.u-explain {
+  margin:10px 0px;
+  padding:10px;
+  background: #ffffff;
+  color:$fontcolorLv2;
+  &>.anothertips {
+    display: block;
+    padding:0 0 10px 0;
+    font-size:16px;
+    color:$fontcolorLv2;
+    text-align: right;
+    text-decoration: underline;
+  }
+  &>.title {
+    position: relative;
+    padding:0 0 5px 0;
+    font-size:14px;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+  }
+  &>.cont {
+    padding:10px 0px;
+    font-size:14px;
+    line-height: 18px;
+  }
+}
+
+/*底部的费用总计*/
+.u-bottomcount {
+  position: fixed;
+  bottom: 0px;
+  left:0px;
+  padding:0 115px 0 0;
+  width:100%;
+  height:48px;
+  line-height: 48px;
+  background: $bgcolor;
+  box-sizing: border-box;
+  font-size:14px;
+  &:before {
+    @extend %border-1px-top;
+  }
+  i {
+    font-size:16px;
+  }
+  &>button {
+    position: absolute;
+    right:0px;
+    bottom:0px;
+    padding:0px;
+    width: 105px;
+    height:48px;
+    line-height: 48px;
+    border-radius:0px;
+    font-size:16px;
+    box-sizing: border-box;
+  }
+  &>p {
+    text-align: right;
+  }
+}
+
+.u-productstate-shopping {
+  display: inline-block;
+  padding:0px 5px;
+  margin:0px 5px;
+  font-size:9px;
+  line-height: 12px;
+  color:#ffffff;
+  border-radius:6px;
+}
+.u-productstate-shopping {
+  background: $maincolor;
+}
+
+.u-myproduct-bottomedit {
+  @extend %box-middle;
+  padding:10px;
+  position: fixed;
+  bottom:0px;
+  left:0px;
+  width:100%;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-size:12px;
+  .eidt {
+    text-align: right;
+    -webkit-box-flex: 1;
+    input {
+      padding:0px 10px;
+      width:13rem;
+      border:1px solid $fontcolorLv5;
+      border-radius:3px;
+      font-size:11px;
+      line-height:25px;
+      box-sizing: border-box;
+    }
+    &>span {
+      margin:0 10px 0 0;
+    }
+    &>.u-mainbutton-little {
+      height:25px;
+      line-height: 13px;
+    }
+
+    .inputbox {
+      position: relative;
+      &>.company {
+        position: absolute;
+        right:7px;
+        line-height: 27px;
+
+      }
+    }
+  }
+  .choose {
+    display: block;
+    position: relative;
+    padding:0 0 0 25px;
+    font-size:0px;
+
+    i {
+      font-size:12px;
+      line-height: 27px;
+    }
+    .u-choose {
+      position: absolute;
+      left:0px;
+      top:50%;
+      margin:-10px 0 0 0;
+    }
+  }
+  &:before {
+    @extend %border-1px-top;
+  }
+
+}
+
+/*修改商品状态弹窗*/
+.u-myproduct-editpopod {
+  width:280px;
+  padding:0 10px 20px 10px;
+  background: #ffffff;
+  border-radius:4px;
+  box-sizing: border-box;
+  &>.nav {
+    position: relative;
+    font-size:0px;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    &>.cont {
+      display: inline-block;
+      padding:10px 0 5px 0;
+      width:50%;
+      text-align: center;
+      font-size:14px;
+      &.on {
+        color:$maincolor;
+      }
+    }
+  }
+  &>.contbox {
+    position: relative;
+    &>.cont {
+      @extend %box-middle;
+      padding:10px 0 0 0;
+      font-size:11px;
+      color:$fontcolorLv2;
+      .price {
+        @extend %box-middle;
+        -webkit-box-flex: 1;
+        line-height: 15px;
+      }
+      .input {
+        padding: 0px 10px;
+        width: 140px;
+        border: 1px solid #eee;
+        border-radius: 3px;
+        font-size: 11px;
+        line-height: 25px;
+        box-sizing: border-box;
+      }
+      .inputbox {
+        position: relative;
+      }
+      .company {
+        position: absolute;
+        top:0px;
+        right: 7px;
+        line-height: 27px;
+      }
+    }
+    .select {
+      display: block;
+      padding:0px 15px;
+      margin:20px auto;
+      border:1px solid $fontcolorLv5;
+      width:110px;
+      height:23px;
+      font-size:11px;
+      color:$fontcolorLv2;
+    }
+    .arrow {
+      position: absolute;
+      left:50%;
+      top: 8px;
+      margin:0 0 0 37px;
+      width:8px;
+    }
+  }
+  &>.buttonbox {
+    display: -webkit-box;
+    padding:20px 20px 0 20px;
+    button{
+      display:block;
+      -webkit-box-flex:1;
+      &:first-child{
+        margin:0 10px 0 0 ;
+      }
+    }
+  }
+}
+
+/*翻页*/
+.u-flip {
+  padding:10px 10px 20px 10px;
+  text-align: right;
+  font-size: 0px;
+  &>a {
+    margin:0px 3px;
+    font-size:11px;
+    color:$fontcolorLv2;
+    line-height: 22px;
+  }
+  &>a:not(.number) {
+    display: inline-block;
+    width:22px;
+    height:22px;
+
+    text-align: center;
+    background: #ffffff;
+    border-radius:2px;
+    border:1px solid $fontcolorLv5;
+  }
+
+}
+
+/*我的收入*/
+.u-myincome-head {
+  margin:0 0 5px 0;
+  background: #ffffff;
+  color:$fontcolorLv2;
+  .tr {
+    position: relative;
+    display: -webkit-box;
+    &>div,&>a {
+      position: relative;
+      width:50%;
+      box-sizing: border-box;
+      &:not(:last-child):after {
+        @extend %border-ver-1px;
+      }
+    }
+    &:after {
+      @extend %border-1px-bottom;
+    }
+
+    .money {
+      padding:10px;
+      font-size:20px;
+      i {
+        font-size:15px;
+      }
+      .name {
+        font-size:16px;
+      }
+      .info {
+        text-align: center;
+      }
+    }
+    .cont {
+      display: block;
+      padding:8px 0px;
+      text-align: center;
+      &>img {
+        margin:-3px 0 0 0;
+        width:22px;
+        height:22px;
+      }
+    }
+    .rightbox {
+      width:125px;
+      &>.cont {
+        position: relative;
+        &:after {
+          @extend %border-1px-bottom;
+        }
+      }
+    }
+  }
+}
+
+.flex {
+  -webkit-box-flex: 1;
+}
+
+.u-myincome-row {
+  @extend %boxcenter;
+  margin:5px 0;
+  height:30px;
+  background:#ffffff;
+  text-align: center;
+  font-size:15px;
+  color:$fontcolorLv2;
+  &>img {
+    margin:-2px 0 0 0;
+    width:22px;
+    height:22px;
+  }
+}
+
+/*点击切换标题和对应内容*/
+.u-titlechange {
+  display: -webkit-box;
+  margin:5px 0px;
+  &>p {
+    height:30px;
+    background: #ffffff;
+    text-align: center;
+    font-size:15px;
+    color:$maincolor;
+    line-height: 30px;
+    -webkit-box-flex: 1;
+    &.on {
+      background: $maincolor;
+      color:#ffffff;
+    }
+  }
+}
+/*我的收入的搜索*/
+.u-myincome-search {
+  margin:5px 0;
+  background: #ffffff;
+  color:$fontcolorLv2;
+  &>.title {
+    position: relative;
+    padding:5px;
+    line-height: 18px;
+    font-size:13px;
+    &>i {
+      font-size:12px;
+    }
+    &>span {
+      font-size:15px;
+    }
+    &:after {
+      @extend %border-1px-bottom;
+    }
+  }
+  &>.cont {
+    padding:5px;
+    &>input {
+      padding:0px 5px;
+      border:1px solid $fontcolorLv5;
+      width: 5.4rem;;
+      height:22px;
+      font-size:12px;
+    }
+    .buttonbox {
+      float:right;
+      &>button {
+        height:24px;
+        width:72px;
+        line-height: 12px;
+      }
+    }
+  }
+}
+
+/*我的收藏的搜索块*/
+.u-collection-search {
+  position: fixed;
+  top:50px;
+  left:0px;
+  width:100%;
+  display: -webkit-box;
+  padding:5px 15px;
+  background: #ffffff;
+  font-size:12px;
+  line-height: 26px;
+  box-sizing: border-box;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+  &>.button {
+    display: block;
+    padding:0px 15px;
+    height:26px;
+    border-radius:10px;
+    background: $fontcolorLv5;
+    color:$fontcolorLv2;
+
+  }
+  &>.searchbox {
+    position: relative;
+    margin:0 0 0 5px;
+    -webkit-box-flex: 1;
+    &>.input {
+      display: block;
+      width:100%;
+      padding: 0 0 0 30px;
+      border:none;
+      height:26px;
+      border-radius:10px;
+      background: $fontcolorLv5;
+      box-sizing: border-box;
+    }
+    .icon {
+      position: absolute;
+      left:5px;
+      top:50%;
+      margin:-13px 0 0 0;
+      width:18px;
+      height:26px;
+    }
+  }
+}
+
+.u-stork-iconfont {
+  display: inline-block;
+  position: relative;
+  padding:5px;
+  font-size:11px;
+  line-height: 11px;
+  color:$maincolor;
+  &:after {
+    @extend %border-all;
+    border-color:$maincolor;
+  }
+
+}
+
+.u-tips {
+  margin:5px 15px;
+  font-size:12px;
+  color:$fontcolorLv2;
+}
+.u-title {
+  margin:10px 10px 5px 10px;
+  font-size:13px;
+  line-height: 17px;
+  color:$fontcolorLv4;
+}
+
+
+/*通用的单选按钮*/
+.u-radio {
+  position: absolute;
+  width:0px;
+  heigth:0px;
+  opacity: 0;
+  &:checked + .u-radiocont:after {
+    background: $maincolor;
+  }
+}
+.u-radiocont {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border:1px solid $fontcolorLv4;
+  border-radius:50%;
+  &:after {
+    content: '';
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin:-4px 0 0 -4px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+  }
+}
+
+.width4em {
+  width:4em;
+}
+
+
+/*图片的布局*/
+.u-autoheight{
+  display: -webkit-box;
+  width:100%;
+  position:relative;
+  .dummy{
+    margin-top: 100%;
+  }
+  .content{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom: 0;
+    overflow: hidden;
+    img {
+      width:100%;
+    }
+  }
+}
+.u-onerowsbox {
+  display: -webkit-box;
+}
+.u-onerowsbox,.u-tworowsbox {
+  margin:10px 0 3px 0;
+}
+.u-box-left33-right66,.u-threerowsbox {
+  display: -webkit-box;
+  margin:3px 0 0 0;
+  &>.leftbox,&>.rightbox {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    &>div {
+      -webkit-box-flex: 1;
+    }
+
+  }
+  &>:first-child {
+    padding:0 3px 0 0;
+  }
+  &>.leftbox {
+    width:33%;
+    -webkit-box-orient:vertical;
+    &>div:not(:last-child) {
+        margin-bottom:3px;
+      }
+  }
+  &>.rightbox {
+    width:66%;
+    &>div:not(:last-child) {
+      margin-right:3px;
+    }
+  }
+}
+
+
+.u-threerowsbox {
+  display: -webkit-box;
+  &>.u-autoheight {
+    width:33%;
+    -webkit-box-flex:1;
+    &:not(:last-child) {
+      margin-right:3px;
+    }
+  }
+}
+
+.u-box-left50-right50,.u-box-left39-right61 {
+  display: -webkit-box;
+  margin:3px 0 0 0;
+  &>.leftbox,&>.rightbox {
+    display: -webkit-box;
+
+    -webkit-box-flex: 1;
+  }
+  &>.rightbox {
+    -webkit-box-orient:vertical;
+  }
+  .rows {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    &>.u-autoheight {
+      width:50%;
+      -webkit-box-flex: 1;
+    }
+  }
+}
+
+.u-box-left50-right50 {
+  &>.leftbox {
+    margin:0 3px 0 0;
+  }
+  .rows {
+    &:not(:last-child) {
+      margin:0 0 3px 0;
+    }
+    &>.u-autoheight {
+      &:not(:last-child) {
+        margin:0  3px 0 0;
+      }
+    }
+  }
+}
+
+.u-box-left39-right61 {
+  background: #ffffff;
+  &>.leftbox {
+    position: relative;
+    width:39%;
+  }
+  &>.rightbox {
+    width:61%;
+  }
+  .sales-left {
+    &:after {
+      @extend %border-ver-1px;
+    }
+  }
+  .contbox {
+    position: absolute;
+    top:0px;
+    left:0px;
+    padding:15px 0 0 0;
+    width:100%;
+    height:100%;
+    text-align: center;
+    box-sizing: border-box;
+    .title {
+      font-size:16px;
+      color: $maincolor;
+      &>img {
+        margin:-2px 5px 0 0;
+        width:18px;
+        height:18px;
+      }
+    }
+    .tips {
+      font-size:11px;
+      color:$fontcolorLv4;
+    }
+    .time {
+      padding: 5px 0 0 0;
+      font-size:0px;
+      line-height: 0;
+      span {
+        display: inline-block;
+        padding:2px;
+        border-radius:3px;
+        color:#ffffff;
+        font-size:14px;
+        background:$fontcolorLv2;
+        line-height: 14px;
+      }
+      img {
+        margin:0px 3px;
+        height:14px;
+        vertical-align: bottom;
+      }
+    }
+  }
+}
+.sales-right-01,.sales-right-02,.sales-right-03 {
+  position: relative;
+  .cont {
+    position: absolute;
+    top:15px;
+    left:10px;
+    font-size:13px;
+
+  }
+}
+.sales-right-01 {
+  &:after {
+    @extend %border-ver-1px;
+  }
+  .cont {
+    color:#cf4d55;
+  }
+}
+.sales-right-02 {
+  .cont {
+    color:#6b4544;
+  }
+}
+.sales-right-03 {
+  &:after {
+    @extend %border-1px-top;
+  }
+  .cont {
+    font-size:16px;
+    color:#cf4d55;
+  }
+}
+
+/*返回顶部*/
+.u-backtop {
+  display: block;
+  padding:10px 0 25px 0;
+  text-align: center;
+  color:$fontcolorLv2;
+  &>img {
+    width:20px;
+    height:20px;
+  }
+}
+
+/*首页和详情页的标题*/
+.u-index-title {
+  position: relative;
+  padding:15px 0;
+  margin:0 10px;
+  text-align: center;
+  font-size:0px;
+  &:after {
+    @extend %border-1px-top;
+    top:50%;
+    background: #6b4544;
+  }
+  &>p {
+    position: relative;
+    display: inline-block;
+    padding:0px 10px;
+    font-size:11px;
+    line-height: 15px;
+    color:#6b4544;
+    text-align: center;
+    background: #eee;
+    z-index: 9;
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*一些独立的样式*/
+.fs-16 {
+  font-size:16px;
+}
+.fs-15 {
+  font-size:15px;
+}
+.fs-14 {
+  font-size:14px;
+}
+.fs-13 {
+    font-size:13px;
+  }
+.fs-12 {
+  font-size:12px;
+}
+
+.fs-11 {
+  font-size:11px;
+}
+.del {
+  text-decoration: line-through;
+}
+.mr-10-0 {
+  margin:10px 0;
+}

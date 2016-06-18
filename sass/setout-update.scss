@@ -1,0 +1,28 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  background: #ffffff;
+}
+.setout-title {
+  padding:15px;
+  color:#000000;
+  font-size:14px;
+  line-height: 18px;
+}
+
+.setout-content {
+  padding:0 15px 15px 15px;
+  margin:0px 15px;
+  border-radius:4px;
+  border:1px solid $bordercolor;
+  background: #eeeeee;
+  &>h2 {
+    padding:15px 0 ;
+    text-align: center;
+    font-size:18px;
+    line-height: 24px;
+  }
+}
+

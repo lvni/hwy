@@ -1,0 +1,81 @@
+@charset "utf-8";
+@import "color";
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+%border-1px-top,%border-1px-bottom {
+  width: 100%;
+  height: 1px;
+  background: $bordercolor;
+  -webkit-transform-origin: 50% 100%;
+  -webkit-transform: scaleY(.5);
+  left:0px;
+}
+%border-1px-top,%border-1px-bottom ,%border-ver-1px {
+  content: '';
+  display:block;
+  position: absolute;
+}
+%border-ver-1px{
+  right:0px;
+  top:0px;
+  width:1px ;
+  height:100% ;
+  background: $bordercolor;
+  -webkit-transform-origin:100% 50%;
+  -webkit-transform: scaleX(.5);
+}
+
+%border-1px-top {
+  top:-1px;
+}
+%border-1px-bottom {
+  bottom:0px;
+}
+%border-all,%border-bottom-dashed {
+  content:'';
+  position:absolute;
+  display: block;
+  -webkit-transform:scale(0.5);
+  -webkit-transform-origin: 0% 0%;
+}
+%border-all {
+  padding:1px;
+  left:0px;
+  top:0px;
+  right:-100%;
+  bottom:-100%;
+  border-radius:4px;
+  border:1px solid $bordercolor;
+}
+
+%boxcenter {
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+
+%box-middle {
+   display: -webkit-box;
+   -webkit-box-align: center;
+ }
+
+%border-bottom-dashed {
+  left:0px;
+  bottom:0px;
+  right:-100%;
+  height:2px;
+  border-bottom:1px dashed $bordercolor;
+}
+
+%font-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+}
+
+%middle {
+  position: absolute;
+  top:50%;
+  -webkit-transform: translate(0,-50%);
+}
+

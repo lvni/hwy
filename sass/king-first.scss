@@ -1,0 +1,21 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding:0px 0 60px 0;
+}
+
+.king-fist-photo {
+  position: absolute;
+  top:23px;
+  left:25px;
+  width:20px;
+  height:15px;
+}
+.u-person-head {
+  .photo {
+    border:1px solid $secondcolor;
+  }
+}
+

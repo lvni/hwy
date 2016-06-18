@@ -1,0 +1,35 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+body {
+  background: #ffffff;
+}
+
+.buttonbox {
+  position: fixed;
+  bottom:0px;
+  left:0px;
+  padding:10px 10px 10px 50px;
+  width:100%;
+  background:#ffffff;
+  font-size:0px;
+  text-align: right;
+  z-index: 9;
+  box-sizing: border-box;
+  &>.del {
+    position: absolute;
+    left:10px;
+    width:40px;
+    text-align: center;
+    &>img {
+      width:20px;
+      height:20px;
+    }
+    &>p {
+      font-size:12px;
+      color:$fontcolorLv3;
+    }
+  }
+}
+
+

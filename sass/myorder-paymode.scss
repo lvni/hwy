@@ -1,0 +1,28 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+
+body {
+  background: #ffffff;
+}
+.u-list-justify {
+  position: relative;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+}
+
+.u-arrow-list {
+  background: none;
+  padding:1px 0 0 0;
+  &>.list {
+    margin:0px 10px;
+    padding:15px 40px 15px 0px;
+    &>.arrow {
+      right:5px;
+    }
+  }
+
+}
+

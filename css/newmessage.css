@@ -1,0 +1,84 @@
+@charset "UTF-8";
+/*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
+.red {
+  color: #a90125; }
+
+/* line 29, ../sass/_color.scss */
+.dackred {
+  color: #6b4544; }
+
+/* line 32, ../sass/_color.scss */
+.pink {
+  color: #cf4d55; }
+
+/* line 36, ../sass/_color.scss */
+.error {
+  color: #a90125; }
+  /* line 38, ../sass/_color.scss */
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/* line 5, ../sass/_extend.scss */
+.message-alert > .list:not(:last-child):after {
+  width: 100%;
+  height: 1px;
+  background: #e2e2e2;
+  -webkit-transform-origin: 50% 100%;
+  -webkit-transform: scaleY(0.5);
+  left: 0px; }
+
+/* line 13, ../sass/_extend.scss */
+.message-alert > .list:not(:last-child):after {
+  content: '';
+  display: block;
+  position: absolute; }
+
+/* line 31, ../sass/_extend.scss */
+.message-alert > .list:not(:last-child):after {
+  bottom: 0px; }
+
+/*用来被继承的占位样式*/
+/* line 6, ../sass/newmessage.scss */
+.message-alert {
+  margin: 15px 0;
+  padding: 0px 15px;
+  background: #ffffff; }
+  /* line 10, ../sass/newmessage.scss */
+  .message-alert > .list {
+    position: relative;
+    display: block;
+    padding: 15px 90px 15px 0;
+    font-size: 16px;
+    line-height: 20px; }
+    /* line 19, ../sass/newmessage.scss */
+    .message-alert > .list .input {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      opacity: 0; }
+      /* line 24, ../sass/newmessage.scss */
+      .message-alert > .list .input:checked + .bg {
+        background: url('../img/newmessage02.png?1460884243') left top no-repeat;
+        background-size: 100% 100%; }
+    /* line 29, ../sass/newmessage.scss */
+    .message-alert > .list .bg {
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      margin: -11px 0 0 0;
+      width: 63px;
+      height: 23px;
+      background: url('../img/newmessage01.png?1460884243') left top no-repeat;
+      background-size: 100% 100%; }
+    /* line 39, ../sass/newmessage.scss */
+    .message-alert > .list .font {
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      margin: -11px 0 0 0;
+      width: 63px;
+      height: 23px;
+      font-size: 14px;
+      color: #999999; }

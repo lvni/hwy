@@ -1,0 +1,60 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>购物车</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/shoppingCart.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>购物车<span id="cart_num"></span><a href="javascript:;" class="edit">编辑</a></p>
+    </div>
+    <div class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </div>
+</div>
+<div class="u-shoppingCartlist">
+    
+</div>
+<div class="u-pay">
+    <label>
+        <input type="checkbox" class="u-checkbox" >
+        <span class="u-choose"></span>
+        <span>全选</span>
+    </label>
+    <div class="count">
+        <p class="main">合计：<i class="red">￥<span id="money"></span></i></p>
+        <p class="tips">不含运费</p>
+    </div>
+    <button class="paynow">
+        <p>结算<span id="settlement">(0)</span></p>
+    </button>
+</div>
+
+<script id="cart_template" type="text/template">
+   <label>
+        <input type="checkbox" class="u-checkbox" data-info="{$data}">
+        <span class="u-choose"></span>
+        <div class="cont">
+            <img src="{$img}">
+            <p class="title">{$title}</p>
+            <p class="money">￥{$money}</p>
+        </div>
+        <p class="count">X {$number}</p>
+    </label>
+</script>
+
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    goodsCart.runGoodsCart();
+    FuncNavi.run();
+});
+</script>
+</body>
+</html>

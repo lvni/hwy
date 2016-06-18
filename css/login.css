@@ -1,0 +1,45 @@
+@charset "UTF-8";
+/*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
+.red {
+  color: #a90125; }
+
+/* line 29, ../sass/_color.scss */
+.dackred {
+  color: #6b4544; }
+
+/* line 32, ../sass/_color.scss */
+.pink {
+  color: #cf4d55; }
+
+/* line 36, ../sass/_color.scss */
+.error {
+  color: #a90125; }
+  /* line 38, ../sass/_color.scss */
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/*用来被继承的占位样式*/
+/* line 6, ../sass/login.scss */
+body {
+  background: #eeeeee; }
+
+/* line 9, ../sass/login.scss */
+.head {
+  background: #ffffff; }
+  /* line 11, ../sass/login.scss */
+  .head > img {
+    display: block;
+    margin: 0px auto;
+    width: 125px; }
+
+/* line 17, ../sass/login.scss */
+.tips, .wechat {
+  display: block;
+  margin: 0px auto;
+  width: 210px; }
+
+/* line 22, ../sass/login.scss */
+.wechat {
+  width: 50px; }

@@ -1,0 +1,119 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+body {
+  padding-bottom:60px;
+}
+
+.placeorder-address {
+  padding:0px;
+
+  .addressicon {
+    position: absolute;
+    left:10px;
+    bottom:0px;
+  }
+  .u-list-justify {
+    padding:10px 40px 10px 50px;
+    font-size:16px;
+  }
+  .list {
+    padding:10px 0 25px 0;
+    background: image-url('addressbg.png') -10% 100% repeat-x #ffffff;
+    background-size: 35px 5px ;
+    color:$fontcolorLv2;
+  }
+  .cont {
+    position: relative;
+    padding:0 40px 0 50px;
+    .arrow {
+      position: absolute;
+      right:15px;
+      top:50%;
+      margin:-8px 0 0 0;
+      width:8px;
+      height:16px;
+    }
+    .addressicon {
+      position: absolute;
+      left:15px;
+      top:50%;
+      margin:-11px 0 0 0;
+      width:16px;
+      height:22px;
+    }
+  }
+}
+
+.u-productlist02 {
+  padding:10px 5px 5px 100px;
+  min-height: 110px;
+  background: #ffffff;
+  .photo {
+    top:10px;
+    left:10px;
+  }
+}
+.placeorder-productinfo {
+  margin-bottom:0px;
+  .price {
+    padding:15px 5px 0 8px;
+  }
+}
+
+.placeorder-infobox {
+  position: relative;
+  background: #ffffff;
+  &:before{
+    @extend %border-1px-top;
+  }
+  .u-list-justify {
+    position: relative;
+    padding:10px 0px;
+    margin:0px 10px;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+  }
+  .right {
+    width:80px;
+    -webkit-box-flex: 0;
+  }
+  .left {
+    &>input {
+      width:80%;
+      border:0px;
+      outline: 0px;
+      background: none;
+      box-sizing: border-box;
+    }
+    &>i {
+      width:20%;
+    }
+  }
+  .showcheckbox {
+    display: inline-block;
+    width:22px;
+    height:22px;
+    border:1px solid $bordercolor;
+    box-sizing: border-box;
+    border-radius:2px;
+  }
+  .checkbox {
+    position: absolute;
+    width:0px;
+    height:0px;
+    opacity: 0;
+    &:checked + .showcheckbox {
+      background: image-url('tickred.png') center center no-repeat;
+      background-size:22px 22px;
+    }
+  }
+  .amount {
+    p {
+      text-align: right;
+    }
+  }
+}
+
+

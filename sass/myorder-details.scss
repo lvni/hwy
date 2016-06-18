@@ -1,0 +1,117 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding:50px 0 70px 0;
+}
+
+.details-head {
+  position: relative;
+  padding: 30px 20px 30px 130px;
+  background: $maincolor;
+  color:#ffffff;
+  text-align: center;
+  &>.title {
+    font-size:16px;
+    line-height: 24px;
+  }
+  &>.tips {
+    font-size:12px;
+  }
+  &>.icon {
+    position: absolute;
+    left: 43px;
+    top:50%;
+    margin:-21px 0 0 0 ;
+    width:55px;
+    height:42px;
+  }
+}
+
+.details-address {
+  padding:0px;
+  .list {
+    padding:10px 10px 10px 40px;
+  }
+  .u-list-justify {
+    padding: 0 0 5px 0;
+    color:$fontcolorLv2;
+  }
+  .addressicon {
+    position: absolute;
+    top:50%;
+    left:10px;
+    margin:-10px 0 0 0 ;
+    width:16px;
+    height:21px;
+  }
+}
+
+.u-productlist02 {
+  padding:10px 5px 5px 100px;
+  min-height: 110px;
+  background: #ffffff;
+  .photo {
+    top:10px;
+    left:10px;
+  }
+}
+
+.priceinfobox {
+  padding:15px 0 0 0;
+  color:$fontcolorLv2;
+  background: #ffffff;
+  .u-list-justify {
+    padding:0 10px;
+  }
+  .amount {
+    padding:20px 10px 5px 10px;
+  }
+  .buttonbox {
+    position: relative;
+    padding:10px;
+    &:before {
+      @extend %border-1px-top;
+    }
+  }
+  .buttonbox {
+    display:-webkit-box;
+    font-size:0px;
+    &>button {
+      display: block;
+      padding:10px 0;
+      -webkit-box-flex: 1;
+      &>img {
+        width: 17px;
+        height: 17px;
+      }
+      &:first-child {
+        margin:0 5px 0 0;
+      }
+    }
+  }
+}
+
+.infobox {
+  margin:10px 0;
+  padding:10px;
+  font-size:12px;
+  line-height:18px;
+  color:$fontcolorLv2;
+  background: #ffffff;
+}
+
+.bottom-buttonbox {
+  position: fixed;
+  bottom:0px;
+  left:0px;
+  padding:10px;
+  width:100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  text-align: right;
+  z-index: 99;
+}
+
+

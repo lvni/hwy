@@ -1,0 +1,61 @@
+@charset "UTF-8";
+/*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
+.red {
+  color: #a90125; }
+
+/* line 29, ../sass/_color.scss */
+.dackred {
+  color: #6b4544; }
+
+/* line 32, ../sass/_color.scss */
+.pink {
+  color: #cf4d55; }
+
+/* line 36, ../sass/_color.scss */
+.error {
+  color: #a90125; }
+  /* line 38, ../sass/_color.scss */
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/* line 5, ../sass/_extend.scss */
+.infolist > p:after {
+  width: 100%;
+  height: 1px;
+  background: #e2e2e2;
+  -webkit-transform-origin: 50% 100%;
+  -webkit-transform: scaleY(0.5);
+  left: 0px; }
+
+/* line 13, ../sass/_extend.scss */
+.infolist > p:after {
+  content: '';
+  display: block;
+  position: absolute; }
+
+/* line 31, ../sass/_extend.scss */
+.infolist > p:after {
+  bottom: 0px; }
+
+/*用来被继承的占位样式*/
+/* line 5, ../sass/mysubordinates-moneycount.scss */
+body {
+  padding: 50px 0 0 0; }
+
+/* line 9, ../sass/mysubordinates-moneycount.scss */
+.infolist {
+  margin: 5px 0;
+  min-height: 400px;
+  background: #ffffff; }
+  /* line 13, ../sass/mysubordinates-moneycount.scss */
+  .infolist > p {
+    position: relative;
+    padding: 5px 15px;
+    font-size: 14px;
+    color: #666666; }
+    /* line 18, ../sass/mysubordinates-moneycount.scss */
+    .infolist > p > img {
+      width: 17px;
+      margin: 0 5px 0 0; }

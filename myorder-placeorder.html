@@ -1,0 +1,101 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>提交订单</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/myorder-placeorder.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>提交订单</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="u-arrow-list placeorder-address">
+    <a href="#" class="list">
+        <div class="contbox">
+            <div class="u-list-justify fs-14" style="display:none;">
+                <p class="left ">收货人：<span></span></p>
+                <p class="right"></p>
+            </div>
+            <p class="cont"onclick="javascript:window.location.href='address-myaddress.html'">
+                <i>点击选择您的收货地址</i>
+                <img class="arrow" src="img/arrowright.png">
+                <img src="img/orderdetails_07.png" class="addressicon">
+            </p>
+        </div>
+    </a>
+</div>
+<div class="mr-10-0 placeorder-productinfo">
+    <div class="u-productlist02">
+        <img src="img/hongwu_44.png" class="photo">
+        <div class="u-list-justify fs-14">
+            <p class="left ">翡翠福豆翡翠豆</p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">货号：LXA20160106...</p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">发货时间：48小时内发货</p>
+        </div>
+        <div class="u-list-justify fs-14 price">
+            <p class="left red">￥1880.00</p>
+            <p class="right">x1</p>
+        </div>
+    </div>
+</div>
+<div class="placeorder-infobox">
+    <div class="u-list-justify fs-12">
+        <p class="left ">配送方式</p>
+        <p class="right">顺丰到付</p>
+    </div>
+    <label class="u-list-justify fs-12">
+        <p class="left ">购买运费险，退货可赔付8元  2元</p>
+        <p class="right">
+            <input type="checkbox" class="checkbox">
+            <span class="showcheckbox"></span>
+        </p>
+    </label>
+    <div class="u-list-justify fs-14">
+        <p class="left">
+            <i>备注：</i>
+            <input type="text" placeholder="填写您和商家达成一致的要求">
+        </p>
+    </div>
+    <div class="u-list-justify fs-14 amount">
+        <p class="left">共1件商品&nbsp;&nbsp;&nbsp;合计:<i class="red fs-16">￥1882.00</i></p>
+    </div>
+</div>
+<div class="u-explain">
+    <a href="#" class="anothertips">运输费用说明</a>
+    <h5 class="title">温馨提示</h5>
+    <div class="cont">
+        <p>温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图</p>
+    </div>
+</div>
+<div class="u-bottomcount">
+    <p>合计:<i class="red">￥1882.00</i></p>
+    <button class="u-mainbutton-little" onclick="javascript:window.location.href='myorder-paymode.html'">
+        <span>确认</span>
+    </button>
+</div>
+
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    var ignoreNavi = true;
+    Order.runConfirm();
+});
+</script>
+</body>
+</html>

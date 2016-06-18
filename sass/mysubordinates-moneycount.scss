@@ -1,0 +1,27 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding:50px 0 0 0;
+}
+
+.infolist {
+  margin:5px 0;
+  min-height: 400px;
+  background: #ffffff;
+  &>p {
+    position: relative;
+    padding:5px 15px;
+    font-size:14px;
+    color:$fontcolorLv2;
+    &>img {
+      width:17px;
+      margin:0 5px 0 0;
+    }
+    &:after {
+      @extend %border-1px-bottom;
+    }
+  }
+}
+

@@ -1,0 +1,57 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding:50px 0 0 0;
+}
+.infolistbox {
+  padding:0 0 30px 0;
+  min-height: 400px;
+  background: #ffffff;
+}
+.infolist {
+  position: relative;
+  display: -webkit-box;
+  margin:5px 0px;
+  background: #ffffff;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+
+  &>.personinfo {
+    @extend %boxcenter;
+    position: relative;
+    width:117px;
+    height:88px;
+    &:after {
+      @extend %border-ver-1px;
+      right:0px;
+    }
+
+    .photo {
+      display: block;
+      width:50px;
+      height:50px;
+      border-radius:50%;
+    }
+    .name {
+      text-align: center;
+      font-size:14px;
+      color: $fontcolorLv2;
+    }
+  }
+  .cont {
+    padding:25px 0 0 0;
+    font-size:14px;
+    -webkit-box-flex: 1;
+    &>a {
+      display: block;
+      padding:0 15px 0 0;
+      line-height: 30px;
+      color:$fontcolorLv2;
+      text-align: right;
+    }
+  }
+}
+

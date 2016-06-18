@@ -1,0 +1,183 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding:50px 0 50px 0;
+}
+.index-nav {
+  display: -webkit-box;
+  position: relative;
+  padding:15px 0;
+  background: #ffffff;
+  &:after {
+    @extend %border-1px-bottom;
+  }
+  &>.box {
+    display: block;
+    -webkit-box-flex: 1;
+    text-align: center;
+    font-size:11px;
+    line-height: 19px;
+    color:$fontcolorLv2;
+  }
+  img {
+    width:4rem;
+    height:4rem;
+  }
+}
+
+.newsbox {
+  position: relative;
+  padding: 10px 15px 10px 65px;
+  background: #ffffff;
+  &>.head {
+    position: absolute;
+    left:10px;
+    top:17px;
+    width:50px;
+  }
+  .newsul {
+    position: relative;
+    &:before {
+      @extend %border-ver-1px;
+      left:0px;
+    }
+    &>li {
+      @extend %font-ellipsis;
+      position: relative;
+      padding:0 0 0 20px;
+      width:100%;
+      box-sizing: border-box;
+      &:before {
+        content: '';
+        position: absolute;
+        top:50%;
+        left:15px;
+        margin:-2px 0 0 0;
+        width:4px;
+        height: 4px;
+        border-radius: 50%;
+        background: $maincolor;
+      }
+    }
+  }
+}
+
+
+/*拍卖*/
+.scrollhide {
+  position: relative;
+  margin:10px 0;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom:0px;
+    width:100%;
+    height:10px;
+    background: #ffffff;
+    z-index: 9;
+  }
+}
+.auction {
+  display:-webkit-box;
+  overflow-x: scroll;
+  padding:10px;
+  background: #ffffff;
+  .cont {
+    position: relative;
+    width:25%;
+    margin:0 10px 0 0;
+    font-size:0px;
+  }
+  .u-autoheight {
+    display: inline-block;
+  }
+  .state {
+    position: absolute;
+    bottom: 0px;
+    right:0px;
+    padding:0 10px 0 0;
+    width:70%;
+    font-size:9px;
+    color:#ffffff;
+    text-align: right;
+    background: -webkit-gradient(linear,0 0,100% 0,from(rgba(0,0,0,0)),to(rgba(0,0,0,0.5)));
+  }
+  &:after {
+    content:'';
+    display: block;
+    width:5px;
+  }
+}
+
+/*slide*/
+.hl-swiper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%
+}
+
+.slides {
+  display: -webkit-box;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  -webkit-transform: translate3d(0px, 0, 0)
+}
+
+.slides .slide-list {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-size: cover;
+  font-size: 20px;
+  overflow-y: auto
+}
+
+.slides .slide-list img {
+  width: 100%
+}
+
+.slides.animate {
+  -webkit-transition: all .3s ease-out
+}
+
+.position-nav {
+  position: absolute;
+  left: 0;
+  bottom: 15px;
+  width: 100%;
+  height: 16px;
+  background-color: transparent;
+  text-align: center;
+  z-index: 1
+}
+
+.position-nav .position {
+  display: inline-block;
+  margin: 0px 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.position-nav .position.current {
+  background: $maincolor;
+}
+/*end*/
+
+
+
+
+
+
+
+
+
+
+

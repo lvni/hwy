@@ -1,0 +1,677 @@
+@charset "utf-8";
+@import "color";
+@import "extend";
+
+/*带图和链接的list*/
+.u-img-a-list {
+  padding:0 0 40px 0;
+  margin:15px 0;
+  background: #ffffff;
+  &>a {
+    @extend %box-middle;
+    position: relative;
+    display: block;
+    padding:17px 10px 10px 50px;
+    color:$fontcolorLv2;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    &>img {
+      position: absolute;
+      left:20px;
+      top:19px;
+      width:20px;
+      height:20px;
+    }
+  }
+}
+
+/*购物车的列表*/
+.u-shoppingCartlist {
+  &>label {
+    display: block;
+  }
+  .u-choose {
+    position: absolute;
+    left:15px;
+    top:50%;
+    margin:-10px 0 0 0;
+  }
+  .cont {
+    position: relative;
+    padding:0 0 0 100px;
+    height:100%;
+    &>.title {
+      padding: 0 0 10px 0;
+      font-size:12px;
+      color:$fontcolorLv2;
+    }
+    &>.money {
+      color:$maincolor;
+      font-size:15px;
+    }
+  }
+  .count {
+    position: absolute;
+    right:15px;
+    top:50%;
+    margin:-6px 0 0 0;
+    height:12px;
+    text-align: right;
+    color:$maincolor;
+    font-size:12px;
+  }
+  .editbox,&>label {
+    position: relative;
+    margin:0 0 15px 0;
+    padding: 10px 50px;
+    min-height: 110px;
+    overflow: hidden;
+    background: $listbg;
+    box-sizing: border-box;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    .edit,.cont {
+      position: relative;
+      padding:0 0 0 100px;
+      height:100%;
+      &>img {
+        position: absolute;
+        left:0px;
+        top:0px;
+        width:90px;
+        height:90px;
+      }
+    }
+  }
+  .editbox {
+    padding: 0 0 0 50px;
+    .edit {
+      &>img {
+        margin:10px 0 0 0;
+      }
+    }
+    .edit-count {
+      display: -webkit-box;
+      border-bottom:1px solid #ffffff;
+      line-height: 50px;
+      text-align: center;
+      &>:first-child,&>:nth-child(2) {
+        border-right:1px solid #ffffff;
+      }
+      &>button {
+        display: block;
+        width:60px;
+        height:50px;
+        font-size:30px;
+        color:$fontcolorLv3;
+        background: none;
+      }
+      &>p {
+        -webkit-box-flex: 1;
+      }
+    }
+    .classify {
+      position: relative;
+      padding:15px 70px 0 55px;
+      font-size:12px;
+      color:$fontcolorLv2;
+      i {
+        position: absolute;
+        left:20px;
+        top:16px;
+      }
+      select {
+        width:100%;
+        background: none;
+        border:none;
+        outline: none;
+        color:$fontcolorLv2;
+      }
+      .arrow {
+        position: absolute;
+        right:75px;
+        bottom:3px;
+        width:13px;
+        height:8px;
+      }
+    }
+    .u-mainbutton-little {
+      position: absolute;
+      right: 10px;
+      top:50%;
+    }
+  }
+
+}
+
+.u-choose {
+  display: inline-block;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  border:1px solid $bordercolor;
+  box-sizing: border-box;
+  background: none;
+}
+.u-checkbox {
+  position: absolute;
+  left:0px;
+  top:0px;
+  width:0px;
+  height: 0px;
+  opacity: 0;
+  &:checked + .u-choose {
+    background: image-url('hongwu_58.png') center center no-repeat;
+    background-size:cover;
+    border:none;
+  }
+}
+
+/*带连接的列表*/
+.u-list-arrow {
+  background: #ffffff;
+  &>a {
+    position: relative;
+    display: block;
+    padding:10px;
+    font-size:14px;
+    line-height: 18px;
+    color:$fontcolorLv3;
+    &:active {
+      background:$fontcolorLv5;
+    }
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    &>img {
+      position: absolute;
+      right:15px;
+      top:50%;
+      margin:-8px 0 0 0;
+      width:8px;
+    }
+  }
+}
+
+/*产品列表*/
+.u-productlist  {
+  &>.contbox {
+    float:left;
+    padding:1px;
+    width:50%;
+    box-sizing: border-box;
+    &:nth-child(even) {
+      float:right;
+    }
+    &>img {
+      width:100%;
+    }
+    .cont {
+      padding: 8px;
+      background: #ffffff;
+      &>.name {
+        font-size:14px;
+        line-height: 18px;
+        color:$fontcolorLv2;
+      }
+      .other {
+        position: relative;
+        line-height: 18px;
+      }
+      .money {
+        color:$maincolor;
+        font-size:14px;
+        &>i {
+          font-size:10px;
+        }
+      }
+      .collection {
+        position: absolute;
+        right:0px;
+        top:0px;
+        font-size:10px;
+        color:$fontcolorLv3;
+        &>img {
+          width:15px;
+        }
+      }
+    }
+  }
+}
+
+.u-arrow-list {
+  padding:2px 0 0 0;
+  background: $bgcolor;
+  &>.list {
+    @extend %box-middle;
+    position: relative;
+    padding:15px 50px 15px 10px;
+    box-sizing: border-box;
+    background: #ffffff;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    &>.arrow {
+      position: absolute;
+      right:15px;
+      top:50%;
+      margin:-8px 0 0 0;
+      width:8px;
+      height:16px;
+    }
+    &>.icon {
+      display: block;
+      margin:0 10px 0 0;
+      width:34px;
+      height:34px;
+    }
+
+  }
+  .contbox {
+    -webkit-box-flex: 1;
+    &>.title {
+      display: -webkit-box;
+      font-size:16px;
+      line-height: 22px;
+      color:$fontcolorLv1;
+      &>.phone {
+        display: block;
+        width:7em;
+        font-size:16px;
+        text-align: right;
+      }
+      &>.name {
+        -webkit-box-flex: 1;
+      }
+    }
+    &>.cont {
+      font-size:14px;
+      line-height: 18px;
+      color:$fontcolorLv2;
+    }
+    &>.tips {
+      //padding:6px  0 0 0;
+      font-size:12px;
+      line-height: 14px;
+      color:$tipsfont;
+    }
+  }
+}
+
+/*左右分开两端对齐的文字列表*/
+.u-list-justify {
+  @extend %box-middle;
+  padding:10px;
+  background: #ffffff;
+  &>p {
+    -webkit-box-flex: 1;
+  }
+  &>.left {
+    text-align: left;
+  }
+  &>.right {
+    text-align: right;
+  }
+}
+
+/*单选列表*/
+.u-radiolist {
+  background: #ffffff;
+  &>.u-list-justify {
+    position: relative;
+    color:$fontcolorLv2;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    .right {
+      width:18px;
+      -webkit-box-flex: 0;
+    }
+    .inputshow {
+      position: relative;
+      display: block;
+      width:18px;
+      height:18px;
+      border:1px solid $fontcolorLv2;
+      border-radius:50%;
+    }
+    .radio {
+      position: absolute;
+      width:0px;
+      height:0px;
+      opacity: 0;
+      &:checked + .inputshow {
+        &:after {
+          content:'';
+          position: absolute;
+          left:3px;
+          top:3px;
+          width:12px;
+          height:12px;
+          border-radius:50%;
+          background:$fontcolorLv2;
+        }
+      }
+    }
+  }
+}
+
+/*退款/售后的产品列表*/
+.u-productlist02 {
+  position: relative;
+  padding:5px 5px 5px 90px;
+  min-height:90px;
+  box-sizing: border-box;
+  background: $bgcolor;
+  color:$fontcolorLv2;
+  .u-list-justify {
+    font-size:11px;
+    padding:2px 8px;
+    line-height: 16px;
+    background: none;
+    .right {
+      padding:0 0 0 10px;
+      -webkit-box-flex: 0;
+    }
+  }
+  .photo {
+    position: absolute;
+    left:0px;
+    top:0px;
+    width:90px;
+    height:90px;
+  }
+}
+
+
+/*我的产品的list*/
+.u-myproductlist {
+  @extend %box-middle;
+  position: relative;
+  margin:6px 0px;
+  padding:5px 100px 5px 5px;
+  background: #ffffff;
+  font-size:11px;
+  line-height: 20px;
+  color: $fontcolorLv2;
+  &>.u-choose {
+    display: none;
+    position: absolute;
+    top:50%;
+    left:7px;
+    margin:-8px 0 0 0 ;
+  }
+  &>.aboutproduct {
+    position: relative;
+    padding: 0 0 0 90px;
+
+    .photo {
+      position: absolute;
+      top:50%;
+      left:0px;
+      margin:-40px 0 0 0;
+      width:80px;
+      height:80px;
+    }
+    p {
+      width:140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space:nowrap;
+      &.name{
+        i {
+          display: inline-block;
+          width:80px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space:nowrap;
+          line-height: 12px;
+        }
+      }
+    }
+  }
+  .edit-count {
+    position: absolute;
+    right:10px;
+    top:0px;
+  }
+  .editnode {
+    padding:10px 0 12px 0;
+    text-align: right;
+    &>img {
+      width:23px;
+      height:23px;
+    }
+  }
+
+
+  &.edit {
+    padding-left:35px;
+    &>.u-choose {
+      display: block;
+    }
+    .edit-count {
+      display: none;
+    }
+  }
+}
+
+/*交易记录的表格*/
+.u-orderrecordbox {
+  position: relative;
+  margin:0 0 10px 0;
+  background:#ffffff;
+  &:before {
+    @extend %border-1px-top;
+  }
+  &>.head {
+    position: relative;
+    &>.photo {
+      padding:5px 0 0 5px;
+      width:80px;
+      height:80px;
+      position: absolute;
+      left:0px;
+      top:0px;
+      background: #ffffff;
+      z-index: 9;
+    }
+    .tr {
+      padding:0 0 0 85px;
+    }
+  }
+  .tr {
+    position: relative;
+    display: -webkit-box;
+    font-size:11px;
+    color:$fontcolorLv2;
+    &:after {
+      @extend %border-1px-bottom;
+    }
+  }
+  .td {
+    @extend %box-middle;
+    position: relative;
+    padding:7px 5px;
+    width:100%;
+    -webkit-box-flex: 1;
+    p {
+      width:100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space:nowrap;
+    }
+    &:after {
+      @extend %border-ver-1px;
+    }
+  }
+}
+
+/*我的收藏的产品列表*/
+.u-collection-productlist {
+  position: relative;
+  padding: 0 20px 0 132px;
+  margin:0 0 5px 0;
+  height:122px;
+  overflow: hidden;
+  background: #ffffff;
+  color:$fontcolorLv2;
+  &:after {
+    @extend %border-1px-bottom;
+    left:132px;
+  }
+  &>.photo {
+    position: absolute;
+    left:0px;
+    top:0px;
+    width:122px;
+    height:122px;
+  }
+  &>.name {
+    @extend %font-ellipsis;
+    padding:15px 0 10px 0;
+    width:100%;
+    font-size:13px;
+  }
+  &>.state {
+    font-size:13px;
+    &>.icon {
+      margin:-2px 3px 0 0;
+      width:19px;
+      height:19px;
+    }
+  }
+  &>.info {
+    &>.price {
+      position: absolute;
+      bottom:7px;
+      left:132px;
+      font-size:17px;
+      &>i {
+        font-size:13px;
+      }
+    }
+    &>.count {
+      position: absolute;
+      bottom:7px;
+      right:20px;
+      font-size:13px;
+      line-height: 25px;
+      &>img {
+        margin:-5px 3px 0 10px;
+        width:15px;
+      }
+    }
+  }
+}
+
+/*通用的输入内容列表*/
+.u-infolistbox {
+  position: relative;
+  margin:5px 0;
+  background: #ffffff;
+  &:before {
+    @extend %border-1px-top;
+  }
+  &:after {
+    @extend %border-1px-bottom;
+  }
+}
+.u-infolist {
+  @extend %box-middle;
+  padding:11px 0;
+  margin:5px 0;
+
+  &>.maincont {
+    display: block;
+    -webkit-box-flex: 1;
+    border:0px;
+    &>input,&>select {
+      display: block;
+      width:100%;
+      border:0px;
+    }
+
+    &:first-child {
+      padding:0 15px;
+    }
+  }
+  &>.icon,&>.arrow {
+    display: block;
+    margin:0px 15px;
+
+  }
+  &>.icon {
+    width:30px;
+  }
+  &>.arrow {
+    width:17px;
+  }
+  &>.name {
+    margin:0px 15px;
+    height:30px;
+    line-height: 30px;
+  }
+  &>.u-radiocont {
+    margin:0 15px 0 0;
+  }
+}
+
+/*系统消息*/
+.u-messagelist {
+  @extend %box-middle;
+  position: relative;
+  padding:15px 15px 15px 70px;
+  color:$fontcolorLv2;
+  overflow: hidden;
+  &>.icon {
+    position: absolute;
+    left:10px;
+    top:50%;
+    margin:-24px 0 0 0;
+    width:48px;
+    height:48px;
+    border-radius:4px;
+    &>.photo{
+      width:48px;
+      height:48px;
+    }
+    &>.messagecount {
+      position: absolute;
+      left:100%;
+      top:-4px;
+      -webkit-transform: translate(-50%,0);
+      min-width:12px;
+      height:12px;
+      border-radius:6px;
+      background: #ff0000;
+      color:#ffffff;
+      line-height: 12px;
+      text-align: center;
+      font-size:9px;
+    }
+  }
+  &>.maincont {
+    &>.title {
+      padding:0px 0  5px 0;
+      font-size:16px;
+      line-height: 20px;
+    }
+    &>.cont {
+      font-size:13px;
+    }
+    &>.time {
+      position: absolute;
+      top:15px;
+      right:15px;
+      font-size:11px;
+    }
+
+  }
+  &:after {
+    @extend %border-1px-bottom;
+    left:70px;
+  }
+}

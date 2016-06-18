@@ -1,0 +1,63 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>我的收入-选择银行卡</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/myincome-bankcard.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>选择银行卡</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<p class="u-title">请输入银行卡号，系统自动保存最近使用的5个账户</p>
+<div class="u-infolistbox">
+    <div class="u-infolist">
+        <p class="name width4em">卡号</p>
+        <p class="maincont"><input type="number" id="js-cardNumber" placeholder="请输入卡号"></p>
+    </div>
+</div>
+<div class="u-infolistbox">
+    <div class="u-infolist">
+        <p class="name">银行名称</p>
+        <p class="maincont">
+            <select id="js-bankName">
+                <option checked value="empty" >请选择银行</option>
+                <option>123</option>
+                <option>呵333呵哒</option>
+            </select>
+        </p>
+    </div>
+</div>
+<div class="u-buttonbox ">
+    <button class="u-button-main disable" id="js-submit">
+        <span>确定</span>
+    </button>
+</div>
+<div class="u-infolistbox">
+    <label class="u-infolist">
+        <p class="maincont">中国建设银行 6225682624551513156</p>
+        <input type="radio" class="u-radio" name="alipay" checked>
+        <div class="u-radiocont"></div>
+    </label>
+</div>
+<div class="u-infolistbox">
+    <label class="u-infolist">
+        <p class="maincont">呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒</p>
+        <input type="radio" class="u-radio" name="alipay">
+        <div class="u-radiocont"></div>
+    </label>
+</div>
+<script src="javascripts/enterinfo.js"></script>
+</body>
+</html>

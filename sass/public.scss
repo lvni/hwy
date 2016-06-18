@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@import 'reset';/*清除默认*/
+@import 'button';/*这个项目的自定义按钮*/
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+@import 'default';
+@import 'list';
+
+html {
+  font-size: 10px;/*用于rem单位的计算*/
+}
+body {
+  padding:50px 0 0 0;
+  background:$bgcolor;
+}
+
+/*统一边框的颜色*/
+%border-1px {color:#e2e2e2;}
+
+
+
+
+
+
+
+
+
+/*一些公用的颜色*/
+.orange {
+  color:#f7941d;
+}
+
+
+
+/*rem根元素字体大小设置*/
+@media screen and (min-width:375px) and (max-width:413px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media screen and (min-width:414px) {
+  html{
+    font-size: 13px;
+  }
+}

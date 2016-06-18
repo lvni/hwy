@@ -1,0 +1,51 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding:50px 0 0 0;
+}
+
+.msg-time {
+  display: block;
+  padding:20px 0 10px 0;
+  font-size:12px;
+  color:$fontcolorLv2;
+  text-align: center;
+}
+.msg-contbox {
+  padding:10px;
+  margin:0px 10px;
+  background: #ffffff;
+  border-radius:4px;
+  color:$fontcolorLv2;
+  font-size:14px;
+  h3 {
+    font-size:16px;
+  }
+  .cont {
+    position: relative;
+    padding:10px 0 10px 65px;
+    min-height: 50px;
+    p{
+      line-height: 18px;
+    }
+    &:after {
+      @extend %border-1px-bottom;
+    }
+    img{
+      position: absolute;
+      left:0px;
+      top:5px;
+      width:50px;
+      height:50px;
+    }
+  }
+  .more {
+    display: block;
+    padding:15px 0 0 0;
+    text-align: right;
+    color:$fontcolorLv2;
+  }
+}
+

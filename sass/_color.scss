@@ -1,0 +1,43 @@
+@charset "utf-8";
+/*项目用到的颜色*/
+
+$maincolor:#a90125;
+$maincolor-deepen:#92001f;
+$secondcolor:#f4c600;
+$moneycolor:#f95b35;
+$black:#000000;
+$inputfontcolor:#888888;
+$fontcolor:#000000;
+$tipsfont:#cccccc;
+$placeholder:#b2b2b2;
+$bgcolor:#eeeeee;
+$bordercolor:#e2e2e2;
+$fontcolorLv5:#eeeeee;
+$fontcolorLv4:#cccccc;
+$fontcolorLv3:#999999;
+$fontcolorLv2:#666666;
+$fontcolorLv1:#333333;
+$acolor:#0a60fe;
+$listbg: #f8f8f8;
+$bgcolor-red:#ffeded;
+$inputbg:#f5f5f5;
+
+.red {
+  color:$maincolor;
+}
+
+.dackred {
+  color:#6b4544;
+}
+.pink {
+  color:#cf4d55;
+}
+
+.error {
+  color:$maincolor;
+  &::-webkit-input-placeholder {
+    color:$maincolor;
+  }
+}
+
+

@@ -1,0 +1,137 @@
+@charset "utf-8";
+@import "color";
+@import "extend";
+/*按钮*/
+
+
+.u-buttonbox {
+  margin:10px;
+  &>button + button {
+    margin-top:15px;
+  }
+}
+.u-buttonbox + .u-agreement {
+  padding-top:0px;
+}
+
+button {
+  border: none;
+  outline: none;
+}
+.u-button-main,.u-button-gray {
+  height: 4.4rem;
+  width:100%;
+  text-align: center;
+  line-height: 4.4rem;
+  border-radius:4px;
+  font-size:1.6rem;
+  color:#ffffff;
+  &:active>span {
+    opacity:0.6;
+  }
+}
+
+
+.u-mainbutton-little,.u-button-little-white {
+  position: relative;
+  display: inline-block;
+  padding:6px 10px;
+  font-size:13px;
+  min-height: 25px;
+  line-height: 18px;
+  border-radius:2px;
+}
+.u-mainbutton-little {
+  color:#ffffff;
+  background: $maincolor;
+  &:active {
+    background:$maincolor-deepen;
+  }
+}
+.u-button-little-white {
+  color:$fontcolorLv2;
+  background: #ffffff;
+  &:after {
+    @extend %border-all;
+  }
+  &:active {
+    background:#f5f5f5;
+  }
+}
+
+.u-button-main {
+  background:$maincolor;
+  &:active {
+    background:$maincolor-deepen;
+  }
+  &.disable {
+    position: relative;
+    background:#bebebe ;
+    color:$fontcolorLv3;
+    &:after {
+      @extend %border-all;
+    }
+  }
+}
+.u-button-gray {
+  background:#999999;
+  &:active {
+    background:#666666;
+  }
+}
+
+.u-button-storkmain {
+  position:relative;
+  margin:10px 0;
+  padding: 0px 15px;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  font-size: 1.3rem;
+  background: none;
+  border: 0;
+  outline:none;
+  color:$maincolor;
+  &:active .buttonvalue {
+    opacity:0.6;
+  }
+  &:after {
+    @extend %border-all;
+    border-color:$maincolor;
+  }
+}
+.u-button-storkgreen {
+  box-shadow: none;
+  color:$maincolor;
+  &>.g-border-all-1px {
+    @extend %border-all;
+    border-color:$maincolor;
+  }
+}
+
+.u-secondbutton-stork {
+  width:100%;
+  height:4.4rem;
+  border:1px solid $maincolor;
+  border-radius:4px;
+  background: none;
+  color: $maincolor;
+  box-sizing: border-box;
+  &:active {
+    opacity:0.6;
+  }
+}
+.storkbuttonbox {
+  padding:0px 50px;
+}
+
+
+.u-buttonbox + .u-agreement {
+  padding-top:0px;
+}
+
+
+
+
+
+
+
