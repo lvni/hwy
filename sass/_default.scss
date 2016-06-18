@@ -628,6 +628,7 @@
 /*公用的弹窗box*/
 .u-popodbox {
   @extend %boxcenter;
+  display: none;
   position: fixed;
   top:0px;
   left:0px;
@@ -705,8 +706,12 @@
 }
 .u-choosecontbox {
   display: none;
-  padding:0 0 200px 0;
+  position: fixed;
+  padding: 0 0 200px 0;
   background: #ffffff;
+  overflow-y: scroll;
+  height: calc(100% - 84px);
+  z-index: 29;
   &>.price-range {
     position: relative;
     display: -webkit-box;

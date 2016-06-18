@@ -42,4 +42,4 @@ function main() {
     }
 }
 
-addLoadEvent(main);
+main();

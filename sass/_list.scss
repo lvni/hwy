@@ -212,6 +212,7 @@
       padding: 8px;
       background: #ffffff;
       &>.name {
+        @extend %font-ellipsis;
         font-size:14px;
         line-height: 18px;
         color:$fontcolorLv2;
@@ -453,6 +454,9 @@
       display: block;
     }
     .edit-count {
+      display: none;
+    }
+    .u-productstate-shopping {
       display: none;
     }
   }

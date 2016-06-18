@@ -33,7 +33,7 @@ function titlesearch() {//这个是搜索框的js
 			magnifier.classList.remove('on');
 			placeholder.style.display = '';
 			submit.style.display = '';
-			msgbox.style.display = 'block';
+			msgbox.style.display = '';
 		}
 		setTimeout(function() {//在blur事件触发后延迟一段时间隐藏历史搜索，使历史搜索的点击事件可以执行
 			searchHistory.style.display = 'none'
@@ -56,5 +56,5 @@ function titlesearch() {//这个是搜索框的js
 	/*end*/
 }
 
-addLoadEvent(titlesearch);
+titlesearch();
 
