@@ -35,24 +35,7 @@
         </div>
     </a>
 </div>
-<div class="mr-10-0 placeorder-productinfo">
-    <div class="u-productlist02">
-        <img src="img/hongwu_44.png" class="photo">
-        <div class="u-list-justify fs-14">
-            <p class="left ">翡翠福豆翡翠豆</p>
-        </div>
-        <div class="u-list-justify fs-14">
-            <p class="left ">货号：LXA20160106...</p>
-        </div>
-        <div class="u-list-justify fs-14">
-            <p class="left ">发货时间：48小时内发货</p>
-        </div>
-        <div class="u-list-justify fs-14 price">
-            <p class="left red">￥1880.00</p>
-            <p class="right">x1</p>
-        </div>
-    </div>
-</div>
+
 <div class="placeorder-infobox">
     <div class="u-list-justify fs-12">
         <p class="left ">配送方式</p>
@@ -72,23 +55,50 @@
         </p>
     </div>
     <div class="u-list-justify fs-14 amount">
-        <p class="left">共1件商品&nbsp;&nbsp;&nbsp;合计:<i class="red fs-16">￥1882.00</i></p>
+        <p class="left">共<span id="order_confirm_num">0</span>件商品&nbsp;&nbsp;&nbsp;合计:<i class="red fs-16" id="confirm_price">￥0.00</i></p>
     </div>
 </div>
 <div class="u-explain">
     <a href="#" class="anothertips">运输费用说明</a>
     <h5 class="title">温馨提示</h5>
     <div class="cont">
-        <p>温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图温馨提示是一张图</p>
+        <p style="white-space: pre-line;">一、测量商品尺寸以毫米（mm）为单位，误差不超过1mm，请买家购买前先在白纸上画下尺寸，感受下实际大小尺寸，以免由尺寸问题而引发的后期争议。
+
+二、由于珠宝玉石在不同光线下所呈现的颜色也略有不同，加之不同屏幕显示器间的色差问题，导致实物与照片之间还是存在一点色差，属于正常情况，请买家以收到的实物为准。
+
+三、天然的珠宝难免有各种瑕疵，关于瑕疵，本平台将会在产品描述中尽量描述清楚，请买家仔细阅读，如有疑问请联系我们的客服。
+
+四、鉴于珠宝产品的贵重、易碎、不可再生等特殊属性。“洪五爷”敬请所有买家收到货物后不急于签收，请先拆验检查产品是否完整、无破损。确认无误后再签收。如发现产品有破损或与实物不相符，买家可选择拒收。如买家已签收，系统默认产品完整真实到达消费者手中。成功签收后关于产品完整度的问题，本平台一概不予受理。
+
+五、本平台产品一律默认顺丰到付，签收后120小时内无条件退货。以顺丰快递官网显示的签收时间起计，请在120小时内用原来的包装通过顺丰快递寄回，买家承担寄回运费（购买运费险者除外），其他快递拒收。</p>
     </div>
 </div>
 <div class="u-bottomcount">
-    <p>合计:<i class="red">￥1882.00</i></p>
-    <button class="u-mainbutton-little" onclick="javascript:window.location.href='myorder-paymode.html'">
+    <p>合计:<i class="red" id="confirm_price_bottom">￥0.00</i></p>
+    <button class="u-mainbutton-little" onclick="javascript:;">
         <span>确认</span>
     </button>
 </div>
-
+<script id="confirm_goods_template" type="text/template">
+<div class="mr-10-0 placeorder-productinfo">
+    <div class="u-productlist02">
+        <img src="{$goods_img}" class="photo">
+        <div class="u-list-justify fs-14">
+            <p class="left ">{$goods_name}</p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">货号：{$goods_sn}</p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">发货时间：48小时内发货</p>
+        </div>
+        <div class="u-list-justify fs-14 price">
+            <p class="left red">￥{$goods_price}</p>
+            <p class="right">x{$goods_num}</p>
+        </div>
+    </div>
+</div>
+</script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
 <script>
