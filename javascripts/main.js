@@ -92,7 +92,7 @@ var FuncNavi = {
                      + '<p>个人中心</p>'
                      + '{$uc_num}</a></div>';
          //shoppingCart.html , king.html
-        var clickNone = 'javascript:';
+        var clickNone = 'javascript:;';
         var conf = {
             idx_num: '',
             prod_num: '',
@@ -697,20 +697,37 @@ var Order = {
     bindConfirmEvent: function() {
         
     }
+    ,renderConfirmPage: function(data) {
+        var tempate = $('#confirm_goods_template').html();
+        var html = "";
+        for(i in data.list) {
+            var item = data.list[i];
+            html += tempate.replace('{$goods_name}', item.goods_name)
+                           .replace('{$goods_img}', item.goods_img)
+                           .replace('{$goods_price}', item.goods_price)
+                           .replace('{$goods_num}', item.goods_num)
+                           .replace('{$goods_sn}', item.goods_sn);
+        }
+        $(html).insertAfter('.placeorder-address');
+    }
     ,loadOrderInfo: function() {
         //加载订单确认信息
         var goodIds = Util.getQueryString('goods_ids');
         var api = config.api + "?r=order/getorderinfo";
+        var me = this;
         $.ajax({
             url: api,
             dataType: 'jsonp',
             success: function(data) {
-                console.log(data);
+               if (data.errno == 0) {
+                   data.data && me.renderConfirmPage(data.data);
+               }
             }
         });
     }
     //订单确认
     ,runConfirm: function() {
         this.loadOrderInfo();
+        this.bindConfirmEvent();
     }
 };
