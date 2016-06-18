@@ -7,9 +7,16 @@
 var config = {
     'api': 'http://h5.hong5ye.com/api/backend/web/index.php',
     'page': {
-        'confirm_order': 'myorder-placeorder.html',
+        'confirm_order': 'myorder-placeorder.html',//订单确认页
+        'cart' : 'shoppingCart.html', //购物车
+        'login': 'login.html', //登录页
+        'home': 'index.html', //首页
     },
 };
+//错误码
+var ErrorCode = {
+    NO_LOGIN: 12, //没有登录
+}
 
 //消息盒子相关
 var messageBox = {
@@ -47,6 +54,12 @@ var Util = {
            return decodeURI(theRequest[name]);
        }
        return ''; 
+    }
+    //跳转登录
+    ,goLogin: function(redirect) {
+        var callback = redirect ? redirect : config.page.home; 
+        window.location.href = config.page.login + "?" + callback;
+        
     }
 };
 //存储相关
@@ -693,9 +706,15 @@ var Bootstrap = {
 //订单相关处理
 var Order = {
 
-    
     bindConfirmEvent: function() {
-        
+        $('.u-mainbutton-little').click(function(){
+            //确认按钮点击事件
+            var addressId = $('.placeorder-address').attr('data-address');
+            if (!addressId) {
+                messageBox.toast("请选择收货地址");
+                return ;
+            }
+        });
     }
     ,renderConfirmPage: function(data) {
         var tempate = $('#confirm_goods_template').html();
@@ -709,18 +728,27 @@ var Order = {
                            .replace('{$goods_sn}', item.goods_sn);
         }
         $(html).insertAfter('.placeorder-address');
+        $('#order_confirm_num').html(data.goods_count);
+        $('#confirm_price_bottom, #confirm_price').html("￥ " + data.goods_cost);
     }
     ,loadOrderInfo: function() {
         //加载订单确认信息
-        var goodIds = Util.getQueryString('goods_ids');
+        var goodsIds = Util.getQueryString('goods_ids');
         var api = config.api + "?r=order/getorderinfo";
         var me = this;
         $.ajax({
             url: api,
             dataType: 'jsonp',
+            data: {goods_ids:goodsIds},
             success: function(data) {
                if (data.errno == 0) {
                    data.data && me.renderConfirmPage(data.data);
+               } else {
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == ErrorCode.NO_LOGIN) {
+                        //跳转登录
+                        Util.goLogin();
+                    }
                }
             }
         });
@@ -730,4 +758,13 @@ var Order = {
         this.loadOrderInfo();
         this.bindConfirmEvent();
     }
+};
+
+//地址管理
+var Address = {
+    //管理主页
+    runMain: function() {
+        
+    }
+
 };
