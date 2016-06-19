@@ -251,8 +251,38 @@
     padding:15px 50px 15px 10px;
     box-sizing: border-box;
     background: #ffffff;
+    &.noarrow {
+      padding-right:15px;
+      .cont-input{
+        display: block;
+        text-align: right;
+        border:none;
+        -webkit-box-flex: 1;
+      }
+    }
+    &.choose {
+      padding-right:65px;
+      &>.contbox {
+        display: block;
+        padding-left:40px;
+        &>.u-choose {
+          position: absolute;
+          top:50%;
+          left:15px;
+          -webkit-transform: translate(0,-50%);
+        }
+      }
+    }
     &:after {
       @extend %border-1px-bottom;
+    }
+    &>.edit {
+      position: absolute;
+      right:15px;
+      top:50%;
+      -webkit-transform:translate(0,-50%);
+      font-size:14px;
+      color:$fontcolorLv4;
     }
     &>.arrow {
       position: absolute;
@@ -285,6 +315,10 @@
       }
       &>.name {
         -webkit-box-flex: 1;
+      }
+      &>.input {
+        border:none;
+        color: $fontcolorLv1;
       }
     }
     &>.cont {
@@ -465,7 +499,7 @@
 /*交易记录的表格*/
 .u-orderrecordbox {
   position: relative;
-  margin:0 0 10px 0;
+  margin:5px 0;
   background:#ffffff;
   &:before {
     @extend %border-1px-top;

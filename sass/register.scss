@@ -4,7 +4,7 @@
 
 
 body {
-  background:image-url('loginbg.png') no-repeat;
+  background:image-url('registerbg.png') no-repeat;
   background-size:cover;
 }
 .head {
@@ -88,4 +88,7 @@ body {
   text-align: center;
   background: none;
   color:#fff
+}
+.u-enterinfobox:after {
+  background-color:rgba(89,90,119,.6);
 }

@@ -21,23 +21,15 @@
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
 /*用来被继承的占位样式*/
-/* line 7, ../sass/address-myaddress.scss */
+/* line 7, ../sass/address-edit.scss */
 body {
   background: #ffffff; }
 
-/* line 11, ../sass/address-myaddress.scss */
+/* line 11, ../sass/address-edit.scss */
 .buttonbox {
   position: fixed;
   bottom: 0px;
-  padding: 5px;
-  width: 100%;
-  box-sizing: border-box;
-  background: #eeeeee; }
-
-/* line 20, ../sass/address-myaddress.scss */
-.add-address {
-  display: block;
-  padding: 20px 0;
-  text-align: center;
-  font-size: 14px;
-  color: #666666; }
+  right: 0px;
+  padding: 0 15px 15px 0;
+  width: 135px;
+  box-sizing: border-box; }

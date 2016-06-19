@@ -645,14 +645,14 @@
     &>.title {
       border-bottom:2px solid $bordercolor ;
     }
-    &>.title,&>p {
+    &>.title,&>p,&>label {
       position: relative;
       padding:10px 15px;
       font-size:14px;
       line-height: 18px;
       color:$fontcolorLv2;
     }
-    &>p {
+    &>p,&>label {
       &:after {
         @extend %border-1px-bottom;
       }
@@ -660,6 +660,12 @@
         margin-right:5px;
         width:20px;
         height:16px;
+      }
+      &>input {
+        position: absolute;
+        width:0px;
+        height:0px;
+        opacity: 0;
       }
     }
   }
@@ -707,11 +713,12 @@
 .u-choosecontbox {
   display: none;
   position: fixed;
-  padding: 0 0 200px 0;
+  padding: 0 0 20px 0;
+  width:100%;
   background: #ffffff;
   overflow-y: scroll;
-  height: calc(100% - 84px);
-  z-index: 29;
+  max-height: calc(100% - 154px);
+  z-index: 20;
   &>.price-range {
     position: relative;
     display: -webkit-box;
@@ -762,6 +769,10 @@
       &:not(:nth-child(3n)) {
         margin-right: 5%;
       }
+      &.on {
+        background: $maincolor;
+        color:#ffffff;
+      }
     }
   }
   &>.buttonbox {
@@ -771,6 +782,17 @@
     &>.u-mainbutton-little {
       width:100px;
     }
+  }
+  &>.title {
+    color:$fontcolorLv2;
+    font-size:14px;
+    padding: 10px;
+  }
+  &>.option {
+    display: block;
+    padding:10px 15px;
+    font-size:14px;
+    color:$fontcolorLv2;
   }
 }
 
@@ -1543,6 +1565,174 @@
   }
 }
 
+/*购物车*/
+.u-shoppingCartlist {
+  &>.empty {
+    display: none;
+    &>.logo {
+      display: block;
+      margin:70px auto 50px auto;
+      width:70px;
+    }
+    &>.tips {
+      margin:0px auto;
+      width:90%;
+      color:$fontcolorLv2;
+      text-align: center;
+      font-size:14px;
+      line-height: 1.2;
+    }
+    &>.u-buttonbox {
+      margin:25px auto 0 auto;
+      width:150px;
+    }
+  }
+}
+
+/*end*/
+/*所有产品*/
+.u-havenoProduct {
+  @extend %boxcenter;
+  padding:100px 0 0 0;
+  .photo {
+    display: block;
+    margin:0 auto 20px auto;
+    width:100px;
+  }
+  .tips {
+    font-size:16px;
+    color:$fontcolorLv2;
+  }
+}
+
+.u-refresh {
+  @extend %boxcenter;
+  &>.line {
+    @extend %boxcenter;
+    position: relative;
+    border:2px solid #aaaaaa;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    &:after {
+      content:'';
+      display: block;
+      position: absolute;
+      top:-2px;
+      right:-2px;
+      width:14px;
+      height:14px;
+      background: #eeeeee;
+      z-index: 1;
+    }
+    &>.arrow {
+      position: relative;
+      width:13px;
+      z-index: 5;
+    }
+  }
+  &.ready {
+    &>.line {
+      &>.arrow {
+        display: none;
+      }
+      &:after {
+        top:-9px;
+        right:-2px;
+
+      }
+    }
+  }
+  &.refreshing {
+    &>.line {
+      padding:2px;
+      border:none;
+      background: -webkit-linear-gradient(180deg,#dedede 0%, #a3a3a3 100%);
+      -webkit-animation:refreshing .5s linear infinite ;
+      &>.arrow {
+        display: none;
+      }
+      &:after {
+        top:-9px;
+        right:-2px;
+      }
+      &:before {
+        content:'';
+        display: block;
+        position: absolute;
+        top:2px;
+        left:2px;
+        width:-webkit-calc(100% - 4px);
+        height:-webkit-calc(100% - 4px);
+        border-radius:50%;
+        background: #eeeeee;
+        z-index: 1;
+      }
+    }
+  }
+  &>.tips {
+    margin: 0 0 0 15px;
+    color:#989898;
+    font-size:12px;
+
+  }
+}
+
+@-webkit-keyframes refreshing {
+  0% {
+    -webkit-transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(360deg);
+  }
+}
+
+/*end*/
+
+
+/*登录和找回密码*/
+.u-loginbox {
+  padding:0px 35px;
+  &>.logo {
+    display: block;
+    margin: 0 auto 50px auto;
+    width:70px;
+    height:70px;
+  }
+}
+.u-enterinfobox {
+  @extend %box-middle;
+  position: relative;
+  margin-bottom:15px;
+  background: rgba(255,255,255,.19);
+  border-radius:4px;
+  &:after {
+    content:'';
+    position: absolute;
+    left:48px;
+    top:0px;
+    height:100%;
+    width:1px;
+    background:rgba(202,100,110,.6);
+  }
+  &>.icon {
+    margin:0px 15px;
+    width:18px;
+    height:18px;
+  }
+  &>.input {
+    display: block;
+    padding:0px 20px;
+    height:40px;
+    border:none;
+    background: none;
+    -webkit-box-flex: 1;
+    color:#ffffff;
+    &::-webkit-input-placeholder {
+      color:#fff;
+    }
+  }
+}
 
 
 

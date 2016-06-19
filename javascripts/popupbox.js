@@ -1,3 +1,4 @@
+//修改价格和状态的弹窗
 function popupboxstate() {
     if(document.getElementsByClassName('u-myproduct-editpopod')) {
         var popupbox = document.querySelector('.u-myproduct-editpopod');

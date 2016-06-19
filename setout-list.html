@@ -12,11 +12,11 @@
     <div class="title">
         <p>设置</p>
     </div>
-    <div class="msgbox">
+    <a href="message.html" class="msgbox">
         <img src="img/hw_03.png">
         <span class="msg"></span>
-    </div>
-    <a href="#" class="turnback">
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
         <img src="img/arrowleft.png">
     </a>
 </div>
@@ -25,7 +25,7 @@
         <i>修改昵称</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#">
+    <a href="#" id="js-uploadPhotoTrigger">
         <i>修改头像</i>
         <img src="img/arrowright.png">
     </a>
@@ -33,7 +33,7 @@
         <i>新消息提醒</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#">
+    <a href="#" class="js-confirmNode">
         <i>清理缓存</i>
         <img src="img/arrowright.png">
     </a>
@@ -41,7 +41,7 @@
         <i>当前版本/版本更新</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#">
+    <a href="#" class="js-confirmNode">
         <i>退出当前账号</i>
         <img src="img/arrowright.png">
     </a>
@@ -59,5 +59,33 @@
         </div>
     </div>
 </div>
+<!--上传照片弹窗-->
+<div class="u-popodbox" id="js-uploadPhoto">
+    <div class="editphoto">
+        <h3 class="title">修改头像</h3>
+        <label>
+            <img src="img/picture.png">相册
+            <input type="file"  />
+        </label>
+        <p><img src="img/headphoto.png">拍照</p>
+    </div>
+</div>
+<!--end-->
+<!--带两个按钮的弹窗-->
+<div class="u-popodbox" id="js-confirm">
+    <div class="cont">
+        <h2>确认要清理缓存吗？</h2>
+        <div class="buttonbox">
+            <button class="u-button-gray">
+                <span>取消</span>
+            </button>
+            <button class="u-button-main">
+                <span>确认</span>
+            </button>
+        </div>
+    </div>
+</div>
+<!--end-->
+<script src="javascripts/popups.js"></script>
 </body>
 </html>
