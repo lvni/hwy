@@ -369,6 +369,8 @@ var goodsCart = {
         }
         if (html) {
             $('.u-shoppingCartlist').html(html);
+        } else {
+            $('.u-shoppingCartlist .empty').show();
         }
        
     }
