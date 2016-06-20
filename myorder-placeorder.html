@@ -21,14 +21,14 @@
     </a>
 </div>
 <div class="u-arrow-list placeorder-address">
-    <a href="#" class="list">
+    <a href="javascript:;" class="list">
         <div class="contbox">
-            <div class="u-list-justify fs-14" style="display:none;">
-                <p class="left ">收货人：<span></span></p>
-                <p class="right"></p>
+            <div class="u-list-justify fs-14" id="selected_consignee_box" style="display:none;">
+                <p class="left ">收货人：<span id="selected_consignee"></span></p>
+                <p class="right" id="select_mobile"></p>
             </div>
             <p class="cont"onclick="javascript:window.location.href='address-select.html'">
-                <i>点击选择您的收货地址</i>
+                <i id="selected_address">点击选择您的收货地址</i>
                 <img class="arrow" src="img/arrowright.png">
                 <img src="img/orderdetails_07.png" class="addressicon">
             </p>

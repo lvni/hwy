@@ -745,6 +745,15 @@ var Order = {
         $(html).insertAfter('.placeorder-address');
         $('#order_confirm_num').html(data.goods_count);
         $('#confirm_price_bottom, #confirm_price').html("￥ " + data.goods_cost);
+        
+        //渲染地址
+        if (data.address) {
+            var address = data.address.province + data.address.city + data.address.address;
+            $('#selected_consignee').html(data.address.consignee);
+            $('#selected_mobile').html(data.address.mobile);
+            $('#selected_address').html(address);
+            $('#selected_consignee_box').show();
+        }
     }
     ,loadOrderInfo: function() {
         //加载订单确认信息
@@ -779,22 +788,47 @@ var Order = {
 var Address = {
 
 
+    //绑定选择收货地址事件
+    bindSelectEvent: function() {
+        $(".u-arrow-list").delegate('.u-checkbox','click',function(){
+            var addressId = $('.u-arrow-list input[type=radio]:checked').attr('data-id');
+            if (addressId) {
+                //选择当前地址
+                Util.requestApi('?r=address/select', {address_id:addressId}, function(data){
+                    if (data.errno == 0) {
+                        history.go(-1);
+                    } else {
+                        messageBox.toast(data.errmsg);
+                    }
+                });
+            }
+        });
+    }
     //渲染地址列表
-    renderAddressList: function(data) {
+    ,renderAddressList: function(data) {
         if (data.errno == 0) {
             var tempate = $('#tempate-address-list').html();
             var html = "";
+            var selectId = 0;
             for (i in data.data) {
                 var item = data.data[i];
                 var href = config.page.address_edit + "?id=" + item.address_id;
                 item.address = item.province + item.city + item.direct + item.address;
-                html += tempate.replace('{$consignee}', item.consignee)
+                var checked = '';
+                if (item.selected) {
+                    checked = "checked=checked";
+                }
+                var itemHtml = tempate.replace('{$consignee}', item.consignee)
                                .replace('{$mobile}', item.mobile)
                                .replace('{$href}', href)
+                               .replace('{$checked}', checked)
+                               .replace('{$address_id}', item.address_id)
                                .replace('{$address}', item.address);
+                               
+                
+                html += itemHtml;
             }
             $('.u-arrow-list').html(html);
-            
         } else {
             messageBox.toast(data.errmsg);
         }
@@ -931,10 +965,12 @@ var Address = {
     //地址选择页面
     ,runSelect: function() {
         this.loadMyaddress();
+        this.bindSelectEvent();
     }
     //地址新增页面
     ,runNew: function() {
         this.bindNewAddressEvent();
+        
     }
     ,runEdit: function() {
         this.loadDetail();
