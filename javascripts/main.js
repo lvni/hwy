@@ -12,7 +12,7 @@ var config = {
         'cart' : 'shoppingCart.html', //购物车
         'login': 'login.html', //登录页
         'home': 'index.html', //首页
-        'address_edit': 'address-edit.html',
+        'address_edit': 'address-edit.html', //地址编辑页面
     },
 };
 //错误码
@@ -276,6 +276,7 @@ var SearchBox = {
 
 //购物车相关操作
 var goodsCart = {
+    
     
     //购物车操作
     bindAddEvent: function() {
@@ -720,8 +721,9 @@ var Bootstrap = {
 
 //订单相关处理
 var Order = {
-
-    bindConfirmEvent: function() {
+    order_info : {}
+    ,bindConfirmEvent: function() {
+        var me = this;
         $('.u-mainbutton-little').click(function(){
             //确认按钮点击事件
             var addressId = $('.placeorder-address').attr('data-address');
@@ -729,6 +731,30 @@ var Order = {
                 messageBox.toast("请选择收货地址");
                 return ;
             }
+            var goodsIds = $('.u-productlist02').map(function(){
+                return $(this).attr('data-id');
+            }).get().join(',');
+            if (!goodsIds) {
+                messageBox.toast("商品列表为空");
+                return ;
+            }
+            //是否选择运费险
+            var express_insure  = $('.placeorder-infobox input[type=checkbox]').attr('checked') ? 1 : 0;
+            
+            var remarks = $('#remarks').html(); //备注信息
+            //调用下单接口，获取订单号，成功的话跳转到支付页面
+            
+            
+        });
+        
+        $('.placeorder-infobox input[type=checkbox]').click(function(){
+            var checked = $(this).attr('checked') ? 1 : 0;
+            var goods_cost =  me.order_info.goods_cost;
+            var need_Pay = goods_cost;
+            if (checked) {
+                need_Pay += 2; //2块钱运费险
+            }
+            $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay);
         });
     }
     ,renderConfirmPage: function(data) {
@@ -738,6 +764,7 @@ var Order = {
             var item = data.list[i];
             html += tempate.replace('{$goods_name}', item.goods_name)
                            .replace('{$goods_img}', item.goods_img)
+                           .replace('{$goods_id}', item.goods_id)
                            .replace('{$goods_price}', item.goods_price)
                            .replace('{$goods_num}', item.goods_num)
                            .replace('{$goods_sn}', item.goods_sn);
@@ -753,6 +780,7 @@ var Order = {
             $('#selected_mobile').html(data.address.mobile);
             $('#selected_address').html(address);
             $('#selected_consignee_box').show();
+            $('.placeorder-address').attr('data-address', data.address.address_id);
         }
     }
     ,loadOrderInfo: function() {
@@ -766,6 +794,7 @@ var Order = {
             data: {goods_ids:goodsIds},
             success: function(data) {
                if (data.errno == 0) {
+                   me.order_info = data.data;
                    data.data && me.renderConfirmPage(data.data);
                } else {
                     messageBox.toast(data.errmsg);
@@ -974,6 +1003,7 @@ var Address = {
         this.bindNewAddressEvent();
         
     }
+    //地址编辑页面
     ,runEdit: function() {
         this.loadDetail();
         this.bindDetailEvent();

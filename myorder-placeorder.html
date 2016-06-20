@@ -25,7 +25,7 @@
         <div class="contbox">
             <div class="u-list-justify fs-14" id="selected_consignee_box" style="display:none;">
                 <p class="left ">收货人：<span id="selected_consignee"></span></p>
-                <p class="right" id="select_mobile"></p>
+                <p class="right" id="selected_mobile"></p>
             </div>
             <p class="cont"onclick="javascript:window.location.href='address-select.html'">
                 <i id="selected_address">点击选择您的收货地址</i>
@@ -51,7 +51,7 @@
     <div class="u-list-justify fs-14">
         <p class="left">
             <i>备注：</i>
-            <input type="text" placeholder="填写您和商家达成一致的要求">
+            <input type="text" id="remarks" placeholder="填写您和商家达成一致的要求">
         </p>
     </div>
     <div class="u-list-justify fs-14 amount">
@@ -81,7 +81,7 @@
 </div>
 <script id="confirm_goods_template" type="text/template">
 <div class="mr-10-0 placeorder-productinfo">
-    <div class="u-productlist02">
+    <div class="u-productlist02" data-id="{$goods_id}">
         <img src="{$goods_img}" class="photo">
         <div class="u-list-justify fs-14">
             <p class="left ">{$goods_name}</p>
