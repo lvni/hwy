@@ -26,17 +26,19 @@
 
 <div class="buttonbox">
     <button class="u-button-main" onclick="javascript:window.location.href='address-new.html'">
-        <span>新增地址</span>
+        <span>新增收货地址</span>
     </button>
 </div>
 <script id="tempate-address-list" type="text/template">
-<a href="address-dministration.html" class="list">
-        <div class="contbox">
+<div class="list choose">
+        <label class="contbox">
+            <input type="radio" name="address" class="u-checkbox">
+            <span class="u-choose"></span>
             <h3 class="title"><p class="name">{$consignee}</p><span class="phone">{$mobile}</span></h3>
             <p class="cont">{$address}</p>
-        </div>
-        <img class="arrow" src="img/arrowright.png">
-    </a>
+        </label>
+        <a href="{$href}" class="edit">编辑</a>
+    </div>
 </script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>

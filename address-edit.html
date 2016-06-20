@@ -2,15 +2,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <META NAME="MobileOptimized" CONTENT="240">
-<title>修改收货地址</title>
+<title>收货地址管理</title>
     <link rel="stylesheet" href="css/public.css">
-    <link rel="stylesheet" href="css/address-edit.css">
+    <link rel="stylesheet" href="css/address-administration.css">
 </head>
 
 <body>
 <div class="u-top-msg" >
     <div class="title">
-        <p>修改收货地址</p>
+        <p>编辑收货地址</p>
     </div>
     <a href="message.html" class="msgbox">
         <img src="img/hw_03.png">
@@ -20,66 +20,69 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<div class="u-arrow-list">
-    <div  class="list noarrow">
+<div id="loading" style="text-align:center;padding-top:100px;">
+加载中 ...
+</div>
+<div class="u-arrow-list" style="display:none;">
+    <input type="hidden" value="" name="address_id">
+    <a href="javascript:;" class="list">
         <div class="contbox">
             <h3 class="title">
-                <p class="name">省市县</p>
-                <input id="demo1" type="text" readonly="" name="input_area" placeholder="点击选择" class="cont-input">
+                <input id="select_area" type="text" readonly="" name="province_city_direct" class="input"  value="" placeholder="请选择所在地"/>
             </h3>
-            <p class="tips">所在城市</p>
         </div>
-    </div>
-    <div  class="list noarrow">
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
         <div class="contbox">
             <h3 class="title">
-                <p class="name">所在街道</p>
-                <input  type="text"  placeholder="请填写您的详细地址" class="cont-input">
+                <input type="text" name="address"  class="input"  value="" placeholder="请输入详细地址" />
             </h3>
-            <p class="tips">详细地址</p>
         </div>
-    </div>
-    <div  class="list noarrow">
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
         <div class="contbox">
-            <h3 class="title">
-                <p class="name">姓名</p>
-                <input  type="text"  placeholder="请填写您的真实姓名" class="cont-input">
-            </h3>
-            <p class="tips">收货人姓名</p>
+            <h3 class="title"><input type="text" name="consignee" class="input"  value="" placeholder="请输入收货人姓名"/></h3>
         </div>
-    </div>
-    <div  class="list noarrow">
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
         <div class="contbox">
-            <h3 class="title">
-                <p class="name">邮编</p>
-                <input  type="text"  placeholder="请填写收货地址邮编" class="cont-input">
-            </h3>
-            <p class="tips">邮编</p>
+            <h3 class="title"><input type="text" name="mobile"  class="input"  value="" placeholder="请输入手机号码" /></h3>
         </div>
-    </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="zipcode" class="input"  value="" placeholder="请输入邮编" /></h3>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+
 </div>
 <div class="buttonbox">
-    <button class="u-button-main" onclick="javascript:window.location.href='address-dministration.html'">
+    <div class="del">
+        <img src="img/del.png">
+        <p>删除</p>
+    </div>
+    <button class="u-mainbutton-little" >
         <span>保存</span>
     </button>
 </div>
-
 <script src="javascripts/zepto_v1.min.js"></script>
-<script src="javascripts/main.js"></script>
 <script src="javascripts/areaDatas.js"></script>
 <script src="javascripts/selecter.js"></script>
+<script src="javascripts/main.js" ></script>
 <script>
-$(function(){
-    Address.runMain();
-});
-var area = new Area.selecter(
-        '#demo1',
-        {
-            areaData : {provs : provs_data, citys : citys_data, dists : dists_data},
-        }
-);
-area.init();
+    var area = new Area.selecter(
+            '#select_area',
+            {
+                areaData : {provs : provs_data, citys : citys_data, dists : dists_data},
+            }
+    );
+    area.init();
+    Address.runEdit();
 </script>
-
 </body>
 </html>

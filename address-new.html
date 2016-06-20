@@ -21,37 +21,37 @@
     </a>
 </div>
 <div class="u-arrow-list">
-    <a href="#" class="list">
+    <a href="javascript:;" class="list">
         <div class="contbox">
             <h3 class="title">
-                <input id="demo1" type="text" readonly="" name="input_area" class="input"  value="" placeholder="请选择所在地"/>
+                <input id="select_area" type="text" readonly="" name="province_city_direct" class="input"  value="" placeholder="请选择所在地"/>
             </h3>
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
-    <a href="#" class="list">
+    <a href="javascript:;" class="list">
         <div class="contbox">
             <h3 class="title">
-                <input type="text"  class="input"  value="" placeholder="请输入详细地址" />
+                <input type="text" name="address"  class="input"  value="" placeholder="请输入详细地址" />
             </h3>
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
-    <a href="#" class="list">
+    <a href="javascript:;" class="list">
         <div class="contbox">
-            <h3 class="title"><input type="text"  class="input"  value="" placeholder="请输入收货人姓名"/></h3>
+            <h3 class="title"><input type="text" name="consignee" class="input"  value="" placeholder="请输入收货人姓名"/></h3>
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
-    <a href="#" class="list">
+    <a href="javascript:;" class="list">
         <div class="contbox">
-            <h3 class="title"><input type="text"  class="input"  value="" placeholder="请输入手机号码" /></h3>
+            <h3 class="title"><input type="text" name="mobile"  class="input"  value="" placeholder="请输入手机号码" /></h3>
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
-    <a href="#" class="list">
+    <a href="javascript:;" class="list">
         <div class="contbox">
-            <h3 class="title"><input type="text"  class="input"  value="" placeholder="请输入邮编" /></h3>
+            <h3 class="title"><input type="text" name="zipcode" class="input"  value="" placeholder="请输入邮编" /></h3>
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
@@ -62,24 +62,23 @@
         <img src="img/del.png">
         <p>删除</p>
     </div>
-    <button class="u-mainbutton-little" onclick="javascript:window.location.href='address-myaddress.html'">
+    <button class="u-mainbutton-little" >
         <span>保存</span>
     </button>
 </div>
 <script src="javascripts/zepto_v1.min.js"></script>
 <script src="javascripts/areaDatas.js"></script>
 <script src="javascripts/selecter.js"></script>
+<script src="javascripts/main.js" ></script>
 <script>
-    $(function(){
-        Address.runMain();
-    });
     var area = new Area.selecter(
-            '#demo1',
+            '#select_area',
             {
                 areaData : {provs : provs_data, citys : citys_data, dists : dists_data},
             }
     );
     area.init();
+    Address.runNew();
 </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ var config = {
         'cart' : 'shoppingCart.html', //购物车
         'login': 'login.html', //登录页
         'home': 'index.html', //首页
+        'address_edit': 'address-edit.html',
     },
 };
 //错误码
@@ -69,7 +70,10 @@ var Util = {
             url: url,
             dataType: 'jsonp',
             data: data,
-            success: callback
+            success: callback,
+            error: function() {
+                messageBox.toast("服务器出错啦");
+            }
         });
     }
 };
@@ -782,9 +786,11 @@ var Address = {
             var html = "";
             for (i in data.data) {
                 var item = data.data[i];
-                item.address = item.province + item.city + item.address;
+                var href = config.page.address_edit + "?id=" + item.address_id;
+                item.address = item.province + item.city + item.direct + item.address;
                 html += tempate.replace('{$consignee}', item.consignee)
                                .replace('{$mobile}', item.mobile)
+                               .replace('{$href}', href)
                                .replace('{$address}', item.address);
             }
             $('.u-arrow-list').html(html);
@@ -794,16 +800,145 @@ var Address = {
         }
         
     }
+    //加载我的地址列表
     ,loadMyaddress: function() {
         var api = "?r=address/list";
         Util.requestApi(api, {}, this.renderAddressList);
+    }
+    //新增地址时间绑定
+    ,bindNewAddressEvent: function() {
+        var me = this;
+        $('.u-mainbutton-little').click(function(){
+            //保存按钮事件
+
+            var params = me.getAddressFormData();
+            if (params == false) {
+                return;
+            }
+            var url = config.api + "?r=address/add";
+            console.log(params);
+            $.ajax({
+                url: url,
+                data: params,
+                dataType: 'jsonp',
+                xhrFields: {
+                   withCredentials: true
+                },
+                crossDomain : true,
+                success: function(data) {
+                    messageBox.toast(data.errmsg)
+                    if (data.errno == 0) {
+                        //成功 返回
+                        history.go(-1);
+                    }
+                },
+                error: function() {
+                    messageBox.toast("服务器出错，请稍后重试");
+                }
+            });
+        });
+    }
+    ,getAddressFormData: function(){
+        var params = {};
+        var notice = [];
+        $('.u-arrow-list input').each(function(i){
+            var name = $(this).attr('name');
+            var value = $(this).attr('value');
+            params[name] = value;
+            notice[name] = $(this);
+        });
+        for (i in params) {
+                if (params[i] == '') {
+                    messageBox.toast(notice[i].attr('placeholder'));
+                    notice[i].focus();
+                    return;
+                }
+        }
+        var reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+        if (!reg.test(params['mobile'])) {
+            //手机号码验证
+            messageBox.toast("手机号码格式错误");
+            notice['mobile'].focus();
+            return false;
+        }
+        var areas = params['province_city_direct'].split(" ");
+        delete params['province_city_direct'];
+        params['str_province'] = areas[0];
+        params['str_city'] = areas[1];
+        params['str_direct'] = areas[2];
+        return params;
+    }
+    //渲染地址详情页面
+    ,renderDetail: function(data) {
+        if (data.errno == 0) {
+            var address = data.data;
+            var province_city_direct = address.province + " " + address.city + " " + address.direct;
+            address['province_city_direct'] = province_city_direct;
+            delete address['province'];
+            delete address['city'];
+            delete address['direct'];
+            
+            $(".u-arrow-list input").each(function(i){
+                var name = $(this).attr('name');
+                $(this).val(address[name]);
+            });
+            $(".u-arrow-list").show();
+            $('#loading').hide();
+        } else {
+            messageBox.toast(data.errmsg);
+        }
+    }
+    ,loadDetail: function() {
+        var id = Util.getQueryString('id');
+        if (id) {
+            //console.log(id);
+            Util.requestApi('?r=address/detail', {id:id}, this.renderDetail);
+        }
+    }
+    ,handleDetailCallback: function(data) {
+        messageBox.toast(data.errmsg);
+        console.log(data);
+        if (data.errno == 0) {
+            history.go(-1);
+        }
+    }
+    ,bindDetailEvent: function() {
+        //保存修改
+        var me = this;
+        $('.u-mainbutton-little').click(function(){
+            var addressId = $('input[name=address_id]').val();
+            if (addressId) {
+                var params = me.getAddressFormData();
+                if (params == false) {
+                    return;
+                }
+                Util.requestApi('?r=address/update', params, me.handleDetailCallback);
+            }
+        });
+        
+        //删除
+        $('.del').click(function(){
+            var addressId = $('input[name=address_id]').val();
+            if (addressId) {
+                Util.requestApi('?r=address/remove', {id:addressId}, me.handleDetailCallback);
+            }
+        });
     }
     //管理主页
     ,runMain: function() {
         this.loadMyaddress();
     }
+    //地址选择页面
     ,runSelect: function() {
         this.loadMyaddress();
+    }
+    //地址新增页面
+    ,runNew: function() {
+        this.bindNewAddressEvent();
+    }
+    ,runEdit: function() {
+        this.loadDetail();
+        this.bindDetailEvent();
     }
 
 };
