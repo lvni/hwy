@@ -2,25 +2,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <META NAME="MobileOptimized" CONTENT="240">
-<title>我的商品-批量修改价格</title>
+<title>全部商品</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/myproduct-sold.css">
 </head>
 
 <body>
-<div class="u-top-msg" >
+<div class="u-top-msg">
     <div class="title">
         <p>全部商品</p>
     </div>
-    <div class="msgbox">
+    <a href="message.html" class="msgbox">
         <img src="img/hw_03.png">
         <span class="msg"></span>
-    </div>
-    <a href="#" class="turnback">
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
         <img src="img/arrowleft.png">
     </a>
 </div>
-<nav class="u-nav-autowidth" >
+<nav class="u-nav-autowidth" id="js-changecont" >
     <div class="on"><span>线上商品</span></div>
     <div><span>交易中</span></div>
     <div><span>已售</span></div>
@@ -113,5 +113,6 @@
     <a href="#">&gt;</a>
     <a href="#">尾</a>
 </div>
+<script src="javascripts/changecont.js"></script>
 </body>
 </html>

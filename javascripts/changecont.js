@@ -1,17 +1,7 @@
-
-function addLoadEvent(func) {
-    var oldonload = window.onload;
-    if(typeof window.onload != 'function') {
-        window.onload = func;
-    }
-    else {
-        window.onload = function() {
-            oldonload;
-            func;
-        }
-    }
-}
 function main() {
+    if(!document.getElementById('js-changecont')) {
+        return;
+    }
     var allchildnode = document.getElementById('js-changecont').childNodes,
         changenode = [],
         contbox = [],
@@ -42,4 +32,4 @@ function main() {
     }
 }
 
-addLoadEvent(main);
+main();

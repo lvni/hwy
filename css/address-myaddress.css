@@ -33,3 +33,11 @@ body {
   width: 100%;
   box-sizing: border-box;
   background: #eeeeee; }
+
+/* line 20, ../sass/address-myaddress.scss */
+.add-address {
+  display: block;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #666666; }

@@ -1,0 +1,63 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  background: #ffffff;
+}
+
+.findPassword-contbox {
+  padding:0 10px;
+  &>.title {
+    padding:10px 0;
+    font-size:12px;
+    color:$fontcolorLv4;
+  }
+}
+
+.enterinfobox {
+  position: relative;
+  @extend %box-middle;
+  padding:5px 0;
+  margin-bottom:10px;
+  font-size:0px;
+  &:after {
+    @extend %border-all;
+    border-color:#000;
+    z-index: -1;
+  }
+  &>.icon {
+    padding:0 10px;
+    width:25px;
+  }
+  &>.input {
+    padding:0px 10px;
+    height:2.8rem;
+    border:none;
+    border-left:1px solid $fontcolorLv3;
+    font-size:16px;
+  }
+  &>.verification-cord {
+    position: absolute;
+    right:10px;
+    top:50%;
+    -webkit-transform:translate(0,-50%);
+    width:90px;
+    height:2.5rem;
+    background: $maincolor;
+    color:#fff;
+    font-size:13px;
+    border-radius:6px;
+    text-align: center;
+    line-height: 2.5rem;
+    &.disable {
+      background: #aaaaaa;
+    }
+  }
+}
+.u-button-main {
+  margin-top:10px;
+}
+
+
+

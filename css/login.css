@@ -23,23 +23,90 @@
 /*用来被继承的占位样式*/
 /* line 6, ../sass/login.scss */
 body {
-  background: #eeeeee; }
+  background: url('../img/loginbg.png?1466326067') no-repeat;
+  background-size: cover; }
 
-/* line 9, ../sass/login.scss */
+/* line 10, ../sass/login.scss */
 .head {
   background: #ffffff; }
-  /* line 11, ../sass/login.scss */
+  /* line 12, ../sass/login.scss */
   .head > img {
     display: block;
     margin: 0px auto;
     width: 125px; }
 
-/* line 17, ../sass/login.scss */
+/* line 18, ../sass/login.scss */
 .tips, .wechat {
   display: block;
   margin: 0px auto;
   width: 210px; }
 
-/* line 22, ../sass/login.scss */
+/* line 23, ../sass/login.scss */
 .wechat {
   width: 50px; }
+
+/* line 27, ../sass/login.scss */
+.u-top-msg {
+  background: none; }
+  /* line 29, ../sass/login.scss */
+  .u-top-msg:after {
+    display: none; }
+
+/* line 34, ../sass/login.scss */
+.fontbox {
+  padding: 5px 0px;
+  font-size: 12px; }
+  /* line 37, ../sass/login.scss */
+  .fontbox > a {
+    color: #ffffff; }
+  /* line 40, ../sass/login.scss */
+  .fontbox > .left {
+    float: left; }
+  /* line 43, ../sass/login.scss */
+  .fontbox > .right {
+    float: right; }
+  /* line 46, ../sass/login.scss */
+  .fontbox:after {
+    content: '';
+    display: block;
+    clear: both; }
+
+/* line 53, ../sass/login.scss */
+.u-button-main {
+  background: rgba(255, 255, 255, 0.19); }
+
+/* line 57, ../sass/login.scss */
+.wechatbox {
+  position: relative;
+  margin: 30px 0  15px 0;
+  text-align: center; }
+  /* line 61, ../sass/login.scss */
+  .wechatbox > .wechatlogo {
+    width: 54px;
+    height: 54px; }
+  /* line 65, ../sass/login.scss */
+  .wechatbox:before, .wechatbox:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    height: 1px;
+    background: #fff;
+    width: -webkit-calc(50% - 47px); }
+  /* line 74, ../sass/login.scss */
+  .wechatbox:before {
+    left: 0px; }
+  /* line 77, ../sass/login.scss */
+  .wechatbox:after {
+    right: 0px; }
+
+/* line 82, ../sass/login.scss */
+.wechatbutton {
+  width: 100%;
+  border-radius: 4px;
+  border: 2px solid #fff;
+  height: 50px;
+  font-size: 15px;
+  text-align: center;
+  background: none;
+  color: #fff; }

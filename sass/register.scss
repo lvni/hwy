@@ -1,0 +1,94 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+
+body {
+  background:image-url('registerbg.png') no-repeat;
+  background-size:cover;
+}
+.head {
+  background: #ffffff;
+  &>img {
+    display: block;
+    margin:0px auto;
+    width:125px;
+  }
+}
+.tips,.wechat {
+  display: block;
+  margin:0px auto;
+  width:210px;
+}
+.wechat {
+  width:50px;
+}
+
+.u-top-msg {
+  background: none;
+  &:after {
+    display: none;
+  }
+}
+
+.fontbox {
+  padding:5px 0px;
+  font-size:12px;
+  &>a {
+    color:#ffffff;
+  }
+  &>.left{
+    float:left;
+  }
+  &>.right {
+    float:right;
+  }
+  &:after {
+    content:'';
+    display: block;
+    clear:both;
+  }
+}
+
+.u-button-main {
+  background: rgba(255,255,255,.19);
+}
+
+.wechatbox {
+  position: relative;
+  margin:30px 0  15px 0;
+  text-align: center;
+  &>.wechatlogo {
+    width:54px;
+    height:54px;
+  }
+  &:before,&:after {
+    content:'';
+    position: absolute;
+    top:50%;
+    -webkit-transform:translate(0,-50%);
+    height:1px;
+    background: #fff;
+    width:-webkit-calc(50% - 47px);
+  }
+  &:before {
+    left:0px;
+  }
+  &:after {
+    right:0px;
+  }
+}
+
+.wechatbutton {
+  width:100%;
+  border-radius:4px;
+  border:2px solid #fff;
+  height:50px;
+  font-size:15px;
+  text-align: center;
+  background: none;
+  color:#fff
+}
+.u-enterinfobox:after {
+  background-color:rgba(89,90,119,.6);
+}
