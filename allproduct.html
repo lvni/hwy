@@ -64,7 +64,7 @@
             <p><span data-role="cate_name">筛选</span><img src="img/hongwu_54.png"></p>
         </div>
     </div>
-    <div class="u-choosecontbox" id="js-choosecontbox" style="display:;">
+    <div class="u-choosecontbox" id="js-choosecontbox" style="display:none;">
         <div class="title"><span class="name">手镯专区</span></div>
         <div class="priceboxes">
             <a  data-name="圆条手镯" data-id="14" class="on">圆条手镯</a>
@@ -79,7 +79,7 @@
             </button>
         </div>
     </div>
-    <div class="u-choosecontbox" style="display:block;">
+    <div class="u-choosecontbox" style="display:none;">
         <a href="#" class="option">颈</a>
         <a href="#" class="option">腕</a>
         <a href="#" class="option">指</a>
@@ -89,34 +89,31 @@
 <div class="u-chooseclass" id="js-chooseclass">
 
 </div>
-<div class="u-productlist" style="display: ;">
-    <div class="u-refresh">
+<div class="u-productlist" style="display:;">
+    
+</div>
+
+<div id="buttom-flag"></div>
+<script type="text/template" id="search-empty">
+<div class="u-refresh" style="display:none;">
         <div class="line">
             <img src="img/refresharrow.png" class="arrow">
         </div>
         <p class="tips">下拉刷新...</p>
     </div>
-    <div class="u-refresh ready" style="margin-top:20px;">
+    <div class="u-refresh ready" style="margin-top:20px;display:none;">
         <div class="line">
             <img src="img/refresharrow.png" class="arrow">
         </div>
         <p class="tips">松开刷新...</p>
     </div>
-    <div class="u-refresh refreshing" style="margin-top:20px;">
-        <div class="line">
-            <img src="img/refresharrow.png" class="arrow">
-        </div>
-        <p class="tips">松开刷新...</p>
-    </div>
-    <div class="u-havenoProduct">
+    <div class="u-havenoProduct" style="display:;">
         <div>
             <img src="img/havenoproduct.png" class="photo">
-            <p class="tips">找不到对应商品，下拉刷新试试</p>
+            <p class="tips">找不到对应商品</p>
         </div>
     </div>
-</div>
-
-<div id="buttom-flag"></div>
+</script>
 <script type="text/template" id="search-list-item">
 <a href="details.html?id={$id}" class="contbox">
         <img src="{$img}">

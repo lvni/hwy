@@ -367,7 +367,9 @@ var goodsCart = {
                             .replace('{$number}', item.goods_num)
                             .replace('{$data}', datainfo);
         }
-        $('.u-shoppingCartlist').html(html);
+        if (html) {
+            $('.u-shoppingCartlist').html(html);
+        }
        
     }
     ,loadmyGoodsCart: function() {
@@ -471,9 +473,13 @@ var Bootstrap = {
                     .replace('{$img}', item.img);
         }
         if (append == false) {
-            $('.u-productlist').html(html);
+            if (html){
+                $('.u-productlist').html(html);
+            } else {
+                $('.u-productlist').html($("#search-empty").html());
+            }
         } else {
-            $('.u-productlist').append(html);
+           $('.u-productlist').append(html);
         }
         
     }
@@ -715,7 +721,7 @@ var Bootstrap = {
         }        
         this.loadSearchCategories();
         this.searchQuery.k = k;
-        this.loadSearch(this.searchQuery);
+        this.loadSearch(this.searchQuery, false);
     }
 };
 
