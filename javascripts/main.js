@@ -8,6 +8,7 @@ var config = {
     'api': 'http://h5.hong5ye.com/api/backend/web/index.php',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
+        'select_address': 'address-select.html',
         'cart' : 'shoppingCart.html', //购物车
         'login': 'login.html', //登录页
         'home': 'index.html', //首页
@@ -799,6 +800,9 @@ var Address = {
     }
     //管理主页
     ,runMain: function() {
+        this.loadMyaddress();
+    }
+    ,runSelect: function() {
         this.loadMyaddress();
     }
 

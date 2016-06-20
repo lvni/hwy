@@ -1,0 +1,49 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>我的收货地址</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/address-myaddress.css">
+</head>
+
+<body>
+<div class="u-top-msg" >
+    <div class="title">
+        <p>选择收货地址</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="u-arrow-list">
+    
+</div>
+
+<div class="buttonbox">
+    <button class="u-button-main" onclick="javascript:window.location.href='address-new.html'">
+        <span>新增地址</span>
+    </button>
+</div>
+<script id="tempate-address-list" type="text/template">
+<a href="address-dministration.html" class="list">
+        <div class="contbox">
+            <h3 class="title"><p class="name">{$consignee}</p><span class="phone">{$mobile}</span></h3>
+            <p class="cont">{$address}</p>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    Address.runSelect();
+});
+</script>
+</body>
+</html>
