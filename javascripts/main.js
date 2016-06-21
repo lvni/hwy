@@ -58,8 +58,8 @@ var Util = {
        return ''; 
     }
     //跳转登录
-    ,goLogin: function(redirect) {
-        var callback = redirect ? redirect : config.page.home; 
+    ,goLogin: function(redistrict) {
+        var callback = redistrict ? redistrict : config.page.home; 
         window.location.href = config.page.login + "?" + callback;
         
     }
@@ -783,7 +783,7 @@ var Order = {
         
         //渲染地址
         if (data.address) {
-            var address = data.address.province + data.address.city + data.address.address;
+            var address = data.address.province + data.address.city + data.address.district + data.address.address;
             $('#selected_consignee').html(data.address.consignee);
             $('#selected_mobile').html(data.address.mobile);
             $('#selected_address').html(address);
@@ -850,7 +850,7 @@ var Address = {
             for (i in data.data) {
                 var item = data.data[i];
                 var href = config.page.address_edit + "?id=" + item.address_id;
-                item.address = item.province + item.city + item.direct + item.address;
+                item.address = item.province + item.city + item.district + item.address;
                 var checked = '';
                 if (item.selected) {
                     checked = "checked=checked";
@@ -932,22 +932,22 @@ var Address = {
             notice['mobile'].focus();
             return false;
         }
-        var areas = params['province_city_direct'].split(" ");
-        delete params['province_city_direct'];
+        var areas = params['province_city_district'].split(" ");
+        delete params['province_city_district'];
         params['str_province'] = areas[0];
         params['str_city'] = areas[1];
-        params['str_direct'] = areas[2];
+        params['str_district'] = areas[2];
         return params;
     }
     //渲染地址详情页面
     ,renderDetail: function(data) {
         if (data.errno == 0) {
             var address = data.data;
-            var province_city_direct = address.province + " " + address.city + " " + address.direct;
-            address['province_city_direct'] = province_city_direct;
+            var province_city_district = address.province + " " + address.city + " " + address.district;
+            address['province_city_district'] = province_city_district;
             delete address['province'];
             delete address['city'];
-            delete address['direct'];
+            delete address['district'];
             
             $(".u-arrow-list input").each(function(i){
                 var name = $(this).attr('name');
