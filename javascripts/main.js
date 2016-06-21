@@ -13,6 +13,7 @@ var config = {
         'login': 'login.html', //登录页
         'home': 'index.html', //首页
         'address_edit': 'address-edit.html', //地址编辑页面
+        'order_pay': 'myorder-paymode.html', //订单支付页面
     },
 };
 //错误码
@@ -732,7 +733,15 @@ var Order = {
     order_info : {}
     ,bindConfirmEvent: function() {
         var me = this;
+        var lock = false;
         $('.u-mainbutton-little').click(function(){
+            if (lock) {
+                  return ; //屏蔽重复点击操作
+            }
+            if (me.order_info.order_sn) {
+                me.gotoPay(me.order_info.order_sn);
+                return;
+            }
             //确认按钮点击事件
             var addressId = $('.placeorder-address').attr('data-address');
             if (!addressId) {
@@ -751,6 +760,25 @@ var Order = {
             
             var remarks = $('#remarks').html(); //备注信息
             //调用下单接口，获取订单号，成功的话跳转到支付页面
+            var api = "?r=order/submit";
+            var request = {
+                'goods_ids' : goodsIds,
+                'remarks': remarks,
+                'address_id': addressId,
+                'express_insure': express_insure,
+            };
+            lock = true;
+            //请求下单接口，获得订单
+            Util.requestApi(api, request, function(data){
+                    lock = false;
+                    if (data.errno != 0) {
+                          messageBox.toast(data.errmsg);
+                    } else {
+                        me.order_info.order_sn = data.data.order_sn;
+                        me.gotoPay(me.order_info.order_sn);
+                    }
+                
+            });
             
             
         });
@@ -764,6 +792,11 @@ var Order = {
             }
             $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay);
         });
+    }
+    
+    //跳转去支付
+    ,gotoPay: function(order_sn) {
+           window.location.href = config.page.order_pay + "?order=" + order_sn ;
     }
     ,renderConfirmPage: function(data) {
         var tempate = $('#confirm_goods_template').html();
@@ -809,6 +842,8 @@ var Order = {
                     if (data.errno == ErrorCode.NO_LOGIN) {
                         //跳转登录
                         Util.goLogin();
+                    } else {
+                        history.go(-1);
                     }
                }
             }
