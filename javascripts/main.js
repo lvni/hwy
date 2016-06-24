@@ -14,6 +14,7 @@ var config = {
         'home': 'index.html', //首页
         'address_edit': 'address-edit.html', //地址编辑页面
         'order_pay': 'myorder-paymode.html', //订单支付页面
+        'user_king' : 'king.html',
     },
 };
 //错误码
@@ -106,6 +107,8 @@ var Storge = {
 
 //功能导航
 var FuncNavi = {
+    data: {},
+    funcs: [], //回调函数列表
     html: function(data) {
         var html = '<div class="u-bottomnav">'
                      + '<a href="index.html">'
@@ -183,11 +186,25 @@ var FuncNavi = {
               dataType : "jsonp",
               success: function(data) {
                    if (data.errno ==0) {
+                       me.data = data.data;
                        data.data  && me.rendNavi(data.data);
+                   }
+                   
+                   for (i in me.funcs) {
+                       me.funcs[i].func(me.data, me.funcs[i].proxy);
                    }
               }
               
           });
+    }
+    ,addCallback: function (func, proxy) {
+        var me = this;
+        if (typeof func == 'function') {
+            me.funcs.push({
+                'proxy': proxy,
+                'func'  : func
+            });
+        }
     }
     ,run: function() {
         //this.rendNavi();
@@ -1060,4 +1077,30 @@ var Address = {
         this.bindDetailEvent();
     }
 
+};
+
+
+//用户相关
+var User = {
+    user: {}
+    ,init: function(data, direct) {
+        if (data.is_login != 1) {
+            Util.goLogin(direct);
+        } else {
+            $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
+            $("#loading").hide();
+            $(".u-person-head .name").append(data.user.name);
+            $(".u-person-head .photo").attr('src', data.user.avatar);
+        }
+    }
+    ,initKing: function(data, proxy) {
+        if (!proxy) {
+            proxy = this;
+        }
+        proxy.init(data, config.page.user_king);
+    }
+     //游客/王爷入口
+    ,runKing: function() {
+        
+    }
 };

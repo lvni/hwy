@@ -8,15 +8,18 @@
 </head>
 
 <body>
-<div class="u-person-head">
+<div style="text-align:center; padding-top:50px;" id="loading">
+    加载中 ... 
+</div>
+<div class="u-person-head" style="display:none;">
     <div class="msgbox" onclick="javascript:window.location.href='message.html'">
         <img src="img/hw_03.png">
         <span class="msg"></span>
     </div>
-    <img src="img/hw_06.png" class="photo">
-    <p class="name"><img src="img/hw_16.png">洪五爷</p>
+    <img src="" class="photo">
+    <p class="name"><img src="img/hw_16.png"></p>
 </div>
-<div class="u-person-cont">
+<div class="u-person-cont" style="display:none;">
     <a href="myincome-king.html">
         <img src="img/hw_23.png">
         <p>我的收入</p>
@@ -30,7 +33,7 @@
         <p>我的二维码</p>
     </a>
 </div>
-<div class="u-person-order">
+<div class="u-person-order" style="display:none;">
     <h2 class="title">
         <span>
             <i>我的订单</i>
@@ -60,7 +63,7 @@
         </a>
     </div>
 </div>
-<div class="u-img-a-list">
+<div class="u-img-a-list" style="display:none;">
     <a href="mysubordinates.html" class="list">
         <img src="img/hongwu_35.png">
         <p>我的下级</p>
@@ -87,31 +90,7 @@
     </a>
 </div>
 <div class="u-bottomnav">
-    <a href="index.html">
-        <img src="img/hw_72.png">
-        <p>首页</p>
-        <span>12</span>
-    </a>
-    <a href="allproduct.html">
-        <img src="img/hw_74.png">
-        <p>所有产品</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_76.png">
-        <p>发现</p>
-        <span>12</span>
-    </a>
-    <a href="shoppingCart.html">
-        <img src="img/hw_78.png">
-        <p>购物车</p>
-        <span>12</span>
-    </a>
-    <a href="king.html">
-        <img src="img/hw_80.png">
-        <p>个人中心</p>
-        <span>12</span>
-    </a>
+    
 </div>
 <div id="QRcord" style="display: none;" onclick="this.style.display='none'">
     <div data-reactroot="" class="u-barcode" id="QRcordBox">
@@ -123,5 +102,12 @@
             <p class="tips">用微信扫一扫，关注我们</p></div>
     </div>
 </div>
+
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    FuncNavi.addCallback(User.initKing, User);
+    FuncNavi.run();
+</script>
 </body>
 </html>
