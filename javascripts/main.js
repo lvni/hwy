@@ -15,11 +15,16 @@ var config = {
         'address_edit': 'address-edit.html', //地址编辑页面
         'order_pay': 'myorder-paymode.html', //订单支付页面
         'user_king' : 'king.html',
+        'collection': 'collection.html', //我的收藏
     },
 };
 //错误码
 var ErrorCode = {
     NO_LOGIN: 12, //没有登录
+}
+var Const = {
+    GOODS_STATUS_ON_SELL: 1, //在售
+    
 }
 
 //消息盒子相关
@@ -85,7 +90,10 @@ var Util = {
             }else{
                 return false;
             }
-        }
+    }
+    ,goGoodsDetail: function(id) {
+        window.location.href = "details.html?id=" + id ;
+    }
 };
 //存储相关
 var Storge = {
@@ -1099,8 +1107,59 @@ var User = {
         }
         proxy.init(data, config.page.user_king);
     }
-     //游客/王爷入口
-    ,runKing: function() {
+};
+
+
+
+//收藏相关
+var Collection = {
+    
+    run: function() {
+        Util.requestApi('?r=collect/get', {}, this.renderList);
+        this.bindEvent();
+    }
+    ,bindEvent: function(){
         
+        $('.productlistbox').delegate(".u-collection-productlist ", 'click', function(){
+            
+            var goods_id = $(this).attr('data-id');
+            if (goods_id) {
+                Util.goGoodsDetail(goods_id);
+            }
+        });
+    }
+    //渲染列表
+    ,renderList: function(data) {
+        if (data.errno == 12) {
+            Util.goLogin(config.page.collection);
+            return;
+        } 
+        if (data.errno != 0) {
+            messageBox.toast(data.errmsg);
+            return;
+        }
+        var tempate = $('#collect_list_tempate').html();
+        var html = "";
+        for (i in data.data.list) {
+            var item = data.data.list[i];
+            var icon = '';
+            var sold = "";
+            var tips = "";
+            if (item.goods_status != Const.GOODS_STATUS_ON_SELL) {
+                sold = 'sold';
+                icon = '<img src="img/hwicon_07.png" class="icon">';
+                tips = "已结缘";
+            }
+            html += tempate.replace('{$goods_id}', item.goods_id)
+                                    .replace('{$goods_img}',item.goods_img)
+                                    .replace('{$icon}', icon)
+                                    .replace('{$sold}', sold)
+                                    .replace('{$tips}', tips)
+                                    .replace('{$goods_name}',item.goods_name)
+                                    .replace('{$goods_price}',item.goods_price)
+                                    .replace('{$likes_count}',item.likes_count)
+                                    .replace('{$fav_count}',item.fav_count);
+        }
+        $('.productlistbox').html(html);
     }
 };
