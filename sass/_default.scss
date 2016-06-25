@@ -1734,6 +1734,65 @@
   }
 }
 
+/*我的收藏的取消弹窗*/
+.u-morefunction {
+  display: none;
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,.3);
+  z-index: 100;
+  &>.contbox {
+    position: absolute;
+    bottom:0px;
+    left:0px;
+    display: -webkit-box;
+    padding:0px 20px;
+    padding-bottom:3.7rem;
+    width:100%;
+    background:#f1f1f1;
+    box-sizing: border-box;
+    &>button {
+      position: absolute;
+      bottom:0px;
+      left:0px;
+      width:100%;
+      background: #ffffff;
+      color: #000000;
+      font-color:$fontcolorLv2;
+      border-radius:0px;
+      &:after {
+        @extend %border-1px-top;
+      }
+    }
+    &>.cont {
+      display: block;
+      padding:20px 0;
+      -webkit-box-flex: 1;
+      color:$fontcolorLv2;
+      font-size:12px;
+      text-align: center;
+      &>.box {
+        @extend %boxcenter;
+        margin:0px auto;
+        width:43px;
+        height:43px;
+        border:1px solid $fontcolorLv4;
+        background: #ffffff;
+        border-radius:4px;
+        &>img {
+          width:25px;
+        }
+      }
+      &>p {
+        padding-top:5px;
+      }
+    }
+  }
+}
+
 
 
 
