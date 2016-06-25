@@ -20,6 +20,12 @@
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/* line 51, ../sass/_extend.scss */
+.order-empty > .box {
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center; }
+
 /*用来被继承的占位样式*/
 /* line 4, ../sass/myorder-allorders.scss */
 body {
@@ -30,3 +36,30 @@ body {
   padding: 0 10px 10px 0;
   background: #ffffff;
   text-align: right; }
+
+/* line 14, ../sass/myorder-allorders.scss */
+.order-empty {
+  padding-top: 100px;
+  text-align: center; }
+  /* line 17, ../sass/myorder-allorders.scss */
+  .order-empty > .box {
+    margin: 0px auto;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #eeeeee; }
+    /* line 25, ../sass/myorder-allorders.scss */
+    .order-empty > .box > img {
+      display: block;
+      width: 66px; }
+  /* line 30, ../sass/myorder-allorders.scss */
+  .order-empty > .font {
+    padding: 15px 15px 20px 15px;
+    font-size: 14px;
+    color: #666666; }
+  /* line 35, ../sass/myorder-allorders.scss */
+  .order-empty > button {
+    width: 150px;
+    height: 40px;
+    line-height: 40px; }
