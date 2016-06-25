@@ -67,7 +67,7 @@ var Util = {
     //跳转登录
     ,goLogin: function(redistrict) {
         var callback = redistrict ? redistrict : config.page.home; 
-        window.location.href = config.page.login + "?" + callback;
+        window.location.href = config.page.login + "?redirect=" + callback;
         
     }
     //请求接口
@@ -83,6 +83,7 @@ var Util = {
             }
         });
     }
+    //是否在微信浏览器
     ,isWeiXin: function (){
             var ua = window.navigator.userAgent.toLowerCase();
             if(ua.match(/MicroMessenger/i) == 'micromessenger'){
@@ -892,11 +893,19 @@ var Order = {
 //地址管理
 var Address = {
 
-
+    cfg : {}
+    
+    //获取选择的地址
+    ,getSelectedAddressId() {
+        var addressId = $('.u-arrow-list input[type=radio]:checked').attr('data-id');
+        return addressId;
+    }
     //绑定选择收货地址事件
-    bindSelectEvent: function() {
+    ,bindSelectEvent: function() {
+        var me = this;
         $(".u-arrow-list").delegate('.u-checkbox','click',function(){
-            var addressId = $('.u-arrow-list input[type=radio]:checked').attr('data-id');
+            //var addressId = $('.u-arrow-list input[type=radio]:checked').attr('data-id');
+            var addressId  = me.getSelectedAddressId();
             if (addressId) {
                 //选择当前地址
                 Util.requestApi('?r=address/select', {address_id:addressId}, function(data){
@@ -909,8 +918,17 @@ var Address = {
             }
         });
     }
+    ,isChecked: function(data) {
+        var me = Address;
+        if (me.cfg.page == 'myaddress') {
+            return data.is_default;
+        } else {
+            return data.selected;
+        }
+    }
     //渲染地址列表
     ,renderAddressList: function(data) {
+        var me = Address;
         if (data.errno == 0) {
             var tempate = $('#tempate-address-list').html();
             var html = "";
@@ -920,7 +938,7 @@ var Address = {
                 var href = config.page.address_edit + "?id=" + item.address_id;
                 item.address = item.province + item.city + item.district + item.address;
                 var checked = '';
-                if (item.selected) {
+                if (me.isChecked(item)) {
                     checked = "checked=checked";
                 }
                 var itemHtml = tempate.replace('{$consignee}', item.consignee)
@@ -944,7 +962,7 @@ var Address = {
         var api = "?r=address/list";
         Util.requestApi(api, {}, this.renderAddressList);
     }
-    //新增地址时间绑定
+    //新增地址事件绑定
     ,bindNewAddressEvent: function() {
         var me = this;
         $('.u-mainbutton-little').click(function(){
@@ -975,6 +993,27 @@ var Address = {
                     messageBox.toast("服务器出错，请稍后重试");
                 }
             });
+        });
+    }
+    //收货地址主界面事件绑定
+    ,bindMainEvent: function() {
+        var me = this;
+        $(".u-button-main").click(function(){
+             var addressId  = me.getSelectedAddressId();
+             if (addressId) {
+                 var params = {address_id: addressId, 'is_default' : 1};
+                 Util.requestApi('?r=address/update', params, function(data){
+                     if (data.errno == 0) {
+                         messageBox.toast("设置成功");
+                     }
+                     if (data.errno == 10032) {
+                         //地址不全，请完善
+                         messageBox.toast("请先完善地址");
+                     }
+                     
+                 });
+             }
+            
         });
     }
     ,getAddressFormData: function(){
@@ -1067,7 +1106,9 @@ var Address = {
     }
     //管理主页
     ,runMain: function() {
+        this.cfg.page = 'myaddress';
         this.loadMyaddress();
+        this.bindMainEvent();
     }
     //地址选择页面
     ,runSelect: function() {
