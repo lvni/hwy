@@ -1029,6 +1029,29 @@ var Order = {
         this.loadOrder(type);
         
     }
+    ,renderDetail: function(data) {
+        if (data.errno != 0) {
+            var html = $('#order_empty_template').html().replace('{$tips}', data.errmsg);
+            $(html).insertAfter('.u-top-msg');
+            return;
+        }
+        var template = $('#order_detail_template').html();
+        var goods_item_template = $('#order_goods_template').html();
+        var goodsList = data.data.goods_list;
+        delete data.data.goods_list;
+        var goods_list_html = '';
+        for (i in goodsList) {
+            goods_list_html += Template.renderByTempate(goods_item_template, goodsList[i]);
+        }
+        data.data.goods_list_html = goods_list_html;
+        var html = Template.renderByTempate(template, data.data);
+        $(html).insertAfter('.u-top-msg');
+    }
+    //订单详情
+    ,runDetail: function() {
+        var order_sn = Util.getQueryString('order');
+        Util.requestApi('?r=order/detail',{order_sn:order_sn},this.renderDetail);
+    }
 };
 
 //地址管理

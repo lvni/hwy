@@ -20,6 +20,13 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
+
+<script id="order_empty_template" type="text/template">
+<div style="text-align:center; padding-top: 150px;">
+    {$tips}
+</div>
+</script>
+<script id="order_detail_template" type="text/template">
 <div class="details-head" >
     <img src="img/orderdetails_03.png" class="icon">
     <h2 class="title">等待买家付款</h2>
@@ -29,39 +36,27 @@
     <div  class="list">
         <div class="contbox">
             <div class="u-list-justify fs-14">
-                <p class="left ">收货人：XXX</p>
-                <p class="right">15644456341</p>
+                <p class="left ">收货人：{$consignee}</p>
+                <p class="right">{$mobile}</p>
             </div>
-            <p class="cont">广东省揭阳市揭东区磐东街道 阳美村创鸿广场东三栋东二门</p>
+            <p class="cont">{$address}</p>
         </div>
         <img src="img/orderdetails_07.png" class="addressicon">
     </div>
 </div>
-<div class="mr-10-0">
-    <div class="u-productlist02" onclick="javascript:window.location.href='details.html'">
-        <img src="img/hongwu_44.png" class="photo">
-        <div class="u-list-justify fs-14">
-            <p class="left ">翡翠福豆翡翠豆</p>
-            <p class="right red">￥1888888882.00</p>
-        </div>
-        <div class="u-list-justify fs-14">
-            <p class="left ">货号：LXA20160106...</p>
-            <p class="right ">x1</p>
-        </div>
-    </div>
-</div>
+{$goods_list_html}
 <div class="priceinfobox">
     <div class="u-list-justify fs-12">
         <p class="left ">运费险</p>
-        <p class="right">￥2.00</p>
+        <p class="right">￥{$insure_fee}</p>
     </div>
     <div class="u-list-justify fs-12">
         <p class="left ">运费</p>
-        <p class="right">￥0.00</p>
+        <p class="right">￥{$shipping_fee}</p>
     </div>
     <div class="u-list-justify fs-14 amount">
         <p class="left">实付款</p>
-        <p class="right red">￥1882.00</p>
+        <p class="right red">￥{$order_amount}</p>
     </div>
     <div class="buttonbox">
         <button class="u-button-little-white">
@@ -75,8 +70,8 @@
     </div>
 </div>
 <div class="infobox">
-    <p>订单号：1689309626173701</p>
-    <p>创建时间：2016-03-06 21:17:27</p>
+    <p>订单号：{$order_sn}</p>
+    <p>创建时间：{$order_date}</p>
 </div>
 <div class="bottom-buttonbox">
     <button class="u-button-little-white" onclick="javascript:window.location.href='myorder-cancel.html'">
@@ -89,5 +84,26 @@
         <span>立即付款</span>
     </button>
 </div>
+</script>
+<script id="order_goods_template" type="text/template">
+<div class="mr-10-0">
+    <div class="u-productlist02" onclick="javascript:window.location.href='details.html?id={$goods_id}'">
+        <img src="{$goods_img}" class="photo">
+        <div class="u-list-justify fs-14">
+            <p class="left ">{$goods_name}</p>
+            <p class="right red">￥{$goods_price}</p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">货号：{$goods_sn}</p>
+            <p class="right ">x{$goods_number}</p>
+        </div>
+    </div>
+</div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+Order.runDetail();
+</script>
 </body>
 </html>
