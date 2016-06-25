@@ -935,8 +935,8 @@ var Order = {
         
         $('#js-changecont').delegate('div', 'click', function() {
                 var order_type = $(this).attr('data-type');
-                Util.setHash(order_type);
-                me.loadOrder();
+                //Util.setHash(order_type);
+                me.loadOrder(order_type);
         });
         $('#js-contbox01').delegate('.u-productlist02', 'click', function(){
               var order_sn = $(this).attr('order-sn');
@@ -955,7 +955,7 @@ var Order = {
         }
         if (data.data.list.length == 0) {
             //列表为空
-            var html = $('#order_tips').html().replace('{$tips}', "空空如也");
+            var html = $('#order_list_empty').html();
             $('#js-contbox01').html(html);
             return;
         }
@@ -1007,25 +1007,23 @@ var Order = {
         var html = $('#order_tips').html().replace('{$tips}', "加载中 ...");
         $('#js-contbox01').html(html);
     }
-    ,closeLoading: function() {
+    ,loadOrder: function(type) {
         
-    }
-    ,loadOrder: function() {
-        var hash = Util.getHash();
-        if ( !this.order_types[hash]) {
-            hash = 'all';
-        }
-        if (hash) {
+        if (type) {
             $('#js-changecont div').removeClass('on');
-            $('#js-changecont div[data-type= ' +hash + ']' ).addClass('on');
+            $('#js-changecont div[data-type= ' +type + ']' ).addClass('on');
         }
         this.showLoading();
-        Util.requestApi('?r=order/get',{type:hash},this.renderList);
+        Util.requestApi('?r=order/get',{type:type},this.renderList);
     }
     //订单管理页面
     ,runMain: function() {
+        var type = Util.getHash();
+        if ( !this.order_types[type]) {
+            type = 'all';
+        }
         this.bindMainEvent();
-        this.loadOrder();
+        this.loadOrder(type);
         
     }
 };
