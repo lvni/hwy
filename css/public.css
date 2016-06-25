@@ -136,7 +136,7 @@ input, select {
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
 /* line 5, ../sass/_extend.scss */
-.u-bottomcount:before, .u-myproduct-bottomedit:before, .sales-right-03:after, .u-index-title:after, .u-orderrecordbox:before, .u-infolistbox:before, .u-top-msg:after, .u-searchhistory > .title:after, .u-searchhistory .cont > li:after, .u-person-head:after, .u-person-order > .title:after, .u-sortnav:after, .u-popodbox > .editphoto > p:after, .u-popodbox > .editphoto > label:after, .u-choosecontbox > .priceboxes:after, .u-nav-autowidth:after, .u-explain > .title:after, .u-myproduct-editpopod > .nav:after, .u-myincome-head .tr:after, .u-myincome-head .tr .rightbox > .cont:after, .u-myincome-search > .title:after, .u-collection-search:after, .u-img-a-list > a:after, .u-shoppingCartlist .editbox:after, .u-shoppingCartlist > label:after, .u-list-arrow > a:after, .u-arrow-list > .list:after, .u-radiolist > .u-list-justify:after, .u-orderrecordbox .tr:after, .u-collection-productlist:after, .u-infolistbox:after, .u-messagelist:after {
+.u-bottomcount:before, .u-myproduct-bottomedit:before, .sales-right-03:after, .u-index-title:after, .u-morefunction > .contbox > button:after, .u-orderrecordbox:before, .u-infolistbox:before, .u-top-msg:after, .u-searchhistory > .title:after, .u-searchhistory .cont > li:after, .u-person-head:after, .u-person-order > .title:after, .u-sortnav:after, .u-popodbox > .editphoto > p:after, .u-popodbox > .editphoto > label:after, .u-choosecontbox > .priceboxes:after, .u-nav-autowidth:after, .u-explain > .title:after, .u-myproduct-editpopod > .nav:after, .u-myincome-head .tr:after, .u-myincome-head .tr .rightbox > .cont:after, .u-myincome-search > .title:after, .u-collection-search:after, .u-img-a-list > a:after, .u-shoppingCartlist .editbox:after, .u-shoppingCartlist > label:after, .u-list-arrow > a:after, .u-arrow-list > .list:after, .u-radiolist > .u-list-justify:after, .u-orderrecordbox .tr:after, .u-collection-productlist:after, .u-infolistbox:after, .u-messagelist:after {
   width: 100%;
   height: 1px;
   background: #e2e2e2;
@@ -145,7 +145,7 @@ input, select {
   left: 0px; }
 
 /* line 13, ../sass/_extend.scss */
-.u-bottomcount:before, .u-myproduct-bottomedit:before, .sales-right-03:after, .u-index-title:after, .u-orderrecordbox:before, .u-infolistbox:before, .u-top-msg:after, .u-searchhistory > .title:after, .u-searchhistory .cont > li:after, .u-person-head:after, .u-person-order > .title:after, .u-sortnav:after, .u-popodbox > .editphoto > p:after, .u-popodbox > .editphoto > label:after, .u-choosecontbox > .priceboxes:after, .u-nav-autowidth:after, .u-explain > .title:after, .u-myproduct-editpopod > .nav:after, .u-myincome-head .tr:after, .u-myincome-head .tr .rightbox > .cont:after, .u-myincome-search > .title:after, .u-collection-search:after, .u-img-a-list > a:after, .u-shoppingCartlist .editbox:after, .u-shoppingCartlist > label:after, .u-list-arrow > a:after, .u-arrow-list > .list:after, .u-radiolist > .u-list-justify:after, .u-orderrecordbox .tr:after, .u-collection-productlist:after, .u-infolistbox:after, .u-messagelist:after, .u-myincome-head .tr > div:not(:last-child):after, .u-myincome-head .tr > a:not(:last-child):after, .u-box-left39-right61 .sales-left:after, .sales-right-01:after, .u-orderrecordbox .td:after {
+.u-bottomcount:before, .u-myproduct-bottomedit:before, .sales-right-03:after, .u-index-title:after, .u-morefunction > .contbox > button:after, .u-orderrecordbox:before, .u-infolistbox:before, .u-top-msg:after, .u-searchhistory > .title:after, .u-searchhistory .cont > li:after, .u-person-head:after, .u-person-order > .title:after, .u-sortnav:after, .u-popodbox > .editphoto > p:after, .u-popodbox > .editphoto > label:after, .u-choosecontbox > .priceboxes:after, .u-nav-autowidth:after, .u-explain > .title:after, .u-myproduct-editpopod > .nav:after, .u-myincome-head .tr:after, .u-myincome-head .tr .rightbox > .cont:after, .u-myincome-search > .title:after, .u-collection-search:after, .u-img-a-list > a:after, .u-shoppingCartlist .editbox:after, .u-shoppingCartlist > label:after, .u-list-arrow > a:after, .u-arrow-list > .list:after, .u-radiolist > .u-list-justify:after, .u-orderrecordbox .tr:after, .u-collection-productlist:after, .u-infolistbox:after, .u-messagelist:after, .u-myincome-head .tr > div:not(:last-child):after, .u-myincome-head .tr > a:not(:last-child):after, .u-box-left39-right61 .sales-left:after, .sales-right-01:after, .u-orderrecordbox .td:after {
   content: '';
   display: block;
   position: absolute; }
@@ -161,7 +161,7 @@ input, select {
   -webkit-transform: scaleX(0.5); }
 
 /* line 28, ../sass/_extend.scss */
-.u-bottomcount:before, .u-myproduct-bottomedit:before, .sales-right-03:after, .u-index-title:after, .u-orderrecordbox:before, .u-infolistbox:before {
+.u-bottomcount:before, .u-myproduct-bottomedit:before, .sales-right-03:after, .u-index-title:after, .u-morefunction > .contbox > button:after, .u-orderrecordbox:before, .u-infolistbox:before {
   top: -1px; }
 
 /* line 31, ../sass/_extend.scss */
@@ -187,7 +187,7 @@ input, select {
   border: 1px solid #e2e2e2; }
 
 /* line 51, ../sass/_extend.scss */
-.u-top-msg .msgbox, .u-top-msg .saoyisao, .u-person-head > .msgbox, .u-barcode, .u-popodbox, .u-myincome-row, .u-havenoProduct, .u-refresh, .u-refresh > .line {
+.u-top-msg .msgbox, .u-top-msg .saoyisao, .u-person-head > .msgbox, .u-barcode, .u-popodbox, .u-myincome-row, .u-havenoProduct, .u-refresh, .u-refresh > .line, .u-morefunction > .contbox > .cont > .box {
   display: -webkit-box;
   -webkit-box-pack: center;
   -webkit-box-align: center; }
@@ -1933,36 +1933,91 @@ button {
     .u-enterinfobox > .input::-webkit-input-placeholder {
       color: #fff; }
 
+/*我的收藏的取消弹窗*/
+/* line 1738, ../sass/_default.scss */
+.u-morefunction {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 100; }
+  /* line 1747, ../sass/_default.scss */
+  .u-morefunction > .contbox {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    display: -webkit-box;
+    padding: 0px 20px;
+    padding-bottom: 3.7rem;
+    width: 100%;
+    background: #f1f1f1;
+    box-sizing: border-box; }
+    /* line 1757, ../sass/_default.scss */
+    .u-morefunction > .contbox > button {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      background: #ffffff;
+      color: #000000;
+      font-color: #666666;
+      border-radius: 0px; }
+    /* line 1770, ../sass/_default.scss */
+    .u-morefunction > .contbox > .cont {
+      display: block;
+      padding: 20px 0;
+      -webkit-box-flex: 1;
+      color: #666666;
+      font-size: 12px;
+      text-align: center; }
+      /* line 1777, ../sass/_default.scss */
+      .u-morefunction > .contbox > .cont > .box {
+        margin: 0px auto;
+        width: 43px;
+        height: 43px;
+        border: 1px solid #cccccc;
+        background: #ffffff;
+        border-radius: 4px; }
+        /* line 1785, ../sass/_default.scss */
+        .u-morefunction > .contbox > .cont > .box > img {
+          width: 25px; }
+      /* line 1789, ../sass/_default.scss */
+      .u-morefunction > .contbox > .cont > p {
+        padding-top: 5px; }
+
 /*一些独立的样式*/
-/* line 1749, ../sass/_default.scss */
+/* line 1808, ../sass/_default.scss */
 .fs-16 {
   font-size: 16px; }
 
-/* line 1752, ../sass/_default.scss */
+/* line 1811, ../sass/_default.scss */
 .fs-15 {
   font-size: 15px; }
 
-/* line 1755, ../sass/_default.scss */
+/* line 1814, ../sass/_default.scss */
 .fs-14 {
   font-size: 14px; }
 
-/* line 1758, ../sass/_default.scss */
+/* line 1817, ../sass/_default.scss */
 .fs-13 {
   font-size: 13px; }
 
-/* line 1761, ../sass/_default.scss */
+/* line 1820, ../sass/_default.scss */
 .fs-12 {
   font-size: 12px; }
 
-/* line 1765, ../sass/_default.scss */
+/* line 1824, ../sass/_default.scss */
 .fs-11 {
   font-size: 11px; }
 
-/* line 1768, ../sass/_default.scss */
+/* line 1827, ../sass/_default.scss */
 .del {
   text-decoration: line-through; }
 
-/* line 1771, ../sass/_default.scss */
+/* line 1830, ../sass/_default.scss */
 .mr-10-0 {
   margin: 10px 0; }
 
