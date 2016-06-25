@@ -14,6 +14,7 @@ var config = {
         'home': 'index.html', //首页
         'address_edit': 'address-edit.html', //地址编辑页面
         'order_pay': 'myorder-paymode.html', //订单支付页面
+        'order_detail': 'myorder-details.html',
         'user_king' : 'king.html',
         'collection': 'collection.html', //我的收藏
     },
@@ -35,6 +36,10 @@ var messageBox = {
     
 };
 
+String.prototype.replaceAll = function(s1,s2) { 
+    return this.replace(new RegExp(s1,"gm"),s2); 
+}
+
 var Template = {
     id: 0,
     template: '',
@@ -50,7 +55,7 @@ var Template = {
     renderByTempate: function(template, data) {
         var html = template;
         for (i in data) {
-            html = html.replace("{$"+i+"}", data[i]);
+            html = html.replaceAll("\{\\$"+i+"\}", data[i]);
         }
         return html;
     }
@@ -924,6 +929,7 @@ var Order = {
         this.bindConfirmEvent();
     }
     
+    //订单主页面事件绑定
     ,bindMainEvent: function() {
         var me = this;
         
@@ -931,6 +937,12 @@ var Order = {
                 var order_type = $(this).attr('data-type');
                 Util.setHash(order_type);
                 me.loadOrder();
+        });
+        $('#js-contbox01').delegate('.u-productlist02', 'click', function(){
+              var order_sn = $(this).attr('order-sn');
+              if (order_sn) {
+                  window.location.href = config.page.order_detail + "?order=" + order_sn;
+              }
         });
     }
     ,renderList: function(data) {
