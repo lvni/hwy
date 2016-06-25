@@ -34,6 +34,28 @@ var messageBox = {
     }
     
 };
+
+var Template = {
+    id: 0,
+    template: '',
+    renderById: function(id, data) {
+        this.id = id;
+        this.template = $('#'+id).html();
+        var html = this.template;
+        for (i in data) {
+            html = html.replace("{$"+i+"}", data[i]);
+        }
+        return html;
+    },
+    renderByTempate: function(template, data) {
+        var html = template;
+        for (i in data) {
+            html = html.replace("{$"+i+"}", data[i]);
+        }
+        return html;
+    }
+
+};
 //公共工具
 var Util = {
     //防止注入，将字符串转义
@@ -94,6 +116,12 @@ var Util = {
     }
     ,goGoodsDetail: function(id) {
         window.location.href = "details.html?id=" + id ;
+    }
+    ,getHash: function() {
+        return location.hash.replace('#', '');  
+    }
+    ,setHash: function(str) {
+        location.hash = str;
     }
 };
 //存储相关
@@ -765,6 +793,13 @@ var Bootstrap = {
 //订单相关处理
 var Order = {
     order_info : {}
+    ,order_types : {
+        'all':0,
+        'wait_pay': 100,
+        'wait_ship': 101,
+        'wait_receive': 103,
+        'wait_comment':104,
+    }
     ,bindConfirmEvent: function() {
         var me = this;
         var lock = false;
@@ -887,6 +922,99 @@ var Order = {
     ,runConfirm: function() {
         this.loadOrderInfo();
         this.bindConfirmEvent();
+    }
+    
+    ,bindMainEvent: function() {
+        var me = this;
+        
+        $('#js-changecont').delegate('div', 'click', function() {
+                var order_type = $(this).attr('data-type');
+                Util.setHash(order_type);
+                me.loadOrder();
+        });
+    }
+    ,renderList: function(data) {
+        if (data.errno == ErrorCode.NO_LOGIN) {
+             Util.goLogin("myorder-allorders.html");
+             return;
+        }
+        if (data.errno != 0) {
+            messageBox.toast(data.errmsg);
+        }
+        if (data.data.list.length == 0) {
+            //列表为空
+            var html = $('#order_tips').html().replace('{$tips}', "空空如也");
+            $('#js-contbox01').html(html);
+            return;
+        }
+        var html = "";
+        var templte = $('#order_list_item').html();
+        var normalBntTemplate = $('#order_list_button').html();
+        var mainBntTemplate = $('#order_list_button_main').html();
+        var tips  = "";
+        for (i in data.data.list) {
+            var Buttons = "";
+            var goods = data.data.list[i];
+            goods.goods_cost = parseInt(goods.goods_price) * goods.goods_number;
+            goods.goods_count = goods.goods_number;
+            if (goods.order_status == 100) {
+                //待支付
+                tips = "待付款";
+                Buttons += normalBntTemplate.replace('{$type}', 'cancel').replace('{$tips}', '取消订单');
+                Buttons += mainBntTemplate.replace('{$type}', 'pay').replace('{$tips}', '立即付款');
+            }
+            if (goods.order_status == 101) {
+                //待发货
+                tips = "待发货";
+                Buttons += mainBntTemplate.replace('{$type}', 'remind').replace('{$tips}', '提醒发货');
+            }
+            if (goods.order_status == 103) {
+                //待收货
+                tips = "待收货";
+                Buttons += mainBntTemplate.replace('{$type}', 'receive').replace('{$tips}', '确认收货');
+            }
+            if (goods.order_status == 104) {
+                //待评价
+                tips = "待评价";
+                Buttons += mainBntTemplate.replace('{$type}', 'comment').replace('{$tips}', '立即评价');
+            }
+            if (goods.order_status == 102) {
+                tips = "已完成";
+                //已完成，已评价
+                Buttons += mainBntTemplate.replace('{$type}', 'done').replace('{$tips}', '已完成');
+            }
+            goods.buttons = Buttons;
+            goods.order_tips = tips;
+            var list_item = Template.renderByTempate(templte, goods);
+            html += list_item;
+            
+        }
+        $('#js-contbox01').html(html);
+    }
+    ,showLoading: function() {
+        var html = $('#order_tips').html().replace('{$tips}', "加载中 ...");
+        $('#js-contbox01').html(html);
+    }
+    ,closeLoading: function() {
+        
+    }
+    ,loadOrder: function() {
+        var hash = Util.getHash();
+        if ( !this.order_types[hash]) {
+            hash = 'all';
+        }
+        if (hash) {
+            $('#js-changecont div').removeClass('on');
+            $('#js-changecont div[data-type= ' +hash + ']' ).addClass('on');
+        }
+        this.showLoading();
+        Util.requestApi('?r=order/get',{type:hash},this.renderList);
+    }
+    //订单管理页面
+    ,runMain: function() {
+        this.bindMainEvent();
+        this.loadOrder();
+        
     }
 };
 
