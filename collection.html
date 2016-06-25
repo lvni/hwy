@@ -28,63 +28,28 @@
     </div>
 </div>
 <div class="productlistbox">
-    <div class="u-collection-productlist sold">
-        <img src="img/headphoto.jpg" class="photo" onclick="javascript:window.location.href='details.html'">
-        <p class="name" onclick="javascript:window.location.href='details.html'">翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</p>
-        <p class="state">
-            <img src="img/hwicon_07.png" class="icon">
-            <i>已结缘</i>
-        </p>
-        <div class="info">
-            <p class="price"><i>￥</i>1880.00</p>
-            <p class="count"><img src="img/more.png" class="more"></p>
-        </div>
-    </div>
-    <div class="u-collection-productlist sold">
-        <img src="img/headphoto.jpg" class="photo" onclick="javascript:window.location.href='details.html'">
-        <p class="name" onclick="javascript:window.location.href='details.html'">翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</p>
-        <p class="state">
-            <img src="img/hwicon_07.png" class="icon">
-            <i>已结缘</i>
-        </p>
-        <div class="info">
-            <p class="price"><i>￥</i>1880.00</p>
-            <p class="count"><img src="img/more.png" class="more"></p>
-        </div>
-    </div>
-    <div class="u-collection-productlist sold">
-        <img src="img/headphoto.jpg" class="photo" onclick="javascript:window.location.href='details.html'">
-        <p class="name" onclick="javascript:window.location.href='details.html'">翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</p>
-        <p class="state">
-            <img src="img/hwicon_07.png" class="icon">
-            <i>已结缘</i>
-        </p>
-        <div class="info">
-            <p class="price"><i>￥</i>1880.00</p>
-            <p class="count"><img src="img/more.png" class="more"></p>
-        </div>
-    </div>
+    
 </div>
-<div class="u-morefunction" id="js-moreFunction">
+<div class="u-morefunction" id="js-moreFunction" data-id="0">
     <div class="contbox">
-        <a href="#" class="cont">
+        <a href="javascript:;" class="cont" data-action="add-cart">
             <div class="box">
                 <img src="img/car.png">
             </div>
             <p>加入购物车</p>
         </a>
-        <a href="#" class="cont">
+        <a href="javascript:;" class="cont"  data-action="remove">
             <div class="box">
                 <img src="img/star.png">
             </div>
             <p>取消收藏</p>
         </a>
-        <a href="#" class="cont">
+        <!-- <a href="#" class="cont">
             <div class="box">
                 <img src="img/share123.png">
             </div>
             <p>分享</p>
-        </a>
+        </a> -->
         <button class="u-button-gray">
             <span>取消</span>
         </button>
@@ -92,8 +57,8 @@
 </div>
 
 <script type="text/template" id="collect_list_tempate">
-<div class="u-collection-productlist {$sold}" data-id="{$goods_id}">
-        <img src="{$goods_img}" class="photo" >
+<div class="u-collection-productlist {$sold}" >
+        <img src="{$goods_img}" class="photo" data-id="{$goods_id}">
         <p class="name"  >{$goods_name}</p>
         <p class="state">
             {$icon}
@@ -102,7 +67,7 @@
         </p>
         <div class="info">
             <p class="price"><i>￥</i>{$goods_price}</p>
-            <p class="count"><img src="img/hwicon_11.png"><i>{$likes_count}</i><img src="img/hwicon_13.png"><i>{$fav_count}</i></p>
+            <p class="count" data-id="{$goods_id}"><img src="img/more.png" class="more"></p>
         </div>
     </div>
 </script>
@@ -110,21 +75,8 @@
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
 <script>
-    //Collection.run();
-    (function(){
-        var popupbox = document.getElementById('js-moreFunction'),
-        collectionList = document.querySelectorAll('.u-collection-productlist');
-        (function(){
-            for(var i = 0, len = collectionList.length; i < len; i++){
-                collectionList[i].querySelector('.more').addEventListener('click',function(){
-                    popupbox.style.display = 'block';
-                })
-            }
-        })();
-        popupbox.querySelector('button').addEventListener('click',function(){
-            popupbox.style.display = 'none';
-        })
-    })();
+   Collection.run();
+
 </script>
 </body>
 </html>

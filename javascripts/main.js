@@ -346,12 +346,8 @@ var SearchBox = {
 var goodsCart = {
     
     
-    //购物车操作
-    bindAddEvent: function() {
-        var me = this;
-        $('#add').click(function(){
-            var goodsId = $(this).attr('data-id');
-            var api = config.api + "?r=cart/add";
+    add: function(goodsId) {
+        var api = config.api + "?r=cart/add";
             $.ajax({
                 url: api,
                 dataType : "jsonp",
@@ -360,6 +356,13 @@ var goodsCart = {
                     messageBox.toast(data.errmsg);
                 }
             });
+    }
+    //购物车操作
+    ,bindAddEvent: function() {
+        var me = this;
+        $('#add').click(function(){
+            var goodsId = $(this).attr('data-id');
+            me.add(goodsId);
         });
         
     }
@@ -1293,18 +1296,49 @@ var User = {
 //收藏相关
 var Collection = {
     
-    run: function() {
+    remove: function(goods_ids, callback) {
+        Util.requestApi('?r=collect/remove', {goods_ids:goods_ids}, callback);
+    }
+    ,run: function() {
         Util.requestApi('?r=collect/get', {}, this.renderList);
         this.bindEvent();
     }
     ,bindEvent: function(){
-        
-        $('.productlistbox').delegate(".u-collection-productlist ", 'click', function(){
+        var me = this;
+        $('.productlistbox').delegate(".photo ", 'click', function(){
             
             var goods_id = $(this).attr('data-id');
             if (goods_id) {
                 Util.goGoodsDetail(goods_id);
             }
+        });
+        
+        $('.productlistbox').delegate(".count ", 'click', function() {
+                $('#js-moreFunction').attr('data-id', $(this).attr('data-id'));
+                $('#js-moreFunction').show();
+        });
+        
+        $('#js-moreFunction .u-button-gray').click(function() {
+            $('#js-moreFunction').hide();
+        });
+        $('#js-moreFunction').delegate('.cont', 'click', function(){
+            
+             var type = $(this).attr('data-action');
+             var goods_id = $('#js-moreFunction').attr('data-id');
+             if ('add-cart' == type) {
+                 goodsCart.add(goods_id);
+             }
+             if ('remove' == type) {
+                 me.remove(goods_id, function(data){
+                     messageBox.toast(data.errmsg);
+                     if (data.errno == 0) {
+                        //重新获取 
+                        $('#js-moreFunction').hide();
+                        Util.requestApi('?r=collect/get', {}, me.renderList);
+                     }
+                 });
+             }
+             
         });
     }
     //渲染列表
@@ -1329,15 +1363,10 @@ var Collection = {
                 icon = '<img src="img/hwicon_07.png" class="icon">';
                 tips = "已结缘";
             }
-            html += tempate.replace('{$goods_id}', item.goods_id)
-                                    .replace('{$goods_img}',item.goods_img)
-                                    .replace('{$icon}', icon)
-                                    .replace('{$sold}', sold)
-                                    .replace('{$tips}', tips)
-                                    .replace('{$goods_name}',item.goods_name)
-                                    .replace('{$goods_price}',item.goods_price)
-                                    .replace('{$likes_count}',item.likes_count)
-                                    .replace('{$fav_count}',item.fav_count);
+            item.sold = sold;
+            item.tips = tips;            
+            item.icon = icon;            
+            html += Template.renderByTempate(tempate, item);
         }
         $('.productlistbox').html(html);
     }
