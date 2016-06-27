@@ -1,4 +1,4 @@
-'use script'
+/*'use script'*/
 /**
  * @author zhangyuliang
  * @date 2016-06
@@ -888,7 +888,7 @@ var Order = {
                            .replace('{$goods_num}', item.goods_num)
                            .replace('{$goods_sn}', item.goods_sn);
             */
-            html += Template.renderByTempate(template, item);
+            html += Template.renderByTempate(tempate, item);
         }
         $(html).insertAfter('.placeorder-address');
         $('#order_confirm_num').html(data.goods_count);
@@ -1112,7 +1112,7 @@ var Address = {
     cfg : {}
     
     //获取选择的地址
-    ,getSelectedAddressId() {
+    ,getSelectedAddressId: function() {
         var addressId = $('.u-arrow-list input[type=radio]:checked').attr('data-id');
         return addressId;
     }
