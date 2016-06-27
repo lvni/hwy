@@ -54,10 +54,19 @@
     <div class="wechatbox">
         <img src="img/login01_15.png" class="wechatlogo">
     </div>
-    <button class="wechatbutton" onclick="javascript:window.location.href='http://h5.hong5ye.com/api/backend/web/index.php?r=user/loginwx'">
+    <button class="wechatbutton">
         <span>微信一键登录更方便</span>
     </button>
 </div>
-
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    $('.wechatbutton').click(function(){  
+        var redirect = Util.getQueryString(redirect);
+        Util.goWxLogin('redirect');
+    });
+});
+</script>
 </body>
 </html>

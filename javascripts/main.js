@@ -59,6 +59,7 @@ var Template = {
         }
         return html;
     }
+    
 
 };
 //公共工具
@@ -128,6 +129,19 @@ var Util = {
     ,setHash: function(str) {
         location.hash = str;
     }
+    //公众号内登录
+    ,goWxLogin: function(redirect) {
+        var url = config.api + "?r=user/loginwx";
+        if (redirect) {
+            url += "&redirect=" + redirect;
+        }
+        window.location.href = url;
+    }
+    //微信扫码登录
+    ,goWxQrLogin: function(redirect) {
+        
+    }
+  
 };
 //存储相关
 var Storge = {
