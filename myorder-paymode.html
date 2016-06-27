@@ -5,6 +5,27 @@
 <title>我的收货地址</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/myorder-paymode.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        function isWeiXin(){
+            return true;
+            var ua = window.navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        //
+        if (isWeiXin()) {
+            var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
+            script.setAttribute("href", url);  
+            var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+        }
+    </script>
 </head>
 
 <body>
@@ -18,10 +39,10 @@
 </div>
 <div class="u-list-justify">
     <p class="left">需支付</p>
-    <p class="right red">￥1882.00</p>
+    <p class="right red">￥ <span id="order_fee"></span></p>
 </div>
 <div class="u-arrow-list">
-    <a href="#" class="list">
+    <a href="javascript:;" class="list" pay-type='weixin'>
         <img src="img/paymode01.png" class="icon">
         <div class="contbox">
             <h3 class="title"><p class="name">微信支付</p></h3>
@@ -29,6 +50,7 @@
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
+    <!--
     <a href="#" class="list">
         <img src="img/paymode02.png" class="icon">
         <div class="contbox">
@@ -53,6 +75,12 @@
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
+    -->
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+Order.runPayment();
+</script>
 </body>
 </html>

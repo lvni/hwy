@@ -887,7 +887,10 @@ var Order = {
     
     //跳转去支付
     ,gotoPay: function(order_sn) {
-           window.location.href = config.page.order_pay + "?order=" + order_sn ;
+        window.location.href = config.page.order_pay + "?order=" + order_sn ;
+    }
+    ,gotoDetail: function(order_sn) {
+        window.location.href = config.page.order_detail + "?order=" + order_sn ;
     }
     ,renderConfirmPage: function(data) {
         var tempate = $('#confirm_goods_template').html();
@@ -964,6 +967,18 @@ var Order = {
                   window.location.href = config.page.order_detail + "?order=" + order_sn;
               }
         });
+        $('body').delegate('button', 'click', function(){
+            
+            var order_sn = $(this).closest('.buttonbox').attr('order-sn'); 
+            var type = $(this).attr('data-type');
+            if (!order_sn) {
+                return ;
+            }
+            if (type == 'pay') {
+                window.location.href = config.page.order_pay + "?order=" + order_sn;
+            }
+        });
+        
     }
     //获取支付相关按钮
     ,renderPayBntsAndTips: function(goods) {
@@ -1117,6 +1132,93 @@ var Order = {
     ,runDetail: function() {
         var order_sn = Util.getQueryString('order');
         Util.requestApi('?r=order/detail',{order_sn:order_sn},this.renderDetail);
+    }
+    
+    //支付选择页面
+    //请求微信支付的参数
+    ,getWxPayParams: function(orderSn) {
+        var api = config.api + "?r=order/weixinpayid";
+        var ret = {};
+        $.ajax({
+            url: api,
+            data: {order: orderSn},
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                ret = data;
+            }
+            
+        });
+        return ret;
+    }
+    ,weixinPay: function(orderSn) {
+        var me = Order;
+        if (!me.wxParams) {
+             
+        }
+        me.wxParams = me.getWxPayParams(orderSn);
+        if (me.wxParams.errno != 0) {
+            messageBox.toast(me.wxParams.errmsg);
+            return;
+         }
+         function onBridgeReady(){
+           WeixinJSBridge.invoke(
+               'getBrandWCPayRequest', me.wxParams.data,
+               function(res){     
+                    console.log(res);
+                    if (res.err_code) {
+                        //有错误码，则表示支付失败
+                         messageBox.toast("支付失败");
+                    } else {
+                        //支付成功，进入订单详情页面
+                        messageBox.toast("支付成功");
+                        me.gotoDetail(orderSn);
+                    }
+                    
+               }
+           ); 
+        }
+        if (typeof WeixinJSBridge == "undefined"){
+           if( document.addEventListener ){
+               document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+           }else if (document.attachEvent){
+               document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+               document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+           }
+        }else{
+           onBridgeReady();
+        }
+    }
+    ,bindPaymentEvent: function(orderSn){
+        //u-arrow-list
+        var me = this;
+        
+        $('.u-arrow-list').delegate('.list', 'click', function(){
+             var payType = $(this).attr('pay-type');
+             
+             if (payType == 'weixin') {
+                 //微信支付
+                 me.weixinPay(orderSn);
+                 
+             }
+        });
+
+        }
+    ,runPayment: function() {
+        var orderSn = Util.getQueryString('order');
+        var me = this;
+        var errmsg = "";
+        Util.requestApi('?r=order/getpayments', {order:orderSn}, function(data){
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+                errmsg = data.errmsg;
+            } else {
+                $('#order_fee').html(data.data.total_fee);
+                
+                //可以支付再绑定事件
+                me.bindPaymentEvent(orderSn);
+            }
+        });
     }
 };
 
