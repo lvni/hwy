@@ -880,12 +880,15 @@ var Order = {
         var html = "";
         for(i in data.list) {
             var item = data.list[i];
+            /**
             html += tempate.replace('{$goods_name}', item.goods_name)
                            .replace('{$goods_img}', item.goods_img)
                            .replace('{$goods_id}', item.goods_id)
                            .replace('{$goods_price}', item.goods_price)
                            .replace('{$goods_num}', item.goods_num)
                            .replace('{$goods_sn}', item.goods_sn);
+            */
+            html += Template.renderByTempate(template, item);
         }
         $(html).insertAfter('.placeorder-address');
         $('#order_confirm_num').html(data.goods_count);
@@ -948,30 +951,11 @@ var Order = {
               }
         });
     }
-    ,renderList: function(data) {
-        if (data.errno == ErrorCode.NO_LOGIN) {
-             Util.goLogin("myorder-allorders.html");
-             return;
-        }
-        if (data.errno != 0) {
-            messageBox.toast(data.errmsg);
-        }
-        if (data.data.list.length == 0) {
-            //列表为空
-            var html = $('#order_list_empty').html();
-            $('#js-contbox01').html(html);
-            return;
-        }
-        var html = "";
-        var templte = $('#order_list_item').html();
-        var normalBntTemplate = $('#order_list_button').html();
-        var mainBntTemplate = $('#order_list_button_main').html();
-        var tips  = "";
-        for (i in data.data.list) {
+    //获取支付相关按钮
+    ,renderPayBntsAndTips: function(goods) {
+            var normalBntTemplate = $('#order_list_button').html();
+            var mainBntTemplate = $('#order_list_button_main').html();
             var Buttons = "";
-            var goods = data.data.list[i];
-            goods.goods_cost = parseInt(goods.goods_price) * goods.goods_number;
-            goods.goods_count = goods.goods_number;
             if (goods.order_status == 100) {
                 //待支付
                 tips = "待付款";
@@ -998,8 +982,66 @@ var Order = {
                 //已完成，已评价
                 Buttons += mainBntTemplate.replace('{$type}', 'done').replace('{$tips}', '已完成');
             }
-            goods.buttons = Buttons;
-            goods.order_tips = tips;
+            
+            return {'bnt': Buttons, 'tips': tips};
+    }
+    ,getOrderTips: function (order_info) {
+        var tips = {
+            100: {
+                t: "等待买家付款",
+                st: "48小时内未付款自动取消订单",
+            },
+            101: {
+                t: "等待商家发货",
+                st: "成功付款后48小时内发货",
+            },
+            102: {
+                t: "交易已完成",
+                st: "感谢您惠顾",
+            },
+            103: {
+                t: "商品已发出",
+                st: "",
+            },
+            104: {
+                t: "交易完成",
+                st: "感谢您惠顾",
+            }
+        };
+        if (order_info.order_status in tips) {
+                return tips[order_info.order_status];
+        }
+        return tips[104];
+    } 
+    ,renderList: function(data) {
+        
+        var me = this;
+        if (data.errno == ErrorCode.NO_LOGIN) {
+             Util.goLogin("myorder-allorders.html");
+             return;
+        }
+        if (data.errno != 0) {
+            messageBox.toast(data.errmsg);
+        }
+        if (data.data.list.length == 0) {
+            //列表为空
+            var html = $('#order_list_empty').html();
+            $('#js-contbox01').html(html);
+            return;
+        }
+        var html = "";
+        var templte = $('#order_list_item').html();
+        var normalBntTemplate = $('#order_list_button').html();
+        var mainBntTemplate = $('#order_list_button_main').html();
+        var tips  = "";
+        for (i in data.data.list) {
+            var Buttons = "";
+            var goods = data.data.list[i];
+            goods.goods_cost = parseInt(goods.goods_price) * goods.goods_number;
+            goods.goods_count = goods.goods_number;
+            var BntAndTips = Order.renderPayBntsAndTips(goods);
+            goods.buttons = BntAndTips.bnt;
+            goods.order_tips = BntAndTips.tips;
             var list_item = Template.renderByTempate(templte, goods);
             html += list_item;
             
@@ -1043,6 +1085,16 @@ var Order = {
         for (i in goodsList) {
             goods_list_html += Template.renderByTempate(goods_item_template, goodsList[i]);
         }
+        var orderTips = {
+            
+            
+        };
+        //获取订单不同状态的操作按钮
+        var BntAndTips = Order.renderPayBntsAndTips(data.data);
+        data.data.buttons = BntAndTips.bnt;
+        var Tips = Order.getOrderTips(data.data);
+        data.data.tips = Tips.t;
+        data.data.sub_tips = Tips.st;
         data.data.goods_list_html = goods_list_html;
         var html = Template.renderByTempate(template, data.data);
         $(html).insertAfter('.u-top-msg');

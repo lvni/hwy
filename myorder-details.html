@@ -29,8 +29,8 @@
 <script id="order_detail_template" type="text/template">
 <div class="details-head" >
     <img src="img/orderdetails_03.png" class="icon">
-    <h2 class="title">等待买家付款</h2>
-    <p class="tips">48小时内未付款自动取消订单</p>
+    <h2 class="title">{$tips}</h2>
+    <p class="tips">{$sub_tips}</p>
 </div>
 <div class="u-arrow-list details-address">
     <div  class="list">
@@ -74,15 +74,7 @@
     <p>创建时间：{$order_date}</p>
 </div>
 <div class="bottom-buttonbox">
-    <button class="u-button-little-white" onclick="javascript:window.location.href='myorder-cancel.html'">
-        <span>取消订单</span>
-    </button>
-    <button class="u-button-little-white">
-        <span>找人代付</span>
-    </button>
-    <button class="u-mainbutton-little" onclick="javascript:window.location.href='myorder-paymode.html'">
-        <span>立即付款</span>
-    </button>
+    {$buttons}
 </div>
 </script>
 <script id="order_goods_template" type="text/template">
@@ -99,6 +91,15 @@
         </div>
     </div>
 </div>
+</script>
+<script  type="text/template" id="order_list_button">
+<button class="u-button-little-white" data-type="{$type}"><span>{$tips}</span>
+</button>
+</script>
+<script  type="text/template" id="order_list_button_main">
+<button class="u-mainbutton-little" data-type="{$type}">
+    <span>{$tips}</span>
+</button>
 </script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
