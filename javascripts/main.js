@@ -17,6 +17,7 @@ var config = {
         'order_detail': 'myorder-details.html',
         'user_king' : 'king.html',
         'collection': 'collection.html', //我的收藏
+        'income_king' : 'myincome-king.html', //我的收入
     },
 };
 //错误码
@@ -140,6 +141,10 @@ var Util = {
     //微信扫码登录
     ,goWxQrLogin: function(redirect) {
         
+    }
+    ,addLoding: function(target, tips) {
+        var div = "<div style='text-align:center;padding-top:100px;'>"+tips+"</div>";
+        target.html(div);
     }
   
 };
@@ -975,7 +980,20 @@ var Order = {
                 return ;
             }
             if (type == 'pay') {
+                //去支付
                 window.location.href = config.page.order_pay + "?order=" + order_sn;
+            }
+            if (type == 'cancel') {
+                //取消订单
+                Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
+                        messageBox.toast(data.errmsg);
+                        if (data.errno == 0) {
+                            //重新加载列表
+                            var type = $('#js-changecont .on').attr('data-type');
+                            me.this.loadOrder(type);
+                        }
+                    
+                });
             }
         });
         
@@ -985,6 +1003,7 @@ var Order = {
             var normalBntTemplate = $('#order_list_button').html();
             var mainBntTemplate = $('#order_list_button_main').html();
             var Buttons = "";
+            var tips = "";
             if (goods.order_status == 100) {
                 //待支付
                 tips = "待付款";
@@ -1011,6 +1030,9 @@ var Order = {
                 //已完成，已评价
                 Buttons += mainBntTemplate.replace('{$type}', 'done').replace('{$tips}', '已完成');
             }
+            if (goods.order_status == 105) {
+                tips = "已取消";
+            }
             
             return {'bnt': Buttons, 'tips': tips};
     }
@@ -1034,6 +1056,10 @@ var Order = {
             },
             104: {
                 t: "交易完成",
+                st: "感谢您惠顾",
+            },
+            104: {
+                t: "交易已取消",
                 st: "感谢您惠顾",
             }
         };
@@ -1114,10 +1140,6 @@ var Order = {
         for (i in goodsList) {
             goods_list_html += Template.renderByTempate(goods_item_template, goodsList[i]);
         }
-        var orderTips = {
-            
-            
-        };
         //获取订单不同状态的操作按钮
         var BntAndTips = Order.renderPayBntsAndTips(data.data);
         data.data.buttons = BntAndTips.bnt;
@@ -1151,6 +1173,7 @@ var Order = {
         });
         return ret;
     }
+    //微信公众号支付
     ,weixinPay: function(orderSn) {
         var me = Order;
         if (!me.wxParams) {
@@ -1169,10 +1192,12 @@ var Order = {
                     if (res.err_code) {
                         //有错误码，则表示支付失败
                          messageBox.toast("支付失败");
-                    } else {
+                    } else if (res.err_msg == 'get_brand_wcpay_request:cancel'){
                         //支付成功，进入订单详情页面
-                        messageBox.toast("支付成功");
+                        messageBox.toast("已取消支付");
                         me.gotoDetail(orderSn);
+                    } else if (res.err_msg == 'get_brand_wcpay_request:ok') {
+                        me.gotoDetail("支付成功");
                     }
                     
                }
@@ -1212,6 +1237,7 @@ var Order = {
             if (data.errno != 0) {
                 messageBox.toast(data.errmsg);
                 errmsg = data.errmsg;
+                me.gotoDetail(orderSn);
             } else {
                 $('#order_fee').html(data.data.total_fee);
                 
@@ -1561,4 +1587,95 @@ var Collection = {
         }
         $('.productlistbox').html(html);
     }
+};
+
+
+//收入相关
+var Income = {
+    
+    loadKingFee: function() {
+        //加载收入概要 
+        var api = "?r=income/resume";
+        Util.requestApi(api, {}, function(data) {
+             if (data.errno == Const.NO_LOGIN) {
+                 //没有登录
+                 Util.goLogin(config.page.income_king);
+                 return;
+             }
+             if (data.errno != 0) {
+                 messageBox.toast(data.errmsg);
+                 return;
+             }
+             $('#user_money').html(data.data.money);
+             $('#trade_money').html(data.data.trade_money);
+             //
+        });
+    }
+    //加载收入列表
+    ,loadKingFeeDetail: function(p) {
+         var api = "?r=income/detail";
+         Util.addLoding($('#income_list'), "加载中...");
+         
+         Util.requestApi(api, {p:p}, function(data) {
+            if (data.errno != 0) {
+                Util.addLoding($('#income_list'), data.errmsg);
+                return;
+            }
+            var template = $('#income_list_template').html();
+            var html = "";
+            if (data.data.list.length == 0) {
+                html = "没有佣金记录";
+            }
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                html += Template.renderByTempate(template, item);
+            }
+            $('#income_list').html(html);
+            
+            var page_count = data.data.page_count;
+            var curent_page = data.data.p;
+            if ( page_count > 1) {
+                //页面大于1，显示分页
+                var page_info = "";
+                var prefx = "";
+                var tail    = "";
+                if (page_count > 4) {
+                    //大于4页
+                    prefx = "<a href='javascript:;' data='1'>首</a>";
+                    tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
+ 
+                }
+                var start = p - 2 > 0 ?   p - 2 : 1;
+                var end  = start + 4 > page_count ? page_count : start + 4;
+                if (end == page_count) {
+                    start = end - 4 ? end - 4 : start;
+                }
+                for (i = start; i<= end; i++) {
+                        var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
+                        if (i == curent_page) {
+                            item = "<a href='javascript:;' class='number'>"+i+"</a>";
+                        }
+                        page_info += item;
+                }
+                $('.u-flip').html(prefx + page_info + tail);
+            }
+             
+         });
+    }
+    ,bindKinFeeEvent: function() {
+        var me = this;
+        $('.u-flip').delegate('a', 'click', function(){
+            
+             var page = $(this).attr('data');
+             if (page) {
+                 me.loadKingFeeDetail(page);
+             }
+        });
+    }
+    ,runKing: function() {
+        this.loadKingFee();
+        this.loadKingFeeDetail(1);
+        this.bindKinFeeEvent();
+    }
+    
 };
