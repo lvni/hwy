@@ -38,18 +38,18 @@
     <img src="img/logo.png" class="logo">
     <div class="u-enterinfobox">
         <img src="img/login01_07.png" class="icon">
-        <input type="text" class="input"  placeholder="you@yours.com">
+        <input type="text" class="input" name="mobile"  placeholder="请输入手机号码">
     </div>
     <div class="u-enterinfobox">
         <img src="img/login01_11.png" class="icon">
-        <input type="password" class="input" placeholder="Password">
+        <input type="password" name="passwd" class="input" placeholder="请输入密码">
     </div>
     <button class="u-button-main">
         <span>确认</span>
     </button>
     <p class="fontbox">
-        <a href="#" class="left">立即注册</a>
-        <a href="#" class="right">忘记密码</a>
+        <a href="register.html" class="left">立即注册</a>
+        <a href="javascript:;" class="right">忘记密码</a>
     </p>
     <div class="wechatbox">
         <img src="img/login01_15.png" class="wechatlogo">
@@ -60,12 +60,45 @@
 </div>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
+<script src="javascripts/md5.min.js"></script>
 <script>
 $(function(){
     $('.wechatbutton').click(function(){  
         var redirect = Util.getQueryString('redirect');
         Util.goWxLogin(redirect);
     });
+    
+    //手机号码登陆
+    var loginMobile = function(){
+          var params = {};
+          var tips  = {};
+          $("input").each(function(){
+               var name = $(this).attr('name');
+               var value = $(this).val().trim();
+               params[name] = value;
+               tips[name] = $(this);
+          });
+          for (i in params) {
+              if (!params[i]) {
+                    messageBox.toast(tips[i].attr('placeholder'));
+                    return;
+              }
+          }
+           $('.u-button-main').unbind('click', loginMobile);
+          params['passwd'] = md5(params['passwd']);
+          Util.requestApi('?r=user/login', params, function(data){
+                 $('.u-button-main').bind('click', loginMobile);
+                 messageBox.toast(data.errmsg);
+                 if (data.errno == 0) {
+                     //去掉首页
+                     var redirect = Util.getQueryString('redirect');
+                     redirect = redirect ? redirect : "index.html";
+                     window.location.replace = redirect;
+                 }
+          });
+
+          };
+    $('.u-button-main').bind('click', loginMobile);
 });
 </script>
 </body>

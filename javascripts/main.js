@@ -19,6 +19,9 @@ var config = {
         'collection': 'collection.html', //我的收藏
         'income_king' : 'myincome-king.html', //我的收入
     },
+    'navi_show_page':[
+        'king.html', 'index.html', 'allproduct.html',
+    ],
 };
 //错误码
 var ErrorCode = {
@@ -146,6 +149,10 @@ var Util = {
         var div = "<div style='text-align:center;padding-top:100px;'>"+tips+"</div>";
         target.html(div);
     }
+    ,isCorrectMobile: function(mobile) {
+        var reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+        return reg.test(mobile);
+    }
   
 };
 //存储相关
@@ -242,21 +249,24 @@ var FuncNavi = {
     ,loadNaviData: function() {
           var api = config.api + "?r=center/navi";
           var me = this;
-          $.ajax({
-              url: api,
-              dataType : "jsonp",
-              success: function(data) {
-                   if (data.errno ==0) {
-                       me.data = data.data;
-                       data.data  && me.rendNavi(data.data);
-                   }
-                   
-                   for (i in me.funcs) {
-                       me.funcs[i].func(me.data, me.funcs[i].proxy);
-                   }
-              }
-              
-          });
+          if ( true) {
+              $.ajax({
+                  url: api,
+                  dataType : "jsonp",
+                  success: function(data) {
+                       if (data.errno ==0) {
+                           me.data = data.data;
+                           data.data  && me.rendNavi(data.data);
+                       }
+                       
+                       for (i in me.funcs) {
+                           me.funcs[i].func(me.data, me.funcs[i].proxy);
+                       }
+                  }
+                  
+            });
+          }
+          
     }
     ,addCallback: function (func, proxy) {
         var me = this;
@@ -1390,8 +1400,8 @@ var Address = {
                     return false;
                 }
         }
-        var reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
-        if (!reg.test(params['mobile'])) {
+        //var reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+        if (!Util.isCorrectMobile(params['mobile'])) {
             //手机号码验证
             messageBox.toast("手机号码格式错误");
             notice['mobile'].focus();
