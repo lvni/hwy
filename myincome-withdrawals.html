@@ -36,7 +36,7 @@
         <div  class="u-infolist" >
             <img src="img/icon-112.png" class="icon">
             <div class="maincont">
-                <input type="text" class="cont" placeholder="请输入持卡人姓名" id="js-personName">
+                <input type="text" class="cont" placeholder="请输入持卡人姓名" id="js-personName"  readonly onclick="javascript:window.location.href='myincome-bankcard.html'">
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
         <div  class="u-infolist" onclick="javascript:window.location.href='myincome-alipay.html'">
             <img src="img/icon-113.png" class="icon">
             <input type="text" class="maincont" id="js-alipay-card" placeholder="请选择支付宝账号">
-            <p>*语</p>
+            <p id="alipay-personName"></p>
             <img src="img/icon-111.png" class="arrow">
         </div>
     </div>
@@ -81,7 +81,7 @@
 </div>
 
 <script src="javascripts/changecont.js"></script>
-<script src="javascripts/myincome-withdrawals.js"></script>
+
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
 <script>

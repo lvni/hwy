@@ -1727,20 +1727,93 @@ var Income = {
     
     //进入提现页面
     , loadWithdrawals: function() {
-         
+         var me = this;
          Util.requestApi('?r=income/getaccount', {}, function(data){
               if (data.errno != 0) {
                   messageBox.toast(data.errmsg);
                   return;
               }
-              money_limit = data.data.withdrawals_limit;
+              me.money_limit = data.data.withdrawals_limit;
+              me.total_money = parseInt(data.data.money);
               $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
+              
+              if (data.data.withdrawals_account) {
+                  //从历史中选择
+                  var account = data.data.withdrawals_account;
+                  me.withdrawals_account = data.data.withdrawals_account
+                  if (account.account_type == Withdrawaccount.type_bank) {
+                      //银行卡
+                        var money  = $('#js-quota').val();
+                        $('#js-card').val(account.account);
+                        $('#js-personName').val(account.display_name);
+                        if (me.canSubmit(money)) {
+                            $('#js-cardsubmit').removeClass('disable');
+                        }
+                  } else {
+                      //支付宝
+                      var money  = $('#js-alipayQouta').val();
+                      $('#changenode02').trigger('click');
+                      $('#js-alipay-card').val(account.account);
+                      $('#alipay-personName').html(account.display_name);
+                      if (me.canSubmit(money)) {
+                            $('#js-alipaysubmit').removeClass('disable');
+                      }
+                  }
+                  
+              }
               
          });
     }
+    ,canSubmit: function (money) {
+            //检查是否可以提交申请
+        var me = Income;
+         if (me.money_limit == -1
+             || money < me.money_limit
+             || money > me.total_money
+             || me.withdrawals_account == null) {
+                //数据还未加载
+            return false;
+        }
+        return true;
+    }
     ,runWithdrawals: function() {
-        var money_limit = 0;
+        var me = this;
+        me.money_limit = -1;
+        me.withdrawals_account = null;
         this.loadWithdrawals();
+        
+        $("#js-quota,#js-alipayQouta").bind('keyup', function(){
+            var money = $(this).val();
+            var submitBnt = $(this).attr('id') == 'js-quota' ? $('#js-cardsubmit') : $('#js-alipaysubmit');
+              if (me.money_limit == -1) {
+                  //数据还未加载
+                  return;
+              }
+              submitBnt.addClass('disable');
+              if (money < me.money_limit) {
+                  //小于最低提现额度
+                  $(this).addClass('error');
+                  return;
+              }
+              if (money > me.total_money) {
+                  $(this).addClass('error');
+                  return;
+              }
+              $(this).removeClass('error');
+              
+              if (!me.canSubmit(money)) {
+                  return;
+              }
+              //检查是否可以提交
+              if ($(this).attr('id') == 'js-quota') {
+                  //银行卡
+                    submitBnt.removeClass('disable');
+                  
+              } else {
+                  //支付宝
+                  submitBnt.removeClass('disable');
+              }
+        });
     }
     
 };
