@@ -1747,7 +1747,8 @@ var Income = {
                         $('#js-card').val(account.account);
                         $('#js-personName').val(account.display_name);
                         if (me.canSubmit(money)) {
-                            $('#js-cardsubmit').removeClass('disable');
+                            $('#js-cardsubmit').attr('data-money', money).removeClass('disable');
+                            me.addSubmitApplyEvent($('#js-cardsubmit'), money);
                         }
                   } else {
                       //支付宝
@@ -1756,7 +1757,8 @@ var Income = {
                       $('#js-alipay-card').val(account.account);
                       $('#alipay-personName').html(account.display_name);
                       if (me.canSubmit(money)) {
-                            $('#js-alipaysubmit').removeClass('disable');
+                            $('#js-alipaysubmit').attr('data-money').removeClass('disable');
+                            me.addSubmitApplyEvent($('#js-alipaysubmit'));
                       }
                   }
                   
@@ -1776,12 +1778,36 @@ var Income = {
         }
         return true;
     }
+    ,addSubmitApplyEvent: function(target) {
+        var me = Income;
+        var money = target.attr('data-money');
+        var submit = function(){
+                if (!me.canSubmit(money)) {
+                    return;
+                }
+                target.unbind('click');
+                var param = me.withdrawals_account;
+                param.money = money;
+                Util.requestApi('?r=income/applywithdrawals', param, function(data){
+                    target.bind('click', submit);
+                    messageBox.toast(data.errmsg);
+                    if (data.errno != 0) {
+                        return;
+                    }
+                    me.loadWithdrawals();
+                    
+                });
+            
+        }
+        target.bind('click', submit);
+    }
     ,runWithdrawals: function() {
         var me = this;
         me.money_limit = -1;
         me.withdrawals_account = null;
         this.loadWithdrawals();
-        
+        me.addSubmitApplyEvent($('#js-cardsubmit'));
+        me.addSubmitApplyEvent($('#js-alipaysubmit'));
         $("#js-quota,#js-alipayQouta").bind('keyup', function(){
             var money = $(this).val();
             var submitBnt = $(this).attr('id') == 'js-quota' ? $('#js-cardsubmit') : $('#js-alipaysubmit');
@@ -1805,6 +1831,8 @@ var Income = {
                   return;
               }
               //检查是否可以提交
+              submitBnt.attr('data-money' , money);
+              
               if ($(this).attr('id') == 'js-quota') {
                   //银行卡
                     submitBnt.removeClass('disable');
