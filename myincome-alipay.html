@@ -22,29 +22,37 @@
 </div>
 <p class="u-title">请输入支付宝账号，系统自动保存最近使用的5个账号</p>
 <div class="u-infolistbox">
+    <input type="hidden" name="account_type" value="2" >
+    <input type="hidden" name="account_cat" value="支付宝" >
     <div class="u-infolist">
         <p class="name">账号</p>
-        <p class="maincont"><input type="text"></p>
+        <p class="maincont"><input type="text"  name="account" placeholder="请输入支付宝账号"></p>
     </div>
 </div>
-<div class="u-buttonbox ">
-    <button class="u-button-main">
+<div class="u-infolistbox">
+    <div class="u-infolist">
+        <p class="name">姓名</p>
+        <p class="maincont"><input type="text" name="username" id="js-cardNumber" placeholder="请输入姓名"></p>
+    </div>
+</div>
+<div class="u-buttonbox">
+    <button class="u-button-main disable" id="js-submit">
         <span>确定</span>
     </button>
 </div>
+<script type="text/template" id="income_draw_template">
 <div class="u-infolistbox">
     <label class="u-infolist">
-        <p class="maincont">1057721879@qq.com</p>
-        <input type="radio" class="u-radio" name="alipay" checked>
+        <p class="maincont">{$display}</p>
+        <input type="radio" class="u-radio" name="id" value="{$id}">
         <div class="u-radiocont"></div>
     </label>
 </div>
-<div class="u-infolistbox">
-    <label class="u-infolist">
-        <p class="maincont">呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒</p>
-        <input type="radio" class="u-radio" name="alipay">
-        <div class="u-radiocont"></div>
-    </label>
-</div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    Withdrawaccount.runAlipay();
+</script>
 </body>
 </html>

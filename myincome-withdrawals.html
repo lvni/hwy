@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <p class="u-tips">可提现余额：<i class="red" id="js-maxQuota">100.00</i>元</p>
+    <p class="u-tips">可提现余额：<i class="red" id="js-maxQuota">0.00</i>元</p>
     <div class="u-infolistbox">
         <div  class="u-infolist">
             <p class="name">金额</p>
@@ -64,7 +64,7 @@
             <img src="img/icon-111.png" class="arrow">
         </div>
     </div>
-    <p class="u-tips">可提现余额：<i class="red" id="js-alipayMaxQouta">100.00</i>元</p>
+    <p class="u-tips">可提现余额：<i class="red" id="js-alipayMaxQouta">0.00</i>元</p>
     <div class="u-infolistbox">
         <div  class="u-infolist">
             <p class="name">金额</p>
@@ -79,7 +79,13 @@
         </button>
     </div>
 </div>
+
 <script src="javascripts/changecont.js"></script>
 <script src="javascripts/myincome-withdrawals.js"></script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+Income.runWithdrawals();
+</script>
 </body>
 </html>

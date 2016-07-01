@@ -103,14 +103,36 @@ var Util = {
         
     }
     //请求接口
-    ,requestApi: function(api, data, callback) {
+    ,requestApi: function(api, data, callback, type) {
+        
+        var me = this;
+        me.showLoading();
+        var beforeCallback = function(data) {
+              me.hideLoading();
+             if (data.errno  == ErrorCode.NO_LOGIN) {
+                 //没有登录，直接去登录
+                 messageBox.toast("请先登录吧");
+                 var url = location.href;
+                 me.goLogin(url);
+                 return ;
+             }
+            return callback(data);
+        }
         var url = config.api + api;
+        var dataType = 'jsonp';
+        var method = 'get';
+        if (type == 'post') {
+            dataType = 'json';
+            method = 'post';
+        }
         $.ajax({
             url: url,
-            dataType: 'jsonp',
+            type: method,
+            dataType: dataType,
             data: data,
-            success: callback,
+            success: beforeCallback,
             error: function() {
+                me.hideLoading();
                 messageBox.toast("服务器出错啦");
             }
         });
@@ -152,6 +174,21 @@ var Util = {
     ,isCorrectMobile: function(mobile) {
         var reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
         return reg.test(mobile);
+    }
+    ,loadingId: 0
+    ,showLoading: function(){
+         var html = '<div  id="loading_box"><div style="position: fixed;top: 0;width: 100%;height: 100%;background: #ECE6E6;opacity: 0.2;z-index: 10;"></div>'
+                      + '<div style="position: fixed;top: 50%;left: 50%;margin-left: -54px;margin-top: -54px;width: 108px;height: 108px;z-index: 13;border-radius: 4px;text-align: center;line-height: 108px;background: #565353;">'
+                      + '<img src="img/loading.gif" style="width: 56px;"></div></div>';
+        if (this.loadingId == 0) {
+            //延迟150ms出现
+            this.loadingId = setTimeout(function(){$('body').append(html);}, 150);
+        }
+            
+    }
+    ,hideLoading: function() {
+        clearTimeout(this.loadingId);
+        $("#loading_box").remove();
     }
   
 };
@@ -1688,4 +1725,146 @@ var Income = {
         this.bindKinFeeEvent();
     }
     
+    //进入提现页面
+    , loadWithdrawals: function() {
+         
+         Util.requestApi('?r=income/getaccount', {}, function(data){
+              if (data.errno != 0) {
+                  messageBox.toast(data.errmsg);
+                  return;
+              }
+              money_limit = data.data.withdrawals_limit;
+              $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
+              
+         });
+    }
+    ,runWithdrawals: function() {
+        var money_limit = 0;
+        this.loadWithdrawals();
+    }
+    
+};
+
+//提现账号选择设置相关
+var Withdrawaccount = {
+    
+    type_bank : 1
+    ,type_alipay: 2
+    
+    //渲染列表
+    ,renderList: function(data) {
+        var me = Withdrawaccount;
+        var html = "";
+        var template = $('#income_draw_template').html();
+        for (i in data.data) {
+            var item = data.data[i];
+            var dispay = item.account_cat + ' ' + item.account;
+            if (item.account_type == me.type_alipay) {
+                dispay =  item.account + "  " + item.username; 
+            }
+            var arrData = {
+                display: dispay,
+                id: item.id,
+            };
+            html += Template.renderByTempate(template, arrData);
+        }
+        $(html).insertAfter('.u-buttonbox');
+    }
+    
+    ,bindEvent: function() {
+        var params = {};
+        var tips = {};
+        $(".u-infolistbox input").each(function(){
+                var name = $(this).attr('name');
+                params[name] = $(this).val().trim();
+                tips[name] = $(this);
+        });
+        $(".u-infolistbox input").bind('blur', function(){
+                var value = $(this).val().trim();
+                if (value == '') {
+                    $(this).addClass('error');
+                    $(this).val('');
+                } else {
+                    $(this).removeClass('error');
+                }
+        });
+        $(".u-infolistbox input").bind('keyup', function(){ 
+               var name = $(this).attr('name');
+               var value = $(this).val().trim();
+               params[name] = value;
+               if (value == '') {
+                    $(this).addClass('error');
+                    $(this).val('');
+                } else {
+                    $(this).removeClass('error');
+                }
+               for (i in params) {
+                   if (params[i] == '') {
+                       //有空的
+                       $('#js-submit').addClass('disable');
+                       return
+                   }
+               }
+               $('#js-submit').removeClass('disable');
+        });
+        var submitAccount = function() {
+               for (i in params) {
+                   if (params[i] == "") {
+                        messageBox.toast(tips[i].attr('placeholder'));
+                        return;
+                   }
+               }
+               $('#js-submit').unbind('click', submitAccount);
+               Util.requestApi('?r=withdrawaccount/add', params, function(data){
+                    $('#js-submit').bind('click', submitAccount);
+                    if (data.errno != 0) {
+                        messageBox.toast(data.errmsg);
+                        return;
+                    }
+                    history.go(-1);
+                    
+               }, 'post');
+        };
+        $('#js-submit').bind('click', submitAccount);
+        
+        $('body').delegate('.u-radio' , 'click', function(){
+                var id = $(this).val();
+                if (!id) {
+                    return ;
+                }
+                Util.requestApi('?r=withdrawaccount/select', {id:id}, function(data){
+                        if (data.errno != 0) {
+                            messageBox.toast(data.errmsg);
+                            return;
+                        }
+                        history.go(-1);
+                    
+                });
+            
+        });
+    }
+    ,runBank: function() {
+        var me = this;
+        me.bindEvent();
+        Util.requestApi('?r=withdrawaccount/list', {account_type:me.type_bank}, function(data){
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+            }
+            me.renderList(data);
+            
+        });
+        
+    }
+    ,runAlipay: function() {
+        var me = this;
+        me.bindEvent();
+        Util.requestApi('?r=withdrawaccount/list', {account_type:me.type_alipay}, function(data){
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+            }
+            me.renderList(data);
+            
+        });
+        
+    }
 };
