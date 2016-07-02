@@ -21,15 +21,27 @@
     </a>
 </div>
 <div class="listbox">
-    <div class="recordlist">
-        <p><i class="amount">金额：1800.00元</i><i class="name">姓名</i></p>
-        <p><i class="cardnumber">中国建设银行 尾号6666</i><time class="time">2016.2.16</time></p>
-    </div>
-    <div class="recordlist">
-        <p><i class="amount">金额：1800.00元</i><i class="name">姓名</i></p>
-        <p><i class="cardnumber">中国建设银行 尾号6666</i><time class="time">2016.2.16</time></p>
-    </div>
+    
 </div>
-
+<div class="u-flip">
+    <!-- <a href="#">首</a>
+    <a href="#">&lt;</a>
+    <a href="#" class="number">1</a>
+    <a href="#" >2</a>
+    <a href="#" >3</a>
+    <a href="#">&gt;</a>
+    <a href="#">尾</a> -->
+</div>
+<script  type="text/template" id="draw_out_history">
+<div class="recordlist">
+        <p><i class="amount">金额：{$money}元</i><i class="name">{$username}</i></p>
+        <p><i class="cardnumber">{$account_cat} {$account}</i><time class="time">{$add_time}</time></p>
+</div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    Income.runHistory();
+</script>
 </body>
 </html>

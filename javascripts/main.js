@@ -44,6 +44,46 @@ String.prototype.replaceAll = function(s1,s2) {
     return this.replace(new RegExp(s1,"gm"),s2); 
 }
 
+//分页
+var Page = {
+    target: '.u-flip',
+    addClickEvent: function(clickFunc) {
+        var me = this;
+        $(me.target).delegate('a', 'click', clickFunc);
+    },
+    render: function(page, page_count) {
+        var me = this;
+        if ( page_count > 1) {
+            //页面大于1，显示分页
+            var page_info = "";
+            var prefx = "";
+            var tail    = "";
+            if (page_count > 4) {
+                //大于4页
+                prefx = "<a href='javascript:;' data='1'>首</a>";
+                tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
+
+            }
+            var start = page - 2 > 0 ?   page - 2 : 1;
+            var end  = start + 4 > page_count ? page_count : start + 4;
+            if (end == page_count) {
+                start = end - 4 > 0 ? end - 4 : start;
+            }
+            for (i = start; i<= end; i++) {
+                    var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
+                    if (i == page) {
+                        item = "<a href='javascript:;' class='number'>"+i+"</a>";
+                    }
+                    page_info += item;
+            }
+            $(me.target).html(prefx + page_info + tail);
+        } else {
+            $(me.target).html('');
+        }
+    }
+    
+    
+};
 var Template = {
     id: 0,
     template: '',
@@ -167,7 +207,7 @@ var Util = {
     ,goWxQrLogin: function(redirect) {
         
     }
-    ,addLoding: function(target, tips) {
+    ,showTips: function(target, tips) {
         var div = "<div style='text-align:center;padding-top:100px;'>"+tips+"</div>";
         target.html(div);
     }
@@ -1661,17 +1701,19 @@ var Income = {
     //加载收入列表
     ,loadKingFeeDetail: function(p) {
          var api = "?r=income/detail";
-         Util.addLoding($('#income_list'), "加载中...");
+         Util.showTips($('#income_list'), "加载中...");
          
          Util.requestApi(api, {p:p}, function(data) {
             if (data.errno != 0) {
-                Util.addLoding($('#income_list'), data.errmsg);
+                Util.showTips($('#income_list'), data.errmsg);
                 return;
             }
             var template = $('#income_list_template').html();
             var html = "";
             if (data.data.list.length == 0) {
                 html = "没有佣金记录";
+                Util.showTips($('#income_list'), html);
+                return
             }
             for (i in data.data.list) {
                 var item = data.data.list[i];
@@ -1681,37 +1723,14 @@ var Income = {
             
             var page_count = data.data.page_count;
             var curent_page = data.data.p;
-            if ( page_count > 1) {
-                //页面大于1，显示分页
-                var page_info = "";
-                var prefx = "";
-                var tail    = "";
-                if (page_count > 4) {
-                    //大于4页
-                    prefx = "<a href='javascript:;' data='1'>首</a>";
-                    tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
- 
-                }
-                var start = p - 2 > 0 ?   p - 2 : 1;
-                var end  = start + 4 > page_count ? page_count : start + 4;
-                if (end == page_count) {
-                    start = end - 4 ? end - 4 : start;
-                }
-                for (i = start; i<= end; i++) {
-                        var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
-                        if (i == curent_page) {
-                            item = "<a href='javascript:;' class='number'>"+i+"</a>";
-                        }
-                        page_info += item;
-                }
-                $('.u-flip').html(prefx + page_info + tail);
-            }
+            Page.render(curent_page, page_count);
+            
              
          });
     }
     ,bindKinFeeEvent: function() {
         var me = this;
-        $('.u-flip').delegate('a', 'click', function(){
+        Page.addClickEvent(function(){
             
              var page = $(this).attr('data');
              if (page) {
@@ -1736,6 +1755,7 @@ var Income = {
               me.money_limit = data.data.withdrawals_limit;
               me.total_money = parseInt(data.data.money);
               $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
+              $('.user_money').html(data.data.user_money);
               
               if (data.data.withdrawals_account) {
                   //从历史中选择
@@ -1780,8 +1800,9 @@ var Income = {
     }
     ,addSubmitApplyEvent: function(target) {
         var me = Income;
-        var money = target.attr('data-money');
+        
         var submit = function(){
+                var money = target.attr('data-money');
                 if (!me.canSubmit(money)) {
                     return;
                 }
@@ -1842,6 +1863,48 @@ var Income = {
                   submitBnt.removeClass('disable');
               }
         });
+    }
+    ,loadHistory: function(p) {
+        Util.requestApi('?r=income/history', {p:p}, function(data) {
+                if (data.errno != 0) {
+                    messageBox.toast(data.errmsg);
+                    return;
+                }
+                var template = $("#draw_out_history").html();
+                if (data.data.list.length == 0) {
+                    Util.showTips($(".listbox"), "没有提取记录");
+                    return;
+                }
+                var html = "";
+                for (i in data.data.list) {
+                    var item = data.data.list[i];
+                    var params = {
+                        'money': item.money,
+                        'add_time': item.add_time,
+                        'status': item.status,
+                        'username': item.account_info.username,
+                        'account': item.account_info.account,
+                        'account_cat': item.account_info.account_cat,
+                        
+                    };
+                    html += Template.renderByTempate(template, params);
+                }
+                $(".listbox").html(html);
+                Page.render(data.data.page, data.data.page_count);
+            
+        });
+    }
+    //提取记录
+    ,runHistory: function() {
+        var me = this;
+        Page.addClickEvent(function(){
+            var page = $(this).attr('data');
+            if (page) {
+                me.loadHistory(page);
+            }
+            
+        });
+        me.loadHistory(1);
     }
     
 };
