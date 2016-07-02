@@ -230,6 +230,29 @@ var Util = {
         clearTimeout(this.loadingId);
         $("#loading_box").remove();
     }
+    //获取微信版本号
+    ,getWxVer: function() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        var preg = /MicroMessenger\/([0-9\.]+)/i;
+        var a = ua.match(preg);
+        if (a) {
+            return a[1];
+        }
+        return false;
+    }
+    ,canWeixinPay: function() {
+        //var isWeixin =  this.isWeiXin();
+        var ver = this.getWxVer();
+        if (ver == false) {
+            return false;
+        }
+        var vers = ver.split('.');
+        console.log(vers);
+        if (parseInt[vers[0]] < 5) {
+            return false;
+        }
+        return true;
+    }
   
 };
 //存储相关
@@ -1061,9 +1084,10 @@ var Order = {
         });
         $('body').delegate('button', 'click', function(){
             
-            var order_sn = $(this).closest('.buttonbox').attr('order-sn'); 
+            var order_sn = $(this).parent().attr('order-sn'); 
             var type = $(this).attr('data-type');
             if (!order_sn) {
+                
                 return ;
             }
             if (type == 'pay') {
@@ -1077,7 +1101,7 @@ var Order = {
                         if (data.errno == 0) {
                             //重新加载列表
                             var type = $('#js-changecont .on').attr('data-type');
-                            me.this.loadOrder(type);
+                            me.loadOrder(type);
                         }
                     
                 });
@@ -1241,6 +1265,7 @@ var Order = {
     ,runDetail: function() {
         var order_sn = Util.getQueryString('order');
         Util.requestApi('?r=order/detail',{order_sn:order_sn},this.renderDetail);
+        this.bindMainEvent();
     }
     
     //支付选择页面
@@ -1310,6 +1335,10 @@ var Order = {
              
              if (payType == 'weixin') {
                  //微信支付
+                 if (!Util.canWeixinPay()) {
+                     messageBox.toast("请使用微信5.0以上版本打开");
+                     return;
+                 }
                  me.weixinPay(orderSn);
                  
              }
@@ -1662,6 +1691,11 @@ var Collection = {
             var icon = '';
             var sold = "";
             var tips = "";
+            if (item.goods_number <= 0) {
+                sold = 'sold';
+                icon = '<img src="img/hwicon_07.png" class="icon">';
+                tips = "已售罄";
+            }
             if (item.goods_status != Const.GOODS_STATUS_ON_SELL) {
                 sold = 'sold';
                 icon = '<img src="img/hwicon_07.png" class="icon">';
@@ -2032,3 +2066,4 @@ var Withdrawaccount = {
         
     }
 };
+    
