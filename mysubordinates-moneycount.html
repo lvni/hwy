@@ -20,10 +20,22 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<div class="infolist">
-    <p><img src="img/icon120.png"><i>2016-01</i></p>
-    <p>订单量（单）：<i>18</i></p>
-    <p>所获佣金（元）：<i>18</i></p>
+<div id="content">
 </div>
+<div class="u-flip">
+<!-- 分页-->
+</div>
+<script id="money_static_template" type="text/template">
+<div class="infolist" style="min-height:auto;">
+    <p><img src="img/icon120.png"><i>{$date}</i></p>
+    <p>订单量（单）：<i>{$order_sum}</i></p>
+    <p>所获佣金（元）：<i>{$rebate_fee}</i></p>
+</div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    UserRelation.runSubIncome();
+</script>
 </body>
 </html>

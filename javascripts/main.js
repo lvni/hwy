@@ -16,6 +16,7 @@ var config = {
         'order_pay': 'myorder-paymode.html', //订单支付页面
         'order_detail': 'myorder-details.html',
         'user_king' : 'king.html',
+        'user_supplier' : 'supplier.html',
         'collection': 'collection.html', //我的收藏
         'income_king' : 'myincome-king.html', //我的收入
     },
@@ -29,7 +30,8 @@ var ErrorCode = {
 }
 var Const = {
     GOODS_STATUS_ON_SELL: 1, //在售
-    
+    USER_ROLE_SUPPLIER : 4,
+    USER_ROLE_SUPPLIER_LEADER : 5,
 }
 
 //消息盒子相关
@@ -326,8 +328,13 @@ var FuncNavi = {
         if (data && data.is_login) {
             //已登陆
             //to-do 不同角色，不同页面
+            
+            var ucenter_page = "king.html";
+            if (data.user.role >= Const.USER_ROLE_SUPPLIER) {
+                ucenter_page = "supplier.html";
+            }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
-                                     .replace('{$ucenter_action}', 'king.html');
+                                     .replace('{$ucenter_action}', ucenter_page);
         } else if (data && data.is_login == 0){
             htmlStr = htmlStr.replace('{$cart_action}', 'login.html')
                                      .replace('{$ucenter_action}', 'login.html');
@@ -729,11 +736,13 @@ var Bootstrap = {
     ,loadSearch: function(query, append) {
         var api = config.api + '?r=good/search';
         var me = this;
+        Util.showLoading();
         $.ajax({
             url: api,
             data: query,
             dataType: 'jsonp',
             success: function(data) {
+                Util.hideLoading();
                 if (data.errno == 0) {
                     data.data && me.renderSearch(data.data,append);
                 }
@@ -1606,21 +1615,50 @@ var Address = {
 //用户相关
 var User = {
     user: {}
-    ,init: function(data, direct) {
+    ,renderKing: function(data, direct) {
+        Util.hideLoading();
         if (data.is_login != 1) {
             Util.goLogin(direct);
         } else {
+            if (data.user.role >= Const.USER_ROLE_SUPPLIER) {
+                //跳到供应商
+                window.location.href = config.page.user_supplier;
+                return;
+            }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
             $("#loading").hide();
             $(".u-person-head .name").append(data.user.name);
             $(".u-person-head .photo").attr('src', data.user.avatar);
         }
     }
+    ,renderSupplier(data, direct) {
+        Util.hideLoading();
+        if (data.is_login != 1) {
+            Util.goLogin(direct);
+            return;
+        }
+        if (data.user.role < Const.USER_ROLE_SUPPLIER) {
+            //跳到供应商
+            window.location.href = config.page.user_king;
+            return;
+        }
+        if (data.user.role == Const.USER_ROLE_SUPPLIER_LEADER) {
+            //供应商队长，开放下级入口
+            $('#my_team').show();
+        }
+        $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
+        $("#loading").hide();
+        $(".u-person-head .name").append(data.user.name);
+        $(".u-person-head .photo").attr('src', data.user.avatar);
+    }
     ,initKing: function(data, proxy) {
         if (!proxy) {
             proxy = this;
         }
-        proxy.init(data, config.page.user_king);
+        proxy.renderKing(data, config.page.user_king);
+    }
+    ,initSupplier: function(data, proxy) {
+        proxy.renderSupplier(data, config.page.user_supplier);
     }
 };
 
@@ -2064,6 +2102,75 @@ var Withdrawaccount = {
             
         });
         
+    }
+};
+
+//用户关系， 用户下级
+var UserRelation = {
+    
+    loadRelation: function(p){
+        Util.requestApi("?r=user/downstream",{p:p}, function(data){
+                if (data.errno != 0) {
+                    messageBox.toast("data.errmsg");
+                    return ;
+                }
+                if (data.data.list.length <= 0) {
+                    Util.showTips($('.infolistbox'), "您没有下级");
+                    return;
+                }
+                var html = "";
+                var template = $('#downstream_item_template').html();
+                for (i in data.data.list) {
+                    var item = data.data.list[i];
+                    html += Template.renderByTempate(template, item);
+                }
+                $('.infolistbox').html(html);
+                Page.render(data.data.page, data.data.page_count);
+            
+        });
+    }
+    ,runMain: function(){
+        var me = this;
+        me.loadRelation(1);
+        Page.addClickEvent(function(){
+            var page = $(this).attr('data');
+            if (page) {
+                me.loadRelation(page);
+            }
+        });
+    }
+    ,loadSubIncome: function(id, p) {
+         Util.requestApi("?r=income/rebatestatics",{p:p,id:id}, function(data){
+                if (data.errno != 0) {
+                    messageBox.toast("data.errmsg");
+                    return ;
+                }
+                if (data.data.list.length <= 0) {
+                    Util.showTips($('#content'),"没有相关记录");
+                    return;
+                }
+                var html = "";
+                var template = $('#money_static_template').html();
+                for (i in data.data.list) {
+                    var item = data.data.list[i];
+                    html += Template.renderByTempate(template, item);
+                }
+                $('#content').html(html);
+                Page.render(data.data.page, data.data.page_count);
+            
+        });
+    }
+    //下级的佣金统计
+    ,runSubIncome: function() {
+        var me = this;
+        var id = Util.getQueryString('id');
+        me.loadSubIncome(id, 1);
+        Page.addClickEvent(function(){
+            var page = $(this).attr('data');
+            if (page) {
+                me.loadSubIncome(id, page);
+            }
+        });
     }
 };
     

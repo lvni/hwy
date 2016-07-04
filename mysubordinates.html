@@ -21,54 +21,29 @@
     </a>
 </div>
 <div class="infolistbox">
-    <div class="infolist">
-        <div class="personinfo">
-            <div>
-                <img src="img/headphoto.jpg" class="photo">
-                <p class="name">洪五爷</p>
-            </div>
-        </div>
-        <div class="cont">
-            <a href="#">查看Ta的成交记录 &gt;</a>
-            <a href="#">Ta下级的月交易订单及佣金统计 &gt;</a>
-        </div>
-    </div>
-    <div class="infolist">
-        <div class="personinfo">
-            <div>
-                <img src="img/headphoto.jpg" class="photo">
-                <p class="name">洪五爷</p>
-            </div>
-        </div>
-        <div class="cont">
-            <a href="#">查看Ta的成交记录 &gt;</a>
-            <a href="#">Ta下级的月交易订单及佣金统计 &gt;</a>
-        </div>
-    </div>
-    <div class="infolist">
-        <div class="personinfo">
-            <div>
-                <img src="img/headphoto.jpg" class="photo">
-                <p class="name">洪五爷</p>
-            </div>
-        </div>
-        <div class="cont">
-            <a href="#">查看Ta的成交记录 &gt;</a>
-            <a href="#">Ta下级的月交易订单及佣金统计 &gt;</a>
-        </div>
-    </div>
-    <div class="infolist">
-        <div class="personinfo">
-            <div>
-                <img src="img/headphoto.jpg" class="photo">
-                <p class="name">洪五爷</p>
-            </div>
-        </div>
-        <div class="cont">
-            <a href="#">查看Ta的成交记录 &gt;</a>
-            <a href="#">Ta下级的月交易订单及佣金统计 &gt;</a>
-        </div>
-    </div>
+
+    
 </div>
+<div class="u-flip">
+<!-- 分页-->
+</div>
+<script id="downstream_item_template" type="text/template">
+<div class="infolist">
+        <div class="personinfo">
+            <div>
+                <p><img src="{$avatar}" class="photo"></p>
+                <p class="name" style="overflow: hidden; white-space: nowrap;text-overflow: ellipsis; width: 56px;">{$user_name}</p>
+            </div>
+        </div>
+        <div class="cont">
+            <a href="mysubordinates-moneycount.html?id={$rec_id}">Ta的佣金统计 &gt;</a>
+        </div>
+    </div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    UserRelation.runMain();
+</script>
 </body>
 </html>

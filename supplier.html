@@ -8,29 +8,32 @@
 </head>
 
 <body>
-<div class="u-person-head">
+<div style="text-align:center; padding-top:50px;" id="loading">
+    加载中 ... 
+</div>
+<div class="u-person-head" style="display:none;">
     <div class="msgbox">
         <img src="img/hw_03.png">
         <span class="msg"></span>
     </div>
     <img src="img/hw_06.png" class="photo">
-    <p class="name"><img src="img/hw_16.png">洪五爷</p>
+    <p class="name"><img src="img/hw_16.png"></p>
 </div>
-<div class="u-person-cont">
-    <a href="#">
+<div class="u-person-cont" style="display:none;">
+    <a href="myincome-king.html">
         <img src="img/hw_23.png">
         <p>我的收入</p>
     </a>
-    <a href="#">
+    <a href="collection.html">
         <img src="img/hw_25.png">
         <p>我的收藏</p>
     </a>
-    <a href="#">
+    <a href="javascript:;" onclick="QRcord.style.display = ''">
         <img src="img/hw_27.png">
         <p>我的二维码</p>
     </a>
 </div>
-<div class="u-person-order">
+<div class="u-person-order" style="display:none;">
     <h2 class="title">
         <span>
             <i>我的订单</i>
@@ -60,8 +63,12 @@
         </a>
     </div>
 </div>
-<div class="u-img-a-list">
-    <a href="#" class="list">
+<div class="u-img-a-list" style="display:none;">
+    <a href="#" class="list" id="my_team" style="display:none;">
+        <img src="img/hw_60.png">
+        <p>我的下级</p>
+    </a>
+    <a href="#" class="list" style="display:none;">
         <img src="img/hw_60.png">
         <p>分享排名</p>
     </a>
@@ -79,31 +86,14 @@
     </a>
 </div>
 <div class="u-bottomnav">
-    <a href="#">
-        <img src="img/hw_72.png">
-        <p>首页</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_74.png">
-        <p>所有产品</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_76.png">
-        <p>发现</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_78.png">
-        <p>购物车</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_80.png">
-        <p>个人中心</p>
-        <span>12</span>
-    </a>
+
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    Util.showLoading();
+    FuncNavi.addCallback(User.initSupplier, User);
+    FuncNavi.run();
+</script>
 </body>
 </html>
