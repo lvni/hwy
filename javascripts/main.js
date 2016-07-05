@@ -334,19 +334,20 @@ var FuncNavi = {
             //已登陆
             //to-do 不同角色，不同页面
             
-            var ucenter_page = "king.html";
+            var ucenter_page = "king.html" + Math.random();
             if (data.user.role >= Const.USER_ROLE_SUPPLIER) {
-                ucenter_page = "supplier.html";
+                ucenter_page = "supplier.html?"+ Math.random();
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
+                                 
         } else if (data && data.is_login == 0){
             htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart)
                                      .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king);
         } else {
             //初始化，不允许点击
              htmlStr = htmlStr.replace('{$cart_action}', clickNone)
-                                     .replace('{$ucenter_action}', clickNone);
+                                      .replace('{$ucenter_action}', clickNone);
         }
         
         return htmlStr;
@@ -1637,7 +1638,7 @@ var User = {
            
         }
     }
-    ,renderSupplier(data, direct) {
+    ,renderSupplier: function(data, direct) {
         Util.hideLoading();
         if (data.is_login != 1) {
             Util.goLogin(direct);
@@ -2191,12 +2192,10 @@ var UserRelation = {
 //供应商，
 var Supplier = {
     
-    
-    
     //加载在售的商品
     loadSelling: function(p, callback){
-        
-        Util.requestApi("?r=good/myselling",{p}, function(data) {
+        var me = Supplier;
+        Util.requestApi("?r=good/myselling",{p:p}, function(data) {
             if (data.errno != 0) {
                 
                 messageBox.toast(data.errmsg);
@@ -2207,7 +2206,7 @@ var Supplier = {
     }
     //加载交易中
     ,loadtrading: function(p) {
-        Util.requestApi("?r=good/mytrading",{p}, function(data) {
+        Util.requestApi("?r=good/mytrading",{p:p}, function(data) {
             if (data.errno != 0) {
                 
                 messageBox.toast(data.errmsg);
@@ -2219,6 +2218,7 @@ var Supplier = {
             var template = $("#trade_sold_template").html();
             for (i in data.data.list) {
                  var item = data.data.list[i];
+                 item.status = "交易中";
                  html += Template.renderByTempate(template, item);
              }
              me.tradingPage.render(data.data.page, data.data.page_count);
@@ -2227,13 +2227,24 @@ var Supplier = {
     }
     //加载已售的 
     ,loadsold: function(p) {
-        Util.requestApi("?r=good/mysold",{p}, function(data) {
+        var me = Supplier;
+        Util.requestApi("?r=good/mysold",{p:p}, function(data) {
             if (data.errno != 0) {
                 
                 messageBox.toast(data.errmsg);
                 return;
             }
             //渲染列表
+            var me = Supplier;
+            var html = "";
+            var template = $("#trade_sold_template").html();
+            for (i in data.data.list) {
+                 var item = data.data.list[i];
+                 item.status = "已售";
+                 html += Template.renderByTempate(template, item);
+             }
+             me.soldPage.render(data.data.page, data.data.page_count);
+             $("#sold_content").html(html);
         });
     }
     ,renderSelling: function(data) {
@@ -2242,13 +2253,26 @@ var Supplier = {
          var template = $("#myproduct_selling_template").html();
          for (i in data.data.list) {
              var item = data.data.list[i];
+             
              html += Template.renderByTempate(template, item);
          }
          me.sellingPage.render(data.data.page, data.data.page_count);
          $("#selling_content").html(html);
     }
+    ,renderModify: function(data) {
+         var me = Supplier;
+         var html = "";
+         var template = $("#modify_template").html();
+         for (i in data.data.list) {
+             var item = data.data.list[i];
+             
+             html += Template.renderByTempate(template, item);
+         }
+         me.modifyPage.render(data.data.page, data.data.page_count);
+         $("#modify_content").html(html);
+    }
     ,initSeeling: function(){
-        var me = this;
+        var me = Supplier;
         if (!me.sellingPage) {
             me.sellingPage = new Page("#selling_page");
             me.sellingPage.addClickEvent(function() {
@@ -2263,7 +2287,7 @@ var Supplier = {
     }
     //初始化交易中
     ,initTrading: function() {
-        var me = this;
+        var me = Supplier;
         if (!me.tradingPage) {
             me.tradingPage = new Page("#trade_page");
             me.tradingPage.target = "#trade_page";
@@ -2277,26 +2301,131 @@ var Supplier = {
         }
         
     }
+    ,initSold: function() {
+        var me = this;
+        if (!me.soldPage) {
+            me.soldPage = new Page("#sold_page");
+            me.soldPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadsold(page);
+                }
+            });
+            me.loadsold(1);
+        }
+    }
+    //初始化修改价格
+    ,initModify: function() {
+        var me = Supplier;
+        if (!me.modifyPage) {
+            me.modifyPage = new Page("#modify_page");
+            me.modifyPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadSelling(page,me.renderModify);
+                }
+            });
+            me.loadSelling(1,me.renderModify);
+        }
+    }
+    ,tabFunction: function(data, proxy) {
+        if (!proxy) {
+            var me = Supplier;
+        } else {
+            me = proxy;
+        }
+        
+        if (data == 'selling') {
+              me.initSeeling();
+              return;
+          }
+          if (data == 'trading') {
+              me.initTrading();
+              return;
+          }
+          if (data == 'sold') {
+              me.initSold();
+              return ;
+          }
+          if (data == 'modify') {
+              me.initModify();
+              return ;
+          }
+          if (data == 'refund') {
+              Util.showTips($("#js-contbox05"), "陆续开放中 ...");
+              return;
+          }
+    }
     //事件绑定处理
     ,bindEvent: function() {
          //选项卡切换事件
          var me = this;
         $("#js-changecont").delegate("div", 'click', function(){
               var data = $(this).attr('data');
-              if (data == 'selling') {
-                  me.initSeeling();
-                  return;
-              }
-              if (data == 'trading') {
-                  me.initTrading();
-                  return;
-              }
+              me.tabFunction(data, me);
+        });
+        $("#js-chooseall .u-checkbox").change(function(){
+             if ($(this).prop('checked')) {
+                 //全选
+                 $("#modify_content .u-checkbox").prop('checked', true);
+             } else {
+                 //全不选
+                 $("#modify_content .u-checkbox").prop('checked', false);
+             }
+        });
+        $("#selling_content").delegate(".editnode", 'click', function(){
+              $("#js-editpricebox")[0].style.display = "-webkit-box";
+              var goodsId = $(this).attr('data-id');
+              var goodsPrice = $(this).attr('data-price');
+              $("#src_price").html(goodsPrice);
+              $("#goods_id").val(goodsId);
+        });
+        var modifyBntClick = function(){
+            var type =  $("#js-editpricebox .nav .on").attr('box');
+            if (type == 0) {
+                //修改价格
+            } else {
+                //修改状态
+            }
+        };
+        $("#js-editpricebox .u-button-main").bind('click',modifyBntClick);
+        $("#js-editpricebox .contbox input").bind("keyup", function(){
+            var price = parseInt($("#src_price").html());
+            var name = $(this).attr('name');
+            var value = $(this).val();
+             $(this).removeClass("error");
+            if (name == 'discount') {
+                 if (value < 1 || value > 99) {
+                     $(this).addClass("error");
+                     $("#mod_price").html("");
+                     return;
+                 } else {
+                     $("#mod_price").html(price * value / 100);
+                 }
+            }
+            if (name == 'new_price') {
+                 if (value < 1 || value > price) {
+                     $(this).addClass("error");
+                     $("#mod_price").html("");
+                     return;
+                 } else {
+                     $("#mod_price").html(value);
+                 }
+            }
         });
     }
     //管理我商品
     ,runMainProducts: function() {
-        this.initSeeling();
-        this.bindEvent();
+        var me = this;
+        me.bindEvent();
+        var type = Util.getHash();
+        var types = {'selling':1, 'trading':1,'sold':1,'modify':1,'refund':1};
+        if (!(type in types)) {
+            type = 'selling';
+        }
+        $('#js-changecont div').removeClass('on');
+        $('#js-changecont div[data='+type+']').addClass('on').trigger('click');
+        //me.tabFunction(type, me);
     }
     
 };
