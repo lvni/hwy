@@ -47,45 +47,50 @@ String.prototype.replaceAll = function(s1,s2) {
 }
 
 //分页
-var Page = {
-    target: '.u-flip',
-    addClickEvent: function(clickFunc) {
-        var me = this;
-        $(me.target).delegate('a', 'click', clickFunc);
-    },
-    render: function(page, page_count) {
-        var me = this;
-        if ( page_count > 1) {
-            //页面大于1，显示分页
-            var page_info = "";
-            var prefx = "";
-            var tail    = "";
-            if (page_count > 4) {
-                //大于4页
-                prefx = "<a href='javascript:;' data='1'>首</a>";
-                tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
+var Page = function(target){
+    
+    return {
+        target: target,
+        addClickEvent: function(clickFunc) {
+            var me = this;
+            $(me.target).delegate('a', 'click', clickFunc);
+        },
+        render: function(page, page_count) {
+            var me = this;
+            if ( page_count > 1) {
+                //页面大于1，显示分页
+                var page_info = "";
+                var prefx = "";
+                var tail    = "";
+                if (page_count > 4) {
+                    //大于4页
+                    prefx = "<a href='javascript:;' data='1'>首</a>";
+                    tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
 
+                }
+                var start = page - 2 > 0 ?   page - 2 : 1;
+                var end  = start + 4 > page_count ? page_count : start + 4;
+                if (end == page_count) {
+                    start = end - 4 > 0 ? end - 4 : start;
+                }
+                for (i = start; i<= end; i++) {
+                        var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
+                        if (i == page) {
+                            item = "<a href='javascript:;' class='number'>"+i+"</a>";
+                        }
+                        page_info += item;
+                }
+                $(me.target).html(prefx + page_info + tail);
+            } else {
+                $(me.target).html('');
             }
-            var start = page - 2 > 0 ?   page - 2 : 1;
-            var end  = start + 4 > page_count ? page_count : start + 4;
-            if (end == page_count) {
-                start = end - 4 > 0 ? end - 4 : start;
-            }
-            for (i = start; i<= end; i++) {
-                    var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
-                    if (i == page) {
-                        item = "<a href='javascript:;' class='number'>"+i+"</a>";
-                    }
-                    page_info += item;
-            }
-            $(me.target).html(prefx + page_info + tail);
-        } else {
-            $(me.target).html('');
         }
-    }
-    
-    
+        
+        
+    };
 };
+
+
 var Template = {
     id: 0,
     template: '',
@@ -336,8 +341,8 @@ var FuncNavi = {
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
         } else if (data && data.is_login == 0){
-            htmlStr = htmlStr.replace('{$cart_action}', 'login.html')
-                                     .replace('{$ucenter_action}', 'login.html');
+            htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart)
+                                     .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king);
         } else {
             //初始化，不允许点击
              htmlStr = htmlStr.replace('{$cart_action}', clickNone)
@@ -1626,9 +1631,10 @@ var User = {
                 return;
             }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
-            $("#loading").hide();
             $(".u-person-head .name").append(data.user.name);
             $(".u-person-head .photo").attr('src', data.user.avatar);
+            $("#loading").hide();
+           
         }
     }
     ,renderSupplier(data, direct) {
@@ -1647,9 +1653,9 @@ var User = {
             $('#my_team').show();
         }
         $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
-        $("#loading").hide();
         $(".u-person-head .name").append(data.user.name);
         $(".u-person-head .photo").attr('src', data.user.avatar);
+        $("#loading").hide();
     }
     ,initKing: function(data, proxy) {
         if (!proxy) {
@@ -1774,7 +1780,7 @@ var Income = {
     ,loadKingFeeDetail: function(p) {
          var api = "?r=income/detail";
          Util.showTips($('#income_list'), "加载中...");
-         
+         var me = Income;
          Util.requestApi(api, {p:p}, function(data) {
             if (data.errno != 0) {
                 Util.showTips($('#income_list'), data.errmsg);
@@ -1795,14 +1801,15 @@ var Income = {
             
             var page_count = data.data.page_count;
             var curent_page = data.data.p;
-            Page.render(curent_page, page_count);
+            me.page.render(curent_page, page_count);
             
              
          });
     }
     ,bindKinFeeEvent: function() {
         var me = this;
-        Page.addClickEvent(function(){
+        me.page = new Page('.u-flip');
+        me.page.addClickEvent(function(){
             
              var page = $(this).attr('data');
              if (page) {
@@ -1937,6 +1944,7 @@ var Income = {
         });
     }
     ,loadHistory: function(p) {
+        var me = Income;
         Util.requestApi('?r=income/history', {p:p}, function(data) {
                 if (data.errno != 0) {
                     messageBox.toast(data.errmsg);
@@ -1962,14 +1970,15 @@ var Income = {
                     html += Template.renderByTempate(template, params);
                 }
                 $(".listbox").html(html);
-                Page.render(data.data.page, data.data.page_count);
+                me.page.render(data.data.page, data.data.page_count);
             
         });
     }
     //提取记录
     ,runHistory: function() {
-        var me = this;
-        Page.addClickEvent(function(){
+        var me = this
+        me.page = new Page('.u-flip');
+        me.page.addClickEvent(function(){
             var page = $(this).attr('data');
             if (page) {
                 me.loadHistory(page);
@@ -2109,6 +2118,7 @@ var Withdrawaccount = {
 var UserRelation = {
     
     loadRelation: function(p){
+        var me  = UserRelation;
         Util.requestApi("?r=user/downstream",{p:p}, function(data){
                 if (data.errno != 0) {
                     messageBox.toast("data.errmsg");
@@ -2125,14 +2135,15 @@ var UserRelation = {
                     html += Template.renderByTempate(template, item);
                 }
                 $('.infolistbox').html(html);
-                Page.render(data.data.page, data.data.page_count);
+                me.mainPage.render(data.data.page, data.data.page_count);
             
         });
     }
     ,runMain: function(){
         var me = this;
         me.loadRelation(1);
-        Page.addClickEvent(function(){
+        me.mainPage = new Page('.u-flip');
+        me.mainPage.addClickEvent(function(){
             var page = $(this).attr('data');
             if (page) {
                 me.loadRelation(page);
@@ -2140,6 +2151,7 @@ var UserRelation = {
         });
     }
     ,loadSubIncome: function(id, p) {
+        var me = UserRelation;
          Util.requestApi("?r=income/rebatestatics",{p:p,id:id}, function(data){
                 if (data.errno != 0) {
                     messageBox.toast("data.errmsg");
@@ -2156,7 +2168,7 @@ var UserRelation = {
                     html += Template.renderByTempate(template, item);
                 }
                 $('#content').html(html);
-                Page.render(data.data.page, data.data.page_count);
+                me.page.render(data.data.page, data.data.page_count);
             
         });
     }
@@ -2165,7 +2177,8 @@ var UserRelation = {
         var me = this;
         var id = Util.getQueryString('id');
         me.loadSubIncome(id, 1);
-        Page.addClickEvent(function(){
+        me.page = new Page('.u-flip');
+        me.page.addClickEvent(function(){
             var page = $(this).attr('data');
             if (page) {
                 me.loadSubIncome(id, page);
@@ -2173,4 +2186,119 @@ var UserRelation = {
         });
     }
 };
+
+
+//供应商，
+var Supplier = {
+    
+    
+    
+    //加载在售的商品
+    loadSelling: function(p, callback){
+        
+        Util.requestApi("?r=good/myselling",{p}, function(data) {
+            if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            callback(data);
+        });
+    }
+    //加载交易中
+    ,loadtrading: function(p) {
+        Util.requestApi("?r=good/mytrading",{p}, function(data) {
+            if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            //渲染列表
+            var me = Supplier;
+            var html = "";
+            var template = $("#trade_sold_template").html();
+            for (i in data.data.list) {
+                 var item = data.data.list[i];
+                 html += Template.renderByTempate(template, item);
+             }
+             me.tradingPage.render(data.data.page, data.data.page_count);
+             $("#trade_content").html(html);
+        });
+    }
+    //加载已售的 
+    ,loadsold: function(p) {
+        Util.requestApi("?r=good/mysold",{p}, function(data) {
+            if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            //渲染列表
+        });
+    }
+    ,renderSelling: function(data) {
+         var me = Supplier;
+         var html = "";
+         var template = $("#myproduct_selling_template").html();
+         for (i in data.data.list) {
+             var item = data.data.list[i];
+             html += Template.renderByTempate(template, item);
+         }
+         me.sellingPage.render(data.data.page, data.data.page_count);
+         $("#selling_content").html(html);
+    }
+    ,initSeeling: function(){
+        var me = this;
+        if (!me.sellingPage) {
+            me.sellingPage = new Page("#selling_page");
+            me.sellingPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadSelling(page,me.renderSelling);
+                }
+            });
+            me.loadSelling(1,me.renderSelling);
+        }
+        
+    }
+    //初始化交易中
+    ,initTrading: function() {
+        var me = this;
+        if (!me.tradingPage) {
+            me.tradingPage = new Page("#trade_page");
+            me.tradingPage.target = "#trade_page";
+            me.tradingPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadtrading(page);
+                }
+            });
+            me.loadtrading(1);
+        }
+        
+    }
+    //事件绑定处理
+    ,bindEvent: function() {
+         //选项卡切换事件
+         var me = this;
+        $("#js-changecont").delegate("div", 'click', function(){
+              var data = $(this).attr('data');
+              if (data == 'selling') {
+                  me.initSeeling();
+                  return;
+              }
+              if (data == 'trading') {
+                  me.initTrading();
+                  return;
+              }
+        });
+    }
+    //管理我商品
+    ,runMainProducts: function() {
+        this.initSeeling();
+        this.bindEvent();
+    }
+    
+};
+
     
