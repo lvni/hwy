@@ -45,14 +45,14 @@
 <div class="u-myincome-search">
     <p class="title">货款总额：<span id="goods_money">￥0</span><i>（含返利：￥<span id="rebate_money">0</span>）</i></p>
     <div class="cont">
-        <input type="text">
+        <input type="date" placeholder="开始时间" name="from" style="width: 6rem;font-size: 1rem;">
         <span>-</span>
-        <input type="text">
+        <input type="date" placeholder="截止时间" name="to" style="width: 6rem;font-size: 1rem;">
         <div class="buttonbox">
-            <button class="u-mainbutton-little">
+            <button class="u-mainbutton-little" data-act="search">
                 <span>搜索</span>
             </button>
-            <button class="u-mainbutton-little">
+            <button class="u-mainbutton-little" data-act="view_all">
                 <span>查看全部</span>
             </button>
         </div>

@@ -1871,14 +1871,14 @@ var Income = {
          });
     }
     //加载收入列表
-    ,loadSupplierFeeDetail: function(myself, p) {
+    ,loadSupplierFeeDetail: function( params) {
          var api = "?r=income/supplierdetail";
          var me = Income;
-         var target = myself ? $("#sold_content") : $("#sub_sold_content");
-         var page = myself ? me.page_self : me.page_sub;
+         var target = params.myself ? $("#sold_content") : $("#sub_sold_content");
+         var page = params.myself ? me.page_self : me.page_sub;
          Util.showTips(target, "加载中...");
          
-         Util.requestApi(api, {p:p,myself:myself}, function(data) {
+         Util.requestApi(api, params, function(data) {
             if (data.errno != 0) {
                 Util.showTips(target, data.errmsg);
                 return;
@@ -1922,7 +1922,37 @@ var Income = {
         this.bindKinFeeEvent();
     }
     ,bindSupplierEvent: function(){
+         var me = this;
+        $("#changenode01").click(function(){
+            me.loadSupplierFeeDetail({myself:true, p:1});
+        });
         
+        $("#changenode02").click(function(){
+            me.loadSupplierFeeDetail({myself:false, p:1});
+        });
+        
+        $(".u-myincome-search button").click(function(){
+            var act = $(this).attr('data-act');
+            var myself = $('#js-changecont .on').attr('id') == 'changenode01' ? true : false;
+            if (act == 'search') {
+                //搜索
+                var params = {};
+                $(".u-myincome-search input").each(function(i) {
+                      var val = $(this).val().trim();
+                      var name = $(this).attr('name');
+                      if (val != '') {
+                          params[name] = val;
+                      }
+                });
+                params.myself = myself;
+                params.p = 1;
+                me.loadSupplierFeeDetail(params);
+            }
+            if (act == 'view_all') {
+                $(".u-myincome-search input").val('');
+                me.loadSupplierFeeDetail({myself:myself, p:1});
+            }
+        });
     }
     ,runSupplier: function() {
         var me = this;
@@ -1932,20 +1962,20 @@ var Income = {
             
              var page = $(this).attr('data');
              if (page) {
-                 me.loadSupplierFeeDetail(true, page);
+                 me.loadSupplierFeeDetail({myself:true, p:1});
              }
         });
         me.page_sub.addClickEvent(function(){
             
              var page = $(this).attr('data');
              if (page) {
-                 me.loadSupplierFeeDetail(false, page);
+                 me.loadSupplierFeeDetail({myself:false, p:1});
              }
         });
         me.loadSupplierFee();
         me.bindSupplierEvent();
         myself = true;
-        me.loadSupplierFeeDetail(myself, 1);
+        me.loadSupplierFeeDetail({myself:myself, p:1});
     }
     //进入提现页面
     , loadWithdrawals: function() {
