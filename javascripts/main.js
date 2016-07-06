@@ -147,7 +147,14 @@ var Util = {
     //跳转登录
     ,goLogin: function(redistrict) {
         var callback = redistrict ? redistrict : config.page.home; 
-        window.location.href = config.page.login + "?redirect=" + callback;
+        
+        if (Util.isWeiXin()) {
+             //微信端内，直接登陆
+             Util.goWxLogin(callback);
+        } else {
+            window.location.href = config.page.login + "?redirect=" + callback;
+        }
+        
         
     }
     //同步请求
@@ -378,6 +385,11 @@ var FuncNavi = {
                                      .replace('{$ucenter_action}', ucenter_page);
                                  
         } else if (data && data.is_login == 0){
+            if (Util.isWeiXin()) {
+                //微信内，直接跳登录
+                Util.goWxLogin(window.location.href);
+                return ;
+            }
             htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart)
                                      .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king);
         } else {
