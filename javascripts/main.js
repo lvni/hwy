@@ -37,8 +37,22 @@ var Const = {
 
 //消息盒子相关
 var messageBox = {
-    toast: function(msg) {
-        alert(msg);
+    id : 0,
+    hidde: function(target) {
+        target.hide('slow').remove();
+    }
+    ,toast: function(msg) {
+        var me = this;
+        var html = '<div id="system_messagebox_toast" style="position:fixed; '
+                     + 'bottom:30%;margin-left:auto;margin-right:auto;background:'
+                     + '#262631;color: #fff;border-radius: 5px;padding: 5px 10px;'
+                     + 'text-align: center;left:50%;z-index:999;">'+msg+'</div>';
+        //alert(msg);
+        $('body').append(html);
+        var marginLeft = 0 - $("#system_messagebox_toast").width() / 2;
+        console.log($("#system_messagebox_toast").width());
+        $("#system_messagebox_toast").css('margin-left', marginLeft + "px");
+        setTimeout(function(){me.hidde($("#system_messagebox_toast"))}, 1000);
     }
     
 };
