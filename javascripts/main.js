@@ -149,6 +149,38 @@ var Util = {
         window.location.href = config.page.login + "?redirect=" + callback;
         
     }
+    //同步请求
+    ,syncRequest: function(api, data, callback, method) {
+        var me = this;
+        me.showLoading();
+        var beforeCallback = function(data) {
+              me.hideLoading();
+             if (data.errno  == ErrorCode.NO_LOGIN) {
+                 //没有登录，直接去登录
+                 //messageBox.toast("请先登录");
+                 var url = location.href;
+                 me.goLogin(url);
+                 return ;
+             }
+            return callback(data);
+        }
+        if (!method) {
+            method = 'get';
+        }
+        var url = config.api + api;
+        $.ajax({
+            url: url,
+            type: method,
+            async: false,
+            dataType: 'json',
+            data: data,
+            success: beforeCallback,
+            error: function() {
+                me.hideLoading();
+                messageBox.toast("服务器出错啦");
+            }
+        });
+    }
     //请求接口
     ,requestApi: function(api, data, callback, type) {
         
@@ -158,7 +190,7 @@ var Util = {
               me.hideLoading();
              if (data.errno  == ErrorCode.NO_LOGIN) {
                  //没有登录，直接去登录
-                 messageBox.toast("请先登录吧");
+                 //messageBox.toast("请先登录");
                  var url = location.href;
                  me.goLogin(url);
                  return ;
@@ -334,7 +366,7 @@ var FuncNavi = {
             //已登陆
             //to-do 不同角色，不同页面
             
-            var ucenter_page = "king.html" + Math.random();
+            var ucenter_page = "king.html?" + Math.random();
             if (data.user.role >= Const.USER_ROLE_SUPPLIER) {
                 ucenter_page = "supplier.html?"+ Math.random();
             }
@@ -2195,6 +2227,7 @@ var Supplier = {
     //加载在售的商品
     loadSelling: function(p, callback){
         var me = Supplier;
+        me.sellingPageNo = p;
         Util.requestApi("?r=good/myselling",{p:p}, function(data) {
             if (data.errno != 0) {
                 
@@ -2216,6 +2249,10 @@ var Supplier = {
             var me = Supplier;
             var html = "";
             var template = $("#trade_sold_template").html();
+            if (data.data.list.length == 0) {
+                Util.showTips($("#trade_content"), "没有相关记录");
+                return;
+            }
             for (i in data.data.list) {
                  var item = data.data.list[i];
                  item.status = "交易中";
@@ -2238,6 +2275,10 @@ var Supplier = {
             var me = Supplier;
             var html = "";
             var template = $("#trade_sold_template").html();
+            if (data.data.list.length == 0) {
+                Util.showTips($("#sold_content"), "没有相关记录");
+                return;
+            }
             for (i in data.data.list) {
                  var item = data.data.list[i];
                  item.status = "已售";
@@ -2251,6 +2292,11 @@ var Supplier = {
          var me = Supplier;
          var html = "";
          var template = $("#myproduct_selling_template").html();
+         
+         if (data.data.list.length == 0) {
+                Util.showTips($("#selling_content"), "没有相关记录");
+                return;
+         }
          for (i in data.data.list) {
              var item = data.data.list[i];
              
@@ -2263,6 +2309,10 @@ var Supplier = {
          var me = Supplier;
          var html = "";
          var template = $("#modify_template").html();
+         if (data.data.list.length == 0) {
+                Util.showTips($("#modify_content"), "没有相关记录");
+                return;
+         }
          for (i in data.data.list) {
              var item = data.data.list[i];
              
@@ -2364,6 +2414,8 @@ var Supplier = {
               var data = $(this).attr('data');
               me.tabFunction(data, me);
         });
+        
+        //批量修改
         $("#js-chooseall .u-checkbox").change(function(){
              if ($(this).prop('checked')) {
                  //全选
@@ -2373,6 +2425,41 @@ var Supplier = {
                  $("#modify_content .u-checkbox").prop('checked', false);
              }
         });
+        $("#js-contbox04 .u-myproduct-bottomedit button").click(function(){
+                
+                //提交批量修改价格
+                var goodsIds = "";
+                goodsIds = $("#modify_content input[type=checkbox]:checked").map(function(i){
+                        return $(this).val();
+                }).get().join(',');  
+                if (goodsIds == "") {
+                    messageBox.toast("请选择要修改的商品");
+                    return;
+                }
+                var percent = $("#js-contbox04 .u-myproduct-bottomedit input[type=number]").val().trim();
+                if (percent == "") {
+                     messageBox.toast("请输入折扣值");
+                    return;
+                }
+                percent = parseInt(percent);
+                if (isNaN(percent) || 1 > percent || 99 < percent) {
+                    messageBox.toast("只能输入0 - 99");
+                    return;
+                }
+                Util.syncRequest('?r=good/batmodifyprice', {goods_ids:goodsIds,percent:percent}, function(data){
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == 0) {
+                         //修改成功，刷新页面
+                         //me.sellingPageNo
+                         $('.u-myproduct-editpopod .u-button-gray').trigger('click');
+                         me.loadSelling(me.sellingPageNo,me.renderModify);
+                    }
+                    
+                });
+                
+
+        });
+        //修改框的事件
         $("#selling_content").delegate(".editnode", 'click', function(){
               $("#js-editpricebox")[0].style.display = "-webkit-box";
               var goodsId = $(this).attr('data-id');
@@ -2380,15 +2467,44 @@ var Supplier = {
               $("#src_price").html(goodsPrice);
               $("#goods_id").val(goodsId);
         });
+        //修改价格和状态按钮的事件
         var modifyBntClick = function(){
             var type =  $("#js-editpricebox .nav .on").attr('box');
+            var goodsId = $("#js-editpricebox input[name=goods_id]").val();
             if (type == 0) {
                 //修改价格
+                var price = parseInt($("#mod_price").html());
+                if (isNaN(price) || price == 0) {
+                    messageBox.toast("请输入调整的价格");
+                    return; 
+                }
+                Util.syncRequest('?r=good/modifyprice', {goods_id:goodsId,price:price}, function(data){
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == 0) {
+                         //修改成功，刷新页面
+                         //me.sellingPageNo
+                         $('.u-myproduct-editpopod .u-button-gray').trigger('click');
+                         me.loadSelling(me.sellingPageNo,me.renderSelling);
+                    }
+                    
+                });
             } else {
-                //修改状态
+                //修改价格
+                var status = $("#js-editpricebox select").val();
+                Util.syncRequest('?r=good/modifystatus', {goods_id:goodsId,status:status}, function(data){
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == 0) {
+                         //修改成功，刷新页面
+                         //me.sellingPageNo
+                         $('.u-myproduct-editpopod .u-button-gray').trigger('click');
+                         me.loadSelling(me.sellingPageNo,me.renderSelling);
+                    }
+                    
+                });
             }
         };
         $("#js-editpricebox .u-button-main").bind('click',modifyBntClick);
+        //注册价格框keyup事件，实时判断价格是否合法
         $("#js-editpricebox .contbox input").bind("keyup", function(){
             var price = parseInt($("#src_price").html());
             var name = $(this).attr('name');
