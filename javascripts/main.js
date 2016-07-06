@@ -19,6 +19,7 @@ var config = {
         'user_supplier' : 'supplier.html',
         'collection': 'collection.html', //我的收藏
         'income_king' : 'myincome-king.html', //我的收入
+        'income_supplier' : 'myincome-captain-mymember.html', //我的收入- 供应商
     },
     'navi_show_page':[
         'king.html', 'index.html', 'allproduct.html',
@@ -292,7 +293,10 @@ var Util = {
         }
         return true;
     }
-  
+    ,goPage: function(page) {
+        window.location.href = page;
+        return;
+    }
 };
 //存储相关
 var Storge = {
@@ -1804,8 +1808,35 @@ var Income = {
                  messageBox.toast(data.errmsg);
                  return;
              }
+             if (data.data.role >= Const.USER_ROLE_SUPPLIER) {
+                 //Util.goPage(config.page.income_supplier);
+             }
              $('#user_money').html(data.data.money);
              $('#trade_money').html(data.data.trade_money);
+             //
+        });
+    }
+    ,loadSupplierFee: function() {
+        //加载收入概要 
+        var api = "?r=income/resume";
+        Util.requestApi(api, {}, function(data) {
+             if (data.errno == Const.NO_LOGIN) {
+                 //没有登录
+                 Util.goLogin(config.page.income_king);
+                 return;
+             }
+             if (data.errno != 0) {
+                 messageBox.toast(data.errmsg);
+                 return;
+             }
+             if (data.data.role < Const.USER_ROLE_SUPPLIER) {
+                 //Util.goPage(config.page.income_king);
+             }
+             if (data.data.role == Const.USER_ROLE_SUPPLIER_LEADER) {
+                 $("#changenode02").show(); //可以查看队员订单情况
+             }
+             $('#user_money').html(data.data.money);
+             //$('#trade_money').html(data.data.trade_money);
              //
         });
     }
@@ -1839,6 +1870,41 @@ var Income = {
              
          });
     }
+    //加载收入列表
+    ,loadSupplierFeeDetail: function(myself, p) {
+         var api = "?r=income/supplierdetail";
+         var me = Income;
+         var target = myself ? $("#sold_content") : $("#sub_sold_content");
+         var page = myself ? me.page_self : me.page_sub;
+         Util.showTips(target, "加载中...");
+         
+         Util.requestApi(api, {p:p,myself:myself}, function(data) {
+            if (data.errno != 0) {
+                Util.showTips(target, data.errmsg);
+                return;
+            }
+            var template = $('#income_list_template').html();
+            var html = "";
+            $("#goods_money").html("￥" + data.data.goods_money);
+            $("#rebate_money").html(data.data.rebate_money);
+            if (data.data.list.length == 0) {
+                html = "没有佣金记录";
+                Util.showTips(target, html);
+                return
+            }
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                html += Template.renderByTempate(template, item);
+            }
+            target.html(html);
+            
+            var page_count = data.data.page_count;
+            var curent_page = data.data.p;
+            page.render(curent_page, page_count);
+            
+             
+         });
+    }
     ,bindKinFeeEvent: function() {
         var me = this;
         me.page = new Page('.u-flip');
@@ -1855,7 +1921,32 @@ var Income = {
         this.loadKingFeeDetail(1);
         this.bindKinFeeEvent();
     }
-    
+    ,bindSupplierEvent: function(){
+        
+    }
+    ,runSupplier: function() {
+        var me = this;
+        me.page_self = new Page('#sold_page');
+        me.page_sub = new Page('#sub_sold_page');
+        me.page_self.addClickEvent(function(){
+            
+             var page = $(this).attr('data');
+             if (page) {
+                 me.loadSupplierFeeDetail(true, page);
+             }
+        });
+        me.page_sub.addClickEvent(function(){
+            
+             var page = $(this).attr('data');
+             if (page) {
+                 me.loadSupplierFeeDetail(false, page);
+             }
+        });
+        me.loadSupplierFee();
+        me.bindSupplierEvent();
+        myself = true;
+        me.loadSupplierFeeDetail(myself, 1);
+    }
     //进入提现页面
     , loadWithdrawals: function() {
          var me = this;
@@ -2542,6 +2633,12 @@ var Supplier = {
         $('#js-changecont div').removeClass('on');
         $('#js-changecont div[data='+type+']').addClass('on').trigger('click');
         //me.tabFunction(type, me);
+    }
+    //我的收入里面涉及已售商品相关
+    ,runIncome: function() {
+        
+        var me = this;
+        
     }
     
 };
