@@ -57,6 +57,32 @@ var messageBox = {
         $("#system_messagebox_toast").css('margin-left', marginLeft + "px");
         setTimeout(function(){me.hidde($("#system_messagebox_toast"))}, 1000);
     }
+    //弹出确认框
+    ,confirm: function(msg, callback) {
+        var html = '<div class="u-popodbox" id="js-confirm-box">'
+                      + '<div class="cont"><h2>'
+                      + msg + '</h2><div class="buttonbox">'
+                      + '<button class="u-button-gray">'
+                      + '<span>取消</span></button>'
+                      + '<button class="u-button-main">'
+                      + '<span>确认</span></button></div></div></div>';
+        if ($("js-confirm-box").length) {
+            return;
+        }
+        $('body').append(html);
+        $("#js-confirm-box")[0].style.display = '-webkit-box';
+        var yscfunc = function(){
+            $("#js-confirm-box").remove();
+            callback();
+        }
+        if (typeof callback == 'function') {
+            $("#js-confirm-box .u-button-main").bind('click', yscfunc);
+        }
+        $("#js-confirm-box .u-button-gray").bind("click", function(){
+            $("#js-confirm-box").remove();
+        });
+        
+    }
     
 };
 

@@ -21,27 +21,27 @@
     </a>
 </div>
 <div class="u-list-arrow">
-    <a href="#">
+    <a href="javascript:;">
         <i>修改昵称</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#" id="js-uploadPhotoTrigger">
+    <a href="javascript:;" id="js-uploadPhotoTrigger">
         <i>修改头像</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#">
+    <a href="javascript:;">
         <i>新消息提醒</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#" class="js-confirmNode">
+    <a href="javascript:;" class="js-confirmNode" id="clear-cache">
         <i>清理缓存</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#">
+    <a href="javascript:;">
         <i>当前版本/版本更新</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="#" class="js-confirmNode">
+    <a href="javascript:;" class="js-confirmNode" id="logout">
         <i>退出当前账号</i>
         <img src="img/arrowright.png">
     </a>
@@ -71,21 +71,16 @@
     </div>
 </div>
 <!--end-->
-<!--带两个按钮的弹窗-->
-<div class="u-popodbox" id="js-confirm">
-    <div class="cont">
-        <h2>确认要清理缓存吗？</h2>
-        <div class="buttonbox">
-            <button class="u-button-gray">
-                <span>取消</span>
-            </button>
-            <button class="u-button-main">
-                <span>确认</span>
-            </button>
-        </div>
-    </div>
-</div>
-<!--end-->
-<script src="javascripts/popups.js"></script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+
+    $("#logout").click(function(){
+         messageBox.confirm("您确定要登录吗?", function(){alert("是的");});
+    });
+    $("#clear-cache").click(function(){
+         messageBox.confirm("您确定要清理缓存吗?", function(){alert("是的");});
+    });
+</script>
 </body>
 </html>
