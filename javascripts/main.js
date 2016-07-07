@@ -19,6 +19,7 @@ var config = {
         'user_supplier' : 'supplier.html',
         'collection': 'collection.html', //我的收藏
         'income_king' : 'myincome-king.html', //我的收入
+        'income_supplier' : 'myincome-captain-mymember.html', //我的收入- 供应商
     },
     'navi_show_page':[
         'king.html', 'index.html', 'allproduct.html',
@@ -36,8 +37,22 @@ var Const = {
 
 //消息盒子相关
 var messageBox = {
-    toast: function(msg) {
-        alert(msg);
+    id : 0,
+    hidde: function(target) {
+        target.hide('slow').remove();
+    }
+    ,toast: function(msg) {
+        var me = this;
+        var html = '<div id="system_messagebox_toast" style="position:fixed; '
+                     + 'bottom:30%;margin-left:auto;margin-right:auto;background:'
+                     + '#262631;color: #fff;border-radius: 5px;padding: 5px 10px;'
+                     + 'text-align: center;left:50%;z-index:999;">'+msg+'</div>';
+        //alert(msg);
+        $('body').append(html);
+        var marginLeft = 0 - $("#system_messagebox_toast").width() / 2;
+        console.log($("#system_messagebox_toast").width());
+        $("#system_messagebox_toast").css('margin-left', marginLeft + "px");
+        setTimeout(function(){me.hidde($("#system_messagebox_toast"))}, 1000);
     }
     
 };
@@ -47,45 +62,50 @@ String.prototype.replaceAll = function(s1,s2) {
 }
 
 //分页
-var Page = {
-    target: '.u-flip',
-    addClickEvent: function(clickFunc) {
-        var me = this;
-        $(me.target).delegate('a', 'click', clickFunc);
-    },
-    render: function(page, page_count) {
-        var me = this;
-        if ( page_count > 1) {
-            //页面大于1，显示分页
-            var page_info = "";
-            var prefx = "";
-            var tail    = "";
-            if (page_count > 4) {
-                //大于4页
-                prefx = "<a href='javascript:;' data='1'>首</a>";
-                tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
+var Page = function(target){
+    
+    return {
+        target: target,
+        addClickEvent: function(clickFunc) {
+            var me = this;
+            $(me.target).delegate('a', 'click', clickFunc);
+        },
+        render: function(page, page_count) {
+            var me = this;
+            if ( page_count > 1) {
+                //页面大于1，显示分页
+                var page_info = "";
+                var prefx = "";
+                var tail    = "";
+                if (page_count > 4) {
+                    //大于4页
+                    prefx = "<a href='javascript:;' data='1'>首</a>";
+                    tail = "<a href='javascript:;' data='"+page_count+"'>尾</a>";
 
+                }
+                var start = page - 2 > 0 ?   page - 2 : 1;
+                var end  = start + 4 > page_count ? page_count : start + 4;
+                if (end == page_count) {
+                    start = end - 4 > 0 ? end - 4 : start;
+                }
+                for (i = start; i<= end; i++) {
+                        var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
+                        if (i == page) {
+                            item = "<a href='javascript:;' class='number'>"+i+"</a>";
+                        }
+                        page_info += item;
+                }
+                $(me.target).html(prefx + page_info + tail);
+            } else {
+                $(me.target).html('');
             }
-            var start = page - 2 > 0 ?   page - 2 : 1;
-            var end  = start + 4 > page_count ? page_count : start + 4;
-            if (end == page_count) {
-                start = end - 4 > 0 ? end - 4 : start;
-            }
-            for (i = start; i<= end; i++) {
-                    var item = "<a href='javascript:;' data='"+i+"'>"+i+"</a>";
-                    if (i == page) {
-                        item = "<a href='javascript:;' class='number'>"+i+"</a>";
-                    }
-                    page_info += item;
-            }
-            $(me.target).html(prefx + page_info + tail);
-        } else {
-            $(me.target).html('');
         }
-    }
-    
-    
+        
+        
+    };
 };
+
+
 var Template = {
     id: 0,
     template: '',
@@ -141,8 +161,47 @@ var Util = {
     //跳转登录
     ,goLogin: function(redistrict) {
         var callback = redistrict ? redistrict : config.page.home; 
-        window.location.href = config.page.login + "?redirect=" + callback;
         
+        if (Util.isWeiXin()) {
+             //微信端内，直接登陆
+             Util.goWxLogin(callback);
+        } else {
+            window.location.href = config.page.login + "?redirect=" + callback;
+        }
+        
+        
+    }
+    //同步请求
+    ,syncRequest: function(api, data, callback, method) {
+        var me = this;
+        me.showLoading();
+        var beforeCallback = function(data) {
+              me.hideLoading();
+             if (data.errno  == ErrorCode.NO_LOGIN) {
+                 //没有登录，直接去登录
+                 //messageBox.toast("请先登录");
+                 var url = location.href;
+                 me.goLogin(url);
+                 return ;
+             }
+            return callback(data);
+        }
+        if (!method) {
+            method = 'get';
+        }
+        var url = config.api + api;
+        $.ajax({
+            url: url,
+            type: method,
+            async: false,
+            dataType: 'json',
+            data: data,
+            success: beforeCallback,
+            error: function() {
+                me.hideLoading();
+                messageBox.toast("服务器出错啦");
+            }
+        });
     }
     //请求接口
     ,requestApi: function(api, data, callback, type) {
@@ -153,7 +212,7 @@ var Util = {
               me.hideLoading();
              if (data.errno  == ErrorCode.NO_LOGIN) {
                  //没有登录，直接去登录
-                 messageBox.toast("请先登录吧");
+                 //messageBox.toast("请先登录");
                  var url = location.href;
                  me.goLogin(url);
                  return ;
@@ -255,7 +314,10 @@ var Util = {
         }
         return true;
     }
-  
+    ,goPage: function(page) {
+        window.location.href = page;
+        return;
+    }
 };
 //存储相关
 var Storge = {
@@ -329,19 +391,25 @@ var FuncNavi = {
             //已登陆
             //to-do 不同角色，不同页面
             
-            var ucenter_page = "king.html";
+            var ucenter_page = "king.html?" + Math.random();
             if (data.user.role >= Const.USER_ROLE_SUPPLIER) {
-                ucenter_page = "supplier.html";
+                ucenter_page = "supplier.html?"+ Math.random();
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
+                                 
         } else if (data && data.is_login == 0){
-            htmlStr = htmlStr.replace('{$cart_action}', 'login.html')
-                                     .replace('{$ucenter_action}', 'login.html');
+            if (Util.isWeiXin()) {
+                //微信内，直接跳登录
+                Util.goWxLogin(window.location.href);
+                return ;
+            }
+            htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart)
+                                     .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king);
         } else {
             //初始化，不允许点击
              htmlStr = htmlStr.replace('{$cart_action}', clickNone)
-                                     .replace('{$ucenter_action}', clickNone);
+                                      .replace('{$ucenter_action}', clickNone);
         }
         
         return htmlStr;
@@ -1626,12 +1694,13 @@ var User = {
                 return;
             }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
-            $("#loading").hide();
             $(".u-person-head .name").append(data.user.name);
             $(".u-person-head .photo").attr('src', data.user.avatar);
+            $("#loading").hide();
+           
         }
     }
-    ,renderSupplier(data, direct) {
+    ,renderSupplier: function(data, direct) {
         Util.hideLoading();
         if (data.is_login != 1) {
             Util.goLogin(direct);
@@ -1647,9 +1716,9 @@ var User = {
             $('#my_team').show();
         }
         $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
-        $("#loading").hide();
         $(".u-person-head .name").append(data.user.name);
         $(".u-person-head .photo").attr('src', data.user.avatar);
+        $("#loading").hide();
     }
     ,initKing: function(data, proxy) {
         if (!proxy) {
@@ -1765,8 +1834,35 @@ var Income = {
                  messageBox.toast(data.errmsg);
                  return;
              }
+             if (data.data.role >= Const.USER_ROLE_SUPPLIER) {
+                 //Util.goPage(config.page.income_supplier);
+             }
              $('#user_money').html(data.data.money);
              $('#trade_money').html(data.data.trade_money);
+             //
+        });
+    }
+    ,loadSupplierFee: function() {
+        //加载收入概要 
+        var api = "?r=income/resume";
+        Util.requestApi(api, {}, function(data) {
+             if (data.errno == Const.NO_LOGIN) {
+                 //没有登录
+                 Util.goLogin(config.page.income_king);
+                 return;
+             }
+             if (data.errno != 0) {
+                 messageBox.toast(data.errmsg);
+                 return;
+             }
+             if (data.data.role < Const.USER_ROLE_SUPPLIER) {
+                 //Util.goPage(config.page.income_king);
+             }
+             if (data.data.role == Const.USER_ROLE_SUPPLIER_LEADER) {
+                 $("#changenode02").show(); //可以查看队员订单情况
+             }
+             $('#user_money').html(data.data.money);
+             //$('#trade_money').html(data.data.trade_money);
              //
         });
     }
@@ -1774,7 +1870,7 @@ var Income = {
     ,loadKingFeeDetail: function(p) {
          var api = "?r=income/detail";
          Util.showTips($('#income_list'), "加载中...");
-         
+         var me = Income;
          Util.requestApi(api, {p:p}, function(data) {
             if (data.errno != 0) {
                 Util.showTips($('#income_list'), data.errmsg);
@@ -1795,14 +1891,50 @@ var Income = {
             
             var page_count = data.data.page_count;
             var curent_page = data.data.p;
-            Page.render(curent_page, page_count);
+            me.page.render(curent_page, page_count);
+            
+             
+         });
+    }
+    //加载收入列表
+    ,loadSupplierFeeDetail: function( params) {
+         var api = "?r=income/supplierdetail";
+         var me = Income;
+         var target = params.myself ? $("#sold_content") : $("#sub_sold_content");
+         var page = params.myself ? me.page_self : me.page_sub;
+         Util.showTips(target, "加载中...");
+         
+         Util.requestApi(api, params, function(data) {
+            if (data.errno != 0) {
+                Util.showTips(target, data.errmsg);
+                return;
+            }
+            var template = $('#income_list_template').html();
+            var html = "";
+            $("#goods_money").html("￥" + data.data.goods_money);
+            $("#rebate_money").html(data.data.rebate_money);
+            if (data.data.list.length == 0) {
+                html = "没有佣金记录";
+                Util.showTips(target, html);
+                return
+            }
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                html += Template.renderByTempate(template, item);
+            }
+            target.html(html);
+            
+            var page_count = data.data.page_count;
+            var curent_page = data.data.p;
+            page.render(curent_page, page_count);
             
              
          });
     }
     ,bindKinFeeEvent: function() {
         var me = this;
-        Page.addClickEvent(function(){
+        me.page = new Page('.u-flip');
+        me.page.addClickEvent(function(){
             
              var page = $(this).attr('data');
              if (page) {
@@ -1815,7 +1947,62 @@ var Income = {
         this.loadKingFeeDetail(1);
         this.bindKinFeeEvent();
     }
-    
+    ,bindSupplierEvent: function(){
+         var me = this;
+        $("#changenode01").click(function(){
+            me.loadSupplierFeeDetail({myself:true, p:1});
+        });
+        
+        $("#changenode02").click(function(){
+            me.loadSupplierFeeDetail({myself:false, p:1});
+        });
+        
+        $(".u-myincome-search button").click(function(){
+            var act = $(this).attr('data-act');
+            var myself = $('#js-changecont .on').attr('id') == 'changenode01' ? true : false;
+            if (act == 'search') {
+                //搜索
+                var params = {};
+                $(".u-myincome-search input").each(function(i) {
+                      var val = $(this).val().trim();
+                      var name = $(this).attr('name');
+                      if (val != '') {
+                          params[name] = val;
+                      }
+                });
+                params.myself = myself;
+                params.p = 1;
+                me.loadSupplierFeeDetail(params);
+            }
+            if (act == 'view_all') {
+                $(".u-myincome-search input").val('');
+                me.loadSupplierFeeDetail({myself:myself, p:1});
+            }
+        });
+    }
+    ,runSupplier: function() {
+        var me = this;
+        me.page_self = new Page('#sold_page');
+        me.page_sub = new Page('#sub_sold_page');
+        me.page_self.addClickEvent(function(){
+            
+             var page = $(this).attr('data');
+             if (page) {
+                 me.loadSupplierFeeDetail({myself:true, p:1});
+             }
+        });
+        me.page_sub.addClickEvent(function(){
+            
+             var page = $(this).attr('data');
+             if (page) {
+                 me.loadSupplierFeeDetail({myself:false, p:1});
+             }
+        });
+        me.loadSupplierFee();
+        me.bindSupplierEvent();
+        myself = true;
+        me.loadSupplierFeeDetail({myself:myself, p:1});
+    }
     //进入提现页面
     , loadWithdrawals: function() {
          var me = this;
@@ -1937,6 +2124,7 @@ var Income = {
         });
     }
     ,loadHistory: function(p) {
+        var me = Income;
         Util.requestApi('?r=income/history', {p:p}, function(data) {
                 if (data.errno != 0) {
                     messageBox.toast(data.errmsg);
@@ -1962,14 +2150,15 @@ var Income = {
                     html += Template.renderByTempate(template, params);
                 }
                 $(".listbox").html(html);
-                Page.render(data.data.page, data.data.page_count);
+                me.page.render(data.data.page, data.data.page_count);
             
         });
     }
     //提取记录
     ,runHistory: function() {
-        var me = this;
-        Page.addClickEvent(function(){
+        var me = this
+        me.page = new Page('.u-flip');
+        me.page.addClickEvent(function(){
             var page = $(this).attr('data');
             if (page) {
                 me.loadHistory(page);
@@ -2109,6 +2298,7 @@ var Withdrawaccount = {
 var UserRelation = {
     
     loadRelation: function(p){
+        var me  = UserRelation;
         Util.requestApi("?r=user/downstream",{p:p}, function(data){
                 if (data.errno != 0) {
                     messageBox.toast("data.errmsg");
@@ -2125,14 +2315,15 @@ var UserRelation = {
                     html += Template.renderByTempate(template, item);
                 }
                 $('.infolistbox').html(html);
-                Page.render(data.data.page, data.data.page_count);
+                me.mainPage.render(data.data.page, data.data.page_count);
             
         });
     }
     ,runMain: function(){
         var me = this;
         me.loadRelation(1);
-        Page.addClickEvent(function(){
+        me.mainPage = new Page('.u-flip');
+        me.mainPage.addClickEvent(function(){
             var page = $(this).attr('data');
             if (page) {
                 me.loadRelation(page);
@@ -2140,6 +2331,7 @@ var UserRelation = {
         });
     }
     ,loadSubIncome: function(id, p) {
+        var me = UserRelation;
          Util.requestApi("?r=income/rebatestatics",{p:p,id:id}, function(data){
                 if (data.errno != 0) {
                     messageBox.toast("data.errmsg");
@@ -2156,7 +2348,7 @@ var UserRelation = {
                     html += Template.renderByTempate(template, item);
                 }
                 $('#content').html(html);
-                Page.render(data.data.page, data.data.page_count);
+                me.page.render(data.data.page, data.data.page_count);
             
         });
     }
@@ -2165,7 +2357,8 @@ var UserRelation = {
         var me = this;
         var id = Util.getQueryString('id');
         me.loadSubIncome(id, 1);
-        Page.addClickEvent(function(){
+        me.page = new Page('.u-flip');
+        me.page.addClickEvent(function(){
             var page = $(this).attr('data');
             if (page) {
                 me.loadSubIncome(id, page);
@@ -2173,4 +2366,337 @@ var UserRelation = {
         });
     }
 };
+
+
+//供应商，
+var Supplier = {
+    
+    //加载在售的商品
+    loadSelling: function(p, callback){
+        var me = Supplier;
+        me.sellingPageNo = p;
+        Util.requestApi("?r=good/myselling",{p:p}, function(data) {
+            if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            callback(data);
+        });
+    }
+    //加载交易中
+    ,loadtrading: function(p) {
+        Util.requestApi("?r=good/mytrading",{p:p}, function(data) {
+            if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            //渲染列表
+            var me = Supplier;
+            var html = "";
+            var template = $("#trade_sold_template").html();
+            if (data.data.list.length == 0) {
+                Util.showTips($("#trade_content"), "没有相关记录");
+                return;
+            }
+            for (i in data.data.list) {
+                 var item = data.data.list[i];
+                 item.status = "交易中";
+                 html += Template.renderByTempate(template, item);
+             }
+             me.tradingPage.render(data.data.page, data.data.page_count);
+             $("#trade_content").html(html);
+        });
+    }
+    //加载已售的 
+    ,loadsold: function(p) {
+        var me = Supplier;
+        Util.requestApi("?r=good/mysold",{p:p}, function(data) {
+            if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            //渲染列表
+            var me = Supplier;
+            var html = "";
+            var template = $("#trade_sold_template").html();
+            if (data.data.list.length == 0) {
+                Util.showTips($("#sold_content"), "没有相关记录");
+                return;
+            }
+            for (i in data.data.list) {
+                 var item = data.data.list[i];
+                 item.status = "已售";
+                 html += Template.renderByTempate(template, item);
+             }
+             me.soldPage.render(data.data.page, data.data.page_count);
+             $("#sold_content").html(html);
+        });
+    }
+    ,renderSelling: function(data) {
+         var me = Supplier;
+         var html = "";
+         var template = $("#myproduct_selling_template").html();
+         
+         if (data.data.list.length == 0) {
+                Util.showTips($("#selling_content"), "没有相关记录");
+                return;
+         }
+         for (i in data.data.list) {
+             var item = data.data.list[i];
+             
+             html += Template.renderByTempate(template, item);
+         }
+         me.sellingPage.render(data.data.page, data.data.page_count);
+         $("#selling_content").html(html);
+    }
+    ,renderModify: function(data) {
+         var me = Supplier;
+         var html = "";
+         var template = $("#modify_template").html();
+         if (data.data.list.length == 0) {
+                Util.showTips($("#modify_content"), "没有相关记录");
+                return;
+         }
+         for (i in data.data.list) {
+             var item = data.data.list[i];
+             
+             html += Template.renderByTempate(template, item);
+         }
+         me.modifyPage.render(data.data.page, data.data.page_count);
+         $("#modify_content").html(html);
+    }
+    ,initSeeling: function(){
+        var me = Supplier;
+        if (!me.sellingPage) {
+            me.sellingPage = new Page("#selling_page");
+            me.sellingPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadSelling(page,me.renderSelling);
+                }
+            });
+            me.loadSelling(1,me.renderSelling);
+        }
+        
+    }
+    //初始化交易中
+    ,initTrading: function() {
+        var me = Supplier;
+        if (!me.tradingPage) {
+            me.tradingPage = new Page("#trade_page");
+            me.tradingPage.target = "#trade_page";
+            me.tradingPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadtrading(page);
+                }
+            });
+            me.loadtrading(1);
+        }
+        
+    }
+    ,initSold: function() {
+        var me = this;
+        if (!me.soldPage) {
+            me.soldPage = new Page("#sold_page");
+            me.soldPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadsold(page);
+                }
+            });
+            me.loadsold(1);
+        }
+    }
+    //初始化修改价格
+    ,initModify: function() {
+        var me = Supplier;
+        if (!me.modifyPage) {
+            me.modifyPage = new Page("#modify_page");
+            me.modifyPage.addClickEvent(function() {
+                var page = $(this).attr('data');
+                if (page) {
+                    me.loadSelling(page,me.renderModify);
+                }
+            });
+            me.loadSelling(1,me.renderModify);
+        }
+    }
+    ,tabFunction: function(data, proxy) {
+        if (!proxy) {
+            var me = Supplier;
+        } else {
+            me = proxy;
+        }
+        
+        if (data == 'selling') {
+              me.initSeeling();
+              return;
+          }
+          if (data == 'trading') {
+              me.initTrading();
+              return;
+          }
+          if (data == 'sold') {
+              me.initSold();
+              return ;
+          }
+          if (data == 'modify') {
+              me.initModify();
+              return ;
+          }
+          if (data == 'refund') {
+              Util.showTips($("#js-contbox05"), "陆续开放中 ...");
+              return;
+          }
+    }
+    //事件绑定处理
+    ,bindEvent: function() {
+         //选项卡切换事件
+         var me = this;
+        $("#js-changecont").delegate("div", 'click', function(){
+              var data = $(this).attr('data');
+              me.tabFunction(data, me);
+        });
+        
+        //批量修改
+        $("#js-chooseall .u-checkbox").change(function(){
+             if ($(this).prop('checked')) {
+                 //全选
+                 $("#modify_content .u-checkbox").prop('checked', true);
+             } else {
+                 //全不选
+                 $("#modify_content .u-checkbox").prop('checked', false);
+             }
+        });
+        $("#js-contbox04 .u-myproduct-bottomedit button").click(function(){
+                
+                //提交批量修改价格
+                var goodsIds = "";
+                goodsIds = $("#modify_content input[type=checkbox]:checked").map(function(i){
+                        return $(this).val();
+                }).get().join(',');  
+                if (goodsIds == "") {
+                    messageBox.toast("请选择要修改的商品");
+                    return;
+                }
+                var percent = $("#js-contbox04 .u-myproduct-bottomedit input[type=number]").val().trim();
+                if (percent == "") {
+                     messageBox.toast("请输入折扣值");
+                    return;
+                }
+                percent = parseInt(percent);
+                if (isNaN(percent) || 1 > percent || 99 < percent) {
+                    messageBox.toast("只能输入0 - 99");
+                    return;
+                }
+                Util.syncRequest('?r=good/batmodifyprice', {goods_ids:goodsIds,percent:percent}, function(data){
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == 0) {
+                         //修改成功，刷新页面
+                         //me.sellingPageNo
+                         $('.u-myproduct-editpopod .u-button-gray').trigger('click');
+                         me.loadSelling(me.sellingPageNo,me.renderModify);
+                    }
+                    
+                });
+                
+
+        });
+        //修改框的事件
+        $("#selling_content").delegate(".editnode", 'click', function(){
+              $("#js-editpricebox")[0].style.display = "-webkit-box";
+              var goodsId = $(this).attr('data-id');
+              var goodsPrice = $(this).attr('data-price');
+              $("#src_price").html(goodsPrice);
+              $("#goods_id").val(goodsId);
+        });
+        //修改价格和状态按钮的事件
+        var modifyBntClick = function(){
+            var type =  $("#js-editpricebox .nav .on").attr('box');
+            var goodsId = $("#js-editpricebox input[name=goods_id]").val();
+            if (type == 0) {
+                //修改价格
+                var price = parseInt($("#mod_price").html());
+                if (isNaN(price) || price == 0) {
+                    messageBox.toast("请输入调整的价格");
+                    return; 
+                }
+                Util.syncRequest('?r=good/modifyprice', {goods_id:goodsId,price:price}, function(data){
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == 0) {
+                         //修改成功，刷新页面
+                         //me.sellingPageNo
+                         $('.u-myproduct-editpopod .u-button-gray').trigger('click');
+                         me.loadSelling(me.sellingPageNo,me.renderSelling);
+                    }
+                    
+                });
+            } else {
+                //修改价格
+                var status = $("#js-editpricebox select").val();
+                Util.syncRequest('?r=good/modifystatus', {goods_id:goodsId,status:status}, function(data){
+                    messageBox.toast(data.errmsg);
+                    if (data.errno == 0) {
+                         //修改成功，刷新页面
+                         //me.sellingPageNo
+                         $('.u-myproduct-editpopod .u-button-gray').trigger('click');
+                         me.loadSelling(me.sellingPageNo,me.renderSelling);
+                    }
+                    
+                });
+            }
+        };
+        $("#js-editpricebox .u-button-main").bind('click',modifyBntClick);
+        //注册价格框keyup事件，实时判断价格是否合法
+        $("#js-editpricebox .contbox input").bind("keyup", function(){
+            var price = parseInt($("#src_price").html());
+            var name = $(this).attr('name');
+            var value = $(this).val();
+             $(this).removeClass("error");
+            if (name == 'discount') {
+                 if (value < 1 || value > 99) {
+                     $(this).addClass("error");
+                     $("#mod_price").html("");
+                     return;
+                 } else {
+                     $("#mod_price").html(price * value / 100);
+                 }
+            }
+            if (name == 'new_price') {
+                 if (value < 1 || value > price) {
+                     $(this).addClass("error");
+                     $("#mod_price").html("");
+                     return;
+                 } else {
+                     $("#mod_price").html(value);
+                 }
+            }
+        });
+    }
+    //管理我商品
+    ,runMainProducts: function() {
+        var me = this;
+        me.bindEvent();
+        var type = Util.getHash();
+        var types = {'selling':1, 'trading':1,'sold':1,'modify':1,'refund':1};
+        if (!(type in types)) {
+            type = 'selling';
+        }
+        $('#js-changecont div').removeClass('on');
+        $('#js-changecont div[data='+type+']').addClass('on').trigger('click');
+        //me.tabFunction(type, me);
+    }
+    //我的收入里面涉及已售商品相关
+    ,runIncome: function() {
+        
+        var me = this;
+        
+    }
+    
+};
+
     

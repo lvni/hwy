@@ -8,10 +8,13 @@ function popupboxstate() {
     var titles = popupbox.querySelector('.nav').getElementsByClassName('cont');
     var contbox = popupbox.getElementsByClassName('contbox');
     var buttons = popupbox.getElementsByTagName('button');
-    console.log(titles);
     for(var i = 0, len = titles.length; i < len; i++) {
         buttons[i].addEventListener('click',function(e) {
-            popupbox.parentNode.style['display'] = 'none';
+            if (e.currentTarget.className == 'u-button-gray') {
+                 popupbox.parentNode.style['display'] = 'none';
+            }
+            
+            
         });
         titles[i].addEventListener('click',function(e) {
             var number = e.currentTarget.getAttribute('box');

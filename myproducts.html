@@ -2,7 +2,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <META NAME="MobileOptimized" CONTENT="240">
-    <title>我的商品-批量修改价格</title>
+    <title>我的商品</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/myproduct-edit.css">
 </head>
@@ -30,21 +30,7 @@
 <div class="u-searchhistory" id="js-searchHistory" style="display: none;">
     <p class="title">历史搜索</p>
     <ul class="cont" id="js-searchHistory-li">
-        <li>宝宝佛宝宝佛宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛宝宝佛宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛宝宝佛宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
-        <li>宝宝佛</li>
+        <!-- <li>宝宝佛宝宝佛宝宝佛</li> -->
     </ul>
     <div class="buttonbox">
         <button class="u-button-storkmain">
@@ -53,239 +39,29 @@
     </div>
 </div>
 <nav class="u-nav-autowidth" id="js-changecont">
-    <div class="on"><span>线上商品</span></div>
-    <div class=""><span>交易中</span></div>
-    <div class=""><span>已售</span></div>
-    <div class=""><span>修改价格</span></div>
-    <div class=""><span>退款/售后</span></div>
+    <div class="on" data="selling"><span>线上商品</span></div>
+    <div class="" data="trading"><span>交易中</span></div>
+    <div class="" data="sold"><span>已售</span></div>
+    <div class="" data="modify"><span>修改价格</span></div>
+    <div class="" data="refund"><span>退款/售后</span></div>
 </nav>
 <div id="js-contbox01"style="display: ;"><!--这个div用来控制整个内容的显示和隐藏-->
-    <label class="u-myproductlist ">
-        <input type="checkbox" class="u-checkbox">
-        <span class="u-choose"></span>
-        <div class="aboutproduct">
-            <img src="img/headphoto.jpg" class="photo">
-            <p class="name"><i>翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</i><span class="u-productstate-shopping">在售</span></p>
-            <p>供货价：<i>12800.00</i></p>
-            <p>货号：<i>CML...</i></p>
-            <p>上传时间：<i>2016-01-08</i></p>
-        </div>
-        <div class="edit-count">
-            <p class="editnode"><img src="img/hw_39.png">编辑</p>
-            <p>点赞量：<i>651</i></p>
-            <p>浏览量：<i>651</i></p>
-        </div>
-    </label>
-    <label class="u-myproductlist ">
-        <input type="checkbox" class="u-checkbox">
-        <span class="u-choose"></span>
-        <div class="aboutproduct">
-            <img src="img/headphoto.jpg" class="photo">
-            <p class="name"><i>翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</i><span class="u-productstate-shopping">在售</span></p>
-            <p>供货价：<i>1280012800.00</i></p>
-            <p>货号：<i>CMLCMLCMLCMLCMLCML</i></p>
-            <p>上传时间：<i>2016-01-08</i></p>
-        </div>
-        <div class="edit-count">
-            <p class="editnode"><img src="img/hw_39.png">编辑</p>
-            <p>点赞量：<i>651</i></p>
-            <p>浏览量：<i>651</i></p>
-        </div>
-    </label>
+    
+     <div id="selling_content"></div>
+     <div class="u-flip" id="selling_page">   </div>
 </div>
 <div id="js-contbox02"style="display: none;"><!--这个div用来控制整个内容的显示和隐藏-->
-    <div class="u-orderrecordbox">
-        <div class="head">
-            <img src="img/headphoto.jpg" class="photo">
-            <div class="tr">
-                <div class="td">
-                    <p>订单号：<i>162545632662622</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>商品名称：<i>呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>货号：：<i>162545632662622</i></p>
-                </div>
-                <div class="td">
-                    <p>数量：<i>呵呵哒</i></p>
-                </div>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>单价：<i>￥1880.00</i></p>
-            </div>
-            <div class="td">
-                <p>订单总额：<i>￥1880.00</i></p>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>交易日期：<i>2016-2-27</i></p>
-            </div>
-            <div class="td">
-                <p class="red">交易状态：<i>交易中</i></p>
-            </div>
-        </div>
-    </div>
-    <div class="u-orderrecordbox">
-        <div class="head">
-            <img src="img/headphoto.jpg" class="photo">
-            <div class="tr">
-                <div class="td">
-                    <p>订单号：<i>162545632662622</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>商品名称：<i>呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>货号：：<i>162545632662622</i></p>
-                </div>
-                <div class="td">
-                    <p>数量：<i>呵呵哒</i></p>
-                </div>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>单价：<i>￥1880.00</i></p>
-            </div>
-            <div class="td">
-                <p>订单总额：<i>￥1880.00</i></p>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>交易日期：<i>2016-2-27</i></p>
-            </div>
-            <div class="td">
-                <p class="red">交易状态：<i>交易中</i></p>
-            </div>
-        </div>
-    </div>
-    <div class="u-orderrecordbox">
-        <div class="head">
-            <img src="img/headphoto.jpg" class="photo">
-            <div class="tr">
-                <div class="td">
-                    <p>订单号：<i>162545632662622</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>商品名称：<i>呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>货号：：<i>162545632662622</i></p>
-                </div>
-                <div class="td">
-                    <p>数量：<i>呵呵哒</i></p>
-                </div>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>单价：<i>￥1880.00</i></p>
-            </div>
-            <div class="td">
-                <p>订单总额：<i>￥1880.00</i></p>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>交易日期：<i>2016-2-27</i></p>
-            </div>
-            <div class="td">
-                <p class="red">交易状态：<i>交易中</i></p>
-            </div>
-        </div>
-    </div>
+    <div id="trade_content"></div>
+    <div class="u-flip" id="trade_page">   </div>
+    
 </div>
 <div id="js-contbox03"style="display: none;"><!--这个div用来控制整个内容的显示和隐藏-->
-    <div class="u-orderrecordbox">
-        <div class="head">
-            <img src="img/headphoto.jpg" class="photo">
-            <div class="tr">
-                <div class="td">
-                    <p>订单号：<i>162545632662622</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>商品名称：<i>呵呵哒呵呵哒呵呵哒呵呵哒呵呵哒</i></p>
-                </div>
-            </div>
-            <div class="tr">
-                <div class="td">
-                    <p>货号：：<i>162545632662622</i></p>
-                </div>
-                <div class="td">
-                    <p>数量：<i>呵呵哒</i></p>
-                </div>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>单价：<i>￥1880.00</i></p>
-            </div>
-            <div class="td">
-                <p>订单总额：<i>￥1880.00</i></p>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <p>交易日期：<i>2016-2-27</i></p>
-            </div>
-            <div class="td">
-                <p class="red">交易状态：<i>已售</i></p>
-            </div>
-        </div>
-    </div>
+    <div id="sold_content"></div>
+    <div class="u-flip" id="sold_page">   </div>
 </div>
 <div id="js-contbox04"style="display: none;"><!--这个div用来控制整个内容的显示和隐藏-->
-    <label class="u-myproductlist edit">
-        <input type="checkbox" class="u-checkbox">
-        <span class="u-choose"></span>
-        <div class="aboutproduct">
-            <img src="img/headphoto.jpg" class="photo">
-            <p class="name"><i>翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</i><span class="u-productstate-shopping">在售</span></p>
-            <p>供货价：<i>12800.00</i></p>
-            <p>货号：<i>CML...</i></p>
-            <p>上传时间：<i>2016-01-08</i></p>
-        </div>
-        <div class="edit-count">
-            <p class="editnode"><img src="img/hw_39.png">编辑</p>
-            <p>点赞量：<i>651</i></p>
-            <p>浏览量：<i>651</i></p>
-        </div>
-    </label>
-    <label class="u-myproductlist edit">
-        <input type="checkbox" class="u-checkbox">
-        <span class="u-choose"></span>
-        <div class="aboutproduct">
-            <img src="img/headphoto.jpg" class="photo">
-            <p class="name"><i>翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</i><span class="u-productstate-shopping">在售</span></p>
-            <p>供货价：<i>1280012800.00</i></p>
-            <p>货号：<i>CMLCMLCMLCMLCMLCML</i></p>
-            <p>上传时间：<i>2016-01-08</i></p>
-        </div>
-        <div class="edit-count">
-            <p class="editnode"><img src="img/hw_39.png">编辑</p>
-            <p>点赞量：<i>651</i></p>
-            <p>浏览量：<i>651</i></p>
-        </div>
-    </label>
+    <div id="modify_content"></div>
+    <div class="u-flip" id="modify_page" style="height: 54px;">  </div>
     <div class="u-myproduct-bottomedit">
         <label class="choose" id="js-chooseall">
             <input type="checkbox" class="u-checkbox">
@@ -294,7 +70,7 @@
         <div class="eidt">
             <span>批量调整</span>
             <i class="inputbox">
-                <input type="number" placeholder="请输入1-100折扣值">
+                <input type="number" placeholder="请输入1-99折扣值">
                 <span class="company">%</span>
             </i>
             <button class="u-mainbutton-little">
@@ -304,6 +80,7 @@
     </div>
 </div>
 <div id="js-contbox05"style="display: none;"><!--这个div用来控制整个内容的显示和隐藏-->
+    
 </div>
 
 <div class="u-popodbox" id="js-editpricebox">
@@ -312,26 +89,27 @@
             <span class="cont on" box = '0'>价格调整</span>
             <span class="cont" box = '1'>修改状态</span>
         </div>
+        <input type="hidden" name="goods_id" id="goods_id" value="">
         <div class="contbox" >
             <div class="cont">
-                <p class="price">现价：<i>￥12800.00</i></p>
+                <p class="price">现价：<i>￥ <span id="src_price"></span></i></p> 
                 <div class="inputbox">
-                    <input type="number" placeholder="请输入1-100折扣值" class="input">
+                    <input type="number" name="discount" placeholder="请输入1-99折扣值" class="input" min="1" max="100">
                     <span class="company">%</span>
                 </div>
             </div>
             <div class="cont" >
-                <p class="price">调整后：<i>￥1280000000.00</i></p>
+                <p class="price">调整后：<i>￥<span id="mod_price"></span></i></p>
                 <div class="inputbox">
-                    <input type="number" placeholder="请输入调整价格" class="input">
+                    <input type="number" name="new_price" placeholder="请输入调整价格" class="input">
                 </div>
             </div>
         </div>
         <div class="contbox" style="display: none;">
             <select class="select">
-                <option>在售</option>
-                <option>交易中</option>
-                <option>已售</option>
+                <!-- <option value="selling">在售</option>
+                <option value="trading">交易中</option> -->
+                <option value="sold">已售</option>
             </select>
             <img src="img/sanjiao.png" class="arrow">
         </div>
@@ -346,10 +124,90 @@
     </div>
 </div>
 
+<script id="modify_template" type="text/template">
+<label class="u-myproductlist edit">
+        <input type="checkbox" class="u-checkbox" value="{$goods_id}">
+        <span class="u-choose"></span>
+        <div class="aboutproduct">
+            <img src="{$goods_img}" class="photo">
+            <p class="name"><i>{$goods_name}</i><span class="u-productstate-shopping">在售</span></p>
+            <p>供货价：<i>{$suppiler_price}</i></p>
+            <p>货号：<i>{$goods_sn}</i></p>
+            <p>上传时间：<i>{$add_time}</i></p>
+        </div>
+        <div class="edit-count">
+            <p class="editnode"><img src="img/hw_39.png">编辑</p>
+            <p>点赞量：<i>{$likes_count}</i></p>
+            <p>浏览量：<i>{$view_count}</i></p>
+        </div>
+    </label>
+</script>
+<script id="trade_sold_template" type="text/template">
+<div class="u-orderrecordbox">
+        <div class="head">
+            <img src="{$goods_img}" class="photo">
+            <div class="tr">
+                <div class="td">
+                    <p>订单号：<i>{$order_sn}</i></p>
+                </div>
+            </div>
+            <div class="tr">
+                <div class="td">
+                    <p>商品名称：<i>{$goods_name}</i></p>
+                </div>
+            </div>
+            <div class="tr">
+                <div class="td">
+                    <p>货号：：<i>{$goods_sn}</i></p>
+                </div>
+                <div class="td">
+                    <p>数量：<i>{$goods_number}</i></p>
+                </div>
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td">
+                <p>单价：<i>￥{$goods_price}</i></p>
+            </div>
+            <div class="td">
+                <p>订单总额：<i>￥{$order_amount}</i></p>
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td">
+                <p>交易日期：<i>{$order_date}</i></p>
+            </div>
+            <div class="td">
+                <p class="red">交易状态：<i>{$status}</i></p>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="myproduct_selling_template">
+<label class="u-myproductlist ">
+        <input type="checkbox" class="u-checkbox">
+        <span class="u-choose"></span>
+        <div class="aboutproduct">
+            <a href="details.html?id={$goods_id}"><img src="{$goods_img}" class="photo"></a>
+            <p class="name"><i>{$goods_name}</i><span class="u-productstate-shopping">在售</span></p>
+            <p>供货价：<i>{$suppiler_price}</i></p>
+            <p>货号：<i>{$goods_sn}</i></p>
+            <p>上传时间：<i>{$add_time}</i></p>
+        </div>
+        <div class="edit-count">
+            <p class="editnode" data-id="{$goods_id}" data-price="{$suppiler_price}"><img src="img/hw_39.png">编辑</p>
+            <p>点赞量：<i>{$likes_count}</i></p>
+            <p>浏览量：<i>{$view_count}</i></p>
+        </div>
+    </label>
+</script>
 <script src="javascripts/title.js"></script>
 <script src="javascripts/changecont.js"></script>
-<script src="javascripts/chooseall.js"></script>
 <script src="javascripts/popupbox.js"></script>
-
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+Supplier.runMainProducts();
+</script>
 </body>
 </html>
