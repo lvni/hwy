@@ -6,6 +6,7 @@
  **/
 var config = {
     'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
         'select_address': 'address-select.html',
@@ -163,7 +164,10 @@ var Util = {
     //跳转登录
     ,goLogin: function(redistrict) {
         var callback = redistrict ? redistrict : config.page.home; 
-        
+        var sid = Util.getQueryString('sid'); 
+        if (sid) {
+            callback += "&sid="+sid;
+        }
         if (Util.isWeiXin()) {
              //微信端内，直接登陆
              Util.goWxLogin(callback);
@@ -406,8 +410,13 @@ var FuncNavi = {
                 Util.goWxLogin(window.location.href);
                 return ;
             }
-            htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart)
-                                     .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king);
+            var sid = Util.getQueryString('sid');
+            var cl = "";
+            if (sid) {
+                cl = "&sid=" + sid;
+            }
+            htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart + cl)
+                                     .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king + cl);
         } else {
             //初始化，不允许点击
              htmlStr = htmlStr.replace('{$cart_action}', clickNone)
@@ -2699,6 +2708,34 @@ var Supplier = {
         
     }
     
+};
+
+//二维码
+var Qrcode = {
+    
+    run: function() {
+        var mycode = "";
+        $("#view_qrcode").click(function(){
+            if (mycode) {
+                $("#QRcord").show();
+                return;
+            }
+            //请求服务端
+            Util.requestApi('?r=user/myqrcode', {}, function(data) {
+                if (data.errno != 0) {
+                    messageBox.toast(data.errmsg);
+                    return;
+                }
+                mycode = data.data.src;
+                $("#QRcordBox .cord").attr("src" , mycode);
+                $("#QRcordBox .cont").attr("href" , mycode);
+                $("#QRcord").show();
+            });
+            
+            
+        });
+        
+    }
 };
 
     

@@ -84,6 +84,10 @@ $(function(){
                messageBox.toast( "两次密码不一致");
                return;
           }
+          var sid = Util.getQueryString('sid');
+          if (sid) {
+               params['sid'] = sid;
+          }
           //只传输MD5后的密码
           params['passwd'] = md5(params['passwd']);
           delete params['repasswd'];
@@ -116,6 +120,7 @@ $(function(){
                messageBox.toast("手机号码格式错误");
                return;
           }
+          
           $(".c_bnt").unbind('click', getSmsCode);
           $.ajax({
               url: config.api + "?r=user/verifymobile",

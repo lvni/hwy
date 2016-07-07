@@ -48,7 +48,7 @@
         <span>确认</span>
     </button>
     <p class="fontbox">
-        <a href="register.html" class="left">立即注册</a>
+        <a href="javascript:;" class="left" id="reg">立即注册</a>
         <a href="javascript:;" class="right">忘记密码</a>
     </p>
     <div class="wechatbox">
@@ -68,6 +68,14 @@ $(function(){
         Util.goWxLogin(redirect);
     });
     
+    //设置注册register.html
+    var sid = Util.getQueryString('sid');
+    var page = "register.html";
+    if (sid) {
+        page += "?sid=" + sid;
+    }
+    $('#reg').attr('href', page);
+    
     //手机号码登陆
     var loginMobile = function(){
           var params = {};
@@ -84,7 +92,11 @@ $(function(){
                     return;
               }
           }
-           $('.u-button-main').unbind('click', loginMobile);
+          var sid = Util.getQueryString('sid');
+          if (sid) {
+              params['sid'] = sid;
+          }          
+          $('.u-button-main').unbind('click', loginMobile);
           params['passwd'] = md5(params['passwd']);
           Util.requestApi('?r=user/login', params, function(data){
                  $('.u-button-main').bind('click', loginMobile);

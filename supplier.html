@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <META NAME="MobileOptimized" CONTENT="240">
-<title>供应商</title>
+<title>个人中心</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/supplier.css">
 </head>
@@ -28,7 +28,7 @@
         <img src="img/hw_25.png">
         <p>我的收藏</p>
     </a>
-    <a href="javascript:;" onclick="QRcord.style.display = ''">
+    <a href="javascript:;" id="view_qrcode">
         <img src="img/hw_27.png">
         <p>我的二维码</p>
     </a>
@@ -80,7 +80,7 @@
         <img src="img/hw_67.png">
         <p>我的足迹</p>
     </a>
-    <a href="javascrit:;">
+    <a href="javascript:;">
         <img src="img/hw_69.png">
         <p>设置</p>
     </a>
@@ -88,8 +88,8 @@
 <div id="QRcord" style="display: none;" onclick="this.style.display='none'">
     <div data-reactroot="" class="u-barcode" id="QRcordBox">
         <div class="contbox">
-            <img src="img/erwema.png" class="cord">
-            <a href="#" class="cont">
+            <img src="" class="cord">
+            <a href="javascript:;" class="cont">
                 <img src="img/hongwu_41.png"><!-- react-text: 6 -->保存到本地生成个人专属海报<!-- /react-text --></a>
 
             <p class="tips">用微信扫一扫，关注我们</p></div>
@@ -104,6 +104,7 @@
     Util.showLoading();
     FuncNavi.addCallback(User.initSupplier, User);
     FuncNavi.run();
+    Qrcode.run();
 </script>
 
 </body>
