@@ -433,11 +433,17 @@ var FuncNavi = {
     }
     //加载提醒数据
     ,loadNaviData: function() {
+          var sid = Util.getQueryString('sid');
+          var params = {};
+          if (sid) {
+              params['sid'] = sid;
+          }
           var api = config.api + "?r=center/navi";
           var me = this;
           if ( true) {
               $.ajax({
                   url: api,
+                  data: params,
                   dataType : "jsonp",
                   success: function(data) {
                        if (data.errno ==0) {
