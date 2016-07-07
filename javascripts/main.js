@@ -73,11 +73,12 @@ var messageBox = {
         $("#js-confirm-box")[0].style.display = '-webkit-box';
         var yscfunc = function(){
             $("#js-confirm-box").remove();
-            callback();
+            if (typeof callback == 'function') {
+                callback();
+            }
         }
-        if (typeof callback == 'function') {
-            $("#js-confirm-box .u-button-main").bind('click', yscfunc);
-        }
+        
+        $("#js-confirm-box .u-button-main").bind('click', yscfunc);
         $("#js-confirm-box .u-button-gray").bind("click", function(){
             $("#js-confirm-box").remove();
         });
