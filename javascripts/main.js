@@ -971,7 +971,7 @@ var Bootstrap = {
                     success:function(data){
                         //成功
                         messageBox.toast(data.errmsg);
-                        $(this).attr('data-collected', 0);
+                        $('#detail_collect').attr('data-collected', 0);
                 }});
             } else {
                 //可以收藏
@@ -980,8 +980,9 @@ var Bootstrap = {
                     data: {goods_id: goodsId},
                     success:function(data){
                         //成功
+                        $('#detail_collect').attr('data-collected', 1);
                         messageBox.toast(data.errmsg);
-                        $(this).attr('data-collected', 1);
+                        
                 }});
             }
         });
@@ -1265,7 +1266,21 @@ var Order = {
             if (goods.order_status == 105) {
                 tips = "已取消";
             }
-            
+            if (goods.order_status == 107) {
+                tips = "已退货";
+            }
+            if (goods.order_status == 108) {
+                tips = "已失效";
+            }
+            if (goods.order_status == 109) {
+                tips = "退款中";
+            }
+            if (goods.order_status == 110) {
+                tips = "退款成功";
+            }
+            if (goods.order_status == 111) {
+                tips = "退款失败";
+            }
             return {'bnt': Buttons, 'tips': tips};
     }
     ,getOrderTips: function (order_info) {
@@ -1290,10 +1305,31 @@ var Order = {
                 t: "交易完成",
                 st: "感谢您惠顾",
             },
-            104: {
+            105: {
                 t: "交易已取消",
                 st: "感谢您惠顾",
+            },
+            107: {
+                t: "已退货",
+                st: "感谢您惠顾",
+            },
+            108: {
+                t: "订单已失效",
+                st: "感谢您惠顾",
+            },
+            109: {
+                t: "退款申请中",
+                st: "感谢您惠顾",
+            },
+            110: {
+                t: "退款完成",
+                st: "感谢您惠顾",
+            },
+            111: {
+                t: "退款失败",
+                st: "感谢您惠顾",
             }
+            
         };
         if (order_info.order_status in tips) {
                 return tips[order_info.order_status];
@@ -1430,7 +1466,7 @@ var Order = {
                         messageBox.toast("已取消支付");
                         me.gotoDetail(orderSn);
                     } else if (res.err_msg == 'get_brand_wcpay_request:ok') {
-                        me.gotoDetail("支付成功");
+                        me.gotoDetail(orderSn);
                     }
                     
                }
