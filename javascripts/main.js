@@ -1219,14 +1219,34 @@ var Order = {
             }
             if (type == 'cancel') {
                 //取消订单
-                Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
-                        messageBox.toast(data.errmsg);
-                        if (data.errno == 0) {
-                            //重新加载列表
-                            var type = $('#js-changecont .on').attr('data-type');
-                            me.loadOrder(type);
-                        }
-                    
+                messageBox.confirm("您确定要取消订单吗？", function(){
+                    Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                //重新加载列表
+                                var type = $('#js-changecont .on').attr('data-type');
+                                me.loadOrder(type);
+                            }
+                        
+                    });
+                });
+            }
+            if (type == 'receive') {
+                //确认收货
+                messageBox.confirm("确认已经收到商品",function(){
+                    Util.requestApi('?r=order/receive', {order:order_sn}, function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                //重新加载列表
+                                var type = $('#js-changecont .on').attr('data-type');
+                                //me.loadOrder(type);
+                                setTimeout(function(){
+                                    $("#js-changecont div[data-type=wait_comment]").trigger('click');
+                                }, 1200);
+                                
+                            }
+                        
+                    });
                 });
             }
         });
@@ -1493,13 +1513,14 @@ var Order = {
              
              if (payType == 'weixin') {
                  //微信支付
+
                  if (!Util.canWeixinPay()) {
                      messageBox.toast("请使用微信5.0以上版本打开");
                      return;
                  }
                  me.weixinPay(orderSn);
                  
-             }
+             } 
         });
 
         }
