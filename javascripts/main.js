@@ -32,6 +32,7 @@ var ErrorCode = {
 }
 var Const = {
     GOODS_STATUS_ON_SELL: 1, //在售
+    USER_ROLE_KING : 2,
     USER_ROLE_SUPPLIER : 4,
     USER_ROLE_SUPPLIER_LEADER : 5,
 }
@@ -1772,6 +1773,11 @@ var User = {
                 //跳到供应商
                 window.location.href = config.page.user_supplier;
                 return;
+            }
+            if (data.user.role >= Const.USER_ROLE_KING) {
+                //王爷以上，可以进入我的收入和我的下级
+                $("#my_mate").show();
+                $("#myincome-entry").attr('href', config.page.income_king);
             }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
             $(".u-person-head .name").append(data.user.name);
