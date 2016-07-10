@@ -21,6 +21,11 @@
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
 /*用来被继承的占位样式*/
-/* line 5, ../sass/king.scss */
+/* line 5, ../sass/buyersshow.scss */
 body {
-  padding: 0 0 60px 0; }
+  padding-top: 55px; }
+
+/* line 9, ../sass/buyersshow.scss */
+.u-details > img {
+  margin-bottom: 10px;
+  width: 100%; }

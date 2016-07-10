@@ -372,10 +372,4 @@ body {
 .position-nav .position.current {
   background: #a90125; }
 
-.details-infobox .cont img {
-    width: 100%;
-}
-.details-infobox .cont p {
-    padding: 5px 0;
-}
 /*end*/

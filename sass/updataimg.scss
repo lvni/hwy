@@ -1,0 +1,74 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+body {
+  padding: 55px 0 0 0;
+}
+
+.u-top-msg > .u-mainbutton-little {
+  display: block;
+  top:10px;
+}
+
+.updata-contbox {
+  background: #ffffff;
+  padding:20px 10px;
+  &>.textarea {
+    width:100%;
+    border:none;
+    font-size:1.2rem;
+    line-height:1.5;
+    color:$fontcolorLv2;
+    box-sizing: border-box;
+    min-height: 8em;
+  }
+  .file {
+    position: absolute;
+    width:0px;
+    height:0px;
+    opacity: 0;
+  }
+  .addimg-button {
+    position: relative;
+    display: inline-block;
+    border:1px solid #666666;
+    width:6rem;
+    height:6rem;
+    box-sizing: border-box;
+    border-radius:4px;
+    &>.icon {
+      position: absolute;
+      left:50%;
+      top:50%;
+      -webkit-transform:translate(-50%,-50%);
+      display: block;
+      width:80%;
+    }
+  }
+  .photobox {
+    position: relative;
+    float: left;
+    margin-right:10px;
+    margin-bottom:10px;
+    width:6rem;
+    height:6rem;
+    overflow: hidden;
+    &>.photo {
+      position: absolute;
+      top:50%;
+      left:50%;
+      -webkit-transform:translate(-50%,-50%);
+      width:100%;
+      min-height: 100%;
+    }
+  }
+
+  &>.addimgbox {
+    font-size:0px;
+
+  }
+}
+
+
+

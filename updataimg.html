@@ -1,0 +1,161 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>发布</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/updataimg.css">
+</head>
+
+<body>
+<div class="u-top-msg indextitle">
+    <button class="u-mainbutton-little">
+        <span>发布</span>
+    </button>
+    <a href="#" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="updata-contbox">
+    <textarea placeholder="分享你刚入手的好货吧" class="textarea"></textarea>
+    <div class="addimgbox" >
+        <!--<div  class="photobox">-->
+            <!--<img src="img/discovered_07.png" class="photo">-->
+        <!--</div>-->
+
+        <div id="progress"></div>
+        <div id="js-outputbox"></div>
+        <label class="addimg-button">
+            <input type="file" class="file" id="js-addbutton">
+            <img src="img/discovered_10.png" class="icon">
+        </label>
+    </div>
+</div>
+<script>
+    var EventUtil={
+        addHandler:function(element,type,handler){
+        if(element.addEventListener){
+            element.addEventListener(type,handler,false);
+        }else if(element.attachEvent){
+            element.attachEvent("on"+type,handler);
+        }else{
+            element["on"+type]=handler;
+        }
+    },
+        removeHandler:function(element,type,handler){
+            if(element.removeEventListener){
+                element.removeEventListener(type,handler,false);
+            }else if(element.detachEvent){
+                element.detachEvent("on"+type,handler);
+            }else{
+                element["on"+type]=null;
+            }
+        },
+        getEvent:function(event){
+            return event?event:window.event;
+        },
+        getTarget:function(event){
+            return event.target||event.srcElement;
+        },
+        preventDefault:function(event){
+            if(event.preventDefault){
+                event.preventDefault();
+            }else{
+                event.returnValue=false;
+            }
+        },
+        stopPropagation:function(event){
+            if(event.stopPropagation){
+                event.stopPropagation();
+            }else{
+                event.cancelBubble=true;
+            }
+        },
+        getRelatedTarget:function(event){
+            if(event.relatedTarget){
+                return event.relatedTarget;
+            }else if(event.toElement){
+                return event.toElement;
+            }else if(event.formElement){
+                return event.formElement;
+            }else{
+                return null;
+            }
+        },
+        getButton:function(event){
+            if(document.implementation.hasFeature("MouseEvents","2.0")){
+                return event.button;
+            }else{
+                switch(event.button){
+                    case 0:
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                        return 0;
+                    case 2:
+                    case 6:
+                        return 2;
+                    case 4:
+                        return 1;
+                }
+            }
+        },
+        getWheelDelta: function (event) {
+            if (event.wheelDelta) {
+                return event.wheelDelta;
+            } else {
+                return -event.detail * 40;
+            }
+        },
+        getCharCode: function (event) {
+            if (typeof event.charCode == "number") {
+                return event.charCode;
+            } else {
+                return event.keyCode;
+            }
+        }
+    };
+    (function(){
+        var filesList = document.getElementById('js-addbutton');
+        EventUtil.addHandler(filesList,'change',function(event){
+            var info = '',
+                    output = document.querySelector('#js-outputbox'),
+                    progress = document.querySelector('#progress'),
+                    files = EventUtil.getTarget(event).files,
+                    type = 'default',
+                    reader = new FileReader();
+
+            if(/image/.test(files[0].type)) {
+                reader.readAsDataURL(files[0]);
+                type = 'image';
+            } else {
+                reader.readAsText(files[0]);
+                type = 'text';
+            }
+            reader.onerror = function() {
+                output.innerHTML = '读取不到文件';
+            }
+            reader.onprogress = function() {
+                if(event.lengthComputable) {
+                    progress.innerHTML = event.loaded + '/' + event.total;
+                }
+            }
+            reader.onload = function() {
+                var html = '';
+                switch(type) {
+                    case 'image':
+                        html = '<div  class=\"photobox\"><img src=\"' + reader.result + '\"  class=\"photo\"></div>';
+                        break;
+                    case 'text':
+                        html = reader.result;
+                        break;
+                }
+                output.innerHTML = html + output.innerHTML;
+            }
+            console.log(reader);
+        })
+    })();
+</script>
+</body>
+</html>

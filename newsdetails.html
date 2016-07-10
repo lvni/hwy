@@ -1,0 +1,83 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>文章详情</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/newsdetails.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </div>
+    <a href="#" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="u-newsdetails">
+    <h1 class="title">时雨及芒种,四野皆插秧。家家麦饭美,处处菱歌长。</h1>
+    <div class="u-details">
+        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
+        <img src="img/index_144.png">
+        <img src="img/index_144.png">
+        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
+        <img src="img/index_144.png">
+    </div>
+</div>
+<div class="u-commentbox js-commentbox">
+    <input type="text" placeholder="写点评论吧" class="enterinfo" readonly>
+    <img src="img/discovered_23.png" class="submit">
+</div>
+<div class="u-popupbox js-comment-popupbox">
+    <div class="u-commentcontbox">
+        <textarea class="cont js-commentArea" placeholder="优质评论会被优先展示"></textarea>
+        <button class="u-mainbutton-little disable js-submit">
+            <span>发布</span>
+        </button>
+    </div>
+</div>
+<script>
+    (function commentshow() {
+        var commentbox = document.querySelector('.js-commentbox'),
+                commentcontbox = document.querySelector('.js-comment-popupbox'),
+                submit = commentcontbox.querySelector('.js-submit'),
+                commentcontArea = commentcontbox.querySelector('.js-commentArea'),
+                commentcontboxes = commentcontbox.querySelector('.u-commentcontbox'),
+                areaValue;
+        //唤起评论框
+        commentbox.addEventListener('click',function() {
+            commentcontbox.style.display = '-webkit-box';
+        });
+        //监控是否输入了内容，控制按钮是否可提交
+        commentcontArea.addEventListener('input',function(){
+            areaValue = commentcontArea.value;
+            console.log(11);
+            if(areaValue != '') {
+                submit.classList.remove('disable');
+            } else {
+                submit.classList.add('disable');
+            }
+        })
+        //按钮被点击检测自身状态确定是否可提交
+        submit.addEventListener('click',function(){
+            if(submit.classList.contains('disable')) {
+                return false;
+            } else {
+                return true;
+            }
+        })
+        //点击空白区域关闭回复框
+        commentcontbox.addEventListener('click',function(){
+            commentcontbox.style.display = 'none';
+        })
+        //阻止事件冒泡
+        commentcontboxes.addEventListener('click',function(e){
+            e.stopPropagation();
+        })
+    })();
+</script>
+</body>
+</html>
