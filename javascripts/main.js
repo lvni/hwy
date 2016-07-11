@@ -1712,10 +1712,12 @@ var Address = {
             return false;
         }
         var areas = params['province_city_district'].split(" ");
+        var areaCodes = $("input[name=province_city_district]").attr("data-value");
         delete params['province_city_district'];
         params['str_province'] = areas[0];
         params['str_city'] = areas[1];
         params['str_district'] = areas[2];
+        params['add_code'] = areaCodes;
         return params;
     }
     //渲染地址详情页面
