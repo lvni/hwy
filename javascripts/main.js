@@ -348,7 +348,18 @@ var Util = {
         }
         return true;
     }
-    ,goPage: function(page) {
+    ,goPage: function(page, params) {
+        var strQuery = "";
+        if (params) {
+            var query = [];
+            for (i in params) {
+                query.push(i +"=" + params[i]);
+            }
+            strQuery = query.join('&');
+        }
+        if (strQuery != '') {
+            page += "?" + strQuery;
+        }
         window.location.href = page;
         return;
     }
@@ -606,12 +617,19 @@ var goodsCart = {
                 }
             });
     }
+    ,buy: function(goodsId) {
+        Util.goPage(config.page.confirm_order, {goods_ids:goodsId, type:'right'});
+    }
     //购物车操作
     ,bindAddEvent: function() {
         var me = this;
         $('#add').click(function(){
             var goodsId = $(this).attr('data-id');
             me.add(goodsId);
+        });
+        $('#buy').click(function(){
+            var goodsId = $(this).attr('data-id');
+            me.buy(goodsId);
         });
         
     }
@@ -1162,12 +1180,13 @@ var Order = {
     ,loadOrderInfo: function() {
         //加载订单确认信息
         var goodsIds = Util.getQueryString('goods_ids');
+        var type = Util.getQueryString('type');
         var api = config.api + "?r=order/getorderinfo";
         var me = this;
         $.ajax({
             url: api,
             dataType: 'jsonp',
-            data: {goods_ids:goodsIds},
+            data: {goods_ids:goodsIds,type:type},
             success: function(data) {
                if (data.errno == 0) {
                    me.order_info = data.data;
@@ -1178,7 +1197,7 @@ var Order = {
                         //跳转登录
                         Util.goLogin();
                     } else {
-                        history.go(-1);
+                       // history.go(-1);
                     }
                }
             }
@@ -1827,6 +1846,38 @@ var User = {
         $(".u-person-head .photo").attr('src', data.user.avatar);
         $("#loading").hide();
     }
+    ,bindShareEvent: function() {
+        $("#share").bind('click', function(){
+            if (Util.isWeiXin()) {
+                //微信端内
+                 wx.ready(function () {  
+                    wx.onMenuShareAppMessage({  
+                       title: '你好-洪五爷', // 分享标题
+                       link: 'http://www.baidu.com', // 分享链接
+                       imgUrl: 'http://app.hong5ye.com/webapp/img/logo.png', // 分享图标
+                       success: function () {
+                           // 用户确认分享后执行的回调函数
+                           messageBox.toast("success");
+                       },
+                       trigger: function (res) {
+                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                        alert('用户点击发送给朋友');
+                      },
+                       cancel: function () {
+                           // 用户取消分享后执行的回调函数
+                           messageBox.toast("cancel");
+                       },
+                       fail: function (res) {
+                            alert(JSON.stringify(res));
+                       }
+                        
+                    });
+                    //alert('已注册获取“发送给朋友”状态事件');
+                    });	
+            }
+            
+        });
+    }
     ,initKing: function(data, proxy) {
         if (!proxy) {
             proxy = this;
@@ -1835,6 +1886,7 @@ var User = {
     }
     ,initSupplier: function(data, proxy) {
         proxy.renderSupplier(data, config.page.user_supplier);
+        proxy.bindShareEvent();
     }
 };
 
@@ -2119,7 +2171,7 @@ var Income = {
                   return;
               }
               me.money_limit = data.data.withdrawals_limit;
-              me.total_money = parseInt(data.data.money);
+              me.total_money = data.data.money;
               $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
               $('.user_money').html(data.data.user_money);
               

@@ -5,6 +5,37 @@
 <title>个人中心</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/supplier.css">
+    <!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig"></script> -->
+    <script>
+
+        function isWeiXin(){
+            return true;
+            var ua = window.navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        if (isWeiXin()) {
+            var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'http://res.wx.qq.com/open/js/jweixin-1.0.0.js';
+            script.setAttribute("src", url);  
+            var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+            
+            
+            var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
+            script.setAttribute("src", url);  
+            var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+        }
+    </script>
 </head>
 
 <body>
@@ -72,7 +103,7 @@
         <img src="img/hw_60.png">
         <p>分享排名</p>
     </a>
-    <a href="javascript:;">
+    <a href="javascript:;" id="share">
         <img src="img/hw_63.png">
         <p>分享平台给好友</p>
     </a>
