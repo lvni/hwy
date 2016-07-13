@@ -7,6 +7,7 @@
 var config = {
     //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
     'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
         'select_address': 'address-select.html',
@@ -32,6 +33,7 @@ var ErrorCode = {
 }
 var Const = {
     GOODS_STATUS_ON_SELL: 1, //在售
+    USER_ROLE_KING : 2,
     USER_ROLE_SUPPLIER : 4,
     USER_ROLE_SUPPLIER_LEADER : 5,
 }
@@ -46,14 +48,43 @@ var messageBox = {
         var me = this;
         var html = '<div id="system_messagebox_toast" style="position:fixed; '
                      + 'bottom:30%;margin-left:auto;margin-right:auto;background:'
-                     + '#262631;color: #fff;border-radius: 5px;padding: 5px 10px;'
+                     + '#262631;color: #fff;border-radius: 5px;padding: 6px 10px;'
                      + 'text-align: center;left:50%;z-index:999;">'+msg+'</div>';
         //alert(msg);
+        if ($("#system_messagebox_toast").length) {
+            return;
+        }
         $('body').append(html);
         var marginLeft = 0 - $("#system_messagebox_toast").width() / 2;
-        console.log($("#system_messagebox_toast").width());
         $("#system_messagebox_toast").css('margin-left', marginLeft + "px");
         setTimeout(function(){me.hidde($("#system_messagebox_toast"))}, 1000);
+    }
+    //弹出确认框
+    ,confirm: function(msg, callback) {
+        var html = '<div class="u-popodbox" id="js-confirm-box">'
+                      + '<div class="cont"><h2>'
+                      + msg + '</h2><div class="buttonbox">'
+                      + '<button class="u-button-gray">'
+                      + '<span>取消</span></button>'
+                      + '<button class="u-button-main">'
+                      + '<span>确认</span></button></div></div></div>';
+        if ($("js-confirm-box").length) {
+            return;
+        }
+        $('body').append(html);
+        $("#js-confirm-box")[0].style.display = '-webkit-box';
+        var yscfunc = function(){
+            $("#js-confirm-box").remove();
+            if (typeof callback == 'function') {
+                callback();
+            }
+        }
+        
+        $("#js-confirm-box .u-button-main").bind('click', yscfunc);
+        $("#js-confirm-box .u-button-gray").bind("click", function(){
+            $("#js-confirm-box").remove();
+        });
+        
     }
     
 };
@@ -162,7 +193,10 @@ var Util = {
     //跳转登录
     ,goLogin: function(redistrict) {
         var callback = redistrict ? redistrict : config.page.home; 
-        
+        var sid = Util.getQueryString('sid'); 
+        if (sid) {
+            callback += "&sid="+sid;
+        }
         if (Util.isWeiXin()) {
              //微信端内，直接登陆
              Util.goWxLogin(callback);
@@ -315,7 +349,18 @@ var Util = {
         }
         return true;
     }
-    ,goPage: function(page) {
+    ,goPage: function(page, params) {
+        var strQuery = "";
+        if (params) {
+            var query = [];
+            for (i in params) {
+                query.push(i +"=" + params[i]);
+            }
+            strQuery = query.join('&');
+        }
+        if (strQuery != '') {
+            page += "?" + strQuery;
+        }
         window.location.href = page;
         return;
     }
@@ -405,8 +450,13 @@ var FuncNavi = {
                 Util.goWxLogin(window.location.href);
                 return ;
             }
-            htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart)
-                                     .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king);
+            var sid = Util.getQueryString('sid');
+            var cl = "";
+            if (sid) {
+                cl = "&sid=" + sid;
+            }
+            htmlStr = htmlStr.replace('{$cart_action}', 'login.html?redirect=' + config.page.cart + cl)
+                                     .replace('{$ucenter_action}', 'login.html?redirect=' + config.page.user_king + cl);
         } else {
             //初始化，不允许点击
              htmlStr = htmlStr.replace('{$cart_action}', clickNone)
@@ -423,11 +473,17 @@ var FuncNavi = {
     }
     //加载提醒数据
     ,loadNaviData: function() {
+          var sid = Util.getQueryString('sid');
+          var params = {};
+          if (sid) {
+              params['sid'] = sid;
+          }
           var api = config.api + "?r=center/navi";
           var me = this;
           if ( true) {
               $.ajax({
                   url: api,
+                  data: params,
                   dataType : "jsonp",
                   success: function(data) {
                        if (data.errno ==0) {
@@ -562,12 +618,19 @@ var goodsCart = {
                 }
             });
     }
+    ,buy: function(goodsId) {
+        Util.goPage(config.page.confirm_order, {goods_ids:goodsId, type:'right'});
+    }
     //购物车操作
     ,bindAddEvent: function() {
         var me = this;
         $('#add').click(function(){
             var goodsId = $(this).attr('data-id');
             me.add(goodsId);
+        });
+        $('#buy').click(function(){
+            var goodsId = $(this).attr('data-id');
+            me.buy(goodsId);
         });
         
     }
@@ -928,7 +991,7 @@ var Bootstrap = {
                     success:function(data){
                         //成功
                         messageBox.toast(data.errmsg);
-                        $(this).attr('data-collected', 0);
+                        $('#detail_collect').attr('data-collected', 0);
                 }});
             } else {
                 //可以收藏
@@ -937,8 +1000,9 @@ var Bootstrap = {
                     data: {goods_id: goodsId},
                     success:function(data){
                         //成功
+                        $('#detail_collect').attr('data-collected', 1);
                         messageBox.toast(data.errmsg);
-                        $(this).attr('data-collected', 1);
+                        
                 }});
             }
         });
@@ -1117,12 +1181,13 @@ var Order = {
     ,loadOrderInfo: function() {
         //加载订单确认信息
         var goodsIds = Util.getQueryString('goods_ids');
+        var type = Util.getQueryString('type');
         var api = config.api + "?r=order/getorderinfo";
         var me = this;
         $.ajax({
             url: api,
             dataType: 'jsonp',
-            data: {goods_ids:goodsIds},
+            data: {goods_ids:goodsIds,type:type},
             success: function(data) {
                if (data.errno == 0) {
                    me.order_info = data.data;
@@ -1133,7 +1198,7 @@ var Order = {
                         //跳转登录
                         Util.goLogin();
                     } else {
-                        history.go(-1);
+                       // history.go(-1);
                     }
                }
             }
@@ -1174,14 +1239,34 @@ var Order = {
             }
             if (type == 'cancel') {
                 //取消订单
-                Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
-                        messageBox.toast(data.errmsg);
-                        if (data.errno == 0) {
-                            //重新加载列表
-                            var type = $('#js-changecont .on').attr('data-type');
-                            me.loadOrder(type);
-                        }
-                    
+                messageBox.confirm("您确定要取消订单吗？", function(){
+                    Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                //重新加载列表
+                                var type = $('#js-changecont .on').attr('data-type');
+                                me.loadOrder(type);
+                            }
+                        
+                    });
+                });
+            }
+            if (type == 'receive') {
+                //确认收货
+                messageBox.confirm("确认已经收到商品",function(){
+                    Util.requestApi('?r=order/receive', {order:order_sn}, function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                //重新加载列表
+                                var type = $('#js-changecont .on').attr('data-type');
+                                //me.loadOrder(type);
+                                setTimeout(function(){
+                                    $("#js-changecont div[data-type=wait_comment]").trigger('click');
+                                }, 1200);
+                                
+                            }
+                        
+                    });
                 });
             }
         });
@@ -1222,7 +1307,21 @@ var Order = {
             if (goods.order_status == 105) {
                 tips = "已取消";
             }
-            
+            if (goods.order_status == 107) {
+                tips = "已退货";
+            }
+            if (goods.order_status == 108) {
+                tips = "已失效";
+            }
+            if (goods.order_status == 109) {
+                tips = "退款中";
+            }
+            if (goods.order_status == 110) {
+                tips = "退款成功";
+            }
+            if (goods.order_status == 111) {
+                tips = "退款失败";
+            }
             return {'bnt': Buttons, 'tips': tips};
     }
     ,getOrderTips: function (order_info) {
@@ -1247,10 +1346,31 @@ var Order = {
                 t: "交易完成",
                 st: "感谢您惠顾",
             },
-            104: {
+            105: {
                 t: "交易已取消",
                 st: "感谢您惠顾",
+            },
+            107: {
+                t: "已退货",
+                st: "感谢您惠顾",
+            },
+            108: {
+                t: "订单已失效",
+                st: "感谢您惠顾",
+            },
+            109: {
+                t: "退款申请中",
+                st: "感谢您惠顾",
+            },
+            110: {
+                t: "退款完成",
+                st: "感谢您惠顾",
+            },
+            111: {
+                t: "退款失败",
+                st: "感谢您惠顾",
             }
+            
         };
         if (order_info.order_status in tips) {
                 return tips[order_info.order_status];
@@ -1387,7 +1507,7 @@ var Order = {
                         messageBox.toast("已取消支付");
                         me.gotoDetail(orderSn);
                     } else if (res.err_msg == 'get_brand_wcpay_request:ok') {
-                        me.gotoDetail("支付成功");
+                        me.gotoDetail(orderSn);
                     }
                     
                }
@@ -1413,13 +1533,14 @@ var Order = {
              
              if (payType == 'weixin') {
                  //微信支付
+
                  if (!Util.canWeixinPay()) {
                      messageBox.toast("请使用微信5.0以上版本打开");
                      return;
                  }
                  me.weixinPay(orderSn);
                  
-             }
+             } 
         });
 
         }
@@ -1592,10 +1713,12 @@ var Address = {
             return false;
         }
         var areas = params['province_city_district'].split(" ");
+        var areaCodes = $("input[name=province_city_district]").attr("data-value");
         delete params['province_city_district'];
         params['str_province'] = areas[0];
         params['str_city'] = areas[1];
         params['str_district'] = areas[2];
+        params['add_code'] = areaCodes;
         return params;
     }
     //渲染地址详情页面
@@ -1694,6 +1817,11 @@ var User = {
                 window.location.href = config.page.user_supplier;
                 return;
             }
+            if (data.user.role >= Const.USER_ROLE_KING) {
+                //王爷以上，可以进入我的收入和我的下级
+                $("#my_mate").show();
+                $("#myincome-entry").attr('href', config.page.income_king);
+            }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
             $(".u-person-head .name").append(data.user.name);
             $(".u-person-head .photo").attr('src', data.user.avatar);
@@ -1721,6 +1849,38 @@ var User = {
         $(".u-person-head .photo").attr('src', data.user.avatar);
         $("#loading").hide();
     }
+    ,bindShareEvent: function() {
+        $("#share").bind('click', function(){
+            if (Util.isWeiXin()) {
+                //微信端内
+                 wx.ready(function () {  
+                    wx.onMenuShareAppMessage({  
+                       title: '你好-洪五爷', // 分享标题
+                       link: 'http://www.baidu.com', // 分享链接
+                       imgUrl: 'http://app.hong5ye.com/webapp/img/logo.png', // 分享图标
+                       success: function () {
+                           // 用户确认分享后执行的回调函数
+                           messageBox.toast("success");
+                       },
+                       trigger: function (res) {
+                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                        alert('用户点击发送给朋友');
+                      },
+                       cancel: function () {
+                           // 用户取消分享后执行的回调函数
+                           messageBox.toast("cancel");
+                       },
+                       fail: function (res) {
+                            alert(JSON.stringify(res));
+                       }
+                        
+                    });
+                    //alert('已注册获取“发送给朋友”状态事件');
+                    });	
+            }
+            
+        });
+    }
     ,initKing: function(data, proxy) {
         if (!proxy) {
             proxy = this;
@@ -1729,6 +1889,7 @@ var User = {
     }
     ,initSupplier: function(data, proxy) {
         proxy.renderSupplier(data, config.page.user_supplier);
+        proxy.bindShareEvent();
     }
 };
 
@@ -2013,7 +2174,7 @@ var Income = {
                   return;
               }
               me.money_limit = data.data.withdrawals_limit;
-              me.total_money = parseInt(data.data.money);
+              me.total_money = data.data.money;
               $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
               $('.user_money').html(data.data.user_money);
               
@@ -2698,6 +2859,34 @@ var Supplier = {
         
     }
     
+};
+
+//二维码
+var Qrcode = {
+    
+    run: function() {
+        var mycode = "";
+        $("#view_qrcode").click(function(){
+            if (mycode) {
+                $("#QRcord").show();
+                return;
+            }
+            //请求服务端
+            Util.requestApi('?r=user/myqrcode', {}, function(data) {
+                if (data.errno != 0) {
+                    messageBox.toast(data.errmsg);
+                    return;
+                }
+                mycode = data.data.src;
+                $("#QRcordBox .cord").attr("src" , mycode);
+                $("#QRcordBox .cont").attr("href" , mycode);
+                $("#QRcord").show();
+            });
+            
+            
+        });
+        
+    }
 };
 
     

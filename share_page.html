@@ -1,0 +1,63 @@
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>玉石-下载页面</title>  
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://app.hong5ye.com:80/HongWuYe/mobileJsp/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://app.hong5ye.com:80/HongWuYe/mobileJsp/bootstrap/css/bootstrap-theme.min.css">
+	<script src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/jquery/jquery-1.11.3.min.js"></script>
+	<script src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+    *{margin:0;padding:0;}
+    body{background: url(../images/share/xzbg.jpg)no-repeat;background-size: 100%;}
+    /*@media screen and (min-width:720px)
+    {
+    body{background-size: 100%;}	
+    }*/
+    /*share-info*/
+    .share-info{padding: 0px;}
+    .share-info .share{text-align: center;}
+    .share-info .share img{width:80%;/* height: 100%; */}
+    .share-bottom{margin-top:5px;}
+    .share-bottom .share-btn{padding: 0px;}
+    .share-bottom .share-btn img{height:60px; text-align: center;margin: auto;}
+    @media screen and (max-width:400px){
+    .share-bottom .share-btn img{height:45px; text-align: center;margin: auto;}	
+    }
+    </style>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body style="background-image: url('http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/xzbg.jpg');">
+<div class="container">
+		<div class="row">
+			<div class="col-xs-12 share-info">
+				<div class="share"><img src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/sj.png"></div></div>
+		</div>
+	<div class="row share-bottom">	
+	        <div class="col-xs-4 share-btn">
+				<a id="webapp_entry" href="javascript:;" class="share-btn-left"><img src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/xz3.png" class="img-responsive"></a>
+			</div>
+			<div class="col-xs-4 share-btn">
+				<a href="http://t.cn/RGYPr33" class="share-btn-center"><img src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/xz2.png" class="img-responsive"></a>
+			</div>
+			<div class="col-xs-4 share-btn">
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.hwyjr.app&amp;g_f=991653" class="share-btn-right"><img src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/xz1.png" class="img-responsive"></a>
+			</div>
+	
+		</div>
+	</div>
+    <script src="javascripts/main.js"></script>
+    <script>
+        //获取用户分享的sid，用于绑定上下级关系
+        var sid = Util.getQueryString('sid');
+        var page = config.page.home;
+        if (sid)  {
+            page += "?sid=" + sid;
+        }
+        console.log(page);
+        $('#webapp_entry').attr('href', page);
+    </script>
+</body>
+
+</html>
