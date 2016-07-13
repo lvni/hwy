@@ -388,13 +388,50 @@ var FuncNavi = {
     data: {},
     funcs: [], //回调函数列表
     html: function(data) {
+        var default_icons = {
+            'index': 'img/hw_72.png',
+            'product': 'img/hw_74.png',
+            'cart': 'img/hw_78.png',
+            'center': 'img/i_user.png',
+        };
+        var paths_icons = {
+               '/webapp/' : {
+                   key: 'index',
+                   icon: 'img/s_home.png',
+               },
+               '/webapp/index.html' : {
+                   key: 'index',
+                   icon: 'img/s_home.png',
+               },
+               '/webapp/allproduct.html' : {
+                   key: 'product',
+                   icon: 'img/s-all.png',
+               },
+               '/webapp/king.html' : {
+                   key: 'center',
+                   icon: 'img/hw_80.png',
+               },
+               '/webapp/supplier.html' : {
+                   key: 'center',
+                   icon: 'img/hw_80.png',
+               },
+               '/webapp/shoppingCart.html' : {
+                   key: 'cart',
+                   icon: 'img/s-cart.png',
+               }
+        };
+        var pathname = location.pathname;
+        if (pathname in paths_icons) {
+            var icon_info = paths_icons[pathname];
+            default_icons[icon_info['key']] = icon_info['icon'];
+        }
         var html = '<div class="u-bottomnav">'
                      + '<a href="index.html">'
-                     + '<img src="img/hw_72.png">'
+                     + '<img src="'+default_icons.index+'">'
                      + '<p>首页</p>'
                      + '{$idx_num}</a>'
                      + '<a href="allproduct.html">'
-                     + '<img src="img/hw_74.png">'
+                     + '<img src="'+default_icons.product+'">'
                      + '<p>所有产品</p>'
                      + '{$prod_num}</a>'
                      + '<a href="javascript:;">'
@@ -402,11 +439,11 @@ var FuncNavi = {
                      + '<p>发现</p>'
                      + '{$find_num}</a>'
                      + '<a id="navi_goods_cart" href="{$cart_action}">'
-                     + '<img src="img/hw_78.png">'
+                     + '<img src="'+default_icons.cart+'">'
                      + '<p>购物车</p>'
                      + '{$cart_num}</a>'
                      + '<a id="navi_ucenter" href="{$ucenter_action}">'
-                     + '<img src="img/hw_80.png">'
+                     + '<img src="'+default_icons.center+'">'
                      + '<p>个人中心</p>'
                      + '{$uc_num}</a></div>';
          //shoppingCart.html , king.html
@@ -802,7 +839,7 @@ var Bootstrap = {
     ,renderSearch: function(data, append) {
         //console.log(data);
         var me = this;
-        me.hasMore = data.hasMore;
+        me.searchQuery.hasMore = data.hasMore;
         var template = $('#search-list-item').html();
         var html = '';
         for (i in data.list) {
@@ -890,6 +927,7 @@ var Bootstrap = {
     ,handleSearchPull: function() {
         var me = Bootstrap;
         if (me.checkWindowAtButtom()) {
+            console.log(me.searchQuery.hasMore);
             if (me.searchQuery.hasMore) {
                 me.searchQuery.p += 1;
                 me.loadSearch(me.searchQuery);
