@@ -803,7 +803,7 @@ var Bootstrap = {
     }
     //渲染商品详情
     ,renderGoodsDetail: function(data) {
-        console.log(data);
+        var me = Bootstrap;
         $(".details-infobox .cont").html(data.detail);
         var attrHtml = "";
         var attrItemTemplate = "<p>{$key}: {$value}</p>";
@@ -829,11 +829,31 @@ var Bootstrap = {
         $(".details-slide .slides").html(slideHtml);
         $("#add,#buy,#detail_collect,#detail_likes_up").attr('data-id', data.id);
         $("#detail_collect").attr('data-collected', data.is_collected);
+        me.updateIcon(data.is_collected);
+        me.setLikes(data.id);
         var swiper = new hlSwiper("#hl-swiper", {
             loop: true, //是否循环
             autoloop: true, //是否自动循环
             speed: 3000 //间隔时间毫秒
         });
+    }
+    ,setLikes: function(goodsId) {
+        var key = 'gl_' + goodsId;
+        var likeCnt = parseInt(Storge.getItem(key, 0));
+        if (isNaN(likeCnt)) {
+            likeCnt = 0;
+        }
+        if (likeCnt > 0) {
+            $("#detail_likes_up img").attr('src', 'img/s-likes.png');
+        }
+    }
+    ,updateIcon: function(collected) {
+        
+        if (collected == "1") {
+            $("#detail_collect img").attr('src', 'img/star.png');
+        } else {
+            $("#detail_collect img").attr('src', 'img/details_22.png');
+        }
     }
     //渲染搜索/所有产品页面
     ,renderSearch: function(data, append) {
@@ -1021,6 +1041,7 @@ var Bootstrap = {
         $('#detail_collect').click(function(){
             var goodsId = $(this).attr('data-id');
             if (!goodsId) return;
+            var collected = $(this).attr('data-collected') == '1' ? 0 : 1;
             if ($(this).attr('data-collected') == '1') {
                 //移除
                 var api = config.api + "?r=collect/remove";
@@ -1043,10 +1064,12 @@ var Bootstrap = {
                         
                 }});
             }
+            me.updateIcon(collected);
         });
         //detail_likes_up
         //点赞
         $('#detail_likes_up').click(function(){
+            //var me = this;
             var goodsId = $(this).attr('data-id');
             if (!goodsId) {
                 return ;
@@ -1072,6 +1095,7 @@ var Bootstrap = {
                         //详情点赞数 + 1
                         var oldCnt = parseInt($('.rightbox .likes').html());
                         $('.rightbox .likes').html(oldCnt + 1);
+                        me.setLikes(goodsId);
                     }
                 }
             });
