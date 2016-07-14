@@ -40,50 +40,38 @@
 </div>
 <div class="u-choosebox"><!--这里加上on之后筛选内容的box会出现-->
     <div class="u-sortnav" id="js-navSelect">
-        <div class="cont on" data-role="buwei">
-            <select >
-                <option selected disabled>请选择</option>
-
-            </select>
+        <div class="cont" data-role="buwei">
             <p><span data-role="cate_name">部位</span><img src="img/hongwu_54.png"></p>
         </div>
         <div class="cont" data-role="caizhi">
-            <select>
-                <option selected disabled>请选择</option>
-
-            </select>
             <p><span data-role="cate_name">材质</span><img src="img/hongwu_54.png"></p>
         </div>
-        <div class="cont">
-            <select>
-                <option selected disabled>请选择</option>
-            </select>
+        <div class="cont" data-role="paixu">
             <p>排序<img src="img/hongwu_54.png"></p>
         </div>
-        <div class="cont" id="js-choose">
+        <div class="cont" id="js-choose" data-role="shaixuan">
             <p><span data-role="cate_name">筛选</span><img src="img/hongwu_54.png"></p>
         </div>
     </div>
-    <div class="u-choosecontbox" id="js-choosecontbox" style="display:none;">
-        <div class="title"><span class="name">手镯专区</span></div>
-        <div class="priceboxes">
-            <a  data-name="圆条手镯" data-id="14" class="on">圆条手镯</a>
-            <a  data-name="贵妃手镯" data-id="15">贵妃手镯</a>
-            <a  data-name="雕花手镯" data-id="17">雕花手镯</a>
-            <a  data-name="方条手镯" data-id="18">方条手镯</a>
-            <a  data-name="扁口手镯" data-id="107">扁口手镯</a>
-        </div>
+    <div class="u-choosecontbox" id="js-choosecontbox" data-role="shaixuan" style="display:none;">
+
         <div class="buttonbox" id="js-shaixuan-bnt">
             <button class="u-mainbutton-little" id="js-choose-submit">
                 <span>确定</span>
             </button>
         </div>
     </div>
-    <div class="u-choosecontbox" style="display:none;">
-        <a href="#" class="option">颈</a>
-        <a href="#" class="option">腕</a>
-        <a href="#" class="option">指</a>
-        <a href="#" class="option">其他</a>
+    <div class="u-choosecontbox" data-role="buwei" style="display:none;">
+
+    </div>
+    <div class="u-choosecontbox" data-role="caizhi" style="display:none;">
+
+    </div>
+    <div class="u-choosecontbox" data-role="paixu" style="display:none;">
+        <a href="javascript:;" class="option">按人气从高到低</a>
+        <a href="javascript:;" class="option">按人气从低到高</a>
+        <a href="javascript:;" class="option">按价格从高到低</a>
+        <a href="javascript:;" class="option">按价格从低到高</a>
     </div>
 </div>
 <div class="u-chooseclass" id="js-chooseclass">
@@ -127,7 +115,7 @@
 
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
-<script src="javascripts/navSelect.js"></script>
+<!-- <script src="javascripts/navSelect.js"></script> -->
 <script>
 $(function(){
     Bootstrap.runsearch();

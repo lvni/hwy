@@ -963,9 +963,9 @@ var Bootstrap = {
             list = data[2].list;
             for (i in list) {
                 var item = list[i];
-                html += "<option value="+item.name+" data_id= "+item.id+">"+item.name+"</option>";
+                html += "<a class=\"option\" value="+item.name+" data_id= "+item.id+">"+item.name+"</a>";
             }
-            $("div[data-role=buwei] select").append(html);
+            $(".u-choosecontbox[data-role=buwei]").append(html);
         }
         //材质
         if (data[1]) {
@@ -973,9 +973,9 @@ var Bootstrap = {
             list = data[1].list;
             for (i in list) {
                 var item = list[i];
-                html += "<option value="+item.name+" data_id= "+item.id+">"+item.name+"</option>";
+                 html += "<a class=\"option\" value="+item.name+" data_id= "+item.id+">"+item.name+"</a>";
             }
-            $("div[data-role=caizhi] select").append(html);
+            $(".u-choosecontbox[data-role=caizhi]").append(html);
         }
         //筛选
         if (data[3]) {
@@ -1031,6 +1031,22 @@ var Bootstrap = {
         $('#js-navSelect select').change(function() {
             //获取查询条件
             me.triggerSearchChange();
+        });
+        $('#js-navSelect').delegate('div','click', function(){
+            var role = $(this).attr('data-role');
+            //其他的隐藏，
+            var hasOn = $(this).hasClass('on');
+            console.log(hasOn);
+            $('#js-navSelect div').removeClass('on');
+            $(".u-choosecontbox").hide();
+            if (hasOn) {
+                
+            } else {
+                $(this).addClass("on");
+                $(".u-choosecontbox[data-role="+role+"]").show();
+                
+            }
+            //判断当前是on or not
         });
     }
     //绑定详情页事件
