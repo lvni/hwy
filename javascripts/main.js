@@ -1837,8 +1837,14 @@ var Address = {
         $('.del').click(function(){
             var addressId = $('input[name=address_id]').val();
             if (addressId) {
-                Util.requestApi('?r=address/remove', {id:addressId}, me.handleDetailCallback);
+                messageBox.confirm("您确定要删除吗？", function(){
+                    Util.requestApi('?r=address/remove', {id:addressId}, me.handleDetailCallback);
+                });
             }
+        });
+        $(".u-arrow-list a").click(function(){
+                $(this).find('input').focus();
+            
         });
     }
     //管理主页
