@@ -963,7 +963,7 @@ var Bootstrap = {
             list = data[2].list;
             for (i in list) {
                 var item = list[i];
-                html += "<a class=\"option\" value="+item.name+" data_id= "+item.id+">"+item.name+"</a>";
+                html += "<a class=\"option\" data-role=\"buwei\" data-id= "+item.id+">"+item.name+"</a>";
             }
             $(".u-choosecontbox[data-role=buwei]").append(html);
         }
@@ -973,7 +973,7 @@ var Bootstrap = {
             list = data[1].list;
             for (i in list) {
                 var item = list[i];
-                 html += "<a class=\"option\" value="+item.name+" data_id= "+item.id+">"+item.name+"</a>";
+                 html += "<a class=\"option\" data-role=\"caizhi\" data-id= "+item.id+">"+item.name+"</a>";
             }
             $(".u-choosecontbox[data-role=caizhi]").append(html);
         }
@@ -1036,7 +1036,6 @@ var Bootstrap = {
             var role = $(this).attr('data-role');
             //其他的隐藏，
             var hasOn = $(this).hasClass('on');
-            console.log(hasOn);
             $('#js-navSelect div').removeClass('on');
             $(".u-choosecontbox").hide();
             if (hasOn) {
@@ -1046,7 +1045,49 @@ var Bootstrap = {
                 $(".u-choosecontbox[data-role="+role+"]").show();
                 
             }
-            //判断当前是on or not
+        });
+        $("#js-chooseclass").delegate('div', 'click', function(){
+            $(this).remove();
+            me.triggerSearchChange();
+        });
+        function createOption(optionCont, cid, role) {
+            
+            var nodeDiv = document.createElement('div');
+            var nodeP = document.createElement('p');
+            var nodeImg = document.createElement('img');
+
+            nodeDiv.setAttribute('class','cont');
+            nodeDiv.setAttribute('data_cat_id', cid); //设置分类id
+            nodeDiv.setAttribute('data-role', role); //设置分类id
+            nodeP.innerHTML = optionCont;
+            nodeImg.setAttribute('src','img/hongwu_61.png');
+
+            nodeDiv.appendChild(nodeP);
+            nodeDiv.appendChild(nodeImg);
+            return nodeDiv;
+        }
+        function addSearchTips(role, id, name) {
+            var item = $("#js-chooseclass div[data-role="+role+"]");
+            if (item.length) {
+                //相同的分类已经存在，则更新id和 内容
+                item.attr('data_cat_id', id);
+                item.find("p").html(name);
+            } else {
+                $("#js-chooseclass").append(createOption(name,id,role));
+            }
+        }
+        $(".u-choosecontbox").delegate("a", "click",  function(event){
+            var role = $(this).attr('data-role');
+            var cid = $(this).attr('data-id');
+            var name = $(this).html();
+            if (cid) {
+                //分类
+                console.log(role);
+                addSearchTips(role,cid,name);
+            }
+            $(".u-choosecontbox").hide();
+            $('#js-navSelect div').removeClass('on');
+            me.triggerSearchChange();
         });
     }
     //绑定详情页事件
