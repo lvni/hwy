@@ -52,3 +52,8 @@ body {
     .address-buttonbox > .del > p {
       font-size: 12px;
       color: #999999; }
+
+/** by zyl */
+/* line 37, ../sass/address-administration.scss */
+.u-arrow-list {
+  margin-bottom: 50px; }

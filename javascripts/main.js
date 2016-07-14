@@ -1729,6 +1729,10 @@ var Address = {
                 }
             });
         });
+        $(".u-arrow-list a").click(function(){
+                $(this).find('input').focus();
+            
+        });
     }
     //收货地址主界面事件绑定
     ,bindMainEvent: function() {
