@@ -1018,9 +1018,18 @@ var Bootstrap = {
     ,triggerSearchChange: function() {
         var me = this;
         var cids = [];
+        //获取分类ids
         $('#js-chooseclass .cont').each(function(i,e){
             cids.push($(e).attr('data_cat_id'));
         });
+        //获取排序
+        var sort_id = $(".u-choosecontbox a.on").attr('data-id');
+        
+        if (sort_id) {
+            me.searchQuery.sort = sort_id;
+        } else {
+            me.searchQuery.sort = 0;
+        }
         me.searchQuery['cids'] = cids.join(',');
         me.searchQuery.p = 1; //重置页码
         me.loadSearch(me.searchQuery, false);
@@ -1080,10 +1089,21 @@ var Bootstrap = {
             var role = $(this).attr('data-role');
             var cid = $(this).attr('data-id');
             var name = $(this).html();
-            if (cid) {
-                //分类
+            if (role != 'paixu') {
+                //分类改变
                 console.log(role);
                 addSearchTips(role,cid,name);
+            }
+            if (role == 'paixu') {
+                //排序改变
+                var isOn = $(this).hasClass("on");
+                $(".u-choosecontbox[data-role=paixu] a").removeClass('on');
+                $(".u-choosecontbox[data-role=paixu] span").hide();
+ 
+                if (!isOn) {
+                    $(this).addClass("on");
+                    $(this).find('span').show();
+                } 
             }
             $(".u-choosecontbox").hide();
             $('#js-navSelect div').removeClass('on');
