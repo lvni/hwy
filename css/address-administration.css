@@ -57,3 +57,7 @@ body {
 /* line 37, ../sass/address-administration.scss */
 .u-arrow-list {
   margin-bottom: 50px; }
+
+/* line 41, ../sass/address-administration.scss */
+.area_ctrl.slideInUp {
+  bottom: 40%; }
