@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -1995,6 +1995,9 @@ var User = {
         if (data.user.role == Const.USER_ROLE_SUPPLIER_LEADER) {
             //供应商队长，开放下级入口
             $('#my_team').show();
+            $('title').html("个人中心-供应商队长");
+        } else {
+            $('title').html("个人中心-供应商");
         }
         $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
         $(".u-person-head .name").append(data.user.name);
@@ -3003,6 +3006,43 @@ var Supplier = {
         $('#js-changecont div').removeClass('on');
         $('#js-changecont div[data='+type+']').addClass('on').trigger('click');
         //me.tabFunction(type, me);
+    }
+    ,loadSupplierGoods: function(param) {
+        var me = Supplier;
+        Util.requestApi("?r=good/subselling", param, function(data) {
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            var template = $("#goods_template").html();
+            if (data.data.list.length ==0 ) {
+                Util.showTips($("#selling_content"), "没找到相关记录");
+                return;
+            }
+            var html = "";
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                html += Template.renderByTempate(template, item);
+            }
+            $("#selling_content").html(html);
+            me.subPage.render(data.data.page, data.data.page_count);
+        })
+    }
+    //下级商品
+    ,runSubProducts: function() {
+        var me = this;
+        var id = Util.getQueryString('id');
+        var name = Util.escape(Util.getQueryString('name'));
+        me.subPage = new Page("#selling_page");
+        me.subPage.addClickEvent(function(){
+            var page = $(this).attr('data');
+            if (page) {
+                me.loadSupplierGoods({id:id,p:page});
+            }
+            
+        });
+        name && $("#user_name").html(name+"的商品");
+        me.loadSupplierGoods({id:id,p:1});
     }
     //我的收入里面涉及已售商品相关
     ,runIncome: function() {
