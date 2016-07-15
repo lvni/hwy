@@ -23,6 +23,7 @@ var config = {
         'income_king' : 'myincome-king.html', //我的收入
         'income_supplier' : 'myincome-captain-mymember.html', //我的收入- 供应商
     },
+    'default_icons': 'http://hwy-10042975.file.myqcloud.com/default.png',
     'navi_show_page':[
         'king.html', 'index.html', 'allproduct.html',
     ],

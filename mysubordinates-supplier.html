@@ -31,12 +31,12 @@
 <div class="infolist">
         <div class="personinfo">
             <div>
-                <p><img src="{$avatar}" class="photo"></p>
+                <p><img src="{$avatar}" class="photo" onerror="javascript:this.src=config.default_icons;"></p>
                 <p class="name" style="overflow: hidden; white-space: nowrap;text-overflow: ellipsis; width: 56px;">{$user_name}</p>
             </div>
         </div>
         <div class="cont">
-            <a href="mysubordinates-goods.html?id={$rec_id}&name={$user_name}">Ta的商品 &gt;</a>
+            <a href="mysubordinates-goods.html?id={$rec_id}&name={$user_name}">查看Ta的商品 &gt;</a>
         </div>
     </div>
 </script>
