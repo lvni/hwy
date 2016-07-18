@@ -10,7 +10,7 @@
 <body>
 <div class="u-top-msg">
     <div class="title">
-        <p>购物车<span id="cart_num"></span><a href="javascript:;" class="edit">编辑</a></p>
+        <p>购物车<span id="cart_num"></span><a href="javascript:;" class="edit" id="edit_bnt">编辑</a></p>
     </div>
     <div class="msgbox">
         <img src="img/hw_03.png">
@@ -28,8 +28,30 @@
         </div>
     </div>
 </div>
+<div class="u-classifybox ">
+    <div class="head">
+        <img src="img/hongwu_44.png">
+        <p class="title red">￥1880.00</p>
+        <p>库存1件</p>
+        <p>已选:默认分类</p>
+    </div>
+    <div class="classify">
+        <p class="title">分类</p>
+        <button>默认</button>
+    </div>
+    <div class="classify">
+        <p class="title">分类</p>
+        <button>默认</button>
+    </div>
+    <div class="buttonbox">
+        <button class="u-button-storkmain">
+            <span>确定</span>
+        </button>
+    </div>
+</div>
+<div class="u-popodbg" style="display: none;"></div>
 
-<div class="u-pay">
+<div class="u-pay" id="settlement_box">
     <label id="js-chooseall">
         <input type="checkbox" class="u-checkbox" >
         <span class="u-choose"></span>
@@ -43,18 +65,49 @@
         <p>结算<span id="settlement">(0)</span></p>
     </button>
 </div>
-
-<script id="cart_template" type="text/template">
-   <label>
-        <input type="checkbox" class="u-checkbox" data-info="{$data}">
+<div class="u-pay" id="edit_box" style="display:none;">
+    <label>
+        <input type="checkbox" class="u-checkbox">
         <span class="u-choose"></span>
-        <div class="cont">
-            <img src="{$img}">
-            <p class="title">{$title}</p>
-            <p class="money">￥{$money}</p>
-        </div>
-        <p class="count">X {$number}</p>
+        <span>全选</span>
     </label>
+    <div class="share">
+        <a href="javascript:"  data-role="clear">删除</a>
+    </div>
+</div>
+<script id="cart_template" type="text/template">
+   <label class="nomalBox" >
+        <input type="checkbox" class="u-checkbox" data-info="{$datainfo}">
+        <span class="u-choose"></span>
+        <div class="cont" style="">
+            <img src="{$goods_img}">
+            <p class="title">{$goods_name}</p>
+            <p class="money">￥{$goods_price}</p>
+        </div>
+        <p class="count">X {$goods_num}</p>
+    </label>
+     <div class="editbox" style="display:none;"  data-info="{$datainfo}">
+        <label>
+            <input type="checkbox" class="u-checkbox" data-info="{$datainfo}">
+            <span class="u-choose"></span>
+        </label>
+        <div class="edit">
+            <img src="{$goods_img}">
+            <div class="edit-count">
+                <button data-type="min"> - </button>
+                <p class="goods_number">{$goods_num}</p>
+                <button data-type="max">+</button>
+            </div>
+            <div class="classify">
+                <label>
+                    <i>分类：</i>
+                    <span>默认</span>
+                    <img src="img/arrowdown.png" class="arrow">
+                    <button class="u-mainbutton-little"  data-type="remove">删除</button>
+                </label>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script src="javascripts/zepto.min.js"></script>

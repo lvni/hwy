@@ -650,16 +650,25 @@ var SearchBox = {
 var goodsCart = {
     
     
-    add: function(goodsId) {
+    add: function(goodsId, num, callback) {
+        var num = num ? num : 1;
         var api = config.api + "?r=cart/add";
             $.ajax({
                 url: api,
                 dataType : "jsonp",
-                data: {goods_id: goodsId, num:1},
+                data: {goods_id: goodsId, num:num},
                 success: function(data) {
-                    messageBox.toast(data.errmsg);
+                    
+                    if (typeof callback == 'function') {
+                        callback(data);
+                    } else {
+                        messageBox.toast(data.errmsg);
+                    }
                 }
             });
+    }
+    ,remove: function(goodsIds, callback) {
+        Util.requestApi('?r=cart/remove', {goods_ids:goodsIds}, callback)
     }
     ,buy: function(goodsId) {
         Util.goPage(config.page.confirm_order, {goods_ids:goodsId, type:'right'});
@@ -678,48 +687,71 @@ var goodsCart = {
         
     }
     
+    ,updateSettle: function() {
+        var goodCnt = 0;
+         var goodPrice = 0;
+         //计算勾选的货品数量，价格总额
+         $(".u-shoppingCartlist input[type=checkbox]:checked").each(function(i){
+              var dataInfo = $(this).attr('data-info').split('|');
+              var num = parseInt(dataInfo[2]);
+              var price = parseFloat(dataInfo[1]).toFixed(2);
+              goodCnt++;
+              goodPrice += price * num;
+         });
+         if (goodCnt) {
+            $('#cart_num').html("("+goodCnt+")"); //
+            $('#settlement').html("("+goodCnt+")");  //结算
+            $('#money').html(goodPrice); 
+         } else {
+            $('#cart_num').html('');
+            $('#money').html(0);
+            $('#settlement').html("(0)"); 
+             }
+    }
     //绑定购物车列表页事件
     ,bindCartListEvent: function() {
-        
+        var me = this;
         //购物车勾选事件
         $('.u-shoppingCartlist').delegate('.u-checkbox', 'change', function() { 
              //购物车勾选变化
              //遍历所有checkbox
-             var goodCnt = 0;
-             var goodPrice = 0;
-             //计算勾选的货品数量，价格总额
-             $(".u-shoppingCartlist input[type=checkbox]:checked").each(function(i){
-                  var dataInfo = $(this).attr('data-info').split('|');
-                  var num = parseInt(dataInfo[2]);
-                  var price = parseFloat(dataInfo[1]).toFixed(2);
-                  goodCnt++;
-                  goodPrice += price * num;
-             });
-             if (goodCnt) {
-                $('#cart_num').html("("+goodCnt+")"); //
-                $('#settlement').html("("+goodCnt+")");  //结算
-                $('#money').html(goodPrice); 
-             } else {
-                $('#cart_num').html('');
-                $('#money').html(0);
-                $('#settlement').html("(0)"); 
-             }
+             me.updateSettle();
 
         }); 
         
         //全选事件
         $(".u-pay input[type=checkbox]").change(function(){
+             console.log("全选");
              if ($(this).attr('checked') ) {
                 $('.u-shoppingCartlist input[type=checkbox]').prop('checked', true).trigger('change');
-              
                  
              } else {
                 //取消全选
                 $('.u-shoppingCartlist input[type=checkbox]').prop('checked', false).trigger('change');
-             
-                 
+
              }
         });
+        
+        $("#edit_box a[data-role=clear]").click(function(){
+            //批量删除
+          
+           var goodsIds =  $(".u-shoppingCartlist input[type=checkbox]:checked").map(function(i){
+                    var dataInfo = $(this).attr('data-info').split('|');
+                    return dataInfo[0];
+                    }).get().join(',');
+                    
+            if (goodsIds) {
+                
+                messageBox.confirm("确认要删除选中商品吗？", function(){
+                    goodsCart.remove(goodsIds, function(data){
+                        messageBox.toast(data.errmsg);
+                        if (data.errno == 0) {
+                            location.reload();
+                        }
+                    });
+                });
+            }
+        }); 
         
         //结算
         $('.u-pay .paynow').click(function() {
@@ -735,6 +767,81 @@ var goodsCart = {
             }
             
         });
+        
+        $("#edit_bnt").click(function(){
+            var status = $(this).attr('data-status');
+            if (status == 'edit') {   
+                //关闭
+                $(this).attr('data-status', 'show').html("编辑");
+                $(".u-shoppingCartlist .nomalBox").show();
+                $(".u-shoppingCartlist .editbox").hide();
+                $("#settlement_box").show();
+                $("#edit_box").hide();
+                me.loadmyGoodsCart();
+                
+                //更新列表
+            } else {
+                //打开编辑状态 
+                $(this).attr('data-status', 'edit').html("完成");
+                $(".u-shoppingCartlist .nomalBox").hide();
+                $(".u-shoppingCartlist .editbox").show();
+                $("#settlement_box").hide();
+                $("#edit_box").show();
+            }
+            
+        });
+        
+        $(".u-shoppingCartlist").delegate('button','click', function(){
+            var type = $(this).attr('data-type');
+            var datainfo = $(this).closest('.editbox').attr('data-info');
+            var self = this;
+            if (datainfo) {
+                //有数据信息
+                var infos = datainfo.split("|");
+                var appendNum = 0;
+                infos[2] = parseInt( infos[2]);
+                if (type == 'min') {
+                    if (infos[2] == 1) {
+                        //messageBox.toast("不能再少了");
+                        return ;
+                    } else {
+                        appendNum --;
+                    }
+                }
+                if (type == 'max') {
+                    appendNum ++;
+                }
+                
+                if (appendNum != 0) {
+                    me.add(infos[0], appendNum, function(data){
+                            if (data.errno != 0) {
+                                messageBox.toast(data.errmsg);
+                                return;
+                            }
+                            if (data.errno == 0) {
+                                infos[2] += appendNum;
+                                $(self).closest('.editbox').attr('data-info', infos.join('|'));
+                                $(self).closest('.editbox').find('.goods_number').html(infos[2]);
+                            }
+                     
+                    });
+                }
+                
+                if (type == "remove") {
+                    //移除
+                    messageBox.confirm("确认要删除该商品吗?", function(){
+                       
+                        me.remove(infos[0], function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                location.reload();
+                            }
+                        });
+                    });
+                }
+                
+            }
+        });
     }
     //渲染购物车列表
     ,renderCartList: function(data) {
@@ -743,17 +850,24 @@ var goodsCart = {
         for (i in data.list) {
             var item = data.list[i];
             var datainfo = item.goods_id+"|"+item.goods_price+"|"+item.goods_num;
-            html += template.replace('{$title}', item.goods_name)
-                            .replace('{$money}', item.goods_price)
-                            .replace('{$img}', item.goods_img)
-                            .replace('{$number}', item.goods_num)
-                            .replace('{$data}', datainfo);
+            /**
+            html += template.replaceAll('{$title}', item.goods_name)
+                            .replaceAll('{$money}', item.goods_price)
+                            .replaceAll('{$img}', item.goods_img)
+                            .replaceAll('{$number}', item.goods_num)
+                            .replaceAll('{$data}', datainfo);
+            **/                
+            item.datainfo = datainfo;
+            html += Template.renderByTempate(template, item);
         }
         if (html) {
             $('.u-shoppingCartlist').html(html);
+            
         } else {
             $('.u-shoppingCartlist .empty').show();
+            $("#edit_bnt,.u-pay").hide();
         }
+        goodsCart.updateSettle();
        
     }
     ,loadmyGoodsCart: function() {
