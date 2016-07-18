@@ -622,7 +622,11 @@ var SearchBox = {
                 window.location.href = "allproduct.html?k="+keyword;
             }
         });
-    
+        $("#js-searchHistory-li").delegate('li', 'click',function(){
+            var keyword = $(this).html();
+            window.location.href = "allproduct.html?k="+keyword;
+            
+        });
         //删除历史记录
         $('.u-button-storkmain').click(function(){
             me.clearCache();
