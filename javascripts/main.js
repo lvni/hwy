@@ -367,7 +367,7 @@ var Util = {
         return;
     }
     ,goKefu: function(param){
-        location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23958";
+        location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
     }
 };
 //存储相关
