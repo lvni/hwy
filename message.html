@@ -16,15 +16,15 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<a href="message-notice.html" class="u-messagelist">
+<a href="message-notice.html" class="u-messagelist" id="system_msg">
     <div class="icon">
         <img src="img/icon130.png" class="photo">
-        <span class="messagecount">99+</span>
+        <span class="messagecount" style="display:none;"></span>
     </div>
     <div class="maincont">
         <h3 class="dackred title">系统通知</h3>
-        <p class="cont">您购买的xx已经发货了</p>
-        <time class="time">11:26</time>
+        <p class="cont"></p>
+        <time class="time"></time>
     </div>
 </a>
 <a href="javascript:;" class="u-messagelist" id="kefu">
@@ -44,6 +44,18 @@
 <script>
    $("#kefu").click(function(){
        Util.goKefu(this);
+   });
+   Util.requestApi('?r=message/resume',{}, function(data){
+    if (data.errno != 0) {
+        messageBox.toast(data.errmsg);
+        return;
+    }
+    if (data.data.msg_cnt) {
+        $("#system_msg .messagecount").show().html(data.data.msg_cnt);
+    }
+    
+    $("#system_msg .cont").html(data.data.title);
+    $("#system_msg .time").html(data.data.time);
    });
 </script>
 </body>
