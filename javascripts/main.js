@@ -1594,7 +1594,7 @@ var Order = {
         var tips = {
             100: {
                 t: "等待买家付款",
-                st: "48小时内未付款自动取消订单",
+                st: "1小时内未付款自动取消订单",
             },
             101: {
                 t: "等待商家发货",
@@ -2356,6 +2356,18 @@ var Income = {
             var html = "";
             $("#goods_money").html("￥" + data.data.goods_money);
             $("#rebate_money").html(data.data.rebate_money);
+            if (!params.myself) {
+                //不是自己，隐藏货款
+                $("#my_goods_money").hide();
+            } else {
+                $("#my_goods_money").show();
+            }
+            if (data.data.role == Const.USER_ROLE_SUPPLIER_LEADER) {
+                //队长可以看返利
+                $("#rebate_money_sum").show();
+            } else {
+                $("#rebate_money_sum").hide();
+            }
             if (data.data.list.length == 0) {
                 html = "没有佣金记录";
                 Util.showTips(target, html);
@@ -2363,6 +2375,10 @@ var Income = {
             }
             for (i in data.data.list) {
                 var item = data.data.list[i];
+                item.display = "";
+                if (parseInt(item.rebate_money) == 0) {
+                    item.display = "none";
+                }
                 html += Template.renderByTempate(template, item);
             }
             target.html(html);

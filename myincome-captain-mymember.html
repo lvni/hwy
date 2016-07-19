@@ -43,7 +43,7 @@
     <p id="changenode02" style="display:none;">我的队员</p>
 </div>
 <div class="u-myincome-search">
-    <p class="title">货款总额：<span id="goods_money">￥0</span><i>（含返利：￥<span id="rebate_money">0</span>）</i></p>
+    <p class="title"><span style="padding-right:20px;" id="my_goods_money">货款总额：<span id="goods_money">￥0</span></span>  <span id="rebate_money_sum" >返利：￥<span id="rebate_money">0</span></span></p>
     <div class="cont">
         <input type="date" placeholder="开始时间" name="from" style="width: 6rem;font-size: 1rem;">
         <span>-</span>
@@ -95,15 +95,17 @@
                 <p>供货价：<i>￥{$supplier_price}</i></p>
             </div>
             <div class="td">
-                <p class="red">收货佣金：<i>{$rebate_money}</i></p>
+                <p >总额：<i>￥{$trade_fee}</i></p>
             </div>
         </div>
 
         <div class="tr">
             <div class="td">
                 <p>交易日期：<i>{$order_date}</i></p>
+            </div>  
+            <div class="td"  style="display:{$display};">
+                <p >收货佣金：<i>{$rebate_money}</i></p>
             </div>
-
         </div>
 
     </div>
