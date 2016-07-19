@@ -1108,7 +1108,7 @@ var Bootstrap = {
                 var html = "<div><span class=\"name\">"+ item.name +"</span></div><div class=\"priceboxes\">";
                 for (j in item.children) {
                     var cat = item.children[j];
-                    html += "<a javascript:;  data-name='"
+                    html += "<a href='javascript:;' data-role='shaixuan'  data-name='"
                          + cat.name+"' data-id='"+cat.id+"' >"
                          + cat.name+"</a>";
                 }
@@ -1227,6 +1227,10 @@ var Bootstrap = {
                     $(this).addClass("on");
                     $(this).find('span').show();
                 } 
+            }
+            if (role == 'shaixuan') {
+                $("#js-choosecontbox a").removeClass('on');
+                $(this).addClass("on");
             }
             $(".u-choosecontbox").hide();
             $('#js-navSelect div').removeClass('on');

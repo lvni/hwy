@@ -27,16 +27,24 @@
         <time class="time">11:26</time>
     </div>
 </a>
-<a href="#" class="u-messagelist">
+<a href="javascript:;" class="u-messagelist" id="kefu">
     <div class="icon">
         <img src="img/icon131.png" class="photo">
-        <span class="messagecount">1</span>
+        <span class="messagecount" style="display:none;">1</span>
     </div>
-    <div class="maincont">
+    <div class="maincont" >
         <h3 class="pink title">洪五爷官方客服</h3>
         <p class="cont">您好！</p>
-        <time class="time">11:26</time>
+        <time class="time"></time>
     </div>
 </a>
+
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+   $("#kefu").click(function(){
+       Util.goKefu(this);
+   });
+</script>
 </body>
 </html>
