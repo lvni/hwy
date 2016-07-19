@@ -148,7 +148,7 @@
 </a>
 
 <div class="details-bottombox">
-    <div class="icon">
+    <div class="icon" id="kefu">
         <img src="img/details_27.png">
         <p>客服</p>
     </div>
@@ -176,6 +176,10 @@ $(function(){
     var ignoreNavi = true;
     Bootstrap.rungoodsdetail();
     goodsCart.bindAddEvent();
+    //注册客服事件
+    $("#kefu").bind('click', function(){
+         Util.goKefu();
+    });
 });
 </script>
 

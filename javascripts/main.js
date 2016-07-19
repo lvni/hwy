@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -366,6 +366,9 @@ var Util = {
         window.location.href = page;
         return;
     }
+    ,goKefu: function(param){
+        location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23958";
+    }
 };
 //存储相关
 var Storge = {
@@ -691,7 +694,7 @@ var goodsCart = {
         var goodCnt = 0;
          var goodPrice = 0;
          //计算勾选的货品数量，价格总额
-         $(".u-shoppingCartlist input[type=checkbox]:checked").each(function(i){
+         $(".u-shoppingCartlist .nomalBox input[type=checkbox]:checked").each(function(i){
               var dataInfo = $(this).attr('data-info').split('|');
               var num = parseInt(dataInfo[2]);
               var price = parseFloat(dataInfo[1]).toFixed(2);
@@ -2450,6 +2453,7 @@ var Income = {
               me.money_limit = data.data.withdrawals_limit;
               me.total_money = data.data.money;
               $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
+              $("#js-quota, #js-alipayQouta").attr("placeholder", "提现金额(最低提现"+me.money_limit+"元)");
               $('.user_money').html(data.data.user_money);
               
               if (data.data.withdrawals_account) {
@@ -3200,4 +3204,3 @@ var Qrcode = {
     }
 };
 
-    

@@ -59,13 +59,13 @@
         <p class="right red">￥{$order_amount}</p>
     </div>
     <div class="buttonbox">
-        <button class="u-button-little-white">
+        <button class="u-button-little-white" id="kefu">
             <img src="img/orderdetails_11.png">
             <span>联系客服</span>
         </button>
         <button  class="u-button-little-white">
             <img src="img/orderdetails_13.png">
-            <span>拨打电话</span>
+            <span><a href="tel:4000-111-550">拨打电话</a></span>
         </button>
     </div>
 </div>
@@ -102,9 +102,13 @@
 </button>
 </script>
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js"></script>
+<script src="javascripts/main.js?v=2"></script>
 <script>
 Order.runDetail();
+//注册客服事件
+$('body').delegate("button", 'click', function(){
+      Util.goKefu(this);  
+ });
 </script>
 </body>
 </html>
