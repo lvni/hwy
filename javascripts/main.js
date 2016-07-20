@@ -370,6 +370,13 @@ var Util = {
     ,goKefu: function(param){
         location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
     }
+    ,isIphone: function() {
+        var ua = navigator.userAgent.toLowerCase();	
+        if (/iphone|ipad|ipod/.test(ua)) {
+             return true;		
+        } 
+        return false;
+    }
 };
 //存储相关
 var Storge = {
@@ -1260,41 +1267,19 @@ var Bootstrap = {
         $(".u-productlist").delegate('a', 'click', function(){
             var goodsId = $(this).attr('data-id');
             //location.href = ;
-            var url = config.page.detail + "?id="+goodsId;
-            var stateObj = { goods_id: goodsId};
-            context = {
-                
-                'search' : me.searchQuery,
-                'context' : $("#context").html(),
-            };
-            Storge.setItem("search_context" , JSON.stringify(context));
-            location.href = url;
-            /**
-            Util.showLoading();
-            var oldHtml = $('html').html();
-            Storge.setItem("html", oldHtml);
-            $.ajax({
-                url: url,
-                success:function(data) {
-                    $('html').html(data);
-                    Util.hideLoading();
-                    
-                }}
-            );
-            history.pushState(stateObj, "page 2", url);
-            **/
+            
+            if (goodsId) {
+                var url = config.page.detail + "?id="+goodsId;
+                var stateObj = { goods_id: goodsId};
+                context = {
+                    'search' : me.searchQuery,
+                    'context' : $("#context").html(),
+                };
+                Storge.setItem("search_context" , JSON.stringify(context));
+                setTimeout(function(){location.href = url;}, 100);
+            }
+
         });
-        
-        window.onpopstate = function(e){
-			if(history.state)
-			{
-				var state = history.state;
-				
-			}
-            //var html  = Storge.getItem("html");
-             //Storge.removeItem("html");
-             //$('html').html(html);
-		}
     }
     //绑定详情页事件
     ,bindDetailEvent: function() {
@@ -1385,10 +1370,10 @@ var Bootstrap = {
     ,runsearch: function() {
         var me = this;
         var context = Storge.getItem("search_context");
-        if (context) {
+        if (context ) {
             //返回,恢复现场
             context = JSON.parse(context);
-            Storge.removeItem("search_context")
+            Storge.removeItem("search_context");
             $("#context").html(context.context);
             me.searchQuery = context.search;
         } else {

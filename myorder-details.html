@@ -63,7 +63,7 @@
             <img src="img/orderdetails_11.png">
             <span>联系客服</span>
         </button>
-        <button  class="u-button-little-white">
+        <button  class="u-button-little-white" id="tel">
             <img src="img/orderdetails_13.png">
             <span><a href="tel:4000-111-550">拨打电话</a></span>
         </button>
@@ -107,7 +107,14 @@
 Order.runDetail();
 //注册客服事件
 $('body').delegate("button", 'click', function(){
-      Util.goKefu(this);  
+    var id =  $(this).attr("id");
+    if ( id == "kefu") {
+        Util.goKefu(this);  
+    }
+    if ( id == 'tel') {
+        location.href="tel:4000-111-550";
+    }
+      
  });
 </script>
 </body>

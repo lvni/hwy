@@ -57,7 +57,7 @@
     </a>
 
 </div>
-<div class="address-buttonbox">
+<div class="address-buttonbox" >
     <div class="del">
         <img src="img/del.png">
         <p>删除</p>
@@ -69,7 +69,7 @@
 <script src="javascripts/zepto_v1.min.js"></script>
 <script src="javascripts/areaDatas.js"></script>
 <script src="javascripts/selecter.js"></script>
-<script src="javascripts/main.js" ></script>
+<script src="javascripts/main.js?v=3" ></script>
 <script>
     var area = new Area.selecter(
             '#select_area',
@@ -79,6 +79,10 @@
     );
     area.init();
     Address.runNew();
+    if (Util.isIphone()) {
+        // ios posiiton:fixed 不兼容
+        $(".address-buttonbox, .u-top-msg").css("position", 'absolute');
+    }
 </script>
 </body>
 </html>
