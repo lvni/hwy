@@ -75,8 +75,8 @@ body {
     font-size:9px;
   }
   .title {
-    font-size:16px;
-    color:$fontcolor;
+    font-size:1.4rem;
+    color:$fontcolorLv1;
   }
   .price {
     font-size:18px;
@@ -92,19 +92,19 @@ body {
 
   &>a {
     padding-left:15px;
-    color:$fontcolor;
-    font-size:1.1rem;
+    color:$fontcolorLv1;
+    font-size:1.2rem;
   }
 }
 
 .productinfo-list {
-  color:$fontcolor;
+  color:$fontcolorLv1;
   background: #ffffff;
   &>.title {
     position: relative;
     padding:5px 15px;
     margin:0  0  5px 0;
-    font-size:1.1rem;
+    font-size:1.2rem;
     &:after {
       @extend %border-1px-bottom;
     }
@@ -114,14 +114,14 @@ body {
   }
   p {
     padding:3px 15px;
-    font-size:1.1rem;
+    font-size:1.2rem;
   }
 }
 
 .details-title {
   position: relative;
   padding:5px 15px;
-  font-size:1.1rem;
+  font-size:1.2rem;
   background: #ffffff;
   &:after {
     @extend %border-1px-bottom;
@@ -261,7 +261,7 @@ body {
   }
   &>.icon {
     -webkit-box-flex: 1;
-    font-size:10px;
+    font-size:1.1rem;
     color:$fontcolor;
     text-align: center;
     &>img {
@@ -331,4 +331,9 @@ body {
 }
 /*end*/
 
-
+.details-infobox .cont img{
+    width: 100%;
+}
+.details-infobox .cont p {
+    padding-top:5px;
+}
