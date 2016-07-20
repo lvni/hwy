@@ -76,7 +76,7 @@ body {
   }
   .title {
     font-size:16px;
-    color:$fontcolorLv2;
+    color:$fontcolor;
   }
   .price {
     font-size:18px;
@@ -92,19 +92,19 @@ body {
 
   &>a {
     padding-left:15px;
-    color:$fontcolorLv2;
-    font-size:11px;
+    color:$fontcolor;
+    font-size:1.1rem;
   }
 }
 
 .productinfo-list {
-  color:$fontcolorLv2;
+  color:$fontcolor;
   background: #ffffff;
   &>.title {
     position: relative;
     padding:5px 15px;
     margin:0  0  5px 0;
-    font-size:11px;
+    font-size:1.1rem;
     &:after {
       @extend %border-1px-bottom;
     }
@@ -114,14 +114,14 @@ body {
   }
   p {
     padding:3px 15px;
-    font-size:11px;
+    font-size:1.1rem;
   }
 }
 
 .details-title {
   position: relative;
   padding:5px 15px;
-  font-size:11px;
+  font-size:1.1rem;
   background: #ffffff;
   &:after {
     @extend %border-1px-bottom;
@@ -158,7 +158,7 @@ body {
     box-sizing: border-box;
     -webkit-box-flex: 1;
     font-size:12px;
-    color: $fontcolorLv2;
+    color: $fontcolor;
   }
   &>.submit {
     display: block;
@@ -262,7 +262,7 @@ body {
   &>.icon {
     -webkit-box-flex: 1;
     font-size:10px;
-    color:$fontcolorLv2;
+    color:$fontcolor;
     text-align: center;
     &>img {
       width:18px;
