@@ -25,6 +25,7 @@ var config = {
         'income_supplier' : 'myincome-captain-mymember.html', //我的收入- 供应商
     },
     'default_icons': 'http://hwy-10042975.file.myqcloud.com/default.png',
+    'share_logo' : "http://hwy-10042975.file.myqcloud.com/default.png",
     'navi_show_page':[
         'king.html', 'index.html', 'allproduct.html',
     ],
@@ -1821,7 +1822,6 @@ var Order = {
            WeixinJSBridge.invoke(
                'getBrandWCPayRequest', me.wxParams.data,
                function(res){     
-                    console.log(res);
                     if (res.err_code) {
                         //有错误码，则表示支付失败
                          messageBox.toast("支付失败");
@@ -2189,34 +2189,7 @@ var User = {
     }
     ,bindShareEvent: function() {
         $("#share").bind('click', function(){
-            if (Util.isWeiXin()) {
-                //微信端内
-                 wx.ready(function () {  
-                    wx.onMenuShareAppMessage({  
-                       title: '你好-洪五爷', // 分享标题
-                       link: 'http://www.baidu.com', // 分享链接
-                       imgUrl: 'http://app.hong5ye.com/webapp/img/logo.png', // 分享图标
-                       success: function () {
-                           // 用户确认分享后执行的回调函数
-                           messageBox.toast("success");
-                       },
-                       trigger: function (res) {
-                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
-                        alert('用户点击发送给朋友');
-                      },
-                       cancel: function () {
-                           // 用户取消分享后执行的回调函数
-                           messageBox.toast("cancel");
-                       },
-                       fail: function (res) {
-                            alert(JSON.stringify(res));
-                       }
-                        
-                    });
-                    //alert('已注册获取“发送给朋友”状态事件');
-                    });	
-            }
-            
+            Weixin.shareFriend(User.shareContent);
         });
     }
     ,initKing: function(data, proxy) {
@@ -2224,6 +2197,17 @@ var User = {
             proxy = this;
         }
         proxy.renderKing(data, config.page.user_king);
+        
+        //注册微信分享事件
+        var shareContent = {
+            title: "洪五爷珠宝",
+            desc: "你也来试试吧",
+            link: config.webapp + "?sid="+data.user.sid,
+            img: config.share_logo,
+        };
+        proxy.shareContent = shareContent;
+        Weixin.registerShare(shareContent);
+        proxy.bindShareEvent();
     }
     ,initSupplier: function(data, proxy) {
         proxy.renderSupplier(data, config.page.user_supplier);
@@ -3281,3 +3265,73 @@ var Qrcode = {
     }
 };
 
+
+
+//微信相关操作
+var Weixin = {
+    
+   registerShare: function(content) {
+       if (!Util.isWeiXin()) {
+           return;
+       }
+       wx.ready(function () {  
+            //'http://app.hong5ye.com/webapp/img/logo.png'
+            //发给朋友
+            wx.onMenuShareAppMessage({  
+               title: content.title, // 分享标题
+               desc: content.desc,
+               link: content.link, // 分享链接
+               imgUrl: content.img // 分享图标
+            });
+            
+            
+            //发到朋友圈
+            wx.onMenuShareTimeline({  
+               title: content.title, // 分享标题
+               desc: content.desc,
+               link: content.link, // 分享链接
+               imgUrl: content.img // 分享图标
+            });
+            
+
+            
+        });
+   }
+
+    ,init: function(call) {
+        
+        function onBridgeReady(){
+            call();
+        }
+        if (typeof WeixinJSBridge == "undefined"){
+           if( document.addEventListener ){
+               document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+           }else if (document.attachEvent){
+               document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+               document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+           }
+        }else{
+           onBridgeReady();
+        }
+    }
+   ,shareFriend: function(content) {
+       if (!Util.isWeiXin()) {
+           return;
+       }
+       messageBox.toast("调用微信分享");
+       this.init(function(){
+       WeixinJSBridge.invoke('sendAppMessage',{
+              'img_url': content.img,
+              'link': content.link,
+              'desc': content.desc,
+              'title': content.title
+              }, function(res){
+                console.log(res);
+          });
+          });
+   }
+   ,scan: function(){
+       wx.scanQRCode();
+   }
+    
+};

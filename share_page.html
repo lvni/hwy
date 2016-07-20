@@ -2,12 +2,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>玉石-下载页面</title>  
+	<title>洪五爷珠宝</title>  
 	<!-- 新 Bootstrap 核心 CSS 文件 -->
 	<link rel="stylesheet" href="http://app.hong5ye.com:80/HongWuYe/mobileJsp/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="http://app.hong5ye.com:80/HongWuYe/mobileJsp/bootstrap/css/bootstrap-theme.min.css">
 	<script src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/jquery/jquery-1.11.3.min.js"></script>
 	<script src="http://app.hong5ye.com:80/HongWuYe/mobileJsp/bootstrap/js/bootstrap.min.js"></script>
+    
+    <script src="javascripts/main.js"></script>
+    <script>
+        //获取用户分享的sid，用于绑定上下级关系
+        var sid = Util.getQueryString('sid');
+        var page = config.page.home;
+        if (sid)  {
+            page += "?sid=" + sid;
+        }
+        location.href = page;
+        //$('#webapp_entry').attr('href', page);
+    </script>
     <style>
     *{margin:0;padding:0;}
     body{background: url(../images/share/xzbg.jpg)no-repeat;background-size: 100%;}
@@ -28,7 +40,7 @@
     </style>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
-<body style="background-image: url('http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/xzbg.jpg');">
+<body  style="display:none; background-image: url('http://app.hong5ye.com:80/HongWuYe/mobileJsp/images/share/xzbg.jpg');">
 <div class="container">
 		<div class="row">
 			<div class="col-xs-12 share-info">
@@ -47,17 +59,7 @@
 	
 		</div>
 	</div>
-    <script src="javascripts/main.js"></script>
-    <script>
-        //获取用户分享的sid，用于绑定上下级关系
-        var sid = Util.getQueryString('sid');
-        var page = config.page.home;
-        if (sid)  {
-            page += "?sid=" + sid;
-        }
-        console.log(page);
-        $('#webapp_entry').attr('href', page);
-    </script>
+    
 </body>
 
 </html>

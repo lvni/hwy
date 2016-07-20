@@ -5,6 +5,7 @@
 <title>个人中心</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/supplier.css">
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script>
 
         function isWeiXin(){
@@ -19,7 +20,7 @@
         if (isWeiXin()) {
             var doc=document;  
             var script=doc.createElement("script"); 
-            var url = 'http://res.wx.qq.com/open/js/jweixin-1.0.0.js';
+            var url = 'https://res.wx.qq.com/open/js/jweixin-1.0.0.js';
             script.setAttribute("src", url);  
             var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
@@ -100,7 +101,7 @@
         <img src="img/hw_60.png">
         <p>分享排名</p>
     </a>
-    <a href="javascript:;">
+    <a href="javascript:;" id="share">
         <img src="img/hw_63.png">
         <p>分享平台给好友</p>
     </a>
@@ -138,6 +139,7 @@
     FuncNavi.addCallback(User.initKing, User);
     FuncNavi.run();
     Qrcode.run();
+    
 </script>
 </body>
 </html>
