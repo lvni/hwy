@@ -1184,8 +1184,22 @@ var Bootstrap = {
                 
             }
         });
+        //取消查询条件
         $("#js-chooseclass").delegate('div', 'click', function(){
+            
+            if ($(this).attr('data-role') == 'shaixuan') {
+                //将筛选对应的高亮取消
+                var id = $(this).attr('data_cat_id');
+                $("#js-choosecontbox a").each(function(){
+                    var dataId = $(this).attr('data-id');
+                    if (id == dataId) {
+                        $(this).removeClass("on");
+                        return;
+                    }
+                 });
+            }
             $(this).remove();
+            
             me.triggerSearchChange();
         });
         function createOption(optionCont, cid, role) {
@@ -1248,7 +1262,12 @@ var Bootstrap = {
             //location.href = ;
             var url = config.page.detail + "?id="+goodsId;
             var stateObj = { goods_id: goodsId};
-            Storge.setItem("search_context" , $("#context").html());
+            context = {
+                
+                'search' : me.searchQuery,
+                'context' : $("#context").html(),
+            };
+            Storge.setItem("search_context" , JSON.stringify(context));
             location.href = url;
             /**
             Util.showLoading();
@@ -1361,13 +1380,17 @@ var Bootstrap = {
         this.loadGoodsDetail(goodsId);
         this.bindDetailEvent();
     }
+    
     //搜索/所有产品入口
     ,runsearch: function() {
+        var me = this;
         var context = Storge.getItem("search_context");
         if (context) {
             //返回,恢复现场
+            context = JSON.parse(context);
             Storge.removeItem("search_context")
-            $("#context").html(context);
+            $("#context").html(context.context);
+            me.searchQuery = context.search;
         } else {
             
             var k = Util.getQueryString('k');
