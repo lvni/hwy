@@ -5,11 +5,12 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
+        'detail': 'details.html',
         'select_address': 'address-select.html',
         'cart' : 'shoppingCart.html', //购物车
         'login': 'login.html', //登录页
@@ -1137,9 +1138,9 @@ var Bootstrap = {
         var me = this;
         $(window).scroll(me.handleSearchPull);
     }
-    //搜索变化事件
-    ,triggerSearchChange: function() {
-        var me = this;
+    
+    ,getSearchQuery: function() {
+        var me = Bootstrap;
         var cids = [];
         //获取分类ids
         $('#js-chooseclass .cont').each(function(i,e){
@@ -1155,6 +1156,11 @@ var Bootstrap = {
         }
         me.searchQuery['cids'] = cids.join(',');
         me.searchQuery.p = 1; //重置页码
+    }
+    //搜索变化事件
+    ,triggerSearchChange: function() {
+        var me = this;
+        me.getSearchQuery();
         me.loadSearch(me.searchQuery, false);
     }
     ,bindSearchEvent: function() {
@@ -1236,6 +1242,40 @@ var Bootstrap = {
             $('#js-navSelect div').removeClass('on');
             me.triggerSearchChange();
         });
+        
+        $(".u-productlist").delegate('a', 'click', function(){
+            var goodsId = $(this).attr('data-id');
+            //location.href = ;
+            var url = config.page.detail + "?id="+goodsId;
+            var stateObj = { goods_id: goodsId};
+            Storge.setItem("search_context" , $("#context").html());
+            location.href = url;
+            /**
+            Util.showLoading();
+            var oldHtml = $('html').html();
+            Storge.setItem("html", oldHtml);
+            $.ajax({
+                url: url,
+                success:function(data) {
+                    $('html').html(data);
+                    Util.hideLoading();
+                    
+                }}
+            );
+            history.pushState(stateObj, "page 2", url);
+            **/
+        });
+        
+        window.onpopstate = function(e){
+			if(history.state)
+			{
+				var state = history.state;
+				
+			}
+            //var html  = Storge.getItem("html");
+             //Storge.removeItem("html");
+             //$('html').html(html);
+		}
     }
     //绑定详情页事件
     ,bindDetailEvent: function() {
@@ -1323,15 +1363,24 @@ var Bootstrap = {
     }
     //搜索/所有产品入口
     ,runsearch: function() {
+        var context = Storge.getItem("search_context");
+        if (context) {
+            //返回,恢复现场
+            Storge.removeItem("search_context")
+            $("#context").html(context);
+        } else {
+            
+            var k = Util.getQueryString('k');
+            if (k) {
+                $('title').html("搜索-"+Util.escape(k));
+            }        
+            this.loadSearchCategories();
+            this.searchQuery.k = k;
+            this.loadSearch(this.searchQuery, false);
+        }
         this.bindSearchScroll();
         this.bindSearchEvent();
-        var k = Util.getQueryString('k');
-        if (k) {
-            $('title').html("搜索-"+Util.escape(k));
-        }        
-        this.loadSearchCategories();
-        this.searchQuery.k = k;
-        this.loadSearch(this.searchQuery, false);
+        
     }
 };
 

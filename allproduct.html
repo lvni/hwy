@@ -38,6 +38,7 @@
         </button>
     </div>
 </div>
+<div id="context">
 <div class="u-choosebox"><!--这里加上on之后筛选内容的box会出现-->
     <div class="u-sortnav" id="js-navSelect">
         <div class="cont" data-role="buwei">
@@ -80,7 +81,7 @@
 <div class="u-productlist" style="display:;">
     
 </div>
-
+</div>
 <div id="buttom-flag"></div>
 <script type="text/template" id="search-empty">
 <div class="u-refresh" style="display:none;">
@@ -103,7 +104,7 @@
     </div>
 </script>
 <script type="text/template" id="search-list-item">
-<a href="details.html?id={$id}" class="contbox">
+<a href="javascript:;" data-id={$id} class="contbox">
         <img src="{$img}">
         <div class="cont">
             <p class="name">{$title}</p>
