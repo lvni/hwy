@@ -5,27 +5,6 @@
 <title>我的收货地址</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/myorder-paymode.css">
-    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script>
-        function isWeiXin(){
-            return true;
-            var ua = window.navigator.userAgent.toLowerCase();
-            if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-                return true;
-            }else{
-                return false;
-            }
-        }
-        //
-        if (isWeiXin()) {
-            var doc=document;  
-            var script=doc.createElement("script"); 
-            var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
-            script.setAttribute("src", url);  
-            var heads = doc.getElementsByTagName("head");  
-            heads[0].appendChild(script); 
-        }
-    </script>
 </head>
 
 <body>

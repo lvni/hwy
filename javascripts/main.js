@@ -494,7 +494,7 @@ var FuncNavi = {
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
-                                 
+             window.hwy =  data.data;  // 全局存放          
         } else if (data && data.is_login == 0){
             if (Util.isWeiXin()) {
                 //微信内，直接跳登录
@@ -3271,6 +3271,27 @@ var Qrcode = {
 var Weixin = {
     
    registerShare: function(content) {
+       if (content == undefined) {
+           content = new Object;
+       }
+       var title = content.hasOwnProperty('title') ? content.title : "让珠宝不再暴利-洪五爷珠宝";
+       var desc = content.hasOwnProperty('desc') ? content.desc : "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果";
+       var link = content.hasOwnProperty('link')? content.link :  location.href;
+       var img = content.hasOwnProperty('img') ? content.img : config.share_logo;
+       
+       if (window.hwy && window.hwy.user) {
+           //一登陆用户
+           //修改sid ,替换为自己的分享
+           var user = window.hwy.user;
+           var reg = /sid=[0-9a-zA-Z]+/;
+           var link = location.href;
+           
+           if (reg.test(link)) {
+               link = link.replace(reg, "sid="+user.sid);
+           } else {
+               link += link.indexOf('?') ? ("?sid=" + user.sid) : ("&sid="+user.sid);
+           }
+       }
        if (!Util.isWeiXin()) {
            return;
        }
@@ -3278,27 +3299,46 @@ var Weixin = {
             //'http://app.hong5ye.com/webapp/img/logo.png'
             //发给朋友
             wx.onMenuShareAppMessage({  
-               title: content.title, // 分享标题
-               desc: content.desc,
-               link: content.link, // 分享链接
-               imgUrl: content.img // 分享图标
+               title: title, // 分享标题
+               desc: desc,
+               link: link, // 分享链接
+               imgUrl: img // 分享图标
             });
             
             
             //发到朋友圈
             wx.onMenuShareTimeline({  
-               title: content.title, // 分享标题
-               desc: content.desc,
+               title: desc, // 分享标题
                link: content.link, // 分享链接
                imgUrl: content.img // 分享图标
             });
             
-
             
         });
    }
+   ,init: function() {
+       
+       //微信初始化
+       if (Util.isWeiXin()) {
+            var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'https://res.wx.qq.com/open/js/jweixin-1.0.0.js';
+            script.setAttribute("src", url);  
+            var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+            
+            
+            var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
+            script.setAttribute("src", url);  
+            var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+       }
+       
+   }
 
-    ,init: function(call) {
+    ,register: function(call) {
         
         function onBridgeReady(){
             call();
@@ -3318,9 +3358,9 @@ var Weixin = {
        if (!Util.isWeiXin()) {
            return;
        }
-       messageBox.toast("调用微信分享");
-       this.init(function(){
+       this.register(function(){
        WeixinJSBridge.invoke('sendAppMessage',{
+              'appid': 'wxe34db014e06258af',
               'img_url': content.img,
               'link': content.link,
               'desc': content.desc,
@@ -3335,3 +3375,7 @@ var Weixin = {
    }
     
 };
+
+Weixin.init();
+setTimeout(function(){Weixin.registerShare();},300);
+
