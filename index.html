@@ -378,8 +378,6 @@
 $(function(){
     Bootstrap.runHome();
     SearchBox.run();
-    FuncNavi.run();
-    
     //加载广告
     Util.requestApi("?r=ad/home", {}, function(data){
         if (data.errno == 0) {

@@ -534,6 +534,7 @@ var FuncNavi = {
           if (sid) {
               params['sid'] = sid;
           }
+          
           var api = config.api + "?r=center/navi";
           var me = this;
           if ( true) {
@@ -546,7 +547,7 @@ var FuncNavi = {
                            me.data = data.data;
                            data.data  && me.rendNavi(data.data);
                        }
-                       Share.registerShare();
+                       
                        for (i in me.funcs) {
                            me.funcs[i].func(me.data, me.funcs[i].proxy);
                        }
@@ -3293,10 +3294,14 @@ var Share = {
            
        };
    }
-   ,registerShare: function() {
-       
-       
-       
+   //微信分享引导
+   ,wxShareGuid: function() {
+       var html = '<div id="share_guid" style="position: fixed;top: 0; left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.7);display: ;z-index: 20000;">'
+                     + '<img style="position: fixed;right: 30px;top: 10px;z-index: 999;" src="img/share_guid.png"></div>';
+        $('body').append(html);             
+   }
+   ,registerShare: function(proxy){
+      
        if (window.hwy && window.hwy.user) {
            //一登陆用户
            //修改sid ,替换为自己的分享
@@ -3313,7 +3318,7 @@ var Share = {
        if (!Util.isWeiXin()) {
            return;
        }
-       var content = this.getShareContent();
+       var content = Share.getShareContent();
        wx.ready(function () {  
             //'http://app.hong5ye.com/webapp/img/logo.png'
             //发给朋友
@@ -3321,7 +3326,13 @@ var Share = {
                title: content.title, // 分享标题
                desc: content.desc,
                link: content.link, // 分享链接
-               imgUrl: content.img // 分享图标
+               imgUrl: content.img, // 分享图标,
+               success: function(){
+                $("#share_guid").remove();
+               },
+               cancel:  function(){
+                $("#share_guid").remove();
+                }
             });
             
             
@@ -3329,7 +3340,13 @@ var Share = {
             wx.onMenuShareTimeline({  
                title: content.title, // 分享标题
                link: content.link, // 分享链接
-               imgUrl: content.img // 分享图标
+               imgUrl: content.img, // 分享图标
+               success: function(){
+                $("#share_guid").remove();
+               },
+               cancel:  function(){
+                $("#share_guid").remove();
+                }
             });
             
             
@@ -3353,6 +3370,11 @@ var Share = {
             script.setAttribute("src", url);  
             //var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
+            
+            
+            $("body").delegate("#share_guid", 'click', function(){
+                $(this).remove();
+            })
        }
        
    }
@@ -3378,7 +3400,10 @@ var Share = {
        if (!Util.isWeiXin()) {
            return;
        }
-       var me = this;
+       var me = Share;
+       me.wxShareGuid();
+       return;
+       
        me.register(function(){
 //       WeixinJSBridge.on('menu:share:appmessage', function(argv){
        content = me.getShareContent();
@@ -3400,5 +3425,25 @@ var Share = {
 };
 
 Share.init();
-//setTimeout(function(){Share.registerShare();},300);
+var NavFunc = {
+       '/webapp/' : {show:true},
+       '/webapp/index.html' : {show:true},
+       '/webapp/allproduct.html' : {show:true},
+       '/webapp/shoppingCart.html' : {show:true},
+       '/webapp/king.html' : {show:true, callback:{a:User.initKing,b:User}},
+       '/webapp/supplier.html' : {show:true, callback:{a:User.initSupplier,b:User}}
+};
+path = location.pathname;
+//注册分享回调
+FuncNavi.addCallback(Share.registerShare, Share);
+if (path in NavFunc) {
+    var item = NavFunc[path];
+    if (item.callback) {
+        FuncNavi.addCallback(item.callback.a, item.callback.b);
+    }
+    FuncNavi.run();
+} else {
+    //不显示导航栏
+    FuncNavi.run(true);
+}
 
