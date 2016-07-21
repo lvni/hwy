@@ -386,7 +386,7 @@ $(function(){
                 var html = "";
                 for (i in data.data.carousel) {
                     var item = data.data.carousel[i];
-                    html += Template.renderByTempate(template, item);
+                    html += Template.renderByTemplate(template, item);
                 }
                 $("#hl-swiper .slides").html(html);
                 var swiper = new hlSwiper("#hl-swiper", {
