@@ -5,41 +5,13 @@
 <title>产品详情</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/details.css?v=1">
-    <script>
-
-        function isWeiXin(){
-            var ua = window.navigator.userAgent.toLowerCase();
-            if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-                return true;
-            }else{
-                return false;
-            }
-        }
-        
-        if (isWeiXin()) {
-            var doc=document;  
-            var script=doc.createElement("script"); 
-            var url = 'http://res.wx.qq.com/open/js/jweixin-1.0.0.js';
-            script.setAttribute("src", url);  
-            var heads = doc.getElementsByTagName("head");  
-            heads[0].appendChild(script); 
-            
-            
-            var doc=document;  
-            var script=doc.createElement("script"); 
-            var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
-            script.setAttribute("src", url);  
-            var heads = doc.getElementsByTagName("head");  
-            heads[0].appendChild(script); 
-        }
-    </script>
 </head>
 
 <body>
 <div class="details-slide">
     <div class="top">
         <a href="javascript:history.go(-1)" ><img src="img/details_03.png" class="back"></a>
-        <a href="#" ><img src="img/details_05.png" class="share"></a>
+        <a href="javascript:;"  id="share"><img src="img/details_05.png" class="share"></a>
     </div>
     <div id="hl-swiper" class="hl-swiper cont">
         <div class="position-nav"></div>
@@ -174,12 +146,14 @@
 <script>
 $(function(){
     var ignoreNavi = true;
+    FuncNavi.run(true);
     Bootstrap.rungoodsdetail();
     goodsCart.bindAddEvent();
     //注册客服事件
     $("#kefu").bind('click', function(){
          Util.goKefu();
     });
+    
 });
 </script>
 

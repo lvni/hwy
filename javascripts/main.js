@@ -494,7 +494,10 @@ var FuncNavi = {
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
-             window.hwy =  data.data;  // 全局存放          
+            window['hwy'] =  data;  // 全局存放        
+
+             // 再注册分享事件
+            
         } else if (data && data.is_login == 0){
             if (Util.isWeiXin()) {
                 //微信内，直接跳登录
@@ -520,7 +523,9 @@ var FuncNavi = {
          var me = this;
          var html = me.html(data);
          $('.u-bottomnav').remove();
-         $('body').append(html);
+         if (!me.notShow) {
+            $('body').append(html);
+         }
     }
     //加载提醒数据
     ,loadNaviData: function() {
@@ -541,7 +546,7 @@ var FuncNavi = {
                            me.data = data.data;
                            data.data  && me.rendNavi(data.data);
                        }
-                       
+                       Share.registerShare();
                        for (i in me.funcs) {
                            me.funcs[i].func(me.data, me.funcs[i].proxy);
                        }
@@ -560,9 +565,10 @@ var FuncNavi = {
             });
         }
     }
-    ,run: function() {
+    ,run: function(notShow) {
         //this.rendNavi();
         $('.u-bottomnav').remove();
+        this.notShow = notShow;
         this.loadNaviData();
     }
 };
@@ -968,6 +974,14 @@ var Bootstrap = {
             autoloop: true, //是否自动循环
             speed: 3000 //间隔时间毫秒
         });
+        
+        //重新注册分享信息
+        window.shareContent = {
+            title: data.title + "-洪五爷珠宝",
+            desc: "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果",
+            img: data.thumb,
+        };
+        Share.registerShare();
     }
     ,setLikes: function(goodsId) {
         var key = 'gl_' + goodsId;
@@ -1350,7 +1364,9 @@ var Bootstrap = {
             });
             
         });
-        
+        $("#share").click(function(){
+             Share.shareFriend();
+        });
         
     }
     
@@ -2189,7 +2205,7 @@ var User = {
     }
     ,bindShareEvent: function() {
         $("#share").bind('click', function(){
-            Weixin.shareFriend(User.shareContent);
+            Share.shareFriend();
         });
     }
     ,initKing: function(data, proxy) {
@@ -2199,14 +2215,7 @@ var User = {
         proxy.renderKing(data, config.page.user_king);
         
         //注册微信分享事件
-        var shareContent = {
-            title: "洪五爷珠宝",
-            desc: "你也来试试吧",
-            link: config.webapp + "?sid="+data.user.sid,
-            img: config.share_logo,
-        };
-        proxy.shareContent = shareContent;
-        Weixin.registerShare(shareContent);
+        //Share.registerShare();
         proxy.bindShareEvent();
     }
     ,initSupplier: function(data, proxy) {
@@ -3265,19 +3274,28 @@ var Qrcode = {
     }
 };
 
-
+//分享相关操作
 
 //微信相关操作
-var Weixin = {
-    
-   registerShare: function(content) {
-       if (content == undefined) {
-           content = new Object;
-       }
+var Share = {
+   getShareContent: function() {
+       var content = window.shareContent ? window.shareContent : new Object(); //从全局中后去分享内容
        var title = content.hasOwnProperty('title') ? content.title : "让珠宝不再暴利-洪五爷珠宝";
        var desc = content.hasOwnProperty('desc') ? content.desc : "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果";
        var link = content.hasOwnProperty('link')? content.link :  location.href;
        var img = content.hasOwnProperty('img') ? content.img : config.share_logo;
+       
+       return {
+           title: title,
+           desc: desc,
+           link: link,
+           img: img,
+           
+       };
+   }
+   ,registerShare: function() {
+       
+       
        
        if (window.hwy && window.hwy.user) {
            //一登陆用户
@@ -3289,26 +3307,27 @@ var Weixin = {
            if (reg.test(link)) {
                link = link.replace(reg, "sid="+user.sid);
            } else {
-               link += link.indexOf('?') ? ("?sid=" + user.sid) : ("&sid="+user.sid);
+               link += link.indexOf('?') ? ("&sid=" + user.sid) : ("?sid="+user.sid);
            }
        }
        if (!Util.isWeiXin()) {
            return;
        }
+       var content = this.getShareContent();
        wx.ready(function () {  
             //'http://app.hong5ye.com/webapp/img/logo.png'
             //发给朋友
             wx.onMenuShareAppMessage({  
-               title: title, // 分享标题
-               desc: desc,
-               link: link, // 分享链接
-               imgUrl: img // 分享图标
+               title: content.title, // 分享标题
+               desc: content.desc,
+               link: content.link, // 分享链接
+               imgUrl: content.img // 分享图标
             });
             
             
             //发到朋友圈
             wx.onMenuShareTimeline({  
-               title: desc, // 分享标题
+               title: content.title, // 分享标题
                link: content.link, // 分享链接
                imgUrl: content.img // 分享图标
             });
@@ -3328,11 +3347,11 @@ var Weixin = {
             heads[0].appendChild(script); 
             
             
-            var doc=document;  
+            //var doc=document;  
             var script=doc.createElement("script"); 
             var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
             script.setAttribute("src", url);  
-            var heads = doc.getElementsByTagName("head");  
+            //var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
        }
        
@@ -3354,13 +3373,16 @@ var Weixin = {
            onBridgeReady();
         }
     }
-   ,shareFriend: function(content) {
+   ,shareFriend: function() {
+       
        if (!Util.isWeiXin()) {
            return;
        }
-       this.register(function(){
+       var me = this;
+       me.register(function(){
+//       WeixinJSBridge.on('menu:share:appmessage', function(argv){
+       content = me.getShareContent();
        WeixinJSBridge.invoke('sendAppMessage',{
-              'appid': 'wxe34db014e06258af',
               'img_url': content.img,
               'link': content.link,
               'desc': content.desc,
@@ -3368,7 +3390,8 @@ var Weixin = {
               }, function(res){
                 console.log(res);
           });
-          });
+      // });
+       });
    }
    ,scan: function(){
        wx.scanQRCode();
@@ -3376,6 +3399,6 @@ var Weixin = {
     
 };
 
-Weixin.init();
-setTimeout(function(){Weixin.registerShare();},300);
+Share.init();
+//setTimeout(function(){Share.registerShare();},300);
 
