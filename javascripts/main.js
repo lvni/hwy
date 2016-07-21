@@ -127,7 +127,7 @@ var History = {
     ,getViewedGoods: function() {
         return Storge.getItem("g_hstory");
     }
-    ,run() {
+    ,run: function() {
         var history = this.getViewedGoods();
         if (history) {
             Util.requestApi('?r=good/viewhistory', {goods_ids:history}, function(data){
