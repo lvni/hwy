@@ -1479,11 +1479,11 @@ var Order = {
         $('.placeorder-infobox input[type=checkbox]').click(function(){
             var checked = $(this).attr('checked') ? 1 : 0;
             var goods_cost =  me.order_info.goods_cost;
-            var need_Pay = goods_cost;
+            var need_Pay = parseFloat(goods_cost);
             if (checked) {
                 need_Pay += 2; //2块钱运费险
             }
-            $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay);
+            $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay.toFixed(2));
         });
     }
     
