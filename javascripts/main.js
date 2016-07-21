@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -154,7 +154,7 @@ var Template = {
         }
         return html;
     },
-    renderByTempate: function(template, data) {
+    renderByTemplate: function(template, data) {
         var html = template;
         for (i in data) {
             html = html.replaceAll("\{\\$"+i+"\}", data[i]);
@@ -526,6 +526,10 @@ var FuncNavi = {
          if (!me.notShow) {
             $('body').append(html);
          }
+         //渲染消息提醒
+         if (data.msg_cnt) {
+             $(".msgbox .msg").show();
+         }
     }
     //加载提醒数据
     ,loadNaviData: function() {
@@ -877,7 +881,7 @@ var goodsCart = {
                             .replaceAll('{$data}', datainfo);
             **/                
             item.datainfo = datainfo;
-            html += Template.renderByTempate(template, item);
+            html += Template.renderByTemplate(template, item);
         }
         if (html) {
             $('.u-shoppingCartlist').html(html);
@@ -1503,7 +1507,7 @@ var Order = {
                            .replace('{$goods_num}', item.goods_num)
                            .replace('{$goods_sn}', item.goods_sn);
             */
-            html += Template.renderByTempate(tempate, item);
+            html += Template.renderByTemplate(tempate, item);
         }
         $(html).insertAfter('.placeorder-address');
         $('#order_confirm_num').html(data.goods_count);
@@ -1747,7 +1751,7 @@ var Order = {
             var BntAndTips = Order.renderPayBntsAndTips(goods);
             goods.buttons = BntAndTips.bnt;
             goods.order_tips = BntAndTips.tips;
-            var list_item = Template.renderByTempate(templte, goods);
+            var list_item = Template.renderByTemplate(templte, goods);
             html += list_item;
             
         }
@@ -1788,7 +1792,7 @@ var Order = {
         delete data.data.goods_list;
         var goods_list_html = '';
         for (i in goodsList) {
-            goods_list_html += Template.renderByTempate(goods_item_template, goodsList[i]);
+            goods_list_html += Template.renderByTemplate(goods_item_template, goodsList[i]);
         }
         //获取订单不同状态的操作按钮
         var BntAndTips = Order.renderPayBntsAndTips(data.data);
@@ -1797,7 +1801,7 @@ var Order = {
         data.data.tips = Tips.t;
         data.data.sub_tips = Tips.st;
         data.data.goods_list_html = goods_list_html;
-        var html = Template.renderByTempate(template, data.data);
+        var html = Template.renderByTemplate(template, data.data);
         $(html).insertAfter('.u-top-msg');
     }
     //订单详情
@@ -2305,7 +2309,7 @@ var Collection = {
             item.sold = sold;
             item.tips = tips;            
             item.icon = icon;            
-            html += Template.renderByTempate(tempate, item);
+            html += Template.renderByTemplate(tempate, item);
         }
         $('.productlistbox').html(html);
     }
@@ -2379,7 +2383,7 @@ var Income = {
             }
             for (i in data.data.list) {
                 var item = data.data.list[i];
-                html += Template.renderByTempate(template, item);
+                html += Template.renderByTemplate(template, item);
             }
             $('#income_list').html(html);
             
@@ -2430,7 +2434,7 @@ var Income = {
                 if (parseInt(item.rebate_money) == 0) {
                     item.display = "none";
                 }
-                html += Template.renderByTempate(template, item);
+                html += Template.renderByTemplate(template, item);
             }
             target.html(html);
             
@@ -2658,7 +2662,7 @@ var Income = {
                         'account_cat': item.account_info.account_cat,
                         
                     };
-                    html += Template.renderByTempate(template, params);
+                    html += Template.renderByTemplate(template, params);
                 }
                 $(".listbox").html(html);
                 me.page.render(data.data.page, data.data.page_count);
@@ -2702,7 +2706,7 @@ var Withdrawaccount = {
                 display: dispay,
                 id: item.id,
             };
-            html += Template.renderByTempate(template, arrData);
+            html += Template.renderByTemplate(template, arrData);
         }
         $(html).insertAfter('.u-buttonbox');
     }
@@ -2823,7 +2827,7 @@ var UserRelation = {
                 var template = $('#downstream_item_template').html();
                 for (i in data.data.list) {
                     var item = data.data.list[i];
-                    html += Template.renderByTempate(template, item);
+                    html += Template.renderByTemplate(template, item);
                 }
                 $('.infolistbox').html(html);
                 me.mainPage.render(data.data.page, data.data.page_count);
@@ -2856,7 +2860,7 @@ var UserRelation = {
                 var template = $('#money_static_template').html();
                 for (i in data.data.list) {
                     var item = data.data.list[i];
-                    html += Template.renderByTempate(template, item);
+                    html += Template.renderByTemplate(template, item);
                 }
                 $('#content').html(html);
                 me.page.render(data.data.page, data.data.page_count);
@@ -2914,7 +2918,7 @@ var Supplier = {
             for (i in data.data.list) {
                  var item = data.data.list[i];
                  item.status = "交易中";
-                 html += Template.renderByTempate(template, item);
+                 html += Template.renderByTemplate(template, item);
              }
              me.tradingPage.render(data.data.page, data.data.page_count);
              $("#trade_content").html(html);
@@ -2940,7 +2944,7 @@ var Supplier = {
             for (i in data.data.list) {
                  var item = data.data.list[i];
                  item.status = "已售";
-                 html += Template.renderByTempate(template, item);
+                 html += Template.renderByTemplate(template, item);
              }
              me.soldPage.render(data.data.page, data.data.page_count);
              $("#sold_content").html(html);
@@ -2958,7 +2962,7 @@ var Supplier = {
          for (i in data.data.list) {
              var item = data.data.list[i];
              
-             html += Template.renderByTempate(template, item);
+             html += Template.renderByTemplate(template, item);
          }
          me.sellingPage.render(data.data.page, data.data.page_count);
          $("#selling_content").html(html);
@@ -2974,7 +2978,7 @@ var Supplier = {
          for (i in data.data.list) {
              var item = data.data.list[i];
              
-             html += Template.renderByTempate(template, item);
+             html += Template.renderByTemplate(template, item);
          }
          me.modifyPage.render(data.data.page, data.data.page_count);
          $("#modify_content").html(html);
@@ -3216,7 +3220,7 @@ var Supplier = {
             var html = "";
             for (i in data.data.list) {
                 var item = data.data.list[i];
-                html += Template.renderByTempate(template, item);
+                html += Template.renderByTemplate(template, item);
             }
             $("#selling_content").html(html);
             me.subPage.render(data.data.page, data.data.page_count);

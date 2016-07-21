@@ -24,7 +24,7 @@
 <div class="msg-contbox">
     <h3>{$title}</h3>
     <div class="cont">
-        <img src="img/headphoto.jpg">
+        <img src="{$photo}" onerror="javascript:this.src=config.default_icons;">
         <p>{$content}</p>
     </div>
     <a href="{$link}" class="more">查看详情  &gt;</a>
@@ -52,7 +52,7 @@
             var template = $("#list_item").html();
             for (i in data.data.list) {
                 var item = data.data.list[i];
-                html += Template.renderTemplate(template, item);
+                html += Template.renderByTemplate(template, item);
             }
             $("#list").html(html);
             page.render(data.data.page, data.data.page_count);
@@ -60,6 +60,7 @@
    }
    page.addClickEvent(function(){
         var p = $(this).attr('data');
+        loadMsg(p);
    });
    loadMsg(1);
 </script>

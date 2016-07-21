@@ -87,7 +87,7 @@
       height:25px;
     }
     .msg {
-      display: block;
+      display: none;
       position: absolute;
       top:14px;
       right:14px;
@@ -235,7 +235,7 @@
       height: 25px;
     }
     &>.msg {
-      display: block;
+      display: none;
       position: absolute;
       top: 14px;
       right: 14px;
