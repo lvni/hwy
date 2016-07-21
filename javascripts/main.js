@@ -97,6 +97,66 @@ String.prototype.replaceAll = function(s1,s2) {
     return this.replace(new RegExp(s1,"gm"),s2); 
 }
 
+
+var History = {
+    size : 20
+    //将商品加入浏览记录，只保留最近浏览20条记录
+    ,addGoodsView: function(goodsID) {
+          var history = Storge.getItem("g_hstory");
+          var size = 20;
+          var arrH = [];
+          if (history) {
+              arrH = history.split(',');
+              for (i =0 ; i < arrH.length; i++) {
+                  if (arrH[i] == goodsID) {
+                      //已存在
+                      delete arrH[i];
+                      break;
+                  }
+              }
+              if (arrH.length > History.size) {
+                  arrH.pop();
+              }
+          }
+          if (goodsID) {
+              arrH.unshift(goodsID);
+              Storge.setItem("g_hstory" , arrH.join(','));
+          }
+          
+    }
+    ,getViewedGoods: function() {
+        return Storge.getItem("g_hstory");
+    }
+    ,run() {
+        var history = this.getViewedGoods();
+        if (history) {
+            Util.requestApi('?r=good/viewhistory', {goods_ids:history}, function(data){
+                if (data.errno != 0) {
+                    messageBox.toast(data.errmsg);
+                    return; 
+                }
+                if (data.data.length == 0) {
+                    Util.showTips($(".u-productlist"), "没有相关记录");
+                    return;
+                }
+                var htm = "";
+                var template = $("#list_item_template").html();
+                for (i in data.data) {
+                    var item = data.data[i];
+                    htm += Template.renderByTemplate(template, item);
+                }
+                $(".u-productlist").html(htm);
+                
+            });
+        } else {
+            Util.showTips($(".u-productlist"), "没有相关记录");
+        }
+        
+        
+    }
+    
+}
+
 //分页
 var Page = function(target){
     
@@ -944,6 +1004,7 @@ var Bootstrap = {
             });
         }
     }
+    
     //渲染商品详情
     ,renderGoodsDetail: function(data) {
         var me = Bootstrap;
@@ -987,6 +1048,8 @@ var Bootstrap = {
             img: data.thumb,
         };
         Share.registerShare();
+        //加入浏览记录
+        History.addGoodsView(data.id);
     }
     ,setLikes: function(goodsId) {
         var key = 'gl_' + goodsId;
@@ -3460,3 +3523,4 @@ history.go = function(index){
     }
        
 }
+
