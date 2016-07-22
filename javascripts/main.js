@@ -1641,7 +1641,7 @@ var Order = {
         $('#js-changecont').delegate('div', 'click', function() {
                 var order_type = $(this).attr('data-type');
                 //Util.setHash(order_type);
-                me.loadOrder(order_type);
+                me.loadOrder(order_type, 1);
         });
         $('#js-contbox01').delegate('.mr-10-0', 'click', function(){
               var order_sn = $(this).attr('order-sn');
@@ -1669,7 +1669,7 @@ var Order = {
                             if (data.errno == 0) {
                                 //重新加载列表
                                 var type = $('#js-changecont .on').attr('data-type');
-                                me.loadOrder(type);
+                                me.loadOrder(type, 1);
                             }
                         
                     });
@@ -1694,6 +1694,25 @@ var Order = {
                 });
             }
         });
+        
+        //下拉事件
+        $(window).scroll(me.orderMainScrollEvent);
+    }
+    //订单下拉事件实际处理
+    ,orderMainScrollEvent: function() {
+        var me = Order;
+        console.log("gun");
+        if (Bootstrap.checkWindowAtButtom()) {
+        console.log("底部了");
+            //到底部了，加载更多
+            var type = $("#js-changecont .on").attr('data-type');
+            var p = me.page;
+            var hasMore = me.hasMore;
+            if (hasMore) {
+                console.log("底部触发下拉");
+                me.loadOrder(type, p + 1);
+            }
+        }
         
     }
     //获取支付相关按钮
@@ -1800,10 +1819,11 @@ var Order = {
                 return tips[order_info.order_status];
         }
         return tips[104];
-    } 
+    }
+    //渲染订单列表
     ,renderList: function(data) {
         
-        var me = this;
+        var me = Order;
         if (data.errno == ErrorCode.NO_LOGIN) {
              Util.goLogin("myorder-allorders.html");
              return;
@@ -1839,20 +1859,31 @@ var Order = {
             html += list_item;
             
         }
-        $('#js-contbox01').html(html);
+        me.hasMore = data.data.hasMore;
+        me.page = data.data.page;
+        if (me.page == 1) {
+            $('#js-contbox01').html(html);
+        } else {
+            //追加
+            $('#js-contbox01').append(html);
+        }
+        
     }
     ,showLoading: function() {
         var html = $('#order_tips').html().replace('{$tips}', "加载中 ...");
         $('#js-contbox01').html(html);
     }
-    ,loadOrder: function(type) {
-        
+    ,loadOrder: function(type, p) {
+        var me = Order;
         if (type) {
             $('#js-changecont div').removeClass('on');
             $('#js-changecont div[data-type= ' +type + ']' ).addClass('on');
         }
-        this.showLoading();
-        Util.requestApi('?r=order/get',{type:type},this.renderList);
+        if (p == 1) {
+            //下拉则不需要显示loading
+            me.showLoading();
+        }
+        Util.requestApi('?r=order/get',{type:type,p:p},me.renderList);
     }
     //订单管理页面
     ,runMain: function() {
@@ -1861,7 +1892,7 @@ var Order = {
             type = 'all';
         }
         this.bindMainEvent();
-        this.loadOrder(type);
+        this.loadOrder(type, 1);
         
     }
     ,renderDetail: function(data) {
