@@ -1244,6 +1244,17 @@ var Bootstrap = {
         } else {
             me.searchQuery.sort = 0;
         }
+        
+        //价格
+        
+        var p_from = $("#price-range input[name=from]").val();
+        var p_to = $("#price-range input[name=to]").val();
+        if (p_from) {
+            me.searchQuery.p_from = p_from;
+        }
+        if (p_to) {
+            me.searchQuery.p_to = p_to;
+        }
         me.searchQuery['cids'] = cids.join(',');
         me.searchQuery.p = 1; //重置页码
     }
@@ -1251,6 +1262,8 @@ var Bootstrap = {
     ,triggerSearchChange: function() {
         var me = this;
         me.getSearchQuery();
+        $(".u-choosecontbox").hide();
+        $('#js-navSelect div').removeClass('on');
         me.loadSearch(me.searchQuery, false);
     }
     ,bindSearchEvent: function() {
@@ -1273,6 +1286,10 @@ var Bootstrap = {
                 $(".u-choosecontbox[data-role="+role+"]").show();
                 
             }
+        });
+        
+        $("#price_confirm").click(function(){
+            me.triggerSearchChange();
         });
         //取消查询条件
         $("#js-chooseclass").delegate('div', 'click', function(){
@@ -1324,7 +1341,6 @@ var Bootstrap = {
             var name = $(this).html();
             if (role != 'paixu') {
                 //分类改变
-                console.log(role);
                 addSearchTips(role,cid,name);
             }
             if (role == 'paixu') {
@@ -1342,8 +1358,7 @@ var Bootstrap = {
                 $("#js-choosecontbox a").removeClass('on');
                 $(this).addClass("on");
             }
-            $(".u-choosecontbox").hide();
-            $('#js-navSelect div').removeClass('on');
+            
             me.triggerSearchChange();
         });
         
