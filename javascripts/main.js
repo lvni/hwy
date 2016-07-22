@@ -303,12 +303,17 @@ var Util = {
         });
     }
     //请求接口
-    ,requestApi: function(api, data, callback, type) {
+    ,requestApi: function(api, data, callback, type, silence) {
         
         var me = this;
-        me.showLoading();
+        if (!silence) {
+            me.showLoading();
+        } 
         var beforeCallback = function(data) {
-              me.hideLoading();
+              if (!silence) {
+                  me.hideLoading();
+              }
+              
              if (data.errno  == ErrorCode.NO_LOGIN) {
                  //没有登录，直接去登录
                  //messageBox.toast("请先登录");
@@ -1047,6 +1052,9 @@ var Bootstrap = {
             desc: "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果",
             img: data.thumb,
         };
+        if (data.sid != "") {
+            Share.sid = data.sid;
+        }
         Share.registerShare();
         //加入浏览记录
         History.addGoodsView(data.id);
@@ -3388,15 +3396,16 @@ var Share = {
            //一登陆用户
            //修改sid ,替换为自己的分享
            var user = window.hwy.user;
-           var reg = /sid=[0-9a-zA-Z]+/;
-           var link = location.href;
-           
-           if (reg.test(link)) {
-               link = link.replace(reg, "sid="+user.sid);
-           } else {
-               link += link.indexOf('?') ? ("&sid=" + user.sid) : ("?sid="+user.sid);
-           }
+           Share.sid = user.sid;
        }
+       var reg = /sid=[0-9a-zA-Z]+/;
+       var link = location.href;
+       if (reg.test(link)) {
+           link = link.replace(reg, "sid="+Share.sid);
+       } else {
+           link += link.indexOf('?') ? ("&sid=" + Share.sid) : ("?sid="+Share.sid);
+       }
+       
        if (!Util.isWeiXin()) {
            return;
        }

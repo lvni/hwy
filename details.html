@@ -63,7 +63,7 @@
     <div class="comment-list">
         <img src="img/hw_06.png" class="photo">
         <p class="name">东方不败</p>
-        <p class="cont">看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好！</p>
+        <p class="cont">看起来很好看</p>
     </div>
     <div class="comment-list">
         <img src="img/hw_06.png" class="photo">
@@ -71,47 +71,12 @@
         <p class="cont">看起来很好看！</p>
     </div>
 </div>
-<div class="u-index-title" style="display:none;">
+<div class="u-index-title" style="display:;">
     <p>猜你喜欢</p>
 </div>
-<div class="u-box-left50-right50" style="display:none;">
-    <div class="rightbox">
-        <div class="rows">
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_146.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_148.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_146.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_148.png" width="100%"> </div>
-            </div>
-        </div>
-        <div class="rows">
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-        </div>
+<div class="u-box-left50-right50" style="display:;" >
+    <div class="rightbox" id="guess_area">
+
     </div>
 </div>
 <a href="javascript:;" class="u-backtop">
@@ -139,7 +104,12 @@
         <span>立即购买</span>
     </button>
 </div>
-
+<script id="guess_item" type="text/template">
+<div class="u-autoheight" onclick="javascript:location.href='details.html?id={$goods_id}'">
+                <div class="dummy"></div>
+                <div class="content"><img src="{$goods_thumb}" width="100%"> </div>
+            </div>
+</script>
 <script src="javascripts/hl-swiper.js"></script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js?v2"></script>
@@ -152,6 +122,45 @@ $(function(){
     $("#kefu").bind('click', function(){
          Util.goKefu();
     });
+    //猜你喜欢
+    var goodsId = Util.getQueryString('id');
+    
+    function getItem(goods_list) {
+        var template = $("#guess_item").html();
+        if (!goods_list || goods_list.length == 0) {
+            return "";
+        }
+        var html = '<div class="rows">';
+        for (i in goods_list) {
+            html += Template.renderByTemplate(template, goods_list[i]);
+        }
+        html += "</div>";
+        return html;
+    }
+    Util.requestApi('?r=good/guess', {goods_id:goodsId}, function(data) {
+        
+        if (data.data) {
+            j = [];
+            var html = "";
+            for (i in data.data) {
+            
+                j.push(data.data[i]);
+                if (j.length == 4) {
+                    html += getItem(j);
+                    j = [];
+                } 
+
+            }
+            
+            if (j.length > 0) {
+                html += getItem(j);
+            }
+            
+            $("#guess_area").html(html);
+        }
+        
+        
+    }, 'get', true);
     
 });
 </script>
