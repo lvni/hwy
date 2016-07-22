@@ -733,13 +733,13 @@ var SearchBox = {
 var goodsCart = {
     
     
-    add: function(goodsId, num, callback) {
+    add: function(goodsId, num, type, callback) {
         var num = num ? num : 1;
         var api = config.api + "?r=cart/add";
             $.ajax({
                 url: api,
                 dataType : "jsonp",
-                data: {goods_id: goodsId, num:num},
+                data: {goods_id: goodsId, num:num,type:type},
                 success: function(data) {
                     
                     if (typeof callback == 'function') {
@@ -896,7 +896,7 @@ var goodsCart = {
                 }
                 
                 if (appendNum != 0) {
-                    me.add(infos[0], appendNum, function(data){
+                    me.add(infos[0], appendNum, 'edit', function(data){
                             if (data.errno != 0) {
                                 messageBox.toast(data.errmsg);
                                 return;
