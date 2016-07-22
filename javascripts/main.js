@@ -3369,13 +3369,37 @@ var Qrcode = {
 
 //微信相关操作
 var Share = {
-   getShareContent: function() {
+    
+    is_register : 0 
+   ,getShareContent: function() {
        var content = window.shareContent ? window.shareContent : new Object(); //从全局中后去分享内容
        var title = content.hasOwnProperty('title') ? content.title : "让珠宝不再暴利-洪五爷珠宝";
        var desc = content.hasOwnProperty('desc') ? content.desc : "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果";
        var link = content.hasOwnProperty('link')? content.link :  location.href;
        var img = content.hasOwnProperty('img') ? content.img : config.share_logo;
-       
+       if (window.hwy && window.hwy.user) {
+           //一登陆用户
+           //修改sid ,替换为自己的分享
+           var user = window.hwy.user;
+           Share.sid = user.sid;
+       }
+       var reg = /sid=[0-9a-zA-Z]+/;
+       //可以分享的链接
+       var valids = {
+            '/webapp/' : 1,
+            '/webapp/index.html':1,
+            '/webapp/details.html' : 1,
+            '/webapp/allproduct.html': 1
+       }
+       if ( !(location.pathname in valids)) {
+           link = config.webapp;
+       }
+       if (reg.test(link)) {
+           link = link.replace(reg, "sid="+Share.sid);
+       } else {
+           link += (link.indexOf('?') > 0 ? ("&sid=" + Share.sid) : ("?sid="+Share.sid));
+       }
+       console.log(link);
        return {
            title: title,
            desc: desc,
@@ -3392,19 +3416,7 @@ var Share = {
    }
    ,registerShare: function(proxy){
       
-       if (window.hwy && window.hwy.user) {
-           //一登陆用户
-           //修改sid ,替换为自己的分享
-           var user = window.hwy.user;
-           Share.sid = user.sid;
-       }
-       var reg = /sid=[0-9a-zA-Z]+/;
-       var link = location.href;
-       if (reg.test(link)) {
-           link = link.replace(reg, "sid="+Share.sid);
-       } else {
-           link += link.indexOf('?') ? ("&sid=" + Share.sid) : ("?sid="+Share.sid);
-       }
+       
        
        if (!Util.isWeiXin()) {
            return;
@@ -3413,6 +3425,7 @@ var Share = {
        wx.ready(function () {  
             //'http://app.hong5ye.com/webapp/img/logo.png'
             //发给朋友
+            Share.is_register = 1;
             wx.onMenuShareAppMessage({  
                title: content.title, // 分享标题
                desc: content.desc,
@@ -3457,7 +3470,7 @@ var Share = {
             
             //var doc=document;  
             var script=doc.createElement("script"); 
-            var url = 'http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
+            var url = 'http://app.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
             script.setAttribute("src", url);  
             //var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
@@ -3493,6 +3506,9 @@ var Share = {
        }
        var me = Share;
        me.wxShareGuid();
+       if (me.is_register == 0) {
+           me.registerShare();
+       }
        return;
        
        me.register(function(){
