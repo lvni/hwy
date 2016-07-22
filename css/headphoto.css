@@ -1,101 +1,96 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
-/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
-/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
-/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
-/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
-  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
-/* line 57, ../sass/_extend.scss */
 .photoshow {
   display: -webkit-box;
   -webkit-box-align: center; }
 
 /*用来被继承的占位样式*/
-/* line 5, ../sass/headphoto.scss */
+/*项目用到的颜色*/
+.red {
+  color: #a90125; }
+
+.dackred {
+  color: #6b4544; }
+
+.pink {
+  color: #cf4d55; }
+
+.error {
+  color: #a90125; }
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
 body {
   padding: 50px 0 30px 0; }
 
-/* line 8, ../sass/headphoto.scss */
 .mainbox {
   position: relative;
   margin: 0px auto;
   width: 275px;
   height: 275px;
   box-shadow: 2px 2px 1px 2px rgba(0, 0, 0, 0.05); }
-  /* line 14, ../sass/headphoto.scss */
   .mainbox > img, .mainbox > .bg {
     position: absolute;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%; }
-  /* line 21, ../sass/headphoto.scss */
   .mainbox > img {
     z-index: 8; }
-  /* line 24, ../sass/headphoto.scss */
   .mainbox > .bg {
     background-image: -webkit-gradient(radial, 50% 50%, 136, 50% 50%, 135, from(rgba(0, 0, 0, 0.3)), to(rgba(1, 159, 98, 0)));
     z-index: 9; }
 
-/* line 29, ../sass/headphoto.scss */
 .tips {
   padding: 10px 20px;
   font-size: 11px;
   line-height: 15px;
   color: #999999; }
 
-/* line 35, ../sass/headphoto.scss */
 .photoshow {
   padding: 20px 0; }
-  /* line 38, ../sass/headphoto.scss */
   .photoshow > .bigphoto, .photoshow > .smollphoto {
     margin: 0 0 0 50px; }
-    /* line 40, ../sass/headphoto.scss */
     .photoshow > .bigphoto > div, .photoshow > .smollphoto > div {
       border-radius: 50%;
       border: 1px solid #a90125;
       overflow: hidden; }
-    /* line 45, ../sass/headphoto.scss */
     .photoshow > .bigphoto p, .photoshow > .smollphoto p {
       text-align: center;
       line-height: 28px;
       font-size: 14px; }
-  /* line 51, ../sass/headphoto.scss */
   .photoshow > .bigphoto {
     width: 100px; }
-    /* line 53, ../sass/headphoto.scss */
     .photoshow > .bigphoto img {
       width: 100px;
       height: 100px; }
-  /* line 58, ../sass/headphoto.scss */
   .photoshow > .smollphoto {
     width: 50px; }
-    /* line 60, ../sass/headphoto.scss */
     .photoshow > .smollphoto img {
       width: 50px;
       height: 50px; }
 
-/* line 67, ../sass/headphoto.scss */
 .contbox {
   padding: 15px 0;
   background: #ffffff; }
 
-/* line 72, ../sass/headphoto.scss */
 .buttonbox {
   text-align: right;
   margin: 0 10px 0 0; }
+
+/*# sourceMappingURL=headphoto.css.map */

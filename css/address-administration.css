@@ -1,32 +1,40 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
-/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
-/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
-/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
-/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
-  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
 /*用来被继承的占位样式*/
-/* line 4, ../sass/address-administration.scss */
+/*项目用到的颜色*/
+.red {
+  color: #a90125; }
+
+.dackred {
+  color: #6b4544; }
+
+.pink {
+  color: #cf4d55; }
+
+.error {
+  color: #a90125; }
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
 body {
   background: #ffffff; }
 
 /* by zyl 将buttonbox 改为 .address-buttonbox*/
-/* line 9, ../sass/address-administration.scss */
 .address-buttonbox {
   position: fixed;
   bottom: 0px;
@@ -38,26 +46,23 @@ body {
   text-align: right;
   z-index: 9;
   box-sizing: border-box; }
-  /* line 20, ../sass/address-administration.scss */
   .address-buttonbox > .del {
     position: absolute;
     left: 10px;
     width: 40px;
     text-align: center; }
-    /* line 25, ../sass/address-administration.scss */
     .address-buttonbox > .del > img {
       width: 20px;
       height: 20px; }
-    /* line 29, ../sass/address-administration.scss */
     .address-buttonbox > .del > p {
       font-size: 12px;
       color: #999999; }
 
 /** by zyl */
-/* line 37, ../sass/address-administration.scss */
 .u-arrow-list {
   margin-bottom: 50px; }
 
-/* line 41, ../sass/address-administration.scss */
 .area_ctrl.slideInUp {
   bottom: 40%; }
+
+/*# sourceMappingURL=address-administration.css.map */

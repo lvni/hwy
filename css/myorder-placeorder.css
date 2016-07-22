@@ -1,26 +1,20 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
-/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
-/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
-/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
-/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
-  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
-/* line 5, ../sass/_extend.scss */
 .placeorder-infobox:before, .placeorder-infobox .u-list-justify:after {
   width: 100%;
   height: 1px;
@@ -29,48 +23,53 @@
   -webkit-transform: scaleY(0.5);
   left: 0px; }
 
-/* line 13, ../sass/_extend.scss */
 .placeorder-infobox:before, .placeorder-infobox .u-list-justify:after {
   content: '';
   display: block;
   position: absolute; }
 
-/* line 28, ../sass/_extend.scss */
 .placeorder-infobox:before {
   top: -1px; }
 
-/* line 31, ../sass/_extend.scss */
 .placeorder-infobox .u-list-justify:after {
   bottom: 0px; }
 
 /*用来被继承的占位样式*/
-/* line 4, ../sass/myorder-placeorder.scss */
+/*项目用到的颜色*/
+.red {
+  color: #a90125; }
+
+.dackred {
+  color: #6b4544; }
+
+.pink {
+  color: #cf4d55; }
+
+.error {
+  color: #a90125; }
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
 body {
   padding-bottom: 60px; }
 
-/* line 8, ../sass/myorder-placeorder.scss */
 .placeorder-address {
   padding: 0px; }
-  /* line 11, ../sass/myorder-placeorder.scss */
   .placeorder-address .addressicon {
     position: absolute;
     left: 10px;
     bottom: 0px; }
-  /* line 16, ../sass/myorder-placeorder.scss */
   .placeorder-address .u-list-justify {
     padding: 10px 40px 10px 50px;
     font-size: 16px; }
-  /* line 20, ../sass/myorder-placeorder.scss */
   .placeorder-address .list {
     padding: 10px 0 25px 0;
-    background: url('../img/addressbg.png?1461412873') -10% 100% repeat-x #ffffff;
+    background: image-url("addressbg.png") -10% 100% repeat-x #ffffff;
     background-size: 35px 5px;
     color: #666666; }
-  /* line 26, ../sass/myorder-placeorder.scss */
   .placeorder-address .cont {
     position: relative;
     padding: 0 40px 0 50px; }
-    /* line 29, ../sass/myorder-placeorder.scss */
     .placeorder-address .cont .arrow {
       position: absolute;
       right: 15px;
@@ -78,7 +77,6 @@ body {
       margin: -8px 0 0 0;
       width: 8px;
       height: 16px; }
-    /* line 37, ../sass/myorder-placeorder.scss */
     .placeorder-address .cont .addressicon {
       position: absolute;
       left: 15px;
@@ -87,47 +85,37 @@ body {
       width: 16px;
       height: 22px; }
 
-/* line 48, ../sass/myorder-placeorder.scss */
 .u-productlist02 {
   padding: 10px 5px 5px 100px;
   min-height: 110px;
   background: #ffffff; }
-  /* line 52, ../sass/myorder-placeorder.scss */
   .u-productlist02 .photo {
     top: 10px;
     left: 10px; }
 
-/* line 57, ../sass/myorder-placeorder.scss */
 .placeorder-productinfo {
   margin-bottom: 0px; }
-  /* line 59, ../sass/myorder-placeorder.scss */
   .placeorder-productinfo .price {
     padding: 15px 5px 0 8px; }
 
-/* line 64, ../sass/myorder-placeorder.scss */
 .placeorder-infobox {
   position: relative;
   background: #ffffff; }
-  /* line 70, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .u-list-justify {
     position: relative;
     padding: 10px 0px;
     margin: 0px 10px; }
-  /* line 78, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .right {
     width: 80px;
     -webkit-box-flex: 0; }
-  /* line 83, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .left > input {
     width: 80%;
     border: 0px;
     outline: 0px;
     background: none;
     box-sizing: border-box; }
-  /* line 90, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .left > i {
     width: 20%; }
-  /* line 94, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .showcheckbox {
     display: inline-block;
     width: 22px;
@@ -135,16 +123,15 @@ body {
     border: 1px solid #e2e2e2;
     box-sizing: border-box;
     border-radius: 2px; }
-  /* line 102, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .checkbox {
     position: absolute;
     width: 0px;
     height: 0px;
     opacity: 0; }
-    /* line 107, ../sass/myorder-placeorder.scss */
     .placeorder-infobox .checkbox:checked + .showcheckbox {
-      background: url('../img/tickred.png?1461409632') center center no-repeat;
+      background: image-url("tickred.png") center center no-repeat;
       background-size: 22px 22px; }
-  /* line 113, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .amount p {
     text-align: right; }
+
+/*# sourceMappingURL=myorder-placeorder.css.map */

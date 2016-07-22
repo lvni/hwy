@@ -1,26 +1,20 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
-/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
-/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
-/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
-/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
-  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
-/* line 5, ../sass/_extend.scss */
 .u-list-justify:after {
   width: 100%;
   height: 1px;
@@ -29,33 +23,43 @@
   -webkit-transform: scaleY(0.5);
   left: 0px; }
 
-/* line 13, ../sass/_extend.scss */
 .u-list-justify:after {
   content: '';
   display: block;
   position: absolute; }
 
-/* line 31, ../sass/_extend.scss */
 .u-list-justify:after {
   bottom: 0px; }
 
 /*用来被继承的占位样式*/
-/* line 6, ../sass/myorder-paymode.scss */
+/*项目用到的颜色*/
+.red {
+  color: #a90125; }
+
+.dackred {
+  color: #6b4544; }
+
+.pink {
+  color: #cf4d55; }
+
+.error {
+  color: #a90125; }
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
 body {
   background: #ffffff; }
 
-/* line 9, ../sass/myorder-paymode.scss */
 .u-list-justify {
   position: relative; }
 
-/* line 16, ../sass/myorder-paymode.scss */
 .u-arrow-list {
   background: none;
   padding: 1px 0 0 0; }
-  /* line 19, ../sass/myorder-paymode.scss */
   .u-arrow-list > .list {
     margin: 0px 10px;
     padding: 15px 40px 15px 0px; }
-    /* line 22, ../sass/myorder-paymode.scss */
     .u-arrow-list > .list > .arrow {
       right: 5px; }
+
+/*# sourceMappingURL=myorder-paymode.css.map */

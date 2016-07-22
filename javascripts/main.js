@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -1585,14 +1585,7 @@ var Order = {
         var html = "";
         for(i in data.list) {
             var item = data.list[i];
-            /**
-            html += tempate.replace('{$goods_name}', item.goods_name)
-                           .replace('{$goods_img}', item.goods_img)
-                           .replace('{$goods_id}', item.goods_id)
-                           .replace('{$goods_price}', item.goods_price)
-                           .replace('{$goods_num}', item.goods_num)
-                           .replace('{$goods_sn}', item.goods_sn);
-            */
+ 
             html += Template.renderByTemplate(tempate, item);
         }
         $(html).insertAfter('.placeorder-address');
@@ -1650,7 +1643,7 @@ var Order = {
                 //Util.setHash(order_type);
                 me.loadOrder(order_type);
         });
-        $('#js-contbox01').delegate('.u-productlist02', 'click', function(){
+        $('#js-contbox01').delegate('.mr-10-0', 'click', function(){
               var order_sn = $(this).attr('order-sn');
               if (order_sn) {
                   window.location.href = config.page.order_detail + "?order=" + order_sn;
@@ -1826,18 +1819,23 @@ var Order = {
         }
         var html = "";
         var templte = $('#order_list_item').html();
+        var GoodsListTemplate = $("#order_goods_item").html();
         var normalBntTemplate = $('#order_list_button').html();
         var mainBntTemplate = $('#order_list_button_main').html();
         var tips  = "";
         for (i in data.data.list) {
             var Buttons = "";
-            var goods = data.data.list[i];
-            goods.goods_cost = parseInt(goods.goods_price) * goods.goods_number;
-            goods.goods_count = goods.goods_number;
-            var BntAndTips = Order.renderPayBntsAndTips(goods);
-            goods.buttons = BntAndTips.bnt;
-            goods.order_tips = BntAndTips.tips;
-            var list_item = Template.renderByTemplate(templte, goods);
+            var order = data.data.list[i];
+            var goodsListHtml = "";
+            for (j in order.goods) {
+                goodsListHtml += Template.renderByTemplate(GoodsListTemplate, order.goods[j]);
+            }
+            delete order.goods;
+            var BntAndTips = Order.renderPayBntsAndTips(order);
+            order.buttons = BntAndTips.bnt;
+            order.goods_list = goodsListHtml;
+            order.order_tips = BntAndTips.tips;
+            var list_item = Template.renderByTemplate(templte, order);
             html += list_item;
             
         }

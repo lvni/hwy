@@ -46,12 +46,23 @@
     </div>
 </script>
 <script type="text/template" id="order_list_item">
-<div class="mr-10-0">
+<div class="mr-10-0"  order-sn="{$order_sn}">
         <div class="u-list-justify fs-11">
             <p class="left ">{$order_date}</p>
             <p class="right red">{$order_tips}</p>
         </div>
-        <div class="u-productlist02" data-id="{$goods_id}"  order-sn="{$order_sn}">
+        {$goods_list}
+        <div class="u-list-justify fs-12">
+            <p class="left"></p>
+            <p class="right"><i>共{$goods_count}件商品</i>&nbsp;&nbsp;<i>合计：￥{$money}</i></p>
+        </div>
+        <div class="buttonbox" order-sn="{$order_sn}">
+            {$buttons}
+        </div>
+    </div>
+</script>
+<script type="text/template" id="order_goods_item">
+<div class="u-productlist02" data-id="{$goods_id}"  >
             <img src="{$goods_img}" class="photo">
             <div class="u-list-justify fs-14">
                 <p class="left ">{$goods_name}</p>
@@ -66,16 +77,7 @@
                 <p class="right ">x{$goods_number}</p>
             </div>
         </div>
-        <div class="u-list-justify fs-12">
-            <p class="left"></p>
-            <p class="right"><i>共{$goods_count}件商品</i>&nbsp;&nbsp;<i>合计：￥{$goods_cost}</i></p>
-        </div>
-        <div class="buttonbox" order-sn="{$order_sn}">
-            {$buttons}
-        </div>
-    </div>
 </script>
-
 <script type="text/template", id="order_tips">
 <div style="text-align:center;padding-top:100px;">
 {$tips}

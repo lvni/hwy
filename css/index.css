@@ -1,26 +1,20 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
-/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
-/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
-/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
-/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
-  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
-/* line 5, ../sass/_extend.scss */
 .index-nav:after {
   width: 100%;
   height: 1px;
@@ -29,13 +23,11 @@
   -webkit-transform: scaleY(0.5);
   left: 0px; }
 
-/* line 13, ../sass/_extend.scss */
 .index-nav:after, .newsbox .newsul:before {
   content: '';
   display: block;
   position: absolute; }
 
-/* line 18, ../sass/_extend.scss */
 .newsbox .newsul:before {
   right: 0px;
   top: 0px;
@@ -45,28 +37,38 @@
   -webkit-transform-origin: 100% 50%;
   -webkit-transform: scaleX(0.5); }
 
-/* line 31, ../sass/_extend.scss */
 .index-nav:after {
   bottom: 0px; }
 
-/* line 70, ../sass/_extend.scss */
 .newsbox .newsul > li {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
 
 /*用来被继承的占位样式*/
-/* line 5, ../sass/index.scss */
+/*项目用到的颜色*/
+.red {
+  color: #a90125; }
+
+.dackred {
+  color: #6b4544; }
+
+.pink {
+  color: #cf4d55; }
+
+.error {
+  color: #a90125; }
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
 body {
   padding: 50px 0 50px 0; }
 
-/* line 8, ../sass/index.scss */
 .index-nav {
   display: -webkit-box;
   position: relative;
   padding: 15px 0;
   background: #ffffff; }
-  /* line 16, ../sass/index.scss */
   .index-nav > .box {
     display: block;
     -webkit-box-flex: 1;
@@ -74,35 +76,28 @@ body {
     font-size: 11px;
     line-height: 19px;
     color: #666666; }
-  /* line 24, ../sass/index.scss */
   .index-nav img {
     width: 4rem;
     height: 4rem; }
 
-/* line 30, ../sass/index.scss */
 .newsbox {
   position: relative;
   padding: 10px 15px 10px 65px;
   background: #ffffff; }
-  /* line 34, ../sass/index.scss */
   .newsbox > .head {
     position: absolute;
     left: 10px;
     top: 17px;
     width: 50px; }
-  /* line 40, ../sass/index.scss */
   .newsbox .newsul {
     position: relative; }
-    /* line 42, ../sass/index.scss */
     .newsbox .newsul:before {
       left: 0px; }
-    /* line 46, ../sass/index.scss */
     .newsbox .newsul > li {
       position: relative;
       padding: 0 0 0 20px;
       width: 100%;
       box-sizing: border-box; }
-      /* line 52, ../sass/index.scss */
       .newsbox .newsul > li:before {
         content: '';
         position: absolute;
@@ -115,11 +110,9 @@ body {
         background: #a90125; }
 
 /*拍卖*/
-/* line 69, ../sass/index.scss */
 .scrollhide {
   position: relative;
   margin: 10px 0; }
-  /* line 72, ../sass/index.scss */
   .scrollhide:after {
     content: '';
     position: absolute;
@@ -129,22 +122,18 @@ body {
     background: #ffffff;
     z-index: 9; }
 
-/* line 82, ../sass/index.scss */
 .auction {
   display: -webkit-box;
   overflow-x: scroll;
   padding: 10px;
   background: #ffffff; }
-  /* line 87, ../sass/index.scss */
   .auction .cont {
     position: relative;
     width: 25%;
     margin: 0 10px 0 0;
     font-size: 0px; }
-  /* line 93, ../sass/index.scss */
   .auction .u-autoheight {
     display: inline-block; }
-  /* line 96, ../sass/index.scss */
   .auction .state {
     position: absolute;
     bottom: 0px;
@@ -155,21 +144,18 @@ body {
     color: #ffffff;
     text-align: right;
     background: -webkit-gradient(linear, 0 0, 100% 0, from(transparent), to(rgba(0, 0, 0, 0.5))); }
-  /* line 107, ../sass/index.scss */
   .auction:after {
     content: '';
     display: block;
     width: 5px; }
 
 /*slide*/
-/* line 115, ../sass/index.scss */
 .hl-swiper {
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100%; }
 
-/* line 122, ../sass/index.scss */
 .slides {
   display: -webkit-box;
   width: 100%;
@@ -177,7 +163,6 @@ body {
   font-size: 0;
   -webkit-transform: translate3d(0px, 0, 0); }
 
-/* line 130, ../sass/index.scss */
 .slides .slide-list {
   display: block;
   width: 100%;
@@ -188,15 +173,12 @@ body {
   font-size: 20px;
   overflow-y: auto; }
 
-/* line 141, ../sass/index.scss */
 .slides .slide-list img {
   width: 100%; }
 
-/* line 145, ../sass/index.scss */
 .slides.animate {
   -webkit-transition: all 0.3s ease-out; }
 
-/* line 149, ../sass/index.scss */
 .position-nav {
   position: absolute;
   left: 0;
@@ -207,7 +189,6 @@ body {
   text-align: center;
   z-index: 1; }
 
-/* line 160, ../sass/index.scss */
 .position-nav .position {
   display: inline-block;
   margin: 0px 5px;
@@ -216,8 +197,9 @@ body {
   border-radius: 50%;
   background: #ffffff; }
 
-/* line 169, ../sass/index.scss */
 .position-nav .position.current {
   background: #a90125; }
 
 /*end*/
+
+/*# sourceMappingURL=index.css.map */
