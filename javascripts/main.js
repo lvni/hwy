@@ -3124,8 +3124,9 @@ var Supplier = {
                     me.loadSelling(page,me.renderSelling);
                 }
             });
-            me.loadSelling(1,me.renderSelling);
+            
         }
+        me.loadSelling(1,me.renderSelling);
         
     }
     //初始化交易中
@@ -3140,8 +3141,9 @@ var Supplier = {
                     me.loadtrading(page);
                 }
             });
-            me.loadtrading(1);
+            
         }
+        me.loadtrading(1);
         
     }
     ,initSold: function() {
@@ -3154,8 +3156,9 @@ var Supplier = {
                     me.loadsold(page);
                 }
             });
-            me.loadsold(1);
+            
         }
+        me.loadsold(1);
     }
     //初始化修改价格
     ,initModify: function() {
@@ -3168,8 +3171,9 @@ var Supplier = {
                     me.loadSelling(page,me.renderModify);
                 }
             });
-            me.loadSelling(1,me.renderModify);
+            
         }
+        me.loadSelling(1,me.renderModify);
     }
     ,tabFunction: function(data, proxy) {
         if (!proxy) {
