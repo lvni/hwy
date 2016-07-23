@@ -1562,6 +1562,7 @@ var Order = {
             
         });
         
+        //运费险打勾事件
         $('.placeorder-infobox input[type=checkbox]').click(function(){
             var checked = $(this).attr('checked') ? 1 : 0;
             var goods_cost =  me.order_info.goods_cost;
@@ -1914,8 +1915,20 @@ var Order = {
         data.data.buttons = BntAndTips.bnt;
         var Tips = Order.getOrderTips(data.data);
         data.data.tips = Tips.t;
+        data.data.pay_tips = "实付款";
         data.data.sub_tips = Tips.st;
         data.data.goods_list_html = goods_list_html;
+        data.data.pay_time_tips = "";
+        data.data.shipped_time_tips = "";
+        if (data.data.order_status == 100) {
+            data.data.pay_tips = "需付款";
+        }
+        if (data.data.pay_time != "") {
+            data.data.pay_time_tips  = '<p>付款时间：'+data.data.pay_time+'</p>';
+        }
+        if (data.data.shipping_time != "") {
+            data.data.shipped_time_tips  = '<p>发货时间：'+data.data.shipping_time+'</p>';
+        }
         var html = Template.renderByTemplate(template, data.data);
         $(html).insertAfter('.u-top-msg');
     }
