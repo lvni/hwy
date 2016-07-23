@@ -279,10 +279,10 @@
         </div>
     </div>
 </div>
-<div class="u-index-title" >
+<div class="u-index-title" style="display:none;">
     <p>配饰专区</p>
 </div>
-<div class="u-box-left50-right50">
+<div class="u-box-left50-right50" style="display:none;">
     <div class="leftbox">
         <div class='u-autoheight'>
             <div class='dummy'></div>
@@ -312,50 +312,11 @@
         </div>
     </div>
 </div>
-<div class="u-index-title" style="display:none;">
+<div class="u-index-title" >
     <p>猜你喜欢</p>
 </div>
-<div class="u-productlist" style="display:none;">
-    <div class="contbox">
-        <div class="u-autoheight">
-            <div class="dummy"></div>
-            <div class="content"><img src="img/headphoto.jpg" width="100%"> </div>
-        </div>
-        <div class="cont">
-            <p class="name">翡翠冰种叶子</p>
-            <p class="other"><span class="money"><i>￥</i>1880.00</span><span class="collection">166人收藏</span></p>
-        </div>
-    </div>
-    <div class="contbox">
-        <div class="u-autoheight">
-            <div class="dummy"></div>
-            <div class="content"><img src="img/index_170.png" width="100%"> </div>
-        </div>
-        <div class="cont">
-            <p class="name">翡翠冰</p>
-            <p class="other"><span class="money"><i>￥</i>1880.00</span><span class="collection">166人收藏</span></p>
-        </div>
-    </div>
-    <div class="contbox">
-        <div class="u-autoheight">
-            <div class="dummy"></div>
-            <div class="content"><img src="img/index_190.png" width="100%"> </div>
-        </div>
-        <div class="cont">
-            <p class="name">翡翠冰种叶子</p>
-            <p class="other"><span class="money"><i>￥</i>1880.00</span><span class="collection">166人收藏</span></p>
-        </div>
-    </div>
-    <div class="contbox">
-        <div class="u-autoheight">
-            <div class="dummy"></div>
-            <div class="content" onclick="javascript:;"><img src="img/sweethearth_03.png" width="100%"> </div>
-        </div>
-        <div class="cont">
-            <p class="name">翡翠冰</p>
-            <p class="other"><span class="money"><i>￥</i>1880.00</span><span class="collection">166人收藏</span></p>
-        </div>
-    </div>
+<div class="u-productlist" id="guess_area" >
+
     <div class="clean"></div>
 </div>
 
@@ -370,8 +331,17 @@
 <script type="text/template" id="carsousel_tempate">
 <div class="slide-list"><a href="{$link}"><img src="{$img}" alt=""></a></div>
 </script>
-<script>
-    
+<script  type="text/template" id="guess_tempate">
+    <div class="contbox">
+        <div class="u-autoheight">
+            <div class="dummy"></div>
+            <div class="content" onclick="javascript:location.href='details.html?id={$goods_id}';"><img src="{$goods_thumb}" width="100%"> </div>
+        </div>
+        <div class="cont">
+            <p class="name">{$goods_name}</p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection">{$fav_count}人收藏</span></p>
+        </div>
+    </div>
 </script>
 <script src="javascripts/main.js?v=1"></script>
 <script>
@@ -430,10 +400,23 @@ $(function(){
                  area.show();
             }
         }
-    });
+    }, 'get', true);
     $("#scan").click(function(){
          Share.scan();
     });
+    Util.requestApi('?r=good/guess', {pos:'index'}, function(data){
+        if (data.errno != 0) {
+            $("#guess_area").html("服务异常");
+            return ;
+        }
+        var htm = "";
+        var template = $("#guess_tempate").html();
+        for (i in data.data) {
+            htm += Template.renderByTemplate(template, data.data[1]);
+        }
+        $("#guess_area").html(htm);
+        
+    },'get',true);
 });
 </script>
 </body>
