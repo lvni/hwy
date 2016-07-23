@@ -3515,7 +3515,7 @@ var Share = {
             
             //var doc=document;  
             var script=doc.createElement("script"); 
-            var url = 'http://app.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig';
+            var url = 'http://app.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig&v='+Math.random();
             script.setAttribute("src", url);  
             //var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
