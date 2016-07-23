@@ -1,84 +1,90 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
+/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
+/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
+/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
+  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
 /*用来被继承的占位样式*/
-/*项目用到的颜色*/
-.red {
-  color: #a90125; }
-
-.dackred {
-  color: #6b4544; }
-
-.pink {
-  color: #cf4d55; }
-
-.error {
-  color: #a90125; }
-  .error::-webkit-input-placeholder {
-    color: #a90125; }
-
+/* line 6, ../sass/register.scss */
 body {
-  background: image-url("registerbg.png") no-repeat;
+  background: url('../img/registerbg.png?1466416254') no-repeat;
   background-size: cover; }
 
+/* line 10, ../sass/register.scss */
 .head {
   background: #ffffff; }
+  /* line 12, ../sass/register.scss */
   .head > img {
     display: block;
     margin: 0px auto;
     width: 125px; }
 
+/* line 18, ../sass/register.scss */
 .tips, .wechat {
   display: block;
   margin: 0px auto;
   width: 210px; }
 
+/* line 23, ../sass/register.scss */
 .wechat {
   width: 50px; }
 
+/* line 27, ../sass/register.scss */
 .u-top-msg {
   background: none; }
+  /* line 29, ../sass/register.scss */
   .u-top-msg:after {
     display: none; }
 
+/* line 34, ../sass/register.scss */
 .fontbox {
   padding: 5px 0px;
   font-size: 12px; }
+  /* line 37, ../sass/register.scss */
   .fontbox > a {
     color: #ffffff; }
+  /* line 40, ../sass/register.scss */
   .fontbox > .left {
     float: left; }
+  /* line 43, ../sass/register.scss */
   .fontbox > .right {
     float: right; }
+  /* line 46, ../sass/register.scss */
   .fontbox:after {
     content: '';
     display: block;
     clear: both; }
 
+/* line 53, ../sass/register.scss */
 .u-button-main {
   background: rgba(255, 255, 255, 0.19); }
 
+/* line 57, ../sass/register.scss */
 .wechatbox {
   position: relative;
   margin: 30px 0  15px 0;
   text-align: center; }
+  /* line 61, ../sass/register.scss */
   .wechatbox > .wechatlogo {
     width: 54px;
     height: 54px; }
+  /* line 65, ../sass/register.scss */
   .wechatbox:before, .wechatbox:after {
     content: '';
     position: absolute;
@@ -87,11 +93,14 @@ body {
     height: 1px;
     background: #fff;
     width: -webkit-calc(50% - 47px); }
+  /* line 74, ../sass/register.scss */
   .wechatbox:before {
     left: 0px; }
+  /* line 77, ../sass/register.scss */
   .wechatbox:after {
     right: 0px; }
 
+/* line 82, ../sass/register.scss */
 .wechatbutton {
   width: 100%;
   border-radius: 4px;
@@ -102,7 +111,6 @@ body {
   background: none;
   color: #fff; }
 
+/* line 92, ../sass/register.scss */
 .u-enterinfobox:after {
   background-color: rgba(89, 90, 119, 0.6); }
-
-/*# sourceMappingURL=register.css.map */

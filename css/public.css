@@ -2173,7 +2173,7 @@ button {
   opacity: 0; }
   /* line 165, ../sass/_list.scss */
   .u-checkbox:checked + .u-choose {
-    background: url("../img/hongwu_58.png") center center no-repeat;
+    background: url('../img/hongwu_58.png?1466416254') center center no-repeat;
     background-size: cover;
     border: none; }
 
