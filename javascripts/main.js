@@ -1664,6 +1664,9 @@ var Order = {
             }
             if (type == 'cancel') {
                 //取消订单
+                
+                location.href = "myorder-cancel.html?order="+order_sn;
+                return;
                 messageBox.confirm("您确定要取消订单吗？", function(){
                     Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
                             messageBox.toast(data.errmsg);
