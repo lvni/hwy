@@ -93,7 +93,7 @@ body {
   &>a {
     padding-left:15px;
     color:$fontcolorLv1;
-    font-size:1.2rem;
+    font-size:1.3rem;
   }
 }
 
@@ -104,7 +104,7 @@ body {
     position: relative;
     padding:5px 15px;
     margin:0  0  5px 0;
-    font-size:1.2rem;
+    font-size:1.3rem;
     &:after {
       @extend %border-1px-bottom;
     }
@@ -114,14 +114,14 @@ body {
   }
   p {
     padding:3px 15px;
-    font-size:1.2rem;
+    font-size:1.3rem;
   }
 }
 
 .details-title {
   position: relative;
   padding:5px 15px;
-  font-size:1.2rem;
+  font-size:1.3rem;
   background: #ffffff;
   &:after {
     @extend %border-1px-bottom;

@@ -51,7 +51,9 @@
             <p class="left ">{$order_date}</p>
             <p class="right red">{$order_tips}</p>
         </div>
+        <div class="order_goods_list" order-sn="{$order_sn}">
         {$goods_list}
+        </div>
         <div class="u-list-justify fs-12">
             <p class="left"></p>
             <p class="right"><i>共{$goods_count}件商品</i>&nbsp;&nbsp;<i>合计：￥{$money}</i></p>

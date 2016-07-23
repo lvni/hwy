@@ -1,20 +1,26 @@
 @charset "UTF-8";
 /*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
 .red {
   color: #a90125; }
 
+/* line 29, ../sass/_color.scss */
 .dackred {
   color: #6b4544; }
 
+/* line 32, ../sass/_color.scss */
 .pink {
   color: #cf4d55; }
 
+/* line 36, ../sass/_color.scss */
 .error {
   color: #a90125; }
+  /* line 38, ../sass/_color.scss */
   .error::-webkit-input-placeholder {
     color: #a90125; }
 
 /*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/* line 5, ../sass/_extend.scss */
 .comment-listbox:before, .details-bottombox:before, .productinfo-list > .title:after, .details-title:after, .comment-list:after {
   width: 100%;
   height: 1px;
@@ -23,11 +29,13 @@
   -webkit-transform: scaleY(0.5);
   left: 0px; }
 
+/* line 13, ../sass/_extend.scss */
 .comment-listbox:before, .details-bottombox:before, .productinfo-list > .title:after, .details-title:after, .comment-list:after, .details-bottombox > .add:before {
   content: '';
   display: block;
   position: absolute; }
 
+/* line 18, ../sass/_extend.scss */
 .details-bottombox > .add:before {
   right: 0px;
   top: 0px;
@@ -37,42 +45,34 @@
   -webkit-transform-origin: 100% 50%;
   -webkit-transform: scaleX(0.5); }
 
+/* line 28, ../sass/_extend.scss */
 .comment-listbox:before, .details-bottombox:before {
   top: -1px; }
 
+/* line 31, ../sass/_extend.scss */
 .productinfo-list > .title:after, .details-title:after, .comment-list:after {
   bottom: 0px; }
 
+/* line 57, ../sass/_extend.scss */
 .comment, .details-bottombox {
   display: -webkit-box;
   -webkit-box-align: center; }
 
+/* line 76, ../sass/_extend.scss */
 .details-slide .top .back, .details-slide .top .share, .productinfo-head .rightbox, .comment-list .photo {
   position: absolute;
   top: 50%;
   -webkit-transform: translate(0, -50%); }
 
 /*用来被继承的占位样式*/
-/*项目用到的颜色*/
-.red {
-  color: #a90125; }
-
-.dackred {
-  color: #6b4544; }
-
-.pink {
-  color: #cf4d55; }
-
-.error {
-  color: #a90125; }
-  .error::-webkit-input-placeholder {
-    color: #a90125; }
-
+/* line 5, ../sass/details.scss */
 body {
   padding: 0 0 50px 0; }
 
+/* line 8, ../sass/details.scss */
 .details-slide {
   position: relative; }
+  /* line 10, ../sass/details.scss */
   .details-slide .top {
     position: absolute;
     top: 0px;
@@ -80,25 +80,31 @@ body {
     width: 100%;
     background: rgba(0, 0, 0, 0.3);
     z-index: 9; }
+    /* line 20, ../sass/details.scss */
     .details-slide .top .back {
       left: 15px;
       width: 12px;
       height: 30px; }
+    /* line 25, ../sass/details.scss */
     .details-slide .top .share {
       right: 15px;
       width: 22px; }
+  /* line 30, ../sass/details.scss */
   .details-slide .cont {
     display: -webkit-box;
     width: 100%;
     overflow: hidden; }
+    /* line 34, ../sass/details.scss */
     .details-slide .cont:before {
       content: '';
       display: block;
       height: 0px;
       margin-top: 66.666%; }
+    /* line 40, ../sass/details.scss */
     .details-slide .cont > img {
       display: block;
       width: 100%; }
+  /* line 45, ../sass/details.scss */
   .details-slide .icon {
     position: absolute;
     bottom: 0px;
@@ -106,6 +112,7 @@ body {
     height: 20px;
     text-align: center;
     font-size: 0px; }
+    /* line 52, ../sass/details.scss */
     .details-slide .icon > span {
       display: inline-block;
       margin: 0px 5px;
@@ -113,68 +120,87 @@ body {
       height: 8px;
       border-radius: 50%;
       background: #ffffff; }
+      /* line 59, ../sass/details.scss */
       .details-slide .icon > span.on {
         background: #333333; }
 
+/* line 66, ../sass/details.scss */
 .productinfo-head {
   position: relative;
   padding: 10px 75px 10px 15px;
   background: #ffffff; }
+  /* line 70, ../sass/details.scss */
   .productinfo-head .rightbox {
     right: 0px;
     padding: 0 20px 0 5px;
     border-left: 1px solid #cccccc;
     font-size: 9px; }
+  /* line 77, ../sass/details.scss */
   .productinfo-head .title {
     font-size: 1.4rem;
     color: #333333; }
+  /* line 81, ../sass/details.scss */
   .productinfo-head .price {
     font-size: 18px; }
+    /* line 83, ../sass/details.scss */
     .productinfo-head .price > i {
       font-size: 15px; }
 
+/* line 90, ../sass/details.scss */
 .u-list-arrow {
   margin: 5px 0; }
+  /* line 93, ../sass/details.scss */
   .u-list-arrow > a {
     padding-left: 15px;
     color: #333333;
-    font-size: 1.2rem; }
+    font-size: 1.3rem; }
 
+/* line 100, ../sass/details.scss */
 .productinfo-list {
   color: #333333;
   background: #ffffff; }
+  /* line 103, ../sass/details.scss */
   .productinfo-list > .title {
     position: relative;
     padding: 5px 15px;
     margin: 0  0  5px 0;
-    font-size: 1.2rem; }
+    font-size: 1.3rem; }
+  /* line 112, ../sass/details.scss */
   .productinfo-list .cont {
     padding: 10px 0; }
+  /* line 115, ../sass/details.scss */
   .productinfo-list p {
     padding: 3px 15px;
-    font-size: 1.2rem; }
+    font-size: 1.3rem; }
 
+/* line 121, ../sass/details.scss */
 .details-title {
   position: relative;
   padding: 5px 15px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   background: #ffffff; }
 
+/* line 130, ../sass/details.scss */
 .details-infobox, .video {
   margin: 5px 0 0 0;
   background: #ffffff; }
 
+/* line 136, ../sass/details.scss */
 .details-infobox .cont {
   padding: 5px; }
+  /* line 138, ../sass/details.scss */
   .details-infobox .cont > img {
     width: 100%; }
+    /* line 140, ../sass/details.scss */
     .details-infobox .cont > img:not(:last-child) {
       margin-bottom: 5px; }
 
+/* line 147, ../sass/details.scss */
 .comment {
   margin-top: 5px;
   padding: 10px;
   background: #ffffff; }
+  /* line 152, ../sass/details.scss */
   .comment > .cont {
     display: block;
     padding: 0px 10px;
@@ -185,6 +211,7 @@ body {
     -webkit-box-flex: 1;
     font-size: 12px;
     color: #000000; }
+  /* line 163, ../sass/details.scss */
   .comment > .submit {
     display: block;
     width: 50px;
@@ -197,37 +224,47 @@ body {
     text-align: center;
     border-radius: 3px; }
 
+/* line 177, ../sass/details.scss */
 .comment-listbox {
   position: relative; }
 
+/* line 183, ../sass/details.scss */
 .comment-list {
   position: relative;
   padding: 8px 15px 8px 50px;
   background: #ffffff;
   font-size: 10px; }
+  /* line 188, ../sass/details.scss */
   .comment-list .photo {
     left: 15px;
     width: 25px;
     height: 25px;
     border-radius: 50%; }
+  /* line 195, ../sass/details.scss */
   .comment-list .name {
     line-height: 10px;
     padding-bottom: 8px;
     color: #999999; }
+  /* line 200, ../sass/details.scss */
   .comment-list .cont {
     line-height: 14px; }
 
+/* line 208, ../sass/details.scss */
 .u-index-title {
   padding: 10px 0; }
+  /* line 210, ../sass/details.scss */
   .u-index-title p {
     color: #999999; }
+  /* line 213, ../sass/details.scss */
   .u-index-title:after {
     background: #999999; }
 
+/* line 217, ../sass/details.scss */
 .u-box-left50-right50 {
   margin: 0px; }
 
 /*底部的加入购物车*/
+/* line 222, ../sass/details.scss */
 .details-bottombox {
   position: fixed;
   bottom: 0px;
@@ -238,8 +275,10 @@ body {
   background: #ffffff;
   box-sizing: border-box;
   z-index: 19; }
+  /* line 233, ../sass/details.scss */
   .details-bottombox:before {
     background: #a90125; }
+  /* line 237, ../sass/details.scss */
   .details-bottombox > .add, .details-bottombox > .buy {
     position: absolute;
     top: 0px;
@@ -248,34 +287,41 @@ body {
     font-size: 16px;
     text-align: center;
     line-height: 4.5rem; }
+  /* line 246, ../sass/details.scss */
   .details-bottombox > .add {
     right: 105px;
     background: #ffeded;
     color: #a90125; }
+    /* line 250, ../sass/details.scss */
     .details-bottombox > .add:before {
       left: 0px;
       right: inherit;
       background: #a90125; }
+  /* line 257, ../sass/details.scss */
   .details-bottombox > .buy {
     right: 0px;
     background: #a90125;
     color: #ffffff; }
+  /* line 262, ../sass/details.scss */
   .details-bottombox > .icon {
     -webkit-box-flex: 1;
     font-size: 1.1rem;
     color: #000000;
     text-align: center; }
+    /* line 267, ../sass/details.scss */
     .details-bottombox > .icon > img {
       width: 18px;
       height: 18px; }
 
 /*slide*/
+/* line 275, ../sass/details.scss */
 .hl-swiper {
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100%; }
 
+/* line 282, ../sass/details.scss */
 .slides {
   display: -webkit-box;
   width: 100%;
@@ -283,6 +329,7 @@ body {
   font-size: 0;
   -webkit-transform: translate3d(0px, 0, 0); }
 
+/* line 290, ../sass/details.scss */
 .slides .slide-list {
   display: block;
   width: 100%;
@@ -293,12 +340,15 @@ body {
   font-size: 20px;
   overflow-y: auto; }
 
+/* line 301, ../sass/details.scss */
 .slides .slide-list img {
   width: 100%; }
 
+/* line 305, ../sass/details.scss */
 .slides.animate {
   -webkit-transition: all 0.3s ease-out; }
 
+/* line 309, ../sass/details.scss */
 .position-nav {
   position: absolute;
   left: 0;
@@ -309,6 +359,7 @@ body {
   text-align: center;
   z-index: 1; }
 
+/* line 320, ../sass/details.scss */
 .position-nav .position {
   display: inline-block;
   margin: 0px 5px;
@@ -317,14 +368,15 @@ body {
   border-radius: 50%;
   background: #ffffff; }
 
+/* line 329, ../sass/details.scss */
 .position-nav .position.current {
   background: #a90125; }
 
 /*end*/
+/* line 334, ../sass/details.scss */
 .details-infobox .cont img {
   width: 100%; }
 
+/* line 337, ../sass/details.scss */
 .details-infobox .cont p {
   padding-top: 5px; }
-
-/*# sourceMappingURL=details.css.map */
