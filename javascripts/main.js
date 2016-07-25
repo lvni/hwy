@@ -1090,6 +1090,7 @@ var Bootstrap = {
                     .replace('{$title}', item.title)
                     .replace('{$fav_cnt}', item.fav_cnt)
                     .replace('{$price}', item.price)
+                    .replace('{$page}', data.page)
                     .replace('{$img}', item.img);
         }
         if (append == false) {
@@ -1101,6 +1102,20 @@ var Bootstrap = {
         } else {
            $('.u-productlist').append(html);
         }
+        
+        //图片lazy load
+        var imgs = [];
+        $(".page_"+data.page+" img").each(function(){
+           //加载图片
+           var image = new Image();
+           image.src = $(this).attr('data-src');
+           image.target = this;
+           image.onload = function(){
+              this.target.src = this.src;
+              delete this;
+           }
+           
+        });
         
     }
     ,bindEvent: function(){
