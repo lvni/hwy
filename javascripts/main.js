@@ -1173,6 +1173,9 @@ var Bootstrap = {
             if (me.searchQuery.hasMore) {
                 me.searchQuery.p += 1;
                 me.loadSearch(me.searchQuery);
+                $("#loading-more").html('加载中 ... <img src="img/loading.gif" style="width:24px;">');
+            } else {
+                $("#loading-more").html("没有更多");
             }
             
         }
