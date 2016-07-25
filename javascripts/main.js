@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -53,7 +53,7 @@ var messageBox = {
         var html = '<div id="system_messagebox_toast" style="position:fixed; '
                      + 'bottom:30%;margin-left:auto;margin-right:auto;background:'
                      + '#262631;color: #fff;border-radius: 5px;padding: 6px 10px;'
-                     + 'text-align: center;left:50%;z-index:999;">'+msg+'</div>';
+                     + 'text-align: center;left:45%;z-index:999;">'+msg+'</div>';
         //alert(msg);
         if ($("#system_messagebox_toast").length) {
             return;
@@ -1661,6 +1661,14 @@ var Order = {
             if (type == 'pay') {
                 //去支付
                 window.location.href = config.page.order_pay + "?order=" + order_sn;
+            }
+            if (type == 'comment') {
+                //评价
+                messageBox.toast("功能升级中,敬请期待");
+            }
+            if (type == 'remind') {
+                //提现发货
+                messageBox.toast("已提醒卖家，尽快为您发货");
             }
             if (type == 'cancel') {
                 //取消订单
