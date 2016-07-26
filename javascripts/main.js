@@ -770,6 +770,11 @@ var goodsCart = {
         });
         $('#buy').click(function(){
             var goodsId = $(this).attr('data-id');
+            var role = $(this).attr('user-role');
+            if (role >= Const.USER_ROLE_SUPPLIER) {
+                messageBox.toast("供应商不能购买");
+                return;
+            }
             me.buy(goodsId);
         });
         
@@ -1037,6 +1042,7 @@ var Bootstrap = {
         $(".productinfo-list .cont").html(attrHtml);
         $(".details-slide .slides").html(slideHtml);
         $("#add,#buy,#detail_collect,#detail_likes_up").attr('data-id', data.id);
+        $("#add,#buy,#detail_collect,#detail_likes_up").attr('user-role', data.role);
         $("#detail_collect").attr('data-collected', data.is_collected);
         me.updateIcon(data.is_collected);
         me.setLikes(data.id);
