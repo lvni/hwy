@@ -1264,9 +1264,21 @@ var Bootstrap = {
     ,getSearchQuery: function() {
         var me = Bootstrap;
         var cids = [];
+        var material = [];
+        var position = [];
         //获取分类ids
         $('#js-chooseclass .cont').each(function(i,e){
-            cids.push($(e).attr('data_cat_id'));
+            var role = $(e).attr('data-role');
+            if ( role== 'shaixuan') {
+                cids.push($(e).attr('data_cat_id'));
+            }
+            if ( role== 'buwei') {
+                position.push($(e).attr('data_cat_id'));
+            }
+            if ( role== 'caizhi') {
+                material.push($(e).attr('data_cat_id'));
+            }
+            
         });
         //获取排序
         var sort_id = $(".u-choosecontbox a.on").attr('data-id');
@@ -1288,6 +1300,8 @@ var Bootstrap = {
             me.searchQuery.p_to = p_to;
         }
         me.searchQuery['cids'] = cids.join(',');
+        me.searchQuery['position'] = position.join(',');
+        me.searchQuery['material'] = material.join(',');
         me.searchQuery.p = 1; //重置页码
     }
     //搜索变化事件
