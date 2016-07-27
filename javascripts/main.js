@@ -2387,11 +2387,11 @@ var User = {
     user: {}
     ,user_images : {
         0 : {
-            img: 'img/user_y.png',  //身份标识
+            img: '',  //身份标识
             title: '', //皇冠
         },
         1 : {
-            img: 'img/user_y.png',  //身份标识
+            img: '',  //身份标识
             title: '', //皇冠
         },
         2 : {
@@ -2432,7 +2432,12 @@ var User = {
             
             if (User.user_images[data.user.role]) {
                 var ifo = User.user_images[data.user.role];
-                $(".u-person-head .id_notice").attr('src', ifo.img);
+                if (ifo.img != "") {
+                    $(".u-person-head .id_notice").attr('src', ifo.img);
+                } else {
+                    $(".u-person-head .id_notice").hide();
+                }
+                
                 
                 if (ifo.title == true) {
                     $(".u-person-head .photo-king").show();
@@ -2466,7 +2471,11 @@ var User = {
         
         if (User.user_images[data.user.role]) {
                 var ifo = User.user_images[data.user.role];
-                $(".u-person-head .id_notice").attr('src', ifo.img);
+                 if (ifo.img != "") {
+                    $(".u-person-head .id_notice").attr('src', ifo.img);
+                } else {
+                    $(".u-person-head .id_notice").hide();
+                }
         }
         
         $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
