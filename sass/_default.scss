@@ -214,6 +214,16 @@
     border-radius:50%;
     border: 1px solid $maincolor;
   }
+  &>.photo-king {
+    display:none;
+    position: absolute;
+    left: 8px;
+    top: 19px;
+    width: 55px;
+    height: 70px;
+    background: image-url('user_king_title.png');
+    background-size: cover;
+  }
   &>.name {
     font-size:19px;
     &>img {
@@ -2006,3 +2016,5 @@
 .mr-10-0 {
   margin:10px 0;
 }
+
+

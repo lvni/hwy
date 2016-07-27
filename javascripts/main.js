@@ -36,11 +36,14 @@ var ErrorCode = {
 }
 var Const = {
     GOODS_STATUS_ON_SELL: 1, //在售
+    USER_ROLE_VISITOR : 0,
+    USER_ROLE_YOUKE : 1,
     USER_ROLE_KING : 2,
     USER_ROLE_KING_ONE : 3, //一品王爷
     USER_ROLE_SUPPLIER : 4,
-    USER_ROLE_SUPPLIER_LEADER : 5,
+    USER_ROLE_SUPPLIER_LEADER : 5, //供应商队长
 }
+
 
 //消息盒子相关
 var messageBox = {
@@ -2373,6 +2376,33 @@ var Address = {
 //用户相关
 var User = {
     user: {}
+    ,user_images : {
+        0 : {
+            img: 'img/user_y.png',  //身份标识
+            title: '', //皇冠
+        },
+        1 : {
+            img: 'img/user_y.png',  //身份标识
+            title: '', //皇冠
+        },
+        2 : {
+            img: 'img/user_y.png',  //身份标识
+            title: '', //皇冠
+        },
+        3 : {
+            img: 'img/user_yo.png',  //身份标识
+            title: true, //皇冠
+        },
+        4: {
+            img: 'img/user_sp.png',  //身份标识
+            title: '', //皇冠
+        },
+        5 : {
+            img: 'img/user_spl.png',  //身份标识
+            title: '', //皇冠
+        },
+                
+    }
     ,renderKing: function(data, direct) {
         Util.hideLoading();
         if (data.is_login != 1) {
@@ -2389,6 +2419,15 @@ var User = {
                 $("#myincome-entry").attr('href', config.page.income_king);
                 var role = data.user.role == Const.USER_ROLE_KING_ONE ? "一品王爷" : "王爷";
                 $('title').html("个人中心-"+role);
+            }
+            
+            if (User.user_images[data.user.role]) {
+                var ifo = User.user_images[data.user.role];
+                $(".u-person-head .id_notice").attr('src', ifo.img);
+                
+                if (ifo.title == true) {
+                    $(".u-person-head .photo-king").show();
+                }
             }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
             $(".u-person-head .name").append(data.user.name);
@@ -2415,6 +2454,12 @@ var User = {
         } else {
             $('title').html("个人中心-供应商");
         }
+        
+        if (User.user_images[data.user.role]) {
+                var ifo = User.user_images[data.user.role];
+                $(".u-person-head .id_notice").attr('src', ifo.img);
+        }
+        
         $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
         $(".u-person-head .name").append(data.user.name);
         $(".u-person-head .photo").attr('src', data.user.avatar);
