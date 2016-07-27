@@ -3746,3 +3746,10 @@ var url = 'https://s95.cnzz.com/z_stat.php?id=1259996740&web_id=1259996740';
 script.setAttribute("src", url);  
 var heads = doc.getElementsByTagName("head");  
 heads[0].appendChild(script); 
+
+$(function(){
+    $(".u-backtop").click(function(){
+        document.documentElement.scrollTop = document.body.scrollTop =0;
+    });
+    
+})
