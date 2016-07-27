@@ -76,9 +76,8 @@
 </div>
 <div class="newsbox" >
     <img src="img/index_56.png" class="head">
-    <ul class="newsul">
-        <li><a href="#">“纤维玉雕第一人” 扬州八怪给我艺术灵感扬州八怪给我艺术灵感!</a></li>
-        <li><a href="#">“纤维玉雕第一人” 扬州八怪给我艺术灵感!</a></li>
+    <ul class="newsul" id="article_list">
+        
     </ul>
 </div>
 
@@ -415,6 +414,21 @@ $(function(){
             htm += Template.renderByTemplate(template, data.data[1]);
         }
         $("#guess_area").html(htm);
+        
+    },'get',true);
+    
+    //今日头条
+     Util.requestApi('?r=article/home', {pos:'index'}, function(data){
+        if (data.errno != 0) {
+            return ;
+        }
+        var htm = "";
+     
+        for (i in data.data) {
+            var item = data.data[i];
+            htm += '<li><a href="'+item.link+'">'+item.title+'</a></li>';
+        }
+        $("#article_list").html(htm);
         
     },'get',true);
 });
