@@ -3660,3 +3660,10 @@ history.go = function(index){
        
 }
 
+//插入统计代码
+var doc=document;  
+var script=doc.createElement("script"); 
+var url = 'https://s95.cnzz.com/z_stat.php?id=1259996740&web_id=1259996740';
+script.setAttribute("src", url);  
+var heads = doc.getElementsByTagName("head");  
+heads[0].appendChild(script); 
