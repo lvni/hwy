@@ -1823,46 +1823,68 @@ var Order = {
             100: {
                 t: "等待买家付款",
                 st: "1小时内未付款自动取消订单",
+                icon: "img/order_wait_pay.png",
+                type : 1,
             },
             101: {
                 t: "等待商家发货",
                 st: "成功付款后48小时内发货",
+                icon: "img/order_wait_ship.png",
+                type : 1,
             },
             102: {
                 t: "交易已完成",
                 st: "感谢您惠顾",
+                icon: "img/order_done.png",
+                type : 2,
             },
             103: {
                 t: "商品已发出",
                 st: "",
+                icon: "img/order_wait_receive.png",
+                type : 1,
             },
             104: {
                 t: "交易完成",
                 st: "感谢您惠顾",
+                icon: "img/order_done.png",
+                type : 2,
             },
             105: {
                 t: "交易已取消",
                 st: "感谢您惠顾",
+                icon: "img/order_cancel.png",
+                type : 2,
             },
             107: {
                 t: "已退货",
                 st: "感谢您惠顾",
+                icon: "img/order_cancel.png",
+                type : 1,
             },
             108: {
                 t: "订单已失效",
                 st: "感谢您惠顾",
+                 icon: "img/order_invalid.png",
+                 type : 1,
             },
             109: {
                 t: "退款申请中",
                 st: "感谢您惠顾",
+                 icon: "img/order_cancel.png",
+                 type : 1,
             },
             110: {
                 t: "退款完成",
                 st: "感谢您惠顾",
+                 icon: "img/order_cancel.png",
+                 type : 1,
             },
             111: {
                 t: "退款失败",
                 st: "感谢您惠顾",
+                icon: "img/order_cancel.png",
+                type : 1,
             }
             
         };
@@ -1965,7 +1987,19 @@ var Order = {
         data.data.buttons = BntAndTips.bnt;
         var Tips = Order.getOrderTips(data.data);
         data.data.tips = Tips.t;
+        data.data.order_img = Tips.icon;
+        
+        var detailHead = '<div class="details-head" >'
+                              + '<img src="'+Tips.icon+'" class="icon">'
+                              + '<h2 class="title">'+Tips.t+'</h2>'
+                              + '<p class="tips">'+Tips.st+'</p></div>';
+                              
+         if (Tips.type == 2) {
+             //另外的显示方式
+             detailHead = '<div class="details-head" style="padding:20px;"><img src="'+Tips.icon+'" style="width:48px;padding-bottom:5px;"><p>'+Tips.t+'</p></div>';
+         }
         data.data.pay_tips = "实付款";
+        data.data.detail_head = detailHead;
         data.data.sub_tips = Tips.st;
         data.data.goods_list_html = goods_list_html;
         data.data.pay_time_tips = "";
