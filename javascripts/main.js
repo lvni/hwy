@@ -1531,6 +1531,15 @@ var Bootstrap = {
             if (k) {
                 $('title').html("搜索-"+Util.escape(k));
             }        
+            var type = Util.getQueryString('type');
+            var typeTitles = {
+                'zhen' : "臻品堂",
+                'yujian': '玉见',
+            };
+            if (type in typeTitles) {
+                $('title').html(typeTitles[type]);
+                this.searchQuery.type = type;
+            }
             this.loadSearchCategories();
             this.searchQuery.k = k;
             this.loadSearch(this.searchQuery, false);
