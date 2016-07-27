@@ -419,7 +419,7 @@ button {
       height: 25px; }
     /* line 89, ../sass/_default.scss */
     .u-top-msg .msgbox .msg {
-      display: block;
+      display: none;
       position: absolute;
       top: 14px;
       right: 14px;
@@ -553,7 +553,7 @@ button {
       height: 25px; }
     /* line 237, ../sass/_default.scss */
     .u-person-head > .msgbox > .msg {
-      display: block;
+      display: none;
       position: absolute;
       top: 14px;
       right: 14px;
@@ -2346,7 +2346,7 @@ button {
   opacity: 0; }
   /* line 165, ../sass/_list.scss */
   .u-checkbox:checked + .u-choose {
-    background: url('../img/hongwu_58.png?1466234240') center center no-repeat;
+    background: url('../img/hongwu_58.png?1466416254') center center no-repeat;
     background-size: cover;
     border: none; }
 
@@ -2385,7 +2385,7 @@ button {
     float: right; }
   /* line 208, ../sass/_list.scss */
   .u-productlist > .contbox > img {
-    width: 100%; }
+    width: 98%; }
   /* line 211, ../sass/_list.scss */
   .u-productlist > .contbox .cont {
     padding: 8px;

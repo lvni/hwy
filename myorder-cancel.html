@@ -22,37 +22,54 @@
 </div>
 <div class="u-radiolist">
     <div class="u-list-justify">
-        <p class="left">选择取消订单原因</p>
+        <p class="left">请选择取消订单原因</p>
     </div>
     <label class="u-list-justify">
-        <p class="left">选择取消订单原因</p>
+        <p class="left">选错了</p>
         <p class="right">
             <input class="radio" type="radio" name="reason">
             <span class="inputshow"></span>
         </p>
     </label>
     <label class="u-list-justify">
-        <p class="left">选择取消订单原因选择取消订单原因选择取消订单原因选择取消订单原因</p>
+        <p class="left">不想买了</p>
         <p class="right">
             <input class="radio" type="radio" name="reason">
             <span class="inputshow"></span>
         </p>
     </label>
     <label class="u-list-justify">
-        <p class="left">选择取消订单原因选择取消订单原因选择取消订单原因选择取消订单原因</p>
+        <p class="left">太贵了</p>
         <p class="right">
             <input class="radio" type="radio" name="reason">
             <span class="inputshow"></span>
         </p>
     </label>
     <label class="u-list-justify">
-        <p class="left">选择取消订单原因选择取消订单原因选择取消订单原因选择取消订单原因</p>
+        <p class="left">其他地方更便宜</p>
         <p class="right">
             <input class="radio" type="radio" name="reason">
             <span class="inputshow"></span>
         </p>
     </label>
 </div>
-
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+var orderSn = Util.getQueryString('order');
+$(".u-radiolist .u-list-justify").click(function(){
+    var reason = $(this).find(".left").html();
+    messageBox.confirm("您确定要取消订单吗？", function(){
+        Util.requestApi('?r=order/cancel', {order:orderSn,note:reason}, function(data){
+                messageBox.toast(data.errmsg);
+                if (data.errno == 0) {
+                    //重新加载列表
+                    history.go(-1);
+                }
+            
+        });
+    });
+});
+</script>
 </body>
 </html>

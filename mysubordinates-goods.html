@@ -1,0 +1,53 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>我的队员-查看他的商品</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/mysubordinates-goods.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p id="user_name"></p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div id="js-contbox01"style="display: ;"><!--这个div用来控制整个内容的显示和隐藏-->
+    
+     <div id="selling_content"> </div>
+
+     <div class="u-flip" id="selling_page">   </div>
+</div>
+<script id="goods_template" type="text/template">
+<label class="u-myproductlist ">
+        <input type="checkbox" class="u-checkbox">
+        <span class="u-choose"></span>
+        <div class="aboutproduct">
+            <a href="details.html?id={$goods_id}"><img src="{$goods_img}" class="photo"></a>
+            <p class="name"><i>{$goods_name}</i><span class="u-productstate-shopping">在售</span></p>
+            <p>供货价：<i>{$supplier_price}</i></p>
+            <p>货号：<i>{$goods_sn}</i></p>
+            <p>上传时间：<i>{$add_time}</i></p>
+        </div>
+        <div class="edit-count">
+            <p class="editnode"></p>
+            <p>点赞量：<i>{$likes_count}</i></p>
+            <p>浏览量：<i>{$view_count}</i></p>
+        </div>
+    </label>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+Supplier.runSubProducts();
+</script>
+</body>
+</html>

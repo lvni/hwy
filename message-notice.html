@@ -16,23 +16,53 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<time class="msg-time">2016年2月18日</time>
-<div class="msg-contbox">
-    <h3>订单已发货！</h3>
-    <div class="cont">
-        <img src="img/headphoto.jpg">
-        <p>您购买的翡翠叶子已发货，<br>快递单号：<i>703136454460000</i></p>
-    </div>
-    <a href="" class="more">查看详情  &gt;</a>
+<div id="list">
 </div>
-<time class="msg-time">2016年2月18日</time>
+<div class="u-flip" id="page">   </div>
+<script type="text/template" id="list_item">
+<time class="msg-time">{$time}</time>
 <div class="msg-contbox">
-    <h3>订单已发货！</h3>
+    <h3>{$title}</h3>
     <div class="cont">
-        <img src="img/headphoto.jpg">
-        <p>您购买的翡翠叶子已发货，<br>快递单号：<i>703136454460000</i></p>
+        <img src="{$photo}" onerror="javascript:this.src=config.default_icons;">
+        <p>{$content}</p>
     </div>
-    <a href="#" class="more">查看详情  &gt;</a>
+    <a href="{$link}" class="more">查看详情  &gt;</a>
 </div>
+</script>
+
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+   $("#kefu").click(function(){
+       Util.goKefu(this);
+   });
+   var page = new Page('.u-flip');
+   var loadMsg = function(p) {
+        Util.requestApi('?r=message/list', {p:p}, function(data){
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            if (data.data.list.length == 0) {
+                Util.showTips($("#list"), "没相关消息");
+                return;
+            }
+            var html = "";
+            var template = $("#list_item").html();
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                html += Template.renderByTemplate(template, item);
+            }
+            $("#list").html(html);
+            page.render(data.data.page, data.data.page_count);
+        });
+   }
+   page.addClickEvent(function(){
+        var p = $(this).attr('data');
+        loadMsg(p);
+   });
+   loadMsg(1);
+</script>
 </body>
 </html>

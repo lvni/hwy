@@ -55,23 +55,25 @@
         <p class="right">￥{$shipping_fee}</p>
     </div>
     <div class="u-list-justify fs-14 amount">
-        <p class="left">实付款</p>
+        <p class="left">{$pay_tips}</p>
         <p class="right red">￥{$order_amount}</p>
     </div>
     <div class="buttonbox">
-        <button class="u-button-little-white">
+        <button class="u-button-little-white" id="kefu">
             <img src="img/orderdetails_11.png">
             <span>联系客服</span>
         </button>
-        <button  class="u-button-little-white">
+        <button  class="u-button-little-white" id="tel">
             <img src="img/orderdetails_13.png">
-            <span>拨打电话</span>
+            <span><a href="tel:4000-111-550">拨打电话</a></span>
         </button>
     </div>
 </div>
 <div class="infobox">
     <p>订单号：{$order_sn}</p>
     <p>创建时间：{$order_date}</p>
+    {$pay_time_tips}
+    {$shipped_time_tips}
 </div>
 <div class="buttonbox bottom-buttonbox" order-sn="{$order_sn}">
     {$buttons}
@@ -102,9 +104,20 @@
 </button>
 </script>
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js"></script>
+<script src="javascripts/main.js?v=2"></script>
 <script>
 Order.runDetail();
+//注册客服事件
+$('body').delegate("button", 'click', function(){
+    var id =  $(this).attr("id");
+    if ( id == "kefu") {
+        Util.goKefu(this);  
+    }
+    if ( id == 'tel') {
+        location.href="tel:4000-111-550";
+    }
+      
+ });
 </script>
 </body>
 </html>

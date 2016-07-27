@@ -38,62 +38,66 @@
         </button>
     </div>
 </div>
+<div id="context">
 <div class="u-choosebox"><!--这里加上on之后筛选内容的box会出现-->
     <div class="u-sortnav" id="js-navSelect">
-        <div class="cont on" data-role="buwei">
-            <select >
-                <option selected disabled>请选择</option>
-
-            </select>
+        <div class="cont" data-role="buwei">
             <p><span data-role="cate_name">部位</span><img src="img/hongwu_54.png"></p>
         </div>
         <div class="cont" data-role="caizhi">
-            <select>
-                <option selected disabled>请选择</option>
-
-            </select>
             <p><span data-role="cate_name">材质</span><img src="img/hongwu_54.png"></p>
         </div>
-        <div class="cont">
-            <select>
-                <option selected disabled>请选择</option>
-            </select>
+        <div class="cont" data-role="paixu">
             <p>排序<img src="img/hongwu_54.png"></p>
         </div>
-        <div class="cont" id="js-choose">
+        <div class="cont" id="js-choose" data-role="shaixuan">
             <p><span data-role="cate_name">筛选</span><img src="img/hongwu_54.png"></p>
         </div>
     </div>
-    <div class="u-choosecontbox" id="js-choosecontbox" style="display:none;">
-        <div class="title"><span class="name">手镯专区</span></div>
-        <div class="priceboxes">
-            <a  data-name="圆条手镯" data-id="14" class="on">圆条手镯</a>
-            <a  data-name="贵妃手镯" data-id="15">贵妃手镯</a>
-            <a  data-name="雕花手镯" data-id="17">雕花手镯</a>
-            <a  data-name="方条手镯" data-id="18">方条手镯</a>
-            <a  data-name="扁口手镯" data-id="107">扁口手镯</a>
+    <div class="u-choosecontbox" id="js-choosecontbox" data-role="shaixuan" style="display:none;">
+        <div class="price-range" id="price-range">
+            <span class="name">价格区间（元）</span>
+            <input type="number" name="from">
+            <span class="to"> - </span>
+            <input type="number" name="to">
+            <button class="u-mainbutton-little" style="margin-left: 10px;" id="price_confirm">
+                <span>确定</span>
+            </button>
         </div>
+        <div class="priceboxes"></div>
         <div class="buttonbox" id="js-shaixuan-bnt">
             <button class="u-mainbutton-little" id="js-choose-submit">
                 <span>确定</span>
             </button>
         </div>
     </div>
-    <div class="u-choosecontbox" style="display:none;">
-        <a href="#" class="option">颈</a>
-        <a href="#" class="option">腕</a>
-        <a href="#" class="option">指</a>
-        <a href="#" class="option">其他</a>
+    <div class="u-choosecontbox" data-role="buwei" style="display:none;">
+
+    </div>
+    <div class="u-choosecontbox" data-role="caizhi" style="display:none;">
+
+    </div>
+    <div class="u-choosecontbox" data-role="paixu" style="display:none;">
+        <a href="javascript:;" class="option" data-role="paixu" data-id="1">按人气从高到低 <span style="float: right;display:none;"><img src="img/tickred.png" style="width: 1rem;"></span></a>
+        <a href="javascript:;" class="option" data-role="paixu" data-id="2">按人气从低到高 <span style="float: right;display:none;"><img src="img/tickred.png" style="width: 1rem;"></span></a>
+        <a href="javascript:;" class="option" data-role="paixu" data-id="3">按价格从高到低 <span style="float: right;display:none;"><img src="img/tickred.png" style="width: 1rem;"></span></a>
+        <a href="javascript:;" class="option" data-role="paixu" data-id="4">按价格从低到高 <span style="float: right;display:none;"><img src="img/tickred.png" style="width: 1rem;"></span></a>
     </div>
 </div>
 <div class="u-chooseclass" id="js-chooseclass">
 
 </div>
 <div class="u-productlist" style="display:;">
+
+
+</div>
+<div style="clear:both;"></div>
+<div id="loading-more" style="text-align:center;margin-bottom:52px;">
     
 </div>
-
+</div>
 <div id="buttom-flag"></div>
+
 <script type="text/template" id="search-empty">
 <div class="u-refresh" style="display:none;">
         <div class="line">
@@ -115,8 +119,8 @@
     </div>
 </script>
 <script type="text/template" id="search-list-item">
-<a href="details.html?id={$id}" class="contbox">
-        <img src="{$img}">
+<a href="javascript:;" data-id={$id} class="contbox page_{$page}">
+        <img src="img/default.jpg" data-src="{$img}">
         <div class="cont">
             <p class="name">{$title}</p>
             <p class="other"><span class="money"><i>￥</i>{$price}</span><span class="collection">{$fav_cnt}人收藏</span></p>
@@ -126,13 +130,12 @@
 <script src="javascripts/title.js"></script>
 
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js"></script>
-<script src="javascripts/navSelect.js"></script>
+<script src="javascripts/main.js?v=4"></script>
+<!-- <script src="javascripts/navSelect.js"></script> -->
 <script>
 $(function(){
     Bootstrap.runsearch();
     SearchBox.run();
-    FuncNavi.run();
 });
 </script>
 </body>

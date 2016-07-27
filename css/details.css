@@ -137,8 +137,8 @@ body {
     font-size: 9px; }
   /* line 77, ../sass/details.scss */
   .productinfo-head .title {
-    font-size: 16px;
-    color: #666666; }
+    font-size: 1.4rem;
+    color: #333333; }
   /* line 81, ../sass/details.scss */
   .productinfo-head .price {
     font-size: 18px; }
@@ -152,32 +152,32 @@ body {
   /* line 93, ../sass/details.scss */
   .u-list-arrow > a {
     padding-left: 15px;
-    color: #666666;
-    font-size: 11px; }
+    color: #333333;
+    font-size: 1.3rem; }
 
 /* line 100, ../sass/details.scss */
 .productinfo-list {
-  color: #666666;
+  color: #333333;
   background: #ffffff; }
   /* line 103, ../sass/details.scss */
   .productinfo-list > .title {
     position: relative;
     padding: 5px 15px;
     margin: 0  0  5px 0;
-    font-size: 11px; }
+    font-size: 1.3rem; }
   /* line 112, ../sass/details.scss */
   .productinfo-list .cont {
     padding: 10px 0; }
   /* line 115, ../sass/details.scss */
   .productinfo-list p {
     padding: 3px 15px;
-    font-size: 11px; }
+    font-size: 1.3rem; }
 
 /* line 121, ../sass/details.scss */
 .details-title {
   position: relative;
   padding: 5px 15px;
-  font-size: 11px;
+  font-size: 1.3rem;
   background: #ffffff; }
 
 /* line 130, ../sass/details.scss */
@@ -210,7 +210,7 @@ body {
     box-sizing: border-box;
     -webkit-box-flex: 1;
     font-size: 12px;
-    color: #666666; }
+    color: #000000; }
   /* line 163, ../sass/details.scss */
   .comment > .submit {
     display: block;
@@ -305,8 +305,8 @@ body {
   /* line 262, ../sass/details.scss */
   .details-bottombox > .icon {
     -webkit-box-flex: 1;
-    font-size: 10px;
-    color: #666666;
+    font-size: 1.1rem;
+    color: #000000;
     text-align: center; }
     /* line 267, ../sass/details.scss */
     .details-bottombox > .icon > img {
@@ -373,3 +373,13 @@ body {
   background: #a90125; }
 
 /*end*/
+<<<<<<< HEAD
+=======
+/* line 334, ../sass/details.scss */
+.details-infobox .cont img {
+  width: 100%; }
+
+/* line 337, ../sass/details.scss */
+.details-infobox .cont p {
+  padding-top: 5px; }
+>>>>>>> f7686a7ca5e897f995d81c8bd810004e945fa068

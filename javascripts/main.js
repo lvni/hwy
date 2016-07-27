@@ -6,9 +6,11 @@
  **/
 var config = {
     'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
+        'detail': 'details.html',
         'select_address': 'address-select.html',
         'cart' : 'shoppingCart.html', //购物车
         'login': 'login.html', //登录页
@@ -22,6 +24,8 @@ var config = {
         'income_king' : 'myincome-king.html', //我的收入
         'income_supplier' : 'myincome-captain-mymember.html', //我的收入- 供应商
     },
+    'default_icons': 'http://hwy-10042975.file.myqcloud.com/default.png',
+    'share_logo' : "http://hwy-10042975.file.myqcloud.com/default.png",
     'navi_show_page':[
         'king.html', 'index.html', 'allproduct.html',
     ],
@@ -33,6 +37,7 @@ var ErrorCode = {
 var Const = {
     GOODS_STATUS_ON_SELL: 1, //在售
     USER_ROLE_KING : 2,
+    USER_ROLE_KING_ONE : 3, //一品王爷
     USER_ROLE_SUPPLIER : 4,
     USER_ROLE_SUPPLIER_LEADER : 5,
 }
@@ -48,7 +53,7 @@ var messageBox = {
         var html = '<div id="system_messagebox_toast" style="position:fixed; '
                      + 'bottom:30%;margin-left:auto;margin-right:auto;background:'
                      + '#262631;color: #fff;border-radius: 5px;padding: 6px 10px;'
-                     + 'text-align: center;left:50%;z-index:999;">'+msg+'</div>';
+                     + 'text-align: center;left:45%;z-index:999;">'+msg+'</div>';
         //alert(msg);
         if ($("#system_messagebox_toast").length) {
             return;
@@ -90,6 +95,66 @@ var messageBox = {
 
 String.prototype.replaceAll = function(s1,s2) { 
     return this.replace(new RegExp(s1,"gm"),s2); 
+}
+
+
+var History = {
+    size : 20
+    //将商品加入浏览记录，只保留最近浏览20条记录
+    ,addGoodsView: function(goodsID) {
+          var history = Storge.getItem("g_hstory");
+          var size = 20;
+          var arrH = [];
+          if (history) {
+              arrH = history.split(',');
+              for (i =0 ; i < arrH.length; i++) {
+                  if (arrH[i] == goodsID) {
+                      //已存在
+                      delete arrH[i];
+                      break;
+                  }
+              }
+              if (arrH.length > History.size) {
+                  arrH.pop();
+              }
+          }
+          if (goodsID) {
+              arrH.unshift(goodsID);
+              Storge.setItem("g_hstory" , arrH.join(','));
+          }
+          
+    }
+    ,getViewedGoods: function() {
+        return Storge.getItem("g_hstory");
+    }
+    ,run: function() {
+        var history = this.getViewedGoods();
+        if (history) {
+            Util.requestApi('?r=good/viewhistory', {goods_ids:history}, function(data){
+                if (data.errno != 0) {
+                    messageBox.toast(data.errmsg);
+                    return; 
+                }
+                if (data.data.length == 0) {
+                    Util.showTips($(".u-productlist"), "没有相关记录");
+                    return;
+                }
+                var htm = "";
+                var template = $("#list_item_template").html();
+                for (i in data.data) {
+                    var item = data.data[i];
+                    htm += Template.renderByTemplate(template, item);
+                }
+                $(".u-productlist").html(htm);
+                
+            });
+        } else {
+            Util.showTips($(".u-productlist"), "没有相关记录");
+        }
+        
+        
+    }
+    
 }
 
 //分页
@@ -149,7 +214,7 @@ var Template = {
         }
         return html;
     },
-    renderByTempate: function(template, data) {
+    renderByTemplate: function(template, data) {
         var html = template;
         for (i in data) {
             html = html.replaceAll("\{\\$"+i+"\}", data[i]);
@@ -238,12 +303,17 @@ var Util = {
         });
     }
     //请求接口
-    ,requestApi: function(api, data, callback, type) {
+    ,requestApi: function(api, data, callback, type, silence) {
         
         var me = this;
-        me.showLoading();
+        if (!silence) {
+            me.showLoading();
+        } 
         var beforeCallback = function(data) {
-              me.hideLoading();
+              if (!silence) {
+                  me.hideLoading();
+              }
+              
              if (data.errno  == ErrorCode.NO_LOGIN) {
                  //没有登录，直接去登录
                  //messageBox.toast("请先登录");
@@ -348,9 +418,30 @@ var Util = {
         }
         return true;
     }
-    ,goPage: function(page) {
+    ,goPage: function(page, params) {
+        var strQuery = "";
+        if (params) {
+            var query = [];
+            for (i in params) {
+                query.push(i +"=" + params[i]);
+            }
+            strQuery = query.join('&');
+        }
+        if (strQuery != '') {
+            page += "?" + strQuery;
+        }
         window.location.href = page;
         return;
+    }
+    ,goKefu: function(param){
+        location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
+    }
+    ,isIphone: function() {
+        var ua = navigator.userAgent.toLowerCase();	
+        if (/iphone|ipad|ipod/.test(ua)) {
+             return true;		
+        } 
+        return false;
     }
 };
 //存储相关
@@ -376,13 +467,50 @@ var FuncNavi = {
     data: {},
     funcs: [], //回调函数列表
     html: function(data) {
+        var default_icons = {
+            'index': 'img/hw_72.png',
+            'product': 'img/hw_74.png',
+            'cart': 'img/hw_78.png',
+            'center': 'img/i_user.png',
+        };
+        var paths_icons = {
+               '/webapp/' : {
+                   key: 'index',
+                   icon: 'img/s_home.png',
+               },
+               '/webapp/index.html' : {
+                   key: 'index',
+                   icon: 'img/s_home.png',
+               },
+               '/webapp/allproduct.html' : {
+                   key: 'product',
+                   icon: 'img/s-all.png',
+               },
+               '/webapp/king.html' : {
+                   key: 'center',
+                   icon: 'img/hw_80.png',
+               },
+               '/webapp/supplier.html' : {
+                   key: 'center',
+                   icon: 'img/hw_80.png',
+               },
+               '/webapp/shoppingCart.html' : {
+                   key: 'cart',
+                   icon: 'img/s-cart.png',
+               }
+        };
+        var pathname = location.pathname;
+        if (pathname in paths_icons) {
+            var icon_info = paths_icons[pathname];
+            default_icons[icon_info['key']] = icon_info['icon'];
+        }
         var html = '<div class="u-bottomnav">'
                      + '<a href="index.html">'
-                     + '<img src="img/hw_72.png">'
+                     + '<img src="'+default_icons.index+'">'
                      + '<p>首页</p>'
                      + '{$idx_num}</a>'
                      + '<a href="allproduct.html">'
-                     + '<img src="img/hw_74.png">'
+                     + '<img src="'+default_icons.product+'">'
                      + '<p>所有产品</p>'
                      + '{$prod_num}</a>'
                      + '<a href="javascript:;">'
@@ -390,11 +518,11 @@ var FuncNavi = {
                      + '<p>发现</p>'
                      + '{$find_num}</a>'
                      + '<a id="navi_goods_cart" href="{$cart_action}">'
-                     + '<img src="img/hw_78.png">'
+                     + '<img src="'+default_icons.cart+'">'
                      + '<p>购物车</p>'
                      + '{$cart_num}</a>'
                      + '<a id="navi_ucenter" href="{$ucenter_action}">'
-                     + '<img src="img/hw_80.png">'
+                     + '<img src="'+default_icons.center+'">'
                      + '<p>个人中心</p>'
                      + '{$uc_num}</a></div>';
          //shoppingCart.html , king.html
@@ -431,7 +559,10 @@ var FuncNavi = {
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
-                                 
+            window['hwy'] =  data;  // 全局存放        
+
+             // 再注册分享事件
+            
         } else if (data && data.is_login == 0){
             if (Util.isWeiXin()) {
                 //微信内，直接跳登录
@@ -457,7 +588,13 @@ var FuncNavi = {
          var me = this;
          var html = me.html(data);
          $('.u-bottomnav').remove();
-         $('body').append(html);
+         if (!me.notShow) {
+            $('body').append(html);
+         }
+         //渲染消息提醒
+         if (data.msg_cnt) {
+             $(".msgbox .msg").show();
+         }
     }
     //加载提醒数据
     ,loadNaviData: function() {
@@ -466,6 +603,7 @@ var FuncNavi = {
           if (sid) {
               params['sid'] = sid;
           }
+          
           var api = config.api + "?r=center/navi";
           var me = this;
           if ( true) {
@@ -497,9 +635,10 @@ var FuncNavi = {
             });
         }
     }
-    ,run: function() {
+    ,run: function(notShow) {
         //this.rendNavi();
         $('.u-bottomnav').remove();
+        this.notShow = notShow;
         this.loadNaviData();
     }
 };
@@ -571,7 +710,11 @@ var SearchBox = {
                 window.location.href = "allproduct.html?k="+keyword;
             }
         });
-    
+        $("#js-searchHistory-li").delegate('li', 'click',function(){
+            var keyword = $(this).html();
+            window.location.href = "allproduct.html?k="+keyword;
+            
+        });
         //删除历史记录
         $('.u-button-storkmain').click(function(){
             me.clearCache();
@@ -595,16 +738,28 @@ var SearchBox = {
 var goodsCart = {
     
     
-    add: function(goodsId) {
+    add: function(goodsId, num, type, callback) {
+        var num = num ? num : 1;
         var api = config.api + "?r=cart/add";
             $.ajax({
                 url: api,
                 dataType : "jsonp",
-                data: {goods_id: goodsId, num:1},
+                data: {goods_id: goodsId, num:num,type:type},
                 success: function(data) {
-                    messageBox.toast(data.errmsg);
+                    
+                    if (typeof callback == 'function') {
+                        callback(data);
+                    } else {
+                        messageBox.toast(data.errmsg);
+                    }
                 }
             });
+    }
+    ,remove: function(goodsIds, callback) {
+        Util.requestApi('?r=cart/remove', {goods_ids:goodsIds}, callback)
+    }
+    ,buy: function(goodsId) {
+        Util.goPage(config.page.confirm_order, {goods_ids:goodsId, type:'right'});
     }
     //购物车操作
     ,bindAddEvent: function() {
@@ -613,51 +768,83 @@ var goodsCart = {
             var goodsId = $(this).attr('data-id');
             me.add(goodsId);
         });
+        $('#buy').click(function(){
+            var goodsId = $(this).attr('data-id');
+            var role = $(this).attr('user-role');
+            if (role >= Const.USER_ROLE_SUPPLIER) {
+                messageBox.toast("供应商不能购买");
+                return;
+            }
+            me.buy(goodsId);
+        });
         
     }
     
+    ,updateSettle: function() {
+        var goodCnt = 0;
+         var goodPrice = 0;
+         //计算勾选的货品数量，价格总额
+         $(".u-shoppingCartlist .nomalBox input[type=checkbox]:checked").each(function(i){
+              var dataInfo = $(this).attr('data-info').split('|');
+              var num = parseInt(dataInfo[2]);
+              var price = parseFloat(dataInfo[1]).toFixed(2);
+              goodCnt++;
+              goodPrice += price * num;
+         });
+         if (goodCnt) {
+            $('#cart_num').html("("+goodCnt+")"); //
+            $('#settlement').html("("+goodCnt+")");  //结算
+            $('#money').html(goodPrice); 
+         } else {
+            $('#cart_num').html('');
+            $('#money').html(0);
+            $('#settlement').html("(0)"); 
+             }
+    }
     //绑定购物车列表页事件
     ,bindCartListEvent: function() {
-        
+        var me = this;
         //购物车勾选事件
         $('.u-shoppingCartlist').delegate('.u-checkbox', 'change', function() { 
              //购物车勾选变化
              //遍历所有checkbox
-             var goodCnt = 0;
-             var goodPrice = 0;
-             //计算勾选的货品数量，价格总额
-             $(".u-shoppingCartlist input[type=checkbox]:checked").each(function(i){
-                  var dataInfo = $(this).attr('data-info').split('|');
-                  var num = parseInt(dataInfo[2]);
-                  var price = parseFloat(dataInfo[1]).toFixed(2);
-                  goodCnt++;
-                  goodPrice += price * num;
-             });
-             if (goodCnt) {
-                $('#cart_num').html("("+goodCnt+")"); //
-                $('#settlement').html("("+goodCnt+")");  //结算
-                $('#money').html(goodPrice); 
-             } else {
-                $('#cart_num').html('');
-                $('#money').html(0);
-                $('#settlement').html("(0)"); 
-             }
+             me.updateSettle();
 
         }); 
         
         //全选事件
         $(".u-pay input[type=checkbox]").change(function(){
+             console.log("全选");
              if ($(this).attr('checked') ) {
                 $('.u-shoppingCartlist input[type=checkbox]').prop('checked', true).trigger('change');
-              
                  
              } else {
                 //取消全选
                 $('.u-shoppingCartlist input[type=checkbox]').prop('checked', false).trigger('change');
-             
-                 
+
              }
         });
+        
+        $("#edit_box a[data-role=clear]").click(function(){
+            //批量删除
+          
+           var goodsIds =  $(".u-shoppingCartlist input[type=checkbox]:checked").map(function(i){
+                    var dataInfo = $(this).attr('data-info').split('|');
+                    return dataInfo[0];
+                    }).get().join(',');
+                    
+            if (goodsIds) {
+                
+                messageBox.confirm("确认要删除选中商品吗？", function(){
+                    goodsCart.remove(goodsIds, function(data){
+                        messageBox.toast(data.errmsg);
+                        if (data.errno == 0) {
+                            location.reload();
+                        }
+                    });
+                });
+            }
+        }); 
         
         //结算
         $('.u-pay .paynow').click(function() {
@@ -673,6 +860,81 @@ var goodsCart = {
             }
             
         });
+        
+        $("#edit_bnt").click(function(){
+            var status = $(this).attr('data-status');
+            if (status == 'edit') {   
+                //关闭
+                $(this).attr('data-status', 'show').html("编辑");
+                $(".u-shoppingCartlist .nomalBox").show();
+                $(".u-shoppingCartlist .editbox").hide();
+                $("#settlement_box").show();
+                $("#edit_box").hide();
+                me.loadmyGoodsCart();
+                
+                //更新列表
+            } else {
+                //打开编辑状态 
+                $(this).attr('data-status', 'edit').html("完成");
+                $(".u-shoppingCartlist .nomalBox").hide();
+                $(".u-shoppingCartlist .editbox").show();
+                $("#settlement_box").hide();
+                $("#edit_box").show();
+            }
+            
+        });
+        
+        $(".u-shoppingCartlist").delegate('button','click', function(){
+            var type = $(this).attr('data-type');
+            var datainfo = $(this).closest('.editbox').attr('data-info');
+            var self = this;
+            if (datainfo) {
+                //有数据信息
+                var infos = datainfo.split("|");
+                var appendNum = 0;
+                infos[2] = parseInt( infos[2]);
+                if (type == 'min') {
+                    if (infos[2] == 1) {
+                        //messageBox.toast("不能再少了");
+                        return ;
+                    } else {
+                        appendNum --;
+                    }
+                }
+                if (type == 'max') {
+                    appendNum ++;
+                }
+                
+                if (appendNum != 0) {
+                    me.add(infos[0], appendNum, 'edit', function(data){
+                            if (data.errno != 0) {
+                                messageBox.toast(data.errmsg);
+                                return;
+                            }
+                            if (data.errno == 0) {
+                                infos[2] += appendNum;
+                                $(self).closest('.editbox').attr('data-info', infos.join('|'));
+                                $(self).closest('.editbox').find('.goods_number').html(infos[2]);
+                            }
+                     
+                    });
+                }
+                
+                if (type == "remove") {
+                    //移除
+                    messageBox.confirm("确认要删除该商品吗?", function(){
+                       
+                        me.remove(infos[0], function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                location.reload();
+                            }
+                        });
+                    });
+                }
+                
+            }
+        });
     }
     //渲染购物车列表
     ,renderCartList: function(data) {
@@ -681,17 +943,24 @@ var goodsCart = {
         for (i in data.list) {
             var item = data.list[i];
             var datainfo = item.goods_id+"|"+item.goods_price+"|"+item.goods_num;
-            html += template.replace('{$title}', item.goods_name)
-                            .replace('{$money}', item.goods_price)
-                            .replace('{$img}', item.goods_img)
-                            .replace('{$number}', item.goods_num)
-                            .replace('{$data}', datainfo);
+            /**
+            html += template.replaceAll('{$title}', item.goods_name)
+                            .replaceAll('{$money}', item.goods_price)
+                            .replaceAll('{$img}', item.goods_img)
+                            .replaceAll('{$number}', item.goods_num)
+                            .replaceAll('{$data}', datainfo);
+            **/                
+            item.datainfo = datainfo;
+            html += Template.renderByTemplate(template, item);
         }
         if (html) {
             $('.u-shoppingCartlist').html(html);
+            
         } else {
             $('.u-shoppingCartlist .empty').show();
+            $("#edit_bnt,.u-pay").hide();
         }
+        goodsCart.updateSettle();
        
     }
     ,loadmyGoodsCart: function() {
@@ -745,9 +1014,10 @@ var Bootstrap = {
             });
         }
     }
+    
     //渲染商品详情
     ,renderGoodsDetail: function(data) {
-        console.log(data);
+        var me = Bootstrap;
         $(".details-infobox .cont").html(data.detail);
         var attrHtml = "";
         var attrItemTemplate = "<p>{$key}: {$value}</p>";
@@ -772,18 +1042,52 @@ var Bootstrap = {
         $(".productinfo-list .cont").html(attrHtml);
         $(".details-slide .slides").html(slideHtml);
         $("#add,#buy,#detail_collect,#detail_likes_up").attr('data-id', data.id);
+        $("#add,#buy,#detail_collect,#detail_likes_up").attr('user-role', data.role);
         $("#detail_collect").attr('data-collected', data.is_collected);
+        me.updateIcon(data.is_collected);
+        me.setLikes(data.id);
         var swiper = new hlSwiper("#hl-swiper", {
             loop: true, //是否循环
             autoloop: true, //是否自动循环
             speed: 3000 //间隔时间毫秒
         });
+        
+        //重新注册分享信息
+        window.shareContent = {
+            title: data.title + "-洪五爷珠宝",
+            desc: "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果",
+            img: data.thumb,
+        };
+        if (data.sid != "") {
+            Share.sid = data.sid;
+        }
+        Share.registerShare();
+        //加入浏览记录
+        History.addGoodsView(data.id);
+    }
+    ,setLikes: function(goodsId) {
+        var key = 'gl_' + goodsId;
+        var likeCnt = parseInt(Storge.getItem(key, 0));
+        if (isNaN(likeCnt)) {
+            likeCnt = 0;
+        }
+        if (likeCnt > 0) {
+            $("#detail_likes_up img").attr('src', 'img/s-likes.png');
+        }
+    }
+    ,updateIcon: function(collected) {
+        
+        if (collected == "1") {
+            $("#detail_collect img").attr('src', 'img/star.png');
+        } else {
+            $("#detail_collect img").attr('src', 'img/details_22.png');
+        }
     }
     //渲染搜索/所有产品页面
     ,renderSearch: function(data, append) {
         //console.log(data);
         var me = this;
-        me.hasMore = data.hasMore;
+        me.searchQuery.hasMore = data.hasMore;
         var template = $('#search-list-item').html();
         var html = '';
         for (i in data.list) {
@@ -792,6 +1096,7 @@ var Bootstrap = {
                     .replace('{$title}', item.title)
                     .replace('{$fav_cnt}', item.fav_cnt)
                     .replace('{$price}', item.price)
+                    .replace('{$page}', data.page)
                     .replace('{$img}', item.img);
         }
         if (append == false) {
@@ -803,6 +1108,20 @@ var Bootstrap = {
         } else {
            $('.u-productlist').append(html);
         }
+        
+        //图片lazy load
+        var imgs = [];
+        $(".page_"+data.page+" img").each(function(){
+           //加载图片
+           var image = new Image();
+           image.src = $(this).attr('data-src');
+           image.target = this;
+           image.onload = function(){
+              this.target.src = this.src;
+              delete this;
+           }
+           
+        });
         
     }
     ,bindEvent: function(){
@@ -871,9 +1190,13 @@ var Bootstrap = {
     ,handleSearchPull: function() {
         var me = Bootstrap;
         if (me.checkWindowAtButtom()) {
+            console.log(me.searchQuery.hasMore);
             if (me.searchQuery.hasMore) {
                 me.searchQuery.p += 1;
                 me.loadSearch(me.searchQuery);
+                $("#loading-more").html('加载中 ... <img src="img/loading.gif" style="width:24px;">');
+            } else {
+                $("#loading-more").html("没有更多");
             }
             
         }
@@ -886,9 +1209,9 @@ var Bootstrap = {
             list = data[2].list;
             for (i in list) {
                 var item = list[i];
-                html += "<option value="+item.name+" data_id= "+item.id+">"+item.name+"</option>";
+                html += "<a class=\"option\" data-role=\"buwei\" data-id= "+item.id+">"+item.name+"</a>";
             }
-            $("div[data-role=buwei] select").append(html);
+            $(".u-choosecontbox[data-role=buwei]").append(html);
         }
         //材质
         if (data[1]) {
@@ -896,9 +1219,9 @@ var Bootstrap = {
             list = data[1].list;
             for (i in list) {
                 var item = list[i];
-                html += "<option value="+item.name+" data_id= "+item.id+">"+item.name+"</option>";
+                 html += "<a class=\"option\" data-role=\"caizhi\" data-id= "+item.id+">"+item.name+"</a>";
             }
-            $("div[data-role=caizhi] select").append(html);
+            $(".u-choosecontbox[data-role=caizhi]").append(html);
         }
         //筛选
         if (data[3]) {
@@ -908,7 +1231,7 @@ var Bootstrap = {
                 var html = "<div><span class=\"name\">"+ item.name +"</span></div><div class=\"priceboxes\">";
                 for (j in item.children) {
                     var cat = item.children[j];
-                    html += "<a javascript:;  data-name='"
+                    html += "<a href='javascript:;' data-role='shaixuan'  data-name='"
                          + cat.name+"' data-id='"+cat.id+"' >"
                          + cat.name+"</a>";
                 }
@@ -937,15 +1260,56 @@ var Bootstrap = {
         var me = this;
         $(window).scroll(me.handleSearchPull);
     }
+    
+    ,getSearchQuery: function() {
+        var me = Bootstrap;
+        var cids = [];
+        var material = [];
+        var position = [];
+        //获取分类ids
+        $('#js-chooseclass .cont').each(function(i,e){
+            var role = $(e).attr('data-role');
+            if ( role== 'shaixuan') {
+                cids.push($(e).attr('data_cat_id'));
+            }
+            if ( role== 'buwei') {
+                position.push($(e).attr('data_cat_id'));
+            }
+            if ( role== 'caizhi') {
+                material.push($(e).attr('data_cat_id'));
+            }
+            
+        });
+        //获取排序
+        var sort_id = $(".u-choosecontbox a.on").attr('data-id');
+        
+        if (sort_id) {
+            me.searchQuery.sort = sort_id;
+        } else {
+            me.searchQuery.sort = 0;
+        }
+        
+        //价格
+        
+        var p_from = $("#price-range input[name=from]").val();
+        var p_to = $("#price-range input[name=to]").val();
+        if (p_from) {
+            me.searchQuery.p_from = p_from;
+        }
+        if (p_to) {
+            me.searchQuery.p_to = p_to;
+        }
+        me.searchQuery['cids'] = cids.join(',');
+        me.searchQuery['position'] = position.join(',');
+        me.searchQuery['material'] = material.join(',');
+        me.searchQuery.p = 1; //重置页码
+    }
     //搜索变化事件
     ,triggerSearchChange: function() {
         var me = this;
-        var cids = [];
-        $('#js-chooseclass .cont').each(function(i,e){
-            cids.push($(e).attr('data_cat_id'));
-        });
-        me.searchQuery['cids'] = cids.join(',');
-        me.searchQuery.p = 1; //重置页码
+        me.getSearchQuery();
+        $(".u-choosecontbox").hide();
+        $('#js-navSelect div').removeClass('on');
         me.loadSearch(me.searchQuery, false);
     }
     ,bindSearchEvent: function() {
@@ -954,6 +1318,111 @@ var Bootstrap = {
         $('#js-navSelect select').change(function() {
             //获取查询条件
             me.triggerSearchChange();
+        });
+        $('#js-navSelect').delegate('div','click', function(){
+            var role = $(this).attr('data-role');
+            //其他的隐藏，
+            var hasOn = $(this).hasClass('on');
+            $('#js-navSelect div').removeClass('on');
+            $(".u-choosecontbox").hide();
+            if (hasOn) {
+                
+            } else {
+                $(this).addClass("on");
+                $(".u-choosecontbox[data-role="+role+"]").show();
+                
+            }
+        });
+        
+        $("#price_confirm").click(function(){
+            me.triggerSearchChange();
+        });
+        //取消查询条件
+        $("#js-chooseclass").delegate('div', 'click', function(){
+            
+            if ($(this).attr('data-role') == 'shaixuan') {
+                //将筛选对应的高亮取消
+                var id = $(this).attr('data_cat_id');
+                $("#js-choosecontbox a").each(function(){
+                    var dataId = $(this).attr('data-id');
+                    if (id == dataId) {
+                        $(this).removeClass("on");
+                        return;
+                    }
+                 });
+            }
+            $(this).remove();
+            
+            me.triggerSearchChange();
+        });
+        function createOption(optionCont, cid, role) {
+            
+            var nodeDiv = document.createElement('div');
+            var nodeP = document.createElement('p');
+            var nodeImg = document.createElement('img');
+
+            nodeDiv.setAttribute('class','cont');
+            nodeDiv.setAttribute('data_cat_id', cid); //设置分类id
+            nodeDiv.setAttribute('data-role', role); //设置分类id
+            nodeP.innerHTML = optionCont;
+            nodeImg.setAttribute('src','img/hongwu_61.png');
+
+            nodeDiv.appendChild(nodeP);
+            nodeDiv.appendChild(nodeImg);
+            return nodeDiv;
+        }
+        function addSearchTips(role, id, name) {
+            var item = $("#js-chooseclass div[data-role="+role+"]");
+            if (item.length) {
+                //相同的分类已经存在，则更新id和 内容
+                item.attr('data_cat_id', id);
+                item.find("p").html(name);
+            } else {
+                $("#js-chooseclass").append(createOption(name,id,role));
+            }
+        }
+        $(".u-choosecontbox").delegate("a", "click",  function(event){
+            var role = $(this).attr('data-role');
+            var cid = $(this).attr('data-id');
+            var name = $(this).html();
+            if (role != 'paixu') {
+                //分类改变
+                addSearchTips(role,cid,name);
+            }
+            if (role == 'paixu') {
+                //排序改变
+                var isOn = $(this).hasClass("on");
+                $(".u-choosecontbox[data-role=paixu] a").removeClass('on');
+                $(".u-choosecontbox[data-role=paixu] span").hide();
+ 
+                if (!isOn) {
+                    $(this).addClass("on");
+                    $(this).find('span').show();
+                } 
+            }
+            if (role == 'shaixuan') {
+                $("#js-choosecontbox a").removeClass('on');
+                $(this).addClass("on");
+            }
+            
+            me.triggerSearchChange();
+        });
+        
+        $(".u-productlist").delegate('a', 'click', function(){
+            var goodsId = $(this).attr('data-id');
+            //location.href = ;
+            
+            if (goodsId) {
+                var url = config.page.detail + "?id="+goodsId;
+                var stateObj = { goods_id: goodsId};
+                context = {
+                    'search' : me.searchQuery,
+                    'context' : $("#context").html(),
+                };
+                Storge.setItem("search_context" , JSON.stringify(context));
+                setTimeout(function(){location.href = url;}, 100);
+            }
+
         });
     }
     //绑定详情页事件
@@ -964,6 +1433,7 @@ var Bootstrap = {
         $('#detail_collect').click(function(){
             var goodsId = $(this).attr('data-id');
             if (!goodsId) return;
+            var collected = $(this).attr('data-collected') == '1' ? 0 : 1;
             if ($(this).attr('data-collected') == '1') {
                 //移除
                 var api = config.api + "?r=collect/remove";
@@ -986,10 +1456,12 @@ var Bootstrap = {
                         
                 }});
             }
+            me.updateIcon(collected);
         });
         //detail_likes_up
         //点赞
         $('#detail_likes_up').click(function(){
+            //var me = this;
             var goodsId = $(this).attr('data-id');
             if (!goodsId) {
                 return ;
@@ -1015,12 +1487,15 @@ var Bootstrap = {
                         //详情点赞数 + 1
                         var oldCnt = parseInt($('.rightbox .likes').html());
                         $('.rightbox .likes').html(oldCnt + 1);
+                        me.setLikes(goodsId);
                     }
                 }
             });
             
         });
-        
+        $("#share").click(function(){
+             Share.shareFriend();
+        });
         
     }
     
@@ -1036,17 +1511,30 @@ var Bootstrap = {
         this.loadGoodsDetail(goodsId);
         this.bindDetailEvent();
     }
+    
     //搜索/所有产品入口
     ,runsearch: function() {
+        var me = this;
+        var context = Storge.getItem("search_context");
+        if (context ) {
+            //返回,恢复现场
+            context = JSON.parse(context);
+            Storge.removeItem("search_context");
+            $("#context").html(context.context);
+            me.searchQuery = context.search;
+        } else {
+            
+            var k = Util.getQueryString('k');
+            if (k) {
+                $('title').html("搜索-"+Util.escape(k));
+            }        
+            this.loadSearchCategories();
+            this.searchQuery.k = k;
+            this.loadSearch(this.searchQuery, false);
+        }
         this.bindSearchScroll();
         this.bindSearchEvent();
-        var k = Util.getQueryString('k');
-        if (k) {
-            $('title').html("搜索-"+Util.escape(k));
-        }        
-        this.loadSearchCategories();
-        this.searchQuery.k = k;
-        this.loadSearch(this.searchQuery, false);
+        
     }
 };
 
@@ -1112,14 +1600,15 @@ var Order = {
             
         });
         
+        //运费险打勾事件
         $('.placeorder-infobox input[type=checkbox]').click(function(){
             var checked = $(this).attr('checked') ? 1 : 0;
             var goods_cost =  me.order_info.goods_cost;
-            var need_Pay = goods_cost;
+            var need_Pay = parseFloat(goods_cost);
             if (checked) {
                 need_Pay += 2; //2块钱运费险
             }
-            $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay);
+            $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay.toFixed(2));
         });
     }
     
@@ -1135,15 +1624,8 @@ var Order = {
         var html = "";
         for(i in data.list) {
             var item = data.list[i];
-            /**
-            html += tempate.replace('{$goods_name}', item.goods_name)
-                           .replace('{$goods_img}', item.goods_img)
-                           .replace('{$goods_id}', item.goods_id)
-                           .replace('{$goods_price}', item.goods_price)
-                           .replace('{$goods_num}', item.goods_num)
-                           .replace('{$goods_sn}', item.goods_sn);
-            */
-            html += Template.renderByTempate(tempate, item);
+ 
+            html += Template.renderByTemplate(tempate, item);
         }
         $(html).insertAfter('.placeorder-address');
         $('#order_confirm_num').html(data.goods_count);
@@ -1162,12 +1644,13 @@ var Order = {
     ,loadOrderInfo: function() {
         //加载订单确认信息
         var goodsIds = Util.getQueryString('goods_ids');
+        var type = Util.getQueryString('type');
         var api = config.api + "?r=order/getorderinfo";
         var me = this;
         $.ajax({
             url: api,
             dataType: 'jsonp',
-            data: {goods_ids:goodsIds},
+            data: {goods_ids:goodsIds,type:type},
             success: function(data) {
                if (data.errno == 0) {
                    me.order_info = data.data;
@@ -1178,7 +1661,7 @@ var Order = {
                         //跳转登录
                         Util.goLogin();
                     } else {
-                        history.go(-1);
+                       // history.go(-1);
                     }
                }
             }
@@ -1197,9 +1680,9 @@ var Order = {
         $('#js-changecont').delegate('div', 'click', function() {
                 var order_type = $(this).attr('data-type');
                 //Util.setHash(order_type);
-                me.loadOrder(order_type);
+                me.loadOrder(order_type, 1);
         });
-        $('#js-contbox01').delegate('.u-productlist02', 'click', function(){
+        $('#js-contbox01').delegate('.order_goods_list', 'click', function(){
               var order_sn = $(this).attr('order-sn');
               if (order_sn) {
                   window.location.href = config.page.order_detail + "?order=" + order_sn;
@@ -1217,19 +1700,70 @@ var Order = {
                 //去支付
                 window.location.href = config.page.order_pay + "?order=" + order_sn;
             }
+            if (type == 'comment') {
+                //评价
+                messageBox.toast("功能升级中,敬请期待");
+            }
+            if (type == 'remind') {
+                //提现发货
+                messageBox.toast("已提醒卖家，尽快为您发货");
+            }
             if (type == 'cancel') {
                 //取消订单
-                Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
-                        messageBox.toast(data.errmsg);
-                        if (data.errno == 0) {
-                            //重新加载列表
-                            var type = $('#js-changecont .on').attr('data-type');
-                            me.loadOrder(type);
-                        }
-                    
+                
+                location.href = "myorder-cancel.html?order="+order_sn;
+                return;
+                messageBox.confirm("您确定要取消订单吗？", function(){
+                    Util.requestApi('?r=order/cancel', {order:order_sn}, function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                //重新加载列表
+                                var type = $('#js-changecont .on').attr('data-type');
+                                me.loadOrder(type, 1);
+                            }
+                        
+                    });
+                });
+            }
+            if (type == 'receive') {
+                //确认收货
+                messageBox.confirm("确认已经收到商品",function(){
+                    Util.requestApi('?r=order/receive', {order:order_sn}, function(data){
+                            messageBox.toast(data.errmsg);
+                            if (data.errno == 0) {
+                                //重新加载列表
+                                var type = $('#js-changecont .on').attr('data-type');
+                                //me.loadOrder(type);
+                                setTimeout(function(){
+                                    $("#js-changecont div[data-type=wait_comment]").trigger('click');
+                                }, 1200);
+                                
+                            }
+                        
+                    });
                 });
             }
         });
+        
+        //下拉事件
+        console.log("注册事件");
+        $(window).scroll(me.orderMainScrollEvent);
+    }
+    //订单下拉事件实际处理
+    ,orderMainScrollEvent: function() {
+        var me = Order;
+        console.log("gun");
+        if (Bootstrap.checkWindowAtButtom()) {
+        console.log("底部了");
+            //到底部了，加载更多
+            var type = $("#js-changecont .on").attr('data-type');
+            var p = me.page;
+            var hasMore = me.hasMore;
+            if (hasMore) {
+                console.log("底部触发下拉");
+                me.loadOrder(type, p + 1);
+            }
+        }
         
     }
     //获取支付相关按钮
@@ -1288,7 +1822,7 @@ var Order = {
         var tips = {
             100: {
                 t: "等待买家付款",
-                st: "48小时内未付款自动取消订单",
+                st: "1小时内未付款自动取消订单",
             },
             101: {
                 t: "等待商家发货",
@@ -1336,10 +1870,11 @@ var Order = {
                 return tips[order_info.order_status];
         }
         return tips[104];
-    } 
+    }
+    //渲染订单列表
     ,renderList: function(data) {
         
-        var me = this;
+        var me = Order;
         if (data.errno == ErrorCode.NO_LOGIN) {
              Util.goLogin("myorder-allorders.html");
              return;
@@ -1355,35 +1890,51 @@ var Order = {
         }
         var html = "";
         var templte = $('#order_list_item').html();
+        var GoodsListTemplate = $("#order_goods_item").html();
         var normalBntTemplate = $('#order_list_button').html();
         var mainBntTemplate = $('#order_list_button_main').html();
         var tips  = "";
         for (i in data.data.list) {
             var Buttons = "";
-            var goods = data.data.list[i];
-            goods.goods_cost = parseInt(goods.goods_price) * goods.goods_number;
-            goods.goods_count = goods.goods_number;
-            var BntAndTips = Order.renderPayBntsAndTips(goods);
-            goods.buttons = BntAndTips.bnt;
-            goods.order_tips = BntAndTips.tips;
-            var list_item = Template.renderByTempate(templte, goods);
+            var order = data.data.list[i];
+            var goodsListHtml = "";
+            for (j in order.goods) {
+                goodsListHtml += Template.renderByTemplate(GoodsListTemplate, order.goods[j]);
+            }
+            delete order.goods;
+            var BntAndTips = Order.renderPayBntsAndTips(order);
+            order.buttons = BntAndTips.bnt;
+            order.goods_list = goodsListHtml;
+            order.order_tips = BntAndTips.tips;
+            var list_item = Template.renderByTemplate(templte, order);
             html += list_item;
             
         }
-        $('#js-contbox01').html(html);
+        me.hasMore = data.data.hasMore;
+        me.page = data.data.page;
+        if (me.page == 1) {
+            $('#js-contbox01').html(html);
+        } else {
+            //追加
+            $('#js-contbox01').append(html);
+        }
+        
     }
     ,showLoading: function() {
         var html = $('#order_tips').html().replace('{$tips}', "加载中 ...");
         $('#js-contbox01').html(html);
     }
-    ,loadOrder: function(type) {
-        
+    ,loadOrder: function(type, p) {
+        var me = Order;
         if (type) {
             $('#js-changecont div').removeClass('on');
             $('#js-changecont div[data-type= ' +type + ']' ).addClass('on');
         }
-        this.showLoading();
-        Util.requestApi('?r=order/get',{type:type},this.renderList);
+        if (p == 1) {
+            //下拉则不需要显示loading
+            me.showLoading();
+        }
+        Util.requestApi('?r=order/get',{type:type,p:p},me.renderList);
     }
     //订单管理页面
     ,runMain: function() {
@@ -1392,7 +1943,7 @@ var Order = {
             type = 'all';
         }
         this.bindMainEvent();
-        this.loadOrder(type);
+        this.loadOrder(type, 1);
         
     }
     ,renderDetail: function(data) {
@@ -1407,16 +1958,28 @@ var Order = {
         delete data.data.goods_list;
         var goods_list_html = '';
         for (i in goodsList) {
-            goods_list_html += Template.renderByTempate(goods_item_template, goodsList[i]);
+            goods_list_html += Template.renderByTemplate(goods_item_template, goodsList[i]);
         }
         //获取订单不同状态的操作按钮
         var BntAndTips = Order.renderPayBntsAndTips(data.data);
         data.data.buttons = BntAndTips.bnt;
         var Tips = Order.getOrderTips(data.data);
         data.data.tips = Tips.t;
+        data.data.pay_tips = "实付款";
         data.data.sub_tips = Tips.st;
         data.data.goods_list_html = goods_list_html;
-        var html = Template.renderByTempate(template, data.data);
+        data.data.pay_time_tips = "";
+        data.data.shipped_time_tips = "";
+        if (data.data.order_status == 100) {
+            data.data.pay_tips = "需付款";
+        }
+        if (data.data.pay_time != "") {
+            data.data.pay_time_tips  = '<p>付款时间：'+data.data.pay_time+'</p>';
+        }
+        if (data.data.shipping_time != "") {
+            data.data.shipped_time_tips  = '<p>发货时间：'+data.data.shipping_time+'</p>';
+        }
+        var html = Template.renderByTemplate(template, data.data);
         $(html).insertAfter('.u-top-msg');
     }
     //订单详情
@@ -1458,7 +2021,6 @@ var Order = {
            WeixinJSBridge.invoke(
                'getBrandWCPayRequest', me.wxParams.data,
                function(res){     
-                    console.log(res);
                     if (res.err_code) {
                         //有错误码，则表示支付失败
                          messageBox.toast("支付失败");
@@ -1493,13 +2055,14 @@ var Order = {
              
              if (payType == 'weixin') {
                  //微信支付
+
                  if (!Util.canWeixinPay()) {
                      messageBox.toast("请使用微信5.0以上版本打开");
                      return;
                  }
                  me.weixinPay(orderSn);
                  
-             }
+             } 
         });
 
         }
@@ -1626,6 +2189,10 @@ var Address = {
                 }
             });
         });
+        $(".u-arrow-list a").click(function(){
+                $(this).find('input').focus();
+            
+        });
     }
     //收货地址主界面事件绑定
     ,bindMainEvent: function() {
@@ -1672,10 +2239,12 @@ var Address = {
             return false;
         }
         var areas = params['province_city_district'].split(" ");
+        var areaCodes = $("input[name=province_city_district]").attr("data-value");
         delete params['province_city_district'];
         params['str_province'] = areas[0];
         params['str_city'] = areas[1];
         params['str_district'] = areas[2];
+        params['add_code'] = areaCodes;
         return params;
     }
     //渲染地址详情页面
@@ -1732,8 +2301,14 @@ var Address = {
         $('.del').click(function(){
             var addressId = $('input[name=address_id]').val();
             if (addressId) {
-                Util.requestApi('?r=address/remove', {id:addressId}, me.handleDetailCallback);
+                messageBox.confirm("您确定要删除吗？", function(){
+                    Util.requestApi('?r=address/remove', {id:addressId}, me.handleDetailCallback);
+                });
             }
+        });
+        $(".u-arrow-list a").click(function(){
+                $(this).find('input').focus();
+            
         });
     }
     //管理主页
@@ -1778,6 +2353,8 @@ var User = {
                 //王爷以上，可以进入我的收入和我的下级
                 $("#my_mate").show();
                 $("#myincome-entry").attr('href', config.page.income_king);
+                var role = data.user.role == Const.USER_ROLE_KING_ONE ? "一品王爷" : "王爷";
+                $('title').html("个人中心-"+role);
             }
             $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
             $(".u-person-head .name").append(data.user.name);
@@ -1800,20 +2377,33 @@ var User = {
         if (data.user.role == Const.USER_ROLE_SUPPLIER_LEADER) {
             //供应商队长，开放下级入口
             $('#my_team').show();
+            $('title').html("个人中心-供应商队长");
+        } else {
+            $('title').html("个人中心-供应商");
         }
         $(".u-person-head, .u-person-cont, .u-person-order, .u-img-a-list").show();
         $(".u-person-head .name").append(data.user.name);
         $(".u-person-head .photo").attr('src', data.user.avatar);
         $("#loading").hide();
     }
+    ,bindShareEvent: function() {
+        $("#share").bind('click', function(){
+            Share.shareFriend();
+        });
+    }
     ,initKing: function(data, proxy) {
         if (!proxy) {
             proxy = this;
         }
         proxy.renderKing(data, config.page.user_king);
+        
+        //注册微信分享事件
+        //Share.registerShare();
+        proxy.bindShareEvent();
     }
     ,initSupplier: function(data, proxy) {
         proxy.renderSupplier(data, config.page.user_supplier);
+        proxy.bindShareEvent();
     }
 };
 
@@ -1897,7 +2487,7 @@ var Collection = {
             item.sold = sold;
             item.tips = tips;            
             item.icon = icon;            
-            html += Template.renderByTempate(tempate, item);
+            html += Template.renderByTemplate(tempate, item);
         }
         $('.productlistbox').html(html);
     }
@@ -1971,7 +2561,7 @@ var Income = {
             }
             for (i in data.data.list) {
                 var item = data.data.list[i];
-                html += Template.renderByTempate(template, item);
+                html += Template.renderByTemplate(template, item);
             }
             $('#income_list').html(html);
             
@@ -1999,6 +2589,18 @@ var Income = {
             var html = "";
             $("#goods_money").html("￥" + data.data.goods_money);
             $("#rebate_money").html(data.data.rebate_money);
+            if (!params.myself) {
+                //不是自己，隐藏货款
+                $("#my_goods_money").hide();
+            } else {
+                $("#my_goods_money").show();
+            }
+            if (data.data.role == Const.USER_ROLE_SUPPLIER_LEADER) {
+                //队长可以看返利
+                $("#rebate_money_sum").show();
+            } else {
+                $("#rebate_money_sum").hide();
+            }
             if (data.data.list.length == 0) {
                 html = "没有佣金记录";
                 Util.showTips(target, html);
@@ -2006,7 +2608,11 @@ var Income = {
             }
             for (i in data.data.list) {
                 var item = data.data.list[i];
-                html += Template.renderByTempate(template, item);
+                item.display = "";
+                if (parseInt(item.rebate_money) == 0) {
+                    item.display = "none";
+                }
+                html += Template.renderByTemplate(template, item);
             }
             target.html(html);
             
@@ -2098,8 +2704,9 @@ var Income = {
                   return;
               }
               me.money_limit = data.data.withdrawals_limit;
-              me.total_money = parseInt(data.data.money);
+              me.total_money = data.data.money;
               $("#js-maxQuota, #js-alipayMaxQouta").html(data.data.money);
+              $("#js-quota, #js-alipayQouta").attr("placeholder", "提现金额(最低提现"+me.money_limit+"元)");
               $('.user_money').html(data.data.user_money);
               
               if (data.data.withdrawals_account) {
@@ -2233,7 +2840,7 @@ var Income = {
                         'account_cat': item.account_info.account_cat,
                         
                     };
-                    html += Template.renderByTempate(template, params);
+                    html += Template.renderByTemplate(template, params);
                 }
                 $(".listbox").html(html);
                 me.page.render(data.data.page, data.data.page_count);
@@ -2277,7 +2884,7 @@ var Withdrawaccount = {
                 display: dispay,
                 id: item.id,
             };
-            html += Template.renderByTempate(template, arrData);
+            html += Template.renderByTemplate(template, arrData);
         }
         $(html).insertAfter('.u-buttonbox');
     }
@@ -2398,7 +3005,7 @@ var UserRelation = {
                 var template = $('#downstream_item_template').html();
                 for (i in data.data.list) {
                     var item = data.data.list[i];
-                    html += Template.renderByTempate(template, item);
+                    html += Template.renderByTemplate(template, item);
                 }
                 $('.infolistbox').html(html);
                 me.mainPage.render(data.data.page, data.data.page_count);
@@ -2431,7 +3038,7 @@ var UserRelation = {
                 var template = $('#money_static_template').html();
                 for (i in data.data.list) {
                     var item = data.data.list[i];
-                    html += Template.renderByTempate(template, item);
+                    html += Template.renderByTemplate(template, item);
                 }
                 $('#content').html(html);
                 me.page.render(data.data.page, data.data.page_count);
@@ -2489,7 +3096,7 @@ var Supplier = {
             for (i in data.data.list) {
                  var item = data.data.list[i];
                  item.status = "交易中";
-                 html += Template.renderByTempate(template, item);
+                 html += Template.renderByTemplate(template, item);
              }
              me.tradingPage.render(data.data.page, data.data.page_count);
              $("#trade_content").html(html);
@@ -2515,7 +3122,7 @@ var Supplier = {
             for (i in data.data.list) {
                  var item = data.data.list[i];
                  item.status = "已售";
-                 html += Template.renderByTempate(template, item);
+                 html += Template.renderByTemplate(template, item);
              }
              me.soldPage.render(data.data.page, data.data.page_count);
              $("#sold_content").html(html);
@@ -2533,7 +3140,7 @@ var Supplier = {
          for (i in data.data.list) {
              var item = data.data.list[i];
              
-             html += Template.renderByTempate(template, item);
+             html += Template.renderByTemplate(template, item);
          }
          me.sellingPage.render(data.data.page, data.data.page_count);
          $("#selling_content").html(html);
@@ -2549,7 +3156,7 @@ var Supplier = {
          for (i in data.data.list) {
              var item = data.data.list[i];
              
-             html += Template.renderByTempate(template, item);
+             html += Template.renderByTemplate(template, item);
          }
          me.modifyPage.render(data.data.page, data.data.page_count);
          $("#modify_content").html(html);
@@ -2564,8 +3171,9 @@ var Supplier = {
                     me.loadSelling(page,me.renderSelling);
                 }
             });
-            me.loadSelling(1,me.renderSelling);
+            
         }
+        me.loadSelling(1,me.renderSelling);
         
     }
     //初始化交易中
@@ -2580,8 +3188,9 @@ var Supplier = {
                     me.loadtrading(page);
                 }
             });
-            me.loadtrading(1);
+            
         }
+        me.loadtrading(1);
         
     }
     ,initSold: function() {
@@ -2594,8 +3203,9 @@ var Supplier = {
                     me.loadsold(page);
                 }
             });
-            me.loadsold(1);
+            
         }
+        me.loadsold(1);
     }
     //初始化修改价格
     ,initModify: function() {
@@ -2608,8 +3218,9 @@ var Supplier = {
                     me.loadSelling(page,me.renderModify);
                 }
             });
-            me.loadSelling(1,me.renderModify);
+            
         }
+        me.loadSelling(1,me.renderModify);
     }
     ,tabFunction: function(data, proxy) {
         if (!proxy) {
@@ -2776,6 +3387,43 @@ var Supplier = {
         $('#js-changecont div[data='+type+']').addClass('on').trigger('click');
         //me.tabFunction(type, me);
     }
+    ,loadSupplierGoods: function(param) {
+        var me = Supplier;
+        Util.requestApi("?r=good/subselling", param, function(data) {
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+                return;
+            }
+            var template = $("#goods_template").html();
+            if (data.data.list.length ==0 ) {
+                Util.showTips($("#selling_content"), "没找到相关记录");
+                return;
+            }
+            var html = "";
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                html += Template.renderByTemplate(template, item);
+            }
+            $("#selling_content").html(html);
+            me.subPage.render(data.data.page, data.data.page_count);
+        })
+    }
+    //下级商品
+    ,runSubProducts: function() {
+        var me = this;
+        var id = Util.getQueryString('id');
+        var name = Util.escape(Util.getQueryString('name'));
+        me.subPage = new Page("#selling_page");
+        me.subPage.addClickEvent(function(){
+            var page = $(this).attr('data');
+            if (page) {
+                me.loadSupplierGoods({id:id,p:page});
+            }
+            
+        });
+        name && $("#user_name").html(name+"的商品");
+        me.loadSupplierGoods({id:id,p:1});
+    }
     //我的收入里面涉及已售商品相关
     ,runIncome: function() {
         
@@ -2813,4 +3461,202 @@ var Qrcode = {
     }
 };
 
+//分享相关操作
+
+//微信相关操作
+var Share = {
     
+    is_register : 0 
+   ,getShareContent: function() {
+       var content = window.shareContent ? window.shareContent : new Object(); //从全局中后去分享内容
+       var title = content.hasOwnProperty('title') ? content.title : "让珠宝不再暴利-洪五爷珠宝";
+       var desc = content.hasOwnProperty('desc') ? content.desc : "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果";
+       var link = content.hasOwnProperty('link')? content.link :  location.href;
+       var img = content.hasOwnProperty('img') ? content.img : config.share_logo;
+       if (window.hwy && window.hwy.user) {
+           //一登陆用户
+           //修改sid ,替换为自己的分享
+           var user = window.hwy.user;
+           Share.sid = user.sid;
+       }
+       var reg = /sid=[0-9a-zA-Z]+/;
+       //可以分享的链接
+       var valids = {
+            '/webapp/' : 1,
+            '/webapp/index.html':1,
+            '/webapp/details.html' : 1,
+            '/webapp/allproduct.html': 1
+       }
+       if ( !(location.pathname in valids)) {
+           link = config.webapp;
+       }
+       if (reg.test(link)) {
+           link = link.replace(reg, "sid="+Share.sid);
+       } else {
+           link += (link.indexOf('?') > 0 ? ("&sid=" + Share.sid) : ("?sid="+Share.sid));
+       }
+       console.log(link);
+       return {
+           title: title,
+           desc: desc,
+           link: link,
+           img: img,
+           
+       };
+   }
+   //微信分享引导
+   ,wxShareGuid: function() {
+       var html = '<div id="share_guid" style="position: fixed;top: 0; left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.7);display: ;z-index: 20000;">'
+                     + '<img style="position: fixed;right: 30px;top: 10px;z-index: 999;" src="img/share_guid.png"></div>';
+        $('body').append(html);             
+   }
+   ,registerShare: function(proxy){
+      
+       
+       
+       if (!Util.isWeiXin()) {
+           return;
+       }
+       var content = Share.getShareContent();
+       wx.ready(function () {  
+            //'http://app.hong5ye.com/webapp/img/logo.png'
+            //发给朋友
+            Share.is_register = 1;
+            wx.onMenuShareAppMessage({  
+               title: content.title, // 分享标题
+               desc: content.desc,
+               link: content.link, // 分享链接
+               imgUrl: content.img, // 分享图标,
+               success: function(){
+                $("#share_guid").remove();
+               },
+               cancel:  function(){
+                $("#share_guid").remove();
+                }
+            });
+            
+            
+            //发到朋友圈
+            wx.onMenuShareTimeline({  
+               title: content.title, // 分享标题
+               link: content.link, // 分享链接
+               imgUrl: content.img, // 分享图标
+               success: function(){
+                $("#share_guid").remove();
+               },
+               cancel:  function(){
+                $("#share_guid").remove();
+                }
+            });
+            
+            
+        });
+   }
+   ,init: function() {
+       
+       //微信初始化
+       if (Util.isWeiXin()) {
+            var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'https://res.wx.qq.com/open/js/jweixin-1.0.0.js';
+            script.setAttribute("src", url);  
+            var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+            
+            
+            //var doc=document;  
+            var script=doc.createElement("script"); 
+            var url = 'http://app.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig&v='+Math.random();
+            script.setAttribute("src", url);  
+            //var heads = doc.getElementsByTagName("head");  
+            heads[0].appendChild(script); 
+            
+            
+            $("body").delegate("#share_guid", 'click', function(){
+                $(this).remove();
+            })
+       }
+       
+   }
+
+    ,register: function(call) {
+        
+        function onBridgeReady(){
+            call();
+        }
+        if (typeof WeixinJSBridge == "undefined"){
+           if( document.addEventListener ){
+               document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+           }else if (document.attachEvent){
+               document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+               document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+           }
+        }else{
+           onBridgeReady();
+        }
+    }
+   ,shareFriend: function() {
+       
+       if (!Util.isWeiXin()) {
+           return;
+       }
+       var me = Share;
+       me.wxShareGuid();
+       if (me.is_register == 0) {
+           me.registerShare();
+       }
+       return;
+       
+       me.register(function(){
+//       WeixinJSBridge.on('menu:share:appmessage', function(argv){
+       content = me.getShareContent();
+       WeixinJSBridge.invoke('sendAppMessage',{
+              'img_url': content.img,
+              'link': content.link,
+              'desc': content.desc,
+              'title': content.title
+              }, function(res){
+                console.log(res);
+          });
+      // });
+       });
+   }
+   ,scan: function(){
+       wx.scanQRCode();
+   }
+    
+};
+
+Share.init();
+var NavFunc = {
+       '/webapp/' : {show:true},
+       '/webapp/index.html' : {show:true},
+       '/webapp/allproduct.html' : {show:true},
+       '/webapp/shoppingCart.html' : {show:true},
+       '/webapp/king.html' : {show:true, callback:{a:User.initKing,b:User}},
+       '/webapp/supplier.html' : {show:true, callback:{a:User.initSupplier,b:User}}
+};
+path = location.pathname;
+//注册分享回调
+FuncNavi.addCallback(Share.registerShare, Share);
+if (path in NavFunc) {
+    var item = NavFunc[path];
+    if (item.callback) {
+        FuncNavi.addCallback(item.callback.a, item.callback.b);
+    }
+    FuncNavi.run();
+} else {
+    //不显示导航栏
+    FuncNavi.run(true);
+}
+
+history.igo = history.go;
+history.go = function(index){
+    if (history.length > 1) {
+        history.igo(index); 
+    } else {
+        location.replace("index.html");
+    }
+       
+}
+

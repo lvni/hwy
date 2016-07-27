@@ -32,21 +32,6 @@
     color: #a90125; }
 
 body {
-  background: #ffffff; }
+  /*padding:86px 0 0 0;*/ }
 
-.buttonbox {
-  position: fixed;
-  bottom: 0px;
-  padding: 5px;
-  width: 100%;
-  box-sizing: border-box;
-  background: #eeeeee; }
-
-.add-address {
-  display: block;
-  padding: 20px 0;
-  text-align: center;
-  font-size: 14px;
-  color: #666666; }
-
-/*# sourceMappingURL=address-myaddress.css.map */
+/*# sourceMappingURL=mysubordinates-goods.css.map */

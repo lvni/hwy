@@ -44,18 +44,22 @@
         <a href="myorder-allorders.html#wait_pay">
             <img src="img/hw_33.png">
             <p>待付款</p>
+            <span class="count wait_pay" style="display:none;"></span>
         </a>
         <a href="myorder-allorders.html#wait_ship">
             <img src="img/hw_35.png">
             <p>待发货</p>
+            <span class="count wait_ship" style="display:none;"></span>
         </a>
         <a href="myorder-allorders.html#wait_receive">
             <img src="img/hw_37.png">
             <p>待收货</p>
+            <span class="count wait_receive" style="display:none;"></span>
         </a>
         <a href="myorder-allorders.html#wait_comment">
             <img src="img/hw_39.png">
             <p>待评价 </p>
+            <span class="count wait_comment" style="display:none;"></span>
         </a>
         <a href="myorder-after-sales.html">
             <img src="img/hw_41.png">
@@ -72,7 +76,7 @@
         <img src="img/hw_60.png">
         <p>分享排名</p>
     </a>
-    <a href="javascript:;">
+    <a href="javascript:;" id="share">
         <img src="img/hw_63.png">
         <p>分享平台给好友</p>
     </a>
@@ -80,7 +84,7 @@
         <img src="img/hw_65.png">
         <p>我的收货地址</p>
     </a>
-    <a href="myfootprint.html" style="display:none;">
+    <a href="myfootprint.html" >
         <img src="img/hw_67.png">
         <p>我的足迹</p>
     </a>
@@ -107,9 +111,23 @@
 <script src="javascripts/main.js"></script>
 <script>
     Util.showLoading();
-    FuncNavi.addCallback(User.initKing, User);
-    FuncNavi.run();
     Qrcode.run();
+    //加载订单提示
+    $(function(){
+        Util.requestApi('?r=order/resume', {}, function(data){
+            if (data.errno == 0) {
+                for (i in data.data) {
+                    var item = data.data[i];
+                    if (item > 0) {
+                        //大于0，提醒
+                        $("."+i).html(item).show();
+                    }
+                }
+                
+            }
+        }, 'get' , true);
+    });
+    
 </script>
 </body>
 </html>

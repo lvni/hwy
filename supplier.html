@@ -5,6 +5,9 @@
 <title>个人中心</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/supplier.css">
+    <!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://h5.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig"></script> -->
+
 </head>
 
 <body>
@@ -16,7 +19,7 @@
         <img src="img/hw_03.png">
         <span class="msg"></span>
     </div>
-    <img src="" class="photo">
+    <img src="" class="photo" >
     <p class="name"><img src="img/hw_16.png"></p>
 </div>
 <div class="u-person-cont" style="display:none;">
@@ -66,17 +69,17 @@
 <div class="u-img-a-list" style="display:none;">
     <a href="mysubordinates-supplier.html" class="list" id="my_team" style="display:none;">
         <img src="img/hw_60.png">
-        <p>我的下级</p>
+        <p>我的队员</p>
     </a>
     <a href="#" class="list" style="display:none;">
         <img src="img/hw_60.png">
         <p>分享排名</p>
     </a>
-    <a href="javascript:;">
+    <a href="javascript:;" id="share">
         <img src="img/hw_63.png">
         <p>分享平台给好友</p>
     </a>
-    <a href="javascript:;" style="display:none;">
+    <a href="myfootprint.html" >
         <img src="img/hw_67.png">
         <p>我的足迹</p>
     </a>
@@ -102,8 +105,6 @@
 <script src="javascripts/main.js"></script>
 <script>
     Util.showLoading();
-    FuncNavi.addCallback(User.initSupplier, User);
-    FuncNavi.run();
     Qrcode.run();
 </script>
 

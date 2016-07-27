@@ -4,14 +4,14 @@
 <META NAME="MobileOptimized" CONTENT="240">
 <title>产品详情</title>
     <link rel="stylesheet" href="css/public.css">
-    <link rel="stylesheet" href="css/details.css">
+    <link rel="stylesheet" href="css/details.css?v=1">
 </head>
 
 <body>
 <div class="details-slide">
     <div class="top">
         <a href="javascript:history.go(-1)" ><img src="img/details_03.png" class="back"></a>
-        <a href="#" ><img src="img/details_05.png" class="share"></a>
+        <a href="javascript:;"  id="share"><img src="img/details_05.png" class="share"></a>
     </div>
     <div id="hl-swiper" class="hl-swiper cont">
         <div class="position-nav"></div>
@@ -52,18 +52,18 @@
         加载中 ...
     </div>
 </div>
-<div class="comment">
+<div class="comment" style="display:none;">
     <input type="text" class="cont">
     <button class="submit">
         <span>评论</span>
     </button>
 </div>
-<div class="comment-listbox">
+<div class="comment-listbox"  style="display:none;">
     <h4 class="details-title">最新评论<i>（共3条）</i></h4>
     <div class="comment-list">
         <img src="img/hw_06.png" class="photo">
         <p class="name">东方不败</p>
-        <p class="cont">看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好看起来很好！</p>
+        <p class="cont">看起来很好看</p>
     </div>
     <div class="comment-list">
         <img src="img/hw_06.png" class="photo">
@@ -71,56 +71,21 @@
         <p class="cont">看起来很好看！</p>
     </div>
 </div>
-<div class="u-index-title">
+<div class="u-index-title" style="display:;">
     <p>猜你喜欢</p>
 </div>
-<div class="u-box-left50-right50">
-    <div class="rightbox">
-        <div class="rows">
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_146.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_148.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_146.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_148.png" width="100%"> </div>
-            </div>
-        </div>
-        <div class="rows">
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-            <div class="u-autoheight">
-                <div class="dummy"></div>
-                <div class="content"><img src="img/index_150.png" width="100%"> </div>
-            </div>
-        </div>
+<div class="u-box-left50-right50" style="display:;" >
+    <div class="rightbox" id="guess_area">
+
     </div>
 </div>
-<a href="#" class="u-backtop">
+<a href="javascript:;" class="u-backtop">
     <img src="img/index_295.png">
     回到顶部
 </a>
 
 <div class="details-bottombox">
-    <div class="icon">
+    <div class="icon" id="kefu">
         <img src="img/details_27.png">
         <p>客服</p>
     </div>
@@ -135,19 +100,68 @@
     <button class="add" id="add" onclick="javascript:;">
         <span>加入购物车</span>
     </button>
-    <button class="buy" id="buy" onclick="javascript:window.location.href='myorder-placeorder.html'">
+    <button class="buy" id="buy" onclick="javascript:;" >
         <span>立即购买</span>
     </button>
 </div>
-
+<script id="guess_item" type="text/template">
+<div class="u-autoheight" onclick="javascript:location.href='details.html?id={$goods_id}'">
+                <div class="dummy"></div>
+                <div class="content"><img src="{$goods_thumb}" width="100%"> </div>
+            </div>
+</script>
 <script src="javascripts/hl-swiper.js"></script>
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js"></script>
+<script src="javascripts/main.js?v2"></script>
 <script>
 $(function(){
     var ignoreNavi = true;
     Bootstrap.rungoodsdetail();
     goodsCart.bindAddEvent();
+    //注册客服事件
+    $("#kefu").bind('click', function(){
+         Util.goKefu();
+    });
+    //猜你喜欢
+    var goodsId = Util.getQueryString('id');
+    
+    function getItem(goods_list) {
+        var template = $("#guess_item").html();
+        if (!goods_list || goods_list.length == 0) {
+            return "";
+        }
+        var html = '<div class="rows">';
+        for (i in goods_list) {
+            html += Template.renderByTemplate(template, goods_list[i]);
+        }
+        html += "</div>";
+        return html;
+    }
+    Util.requestApi('?r=good/guess', {goods_id:goodsId}, function(data) {
+        
+        if (data.data) {
+            j = [];
+            var html = "";
+            for (i in data.data) {
+            
+                j.push(data.data[i]);
+                if (j.length == 4) {
+                    html += getItem(j);
+                    j = [];
+                } 
+
+            }
+            
+            if (j.length > 0) {
+                html += getItem(j);
+            }
+            
+            $("#guess_area").html(html);
+        }
+        
+        
+    }, 'get', true);
+    
 });
 </script>
 

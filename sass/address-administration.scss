@@ -5,7 +5,8 @@ body {
   background: #ffffff;
 }
 
-.buttonbox {
+/* by zyl 将buttonbox 改为 .address-buttonbox*/
+.address-buttonbox {
   position: fixed;
   bottom:0px;
   left:0px;
@@ -32,4 +33,11 @@ body {
   }
 }
 
+/** by zyl */
+.u-arrow-list {
+    margin-bottom: 50px;
+}
 
+.area_ctrl.slideInUp {
+    bottom: 40%;
+}

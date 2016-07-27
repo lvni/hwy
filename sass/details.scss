@@ -75,8 +75,8 @@ body {
     font-size:9px;
   }
   .title {
-    font-size:16px;
-    color:$fontcolorLv2;
+    font-size:1.4rem;
+    color:$fontcolorLv1;
   }
   .price {
     font-size:18px;
@@ -92,19 +92,19 @@ body {
 
   &>a {
     padding-left:15px;
-    color:$fontcolorLv2;
-    font-size:11px;
+    color:$fontcolorLv1;
+    font-size:1.3rem;
   }
 }
 
 .productinfo-list {
-  color:$fontcolorLv2;
+  color:$fontcolorLv1;
   background: #ffffff;
   &>.title {
     position: relative;
     padding:5px 15px;
     margin:0  0  5px 0;
-    font-size:11px;
+    font-size:1.3rem;
     &:after {
       @extend %border-1px-bottom;
     }
@@ -114,14 +114,14 @@ body {
   }
   p {
     padding:3px 15px;
-    font-size:11px;
+    font-size:1.3rem;
   }
 }
 
 .details-title {
   position: relative;
   padding:5px 15px;
-  font-size:11px;
+  font-size:1.3rem;
   background: #ffffff;
   &:after {
     @extend %border-1px-bottom;
@@ -158,7 +158,7 @@ body {
     box-sizing: border-box;
     -webkit-box-flex: 1;
     font-size:12px;
-    color: $fontcolorLv2;
+    color: $fontcolor;
   }
   &>.submit {
     display: block;
@@ -261,8 +261,8 @@ body {
   }
   &>.icon {
     -webkit-box-flex: 1;
-    font-size:10px;
-    color:$fontcolorLv2;
+    font-size:1.1rem;
+    color:$fontcolor;
     text-align: center;
     &>img {
       width:18px;
@@ -331,4 +331,9 @@ body {
 }
 /*end*/
 
-
+.details-infobox .cont img{
+    width: 100%;
+}
+.details-infobox .cont p {
+    padding-top:5px;
+}
