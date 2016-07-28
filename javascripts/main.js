@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -341,7 +341,9 @@ var Util = {
             success: beforeCallback,
             error: function() {
                 me.hideLoading();
-                messageBox.toast("服务器出错啦");
+                if (!silence) {
+                    messageBox.toast("服务器出错啦");
+                }
             }
         });
     }
