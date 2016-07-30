@@ -57,15 +57,15 @@
         <img src="img/hongwu_19.png">
         <p>臻品堂</p>
     </a>
-    <a href="javascript:;" class="box">
+    <a href="javascript:;" class="box paimai">
         <img src="img/hongwu_21.png">
         <p>拍卖</p>
     </a>
-    <a href="javascript:;" class="box">
+    <a href="javascript:;" class="box dingzhi">
         <img src="img/hongwu_23.png">
         <p>定制</p>
     </a>
-    <a href="javascript:;" class="box">
+    <a href="javascript:;" class="box dashi">
         <img src="img/hongwu_25.png">
         <p>大师推荐</p>
     </a>
@@ -431,6 +431,11 @@ $(function(){
         $("#article_list").html(htm);
         
     },'get',true);
+    
+    
+    $(".paimai, .dashi, .dingzhi").click(function(){
+        setTimeout(function(){messageBox.toast("功能升级中，敬请期待")}, 200);
+    });
 });
 </script>
 </body>
