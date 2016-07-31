@@ -1,0 +1,49 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+body {
+  padding:55px 0 0 0 ;
+  -webkit-box-orient: vertical;
+}
+body,html {
+  height:100%;
+  box-sizing: border-box;
+  display: -webkit-box;
+}
+
+.mainbox {
+  -webkit-box-flex: 1;
+  background: #ffffff;
+}
+
+.optionbox {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  position: relative;
+  padding:15px 40px 20px 20px;
+  &>.arrow {
+    position: absolute;
+    right:15px;
+    top:50%;
+    width:17px;
+    -webkit-transform:translate(0%,-50%);
+  }
+  &>.name {
+    font-size:18px;
+
+    color:#000000;
+  }
+  &>.cont {
+    padding-top:10px;
+    font-size:14px;
+    color:$fontcolorLv2;
+    line-height: 1.2;
+  }
+  &:after {
+    @extend %border-1px-bottom;
+  }
+}
+
+
+
+

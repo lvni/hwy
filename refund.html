@@ -1,0 +1,158 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>退款退货</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/refund.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>申请退款</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="u-popupbox js-radiocont">
+    <div class="u-radiolist">
+        <div class="u-list-justify">
+            <p class="left">请选择取消订单原因</p>
+        </div>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">不想买了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">太贵了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">选错了</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+        <label class="u-list-justify">
+            <p class="left">其他地方更便宜</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+    </div>
+    <div class="buttonbox js-submit">
+        <button class="u-button-main buttonposition">
+            <span>确定</span>
+        </button>
+    </div>
+</div>
+<div class="mainbox">
+    <div class="refund-option">
+        <div class="name"><span class="star">*</span>申请服务</div>
+        <p class="cont">仅退款</p>
+    </div>
+    <div class="refund-option js-choose">
+        <div class="name"><span class="star">*</span>退款原因</div>
+        <p class="cont">请选择退款原因</p>
+        <img src="img/arrowdown.png" class="arrow">
+    </div>
+    <div class="refund-option">
+        <div class="name"><span class="star">*</span>退款金额</div>
+        <p class="cont">￥<span class="red">1880.00</span></p>
+    </div>
+</div>
+<button class="u-button-storkmain submitbutton ">
+    <span>提交申请</span>
+</button>
+<script>
+    (function(){
+        var radioTrigger = document.querySelector('.js-choose'),
+        radioCont = document.querySelector('.js-radiocont'),
+        radioSubmit = radioCont.querySelector('.js-submit');
+        radioTrigger.addEventListener('click',function(){
+            radioCont.style['display'] = '-webkit-box';
+        })
+        radioSubmit.addEventListener('click',function(){
+            radioCont.style['display'] = 'none';
+        })
+    })();
+</script>
+</body>
+</html>

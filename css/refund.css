@@ -1,0 +1,113 @@
+@charset "UTF-8";
+/*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
+.red {
+  color: #a90125; }
+
+/* line 29, ../sass/_color.scss */
+.dackred {
+  color: #6b4544; }
+
+/* line 32, ../sass/_color.scss */
+.pink {
+  color: #cf4d55; }
+
+/* line 36, ../sass/_color.scss */
+.error {
+  color: #a90125; }
+  /* line 38, ../sass/_color.scss */
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/* line 51, ../sass/_extend.scss */
+.u-popupbox > .buttonbox {
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center; }
+
+/* line 57, ../sass/_extend.scss */
+.refund-option {
+  display: -webkit-box;
+  -webkit-box-align: center; }
+
+/*用来被继承的占位样式*/
+/* line 4, ../sass/refund.scss */
+body {
+  padding: 55px 0 0 0;
+  -webkit-box-orient: vertical; }
+
+/* line 8, ../sass/refund.scss */
+body, html {
+  height: 100%;
+  box-sizing: border-box;
+  display: -webkit-box; }
+
+/* line 13, ../sass/refund.scss */
+.u-radiolist {
+  position: relative;
+  padding-bottom: 50px;
+  width: 90%;
+  height: 80%;
+  overflow: auto;
+  box-sizing: border-box; }
+
+/* line 22, ../sass/refund.scss */
+.u-popupbox {
+  -webkit-box-orient: vertical; }
+  /* line 24, ../sass/refund.scss */
+  .u-popupbox > .buttonbox {
+    padding: 0px 15px;
+    height: 64px;
+    width: 90%;
+    background: #ffffff;
+    box-sizing: border-box; }
+    /* line 31, ../sass/refund.scss */
+    .u-popupbox > .buttonbox > .buttonposition {
+      display: block;
+      width: 100%; }
+
+/* line 38, ../sass/refund.scss */
+.mainbox {
+  padding: 15px 5px;
+  -webkit-box-flex: 1;
+  background: #ffffff; }
+
+/* line 43, ../sass/refund.scss */
+.submitbutton {
+  left: 50%;
+  -webkit-transform: translate(-50%, 0); }
+
+/*退款的列表项*/
+/* line 49, ../sass/refund.scss */
+.refund-option {
+  margin-bottom: 15px;
+  padding: 10px 5px;
+  background: #ebebeb;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #666666;
+  line-height: 1.2; }
+  /* line 58, ../sass/refund.scss */
+  .refund-option > .name {
+    width: 6em; }
+    /* line 60, ../sass/refund.scss */
+    .refund-option > .name > .star {
+      position: relative;
+      top: 4px;
+      font-size: 18px;
+      color: #a90125;
+      line-height: 1px; }
+  /* line 68, ../sass/refund.scss */
+  .refund-option > .cont {
+    -webkit-box-flex: 1;
+    font-size: 12px;
+    line-height: 1px; }
+  /* line 73, ../sass/refund.scss */
+  .refund-option > .arrow {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+    width: 15px; }
+
+/*end*/
