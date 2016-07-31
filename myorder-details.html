@@ -20,18 +20,7 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<div class="u-productlist02" onclick="javascript:window.location.href='details.html'">
-    <img src="img/hongwu_44.png" class="photo">
-    <div class="u-list-justify fs-14">
-        <p class="left ">翡翠福豆翡翠豆</p>
-        <p class="right red">￥1888888882.00</p>
-    </div>
-    <div class="u-list-justify fs-14">
-        <p class="left ">货号：LXA20160106...</p>
-        <p class="right ">x1</p>
-    </div>
-    <p class="order-status">退款中...</p>
-</div>
+
 <script id="order_empty_template" type="text/template">
 <div style="text-align:center; padding-top: 150px;">
     {$tips}
@@ -100,6 +89,7 @@
             <p class="left ">货号：{$goods_sn}</p>
             <p class="right ">x{$goods_number}</p>
         </div>
+        <p class="order-status">{$refund_status}</p>
     </div>
 </div>
 </script>
