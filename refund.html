@@ -22,100 +22,12 @@
 </div>
 <div class="u-popupbox js-radiocont">
     <div class="u-radiolist">
-        <div class="u-list-justify">
+        <div class="u-list-justify" >
             <p class="left">请选择取消订单原因</p>
         </div>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">不想买了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">太贵了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">选错了</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
-        <label class="u-list-justify">
-            <p class="left">其他地方更便宜</p>
-            <p class="right">
-                <input class="radio" type="radio" name="reason">
-                <span class="inputshow"></span>
-            </p>
-        </label>
+     
+
+
     </div>
     <div class="buttonbox js-submit">
         <button class="u-button-main buttonposition">
@@ -135,14 +47,55 @@
     </div>
     <div class="refund-option">
         <div class="name"><span class="star">*</span>退款金额</div>
-        <p class="cont">￥<span class="red">1880.00</span></p>
+        <p class="cont">￥<span class="red" id="money">0.00</span></p>
     </div>
 </div>
 <button class="u-button-storkmain submitbutton ">
     <span>提交申请</span>
 </button>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script type="text/template" id="refund_reson">
+<label class="u-list-justify">
+            <p class="left">{$reson}</p>
+            <p class="right">
+                <input class="radio" type="radio" name="reason" value="{$reson}">
+                <span class="inputshow"></span>
+            </p>
+        </label>
+</script>
 <script>
     (function(){
+    
+        var return_money = [
+            '买错了', '不想买了','其他地方更便宜', '其他原因'
+        ];
+        var return_goods = [
+            "货不对版", "商品损坏" ,"款式不喜欢", "其他原因",
+        ];
+        var orderSn = Util.getQueryString('order');
+        var goodsIds = Util.getQueryString('goods_ids');
+        var act = Util.getQueryString('act');
+        var money = Util.getQueryString('money');;
+        $("#money").html(money);
+        var template = $("#refund_reson").html();
+        var reson = [];
+   
+        if (act == 1) {
+            //退款
+            reson = return_money;
+        } else {
+            //退货
+            reson = return_goods;
+        }
+        var html = '<div class="u-list-justify" >'
+                 + '<p class="left">请选择取消订单原因</p></div>';
+        for (i in reson) {
+            var item = {reson:reson[i]};
+            html += Template.renderByTemplate(template, item);
+        }
+        $(".u-radiolist").html(html);
+        
         var radioTrigger = document.querySelector('.js-choose'),
         radioCont = document.querySelector('.js-radiocont'),
         radioSubmit = radioCont.querySelector('.js-submit');
@@ -151,7 +104,26 @@
         })
         radioSubmit.addEventListener('click',function(){
             radioCont.style['display'] = 'none';
-        })
+            var vl = $(".u-radiolist input[type=radio]:checked").val();
+            if (vl) {
+                $(".js-choose .cont").html(vl);
+            }
+        });
+        
+        $(".submitbutton").click(function(){
+            //提交申请
+            var reson = $(".u-radiolist input[type=radio]:checked").val();
+            Util.requestApi('?r=refund/apply', 
+            {order_sn:orderSn,goods_ids:goodsIds,act:act,reson:reson}, function(data){
+                messageBox.toast(data.errmsg);
+                if (data.errno == 0) {
+                    history.go(-2);
+                    
+                }
+                
+            
+            });
+        });
     })();
 </script>
 </body>
