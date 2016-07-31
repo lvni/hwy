@@ -38,7 +38,7 @@
 <div class="mainbox">
     <div class="refund-option">
         <div class="name"><span class="star">*</span>申请服务</div>
-        <p class="cont">仅退款</p>
+        <p class="cont" id="tips">仅退款</p>
     </div>
     <div class="refund-option js-choose">
         <div class="name"><span class="star">*</span>退款原因</div>
@@ -80,14 +80,17 @@
         $("#money").html(money);
         var template = $("#refund_reson").html();
         var reson = [];
-   
+        var tips = "仅退款";
         if (act == 1) {
             //退款
             reson = return_money;
+            
         } else {
             //退货
+            var tips = "退货退款";
             reson = return_goods;
         }
+        $("#tips").html(tips);
         var html = '<div class="u-list-justify" >'
                  + '<p class="left">请选择取消订单原因</p></div>';
         for (i in reson) {
