@@ -1799,7 +1799,7 @@ var Order = {
             if (goods.can_return_money) {
                 Buttons += normalBntTemplate.replace('{$type}', 'return_money').replace('{$tips}', '申请退款');
             }
-            if (goods.can_return_goods) {
+            if (goods.can_return_gooods) {
                 Buttons += normalBntTemplate.replace('{$type}', 'return_goods').replace('{$tips}', '申请退货');
             }
             if (goods.order_status == 100) {

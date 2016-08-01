@@ -62,7 +62,7 @@ $(function(){
         var html = "";
         for (i in data.data) {
            var item = data.data[i];
-           html = Template.renderByTemplate(template, item);
+           html += Template.renderByTemplate(template, item);
         }
         
         $(".u-shoppingCartlist").html(html);
