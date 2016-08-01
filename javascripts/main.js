@@ -19,6 +19,7 @@ var config = {
         'order_pay': 'myorder-paymode.html', //订单支付页面
         'order_detail': 'myorder-details.html',
         'user_king' : 'king.html',
+        'refund' : 'refund-goods.html',
         'user_supplier' : 'supplier.html',
         'collection': 'collection.html', //我的收藏
         'income_king' : 'myincome-king.html', //我的收入
@@ -1721,7 +1722,15 @@ var Order = {
             }
             if (type == 'remind') {
                 //提现发货
-                messageBox.toast("已提醒卖家，尽快为您发货");
+                setTimeout(function(){messageBox.toast("已提醒卖家，尽快为您发货")},150);
+            }
+            if (type == "return_money") {
+                //申请退款
+                location.href = config.page.refund + "?act=1&order="+ order_sn;
+            }
+            if (type == "return_goods") {
+                //申请退款
+                location.href = config.page.refund + "?act=2&order="+ order_sn;
             }
             if (type == 'cancel') {
                 //取消订单
@@ -1787,6 +1796,12 @@ var Order = {
             var mainBntTemplate = $('#order_list_button_main').html();
             var Buttons = "";
             var tips = "";
+            if (goods.can_return_money) {
+                Buttons += normalBntTemplate.replace('{$type}', 'return_money').replace('{$tips}', '申请退款');
+            }
+            if (goods.can_return_goods) {
+                Buttons += normalBntTemplate.replace('{$type}', 'return_goods').replace('{$tips}', '申请退货');
+            }
             if (goods.order_status == 100) {
                 //待支付
                 tips = "待付款";
