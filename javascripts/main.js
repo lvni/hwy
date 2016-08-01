@@ -54,16 +54,17 @@ var messageBox = {
     ,toast: function(msg) {
         var me = this;
         var html = '<div id="system_messagebox_toast" style="position:fixed; '
-                     + 'bottom:30%;margin-left:auto;margin-right:auto;background:'
+                     + 'bottom:30%;background:'
                      + '#262631;color: #fff;border-radius: 5px;padding: 6px 10px;'
-                     + 'text-align: center;left:45%;z-index:999;">'+msg+'</div>';
+                     + 'text-align: center;left:100;z-index:999;">'+msg+'</div>';
         //alert(msg);
         if ($("#system_messagebox_toast").length) {
             return;
         }
         $('body').append(html);
         var marginLeft = 0 - $("#system_messagebox_toast").width() / 2;
-        $("#system_messagebox_toast").css('margin-left', marginLeft + "px");
+        $("#system_messagebox_toast").css('margin-left', marginLeft + "px").css("left", "50%");
+        
         setTimeout(function(){me.hidde($("#system_messagebox_toast"))}, 1000);
     }
     //弹出确认框
