@@ -40,10 +40,11 @@ body {
 /* line 8, ../sass/refund.scss */
 body, html {
   height: 100%;
+  width: 100%;
   box-sizing: border-box;
   display: -webkit-box; }
 
-/* line 13, ../sass/refund.scss */
+/* line 14, ../sass/refund.scss */
 .u-radiolist {
   position: relative;
   padding-bottom: 50px;
@@ -52,34 +53,34 @@ body, html {
   overflow: auto;
   box-sizing: border-box; }
 
-/* line 22, ../sass/refund.scss */
+/* line 23, ../sass/refund.scss */
 .u-popupbox {
   -webkit-box-orient: vertical; }
-  /* line 24, ../sass/refund.scss */
+  /* line 25, ../sass/refund.scss */
   .u-popupbox > .buttonbox {
     padding: 0px 15px;
     height: 64px;
     width: 90%;
     background: #ffffff;
     box-sizing: border-box; }
-    /* line 31, ../sass/refund.scss */
+    /* line 32, ../sass/refund.scss */
     .u-popupbox > .buttonbox > .buttonposition {
       display: block;
       width: 100%; }
 
-/* line 38, ../sass/refund.scss */
+/* line 39, ../sass/refund.scss */
 .mainbox {
   padding: 15px 5px;
   -webkit-box-flex: 1;
   background: #ffffff; }
 
-/* line 43, ../sass/refund.scss */
+/* line 44, ../sass/refund.scss */
 .submitbutton {
   left: 50%;
   -webkit-transform: translate(-50%, 0); }
 
 /*退款的列表项*/
-/* line 49, ../sass/refund.scss */
+/* line 50, ../sass/refund.scss */
 .refund-option {
   margin-bottom: 15px;
   padding: 10px 5px;
@@ -88,22 +89,22 @@ body, html {
   font-size: 16px;
   color: #666666;
   line-height: 1.2; }
-  /* line 58, ../sass/refund.scss */
+  /* line 59, ../sass/refund.scss */
   .refund-option > .name {
     width: 6em; }
-    /* line 60, ../sass/refund.scss */
+    /* line 61, ../sass/refund.scss */
     .refund-option > .name > .star {
       position: relative;
       top: 4px;
       font-size: 18px;
       color: #a90125;
       line-height: 1px; }
-  /* line 68, ../sass/refund.scss */
+  /* line 69, ../sass/refund.scss */
   .refund-option > .cont {
     -webkit-box-flex: 1;
     font-size: 12px;
     line-height: 1px; }
-  /* line 73, ../sass/refund.scss */
+  /* line 74, ../sass/refund.scss */
   .refund-option > .arrow {
     position: relative;
     top: -2px;
