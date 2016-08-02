@@ -275,6 +275,9 @@ var Util = {
         
         
     }
+    ,logout: function() {
+        location.href = config.api + "?r=user/logout";
+    }
     //同步请求
     ,syncRequest: function(api, data, callback, method) {
         var me = this;

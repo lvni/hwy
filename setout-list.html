@@ -76,10 +76,14 @@
 <script>
 
     $("#logout").click(function(){
-         messageBox.confirm("您确定要登录吗?", function(){alert("是的");});
+         messageBox.confirm("您确定要登录吗?", function(){
+            Util.logout();
+         });
     });
     $("#clear-cache").click(function(){
-         messageBox.confirm("您确定要清理缓存吗?", function(){alert("是的");});
+         messageBox.confirm("您确定要清理缓存吗?", function(){
+            messageBox.toast("已清理");
+         });
     });
 </script>
 </body>

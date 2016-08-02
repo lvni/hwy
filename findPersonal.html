@@ -20,24 +20,95 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<div class="findPassword-contbox">
-    <p class="title">请输入18666666666收到的短信校验码</p>
+<div class="findPassword-contbox" id="bind-mobile-box">
     <div class="enterinfobox">
         <img src="img/password_03.png" class="icon">
-        <input type="text" class="input" placeholder="验证码">
+        <input id="mobile" type="text" name="mobile" class="input" placeholder="请输入手机号码">
+    </div>
+    <div class="enterinfobox">
+        <img src="img/password_03.png" class="icon">
+        <input type="text" name="vcode" class="input" placeholder="验证码">
         <p class="verification-cord disable">获取验证码</p>
     </div>
     <div class="enterinfobox">
         <img src="img/password_06.png" class="icon">
-        <input type="password" class="input" placeholder="请输入新密码">
+        <input type="password" name="pwd" class="input" placeholder="请输入新密码">
     </div>
     <div class="enterinfobox">
         <img src="img/password_06.png" class="icon">
-        <input type="password" class="input" placeholder="请再次输入密码">
+        <input type="password" name="repwd" class="input" placeholder="请再次输入密码">
     </div>
     <button class="u-button-main">
         <span>确认找回</span>
     </button>
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script src="javascripts/md5.min.js"></script>
+<script>
+$(function(){
+    var timeout  = 60;
+    var timer = 0;
+    var sendBnt = $("#bind-mobile-box .verification-cord");
+    function setSendCode(mobile) {
+         
+         if (Util.isCorrectMobile(mobile) && timer ==0 ) {
+            sendBnt.removeClass('disable');
+            return true
+         }
+         sendBnt.addClass('disable');
+         return false;
+    }
+    $("#bind-mobile-box input[name=mobile]").bind('keyup', function(){
+        var val = $(this).val();
+        setSendCode(val);
+    });
+    $("#bind-mobile-box .verification-cord").click(function(){
+            if ($(this).hasClass('disable')) {
+                return ;
+            }
+            //请求获取验证接口
+            var mobile = $("#bind-mobile-box input[name=mobile]").val().trim();
+            setSendCode(mobile);
+            Util.requestApi("?r=user/verifymobile", {mobile:mobile,no_check_user:1}, function(data){
+                   messageBox.toast(data.errmsg);
+                   timer = 60;
+                    
+                   setTimeout(function(){timer =0; setSendCode(mobile) }, 60);
+            });
+    });
+     var bindMobile = function() {
+        var mobile = $("#bind-mobile-box input[name=mobile]").val().trim();
+        var vcode  = $("#bind-mobile-box input[name=vcode]").val().trim();
+        var pwd  = $("#bind-mobile-box input[name=pwd]").val().trim();
+        var repwd  = $("#bind-mobile-box input[name=repwd]").val().trim();
+        if (!Util.isCorrectMobile(mobile)) {
+             messageBox.toast("请输入正确的手机号码");
+             return ;
+        }
+        if (vcode == "") {
+            messageBox.toast("请输入验证码");
+            return ;
+        }
+        if (pwd == "") {
+            messageBox.toast("请输入密码");
+            return ;
+        }
+        if (pwd != repwd) {
+            messageBox.toast("两次密码不一致");
+            return ;
+        }
+        pwd = md5(pwd);
+        Util.requestApi("?r=user/changepwd", {mobile:mobile,vcode:vcode, pwd:pwd}, function(data){
+            messageBox.toast(data.errmsg);
+            if (data.errno == 0) {
+                $("#bind-mobile-box").hide();
+            }
+        });
+    }
+    //提交
+    $("#bind-mobile-box .u-button-main").bind('click', bindMobile);
+ });
+</script>
 </body>
 </html>

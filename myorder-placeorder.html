@@ -147,10 +147,11 @@ $(function(){
             }
             //请求获取验证接口
             var mobile = $("#bind-mobile-box input[name=mobile]").val().trim();
-            Util.requestApi("?r=user/verifymobile", {mobile:mobile, no_check_user:1}, function(data){
+            setSendCode(mobile);
+            Util.requestApi("?r=user/verifymobile", {mobile:mobile}, function(data){
                    messageBox.toast(data.errmsg);
                    timer = 60;
-                   setSendCode(mobile) 
+                    
                    setTimeout(function(){timer =0; setSendCode(mobile) }, 60);
             });
     });
@@ -166,6 +167,12 @@ $(function(){
             messageBox.toast("请输入验证码");
             return ;
         }
+        Util.requestApi("?r=user/bindmobile", {mobile:mobile,vcode:vcode}, function(data){
+            messageBox.toast(data.errmsg);
+            if (data.errno == 0) {
+                $("#bind-mobile-box").hide();
+            }
+        });
     }
     //提交
     $("#bind-mobile-box .u-button-main").bind('click', bindMobile);
