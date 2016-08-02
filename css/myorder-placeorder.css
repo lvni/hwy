@@ -63,11 +63,7 @@ body {
   /* line 20, ../sass/myorder-placeorder.scss */
   .placeorder-address .list {
     padding: 10px 0 25px 0;
-<<<<<<< HEAD
-    background: url('../img/addressbg.png?1466234240') -10% 100% repeat-x #ffffff;
-=======
     background: url('../img/addressbg.png?1466416254') -10% 100% repeat-x #ffffff;
->>>>>>> f7686a7ca5e897f995d81c8bd810004e945fa068
     background-size: 35px 5px;
     color: #666666; }
   /* line 26, ../sass/myorder-placeorder.scss */
@@ -147,11 +143,7 @@ body {
     opacity: 0; }
     /* line 107, ../sass/myorder-placeorder.scss */
     .placeorder-infobox .checkbox:checked + .showcheckbox {
-<<<<<<< HEAD
-      background: url('../img/tickred.png?1466234240') center center no-repeat;
-=======
       background: url('../img/tickred.png?1466416254') center center no-repeat;
->>>>>>> f7686a7ca5e897f995d81c8bd810004e945fa068
       background-size: 22px 22px; }
   /* line 113, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .amount p {

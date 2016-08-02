@@ -84,7 +84,7 @@ $(function(){
         var money = 0;
         goods_ids = $(".u-shoppingCartlist input[type=checkbox]:checked").map(function(i){
             var dataInfo = $(this).attr('data-info').split('|');
-            money += parseFloat(dataInfo[2]);
+            money += parseFloat(dataInfo[2]) * parseInt(dataInfo[1]);
             return dataInfo[0];
         }).get().join(',');
         
