@@ -5,6 +5,14 @@
 <title>退款/售后</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/myorder-after-sales.css">
+    <style>
+    .u-productlist02 {
+        margin-top:2px;
+    }
+    .mr-10-0 {
+        background: #fff;
+    }
+    </style>
 </head>
 
 <body>
@@ -20,37 +28,84 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<div style="text-align:center; padding-top:100px;">
-    功能升级中  ...
-</div>
+
+<div id="list"></div>
+<div class="u-flip" id="page">   </div>
 
 <script type="text/template"  id="refund_list_template">
 <div class="mr-10-0">
     <div class="u-list-justify fs-11">
-        <p class="left ">2016-3-6</p>
-        <p class="right red">退款成功</p>
+        <p class="left ">{$date}</p>
+        <p class="right red">{$status}</p>
     </div>
-    <div class="u-productlist02" onclick="javascript:window.location.href='details.html'">
-        <img src="img/hongwu_44.png" class="photo">
-        <div class="u-list-justify fs-14">
-            <p class="left ">翡翠福豆翡翠福豆翡翠福豆翡翠福豆翡翠福豆</p>
-            <p class="right">￥1888882.00</p>
-        </div>
-        <div class="u-list-justify fs-14">
-            <p class="left ">分类：默认</p>
-            <p class="right del">￥1882.00</p>
-        </div>
-        <div class="u-list-justify fs-14">
-            <p class="left ">货号：LXA20160106...</p>
-            <p class="right ">x1</p>
-        </div>
-    </div>
+    {$goods_list}
     <div class="u-list-justify fs-12">
         <p class="left"></p>
-        <p class="right"><i>交易金额：￥1880.00</i>&nbsp;&nbsp;<i>退款金额：￥1880.00</i></p>
+        <p class="right"><i>交易金额：￥{$order_total_fee}</i>&nbsp;&nbsp;<i>退款金额：￥{$money}</i></p>
     </div>
 </div>
 </script>
+<script id="goods_list" type="text/template">
+<div class="u-productlist02" >
+        <img src="{$goods_img}" class="photo" onclick="javascript:location.href='details.html?id={$goods_id}';">
+        <div class="u-list-justify fs-14">
+            <p class="left ">{$goods_name}</p>
+            <p class="right">￥{$goods_price}</p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">分类：默认</p>
+            <p class="right"></p>
+        </div>
+        <div class="u-list-justify fs-14">
+            <p class="left ">货号：{$goods_sn}.</p>
+            <p class="right ">x {$goods_number}</p>
+        </div>
+    </div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    var page = new Page('#page');
+    
+    function loadList(p) {
+        Util.requestApi('?r=refund/myapply', {p:p}, function(data){
+             if (data.errno != 0) {
+                
+                messageBox.toast(data.errmsg);
+                return;
+             }
+             
+             var goodsTemplate = $("#goods_list").html();
+             var listTempate = $("#refund_list_template").html();
+             var htm = "";
+             
+             for (i in data.data.list) {
+                    var goods_list = "";
+                    var item = data.data.list[i];
+                    for (j in item.goods_list) {
+                        var tmp = item.goods_list[j];
+                        goods_list += Template.renderByTemplate(goodsTemplate, tmp);
+                    }  
+                   item.goods_list  =  goods_list;
+                   
+                   htm += Template.renderByTemplate(listTempate, item);
+             
+             }
+             $("#list").html(htm);
+             page.render(data.data.page, data.data.page_count);
+        });
+    }
+    page.addClickEvent(function(){
+            var page = $(this).attr('data');
+            if (page) {
+                loadList(page);
+            }
+    });
+    
+    loadList(1);
 
+});
+</script>
 </body>
 </html>
