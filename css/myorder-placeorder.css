@@ -43,6 +43,29 @@
 .placeorder-infobox .u-list-justify:after {
   bottom: 0px; }
 
+/* line 34, ../sass/_extend.scss */
+.enterinfobox:after {
+  content: '';
+  position: absolute;
+  display: block;
+  -webkit-transform: scale(0.5);
+  -webkit-transform-origin: 0% 0%; }
+
+/* line 41, ../sass/_extend.scss */
+.enterinfobox:after {
+  padding: 1px;
+  left: 0px;
+  top: 0px;
+  right: -100%;
+  bottom: -100%;
+  border-radius: 4px;
+  border: 1px solid #e2e2e2; }
+
+/* line 57, ../sass/_extend.scss */
+.enterinfobox {
+  display: -webkit-box;
+  -webkit-box-align: center; }
+
 /*用来被继承的占位样式*/
 /* line 4, ../sass/myorder-placeorder.scss */
 body {
@@ -148,3 +171,62 @@ body {
   /* line 113, ../sass/myorder-placeorder.scss */
   .placeorder-infobox .amount p {
     text-align: right; }
+
+/* line 120, ../sass/myorder-placeorder.scss */
+#bind-mobile-box {
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  padding-top: 80px;
+  height: 100%;
+  background: #fff;
+  display: none; }
+
+/* line 129, ../sass/myorder-placeorder.scss */
+.findPassword-contbox {
+  padding: 0 10px; }
+  /* line 131, ../sass/myorder-placeorder.scss */
+  .findPassword-contbox > .title {
+    padding: 20px 0;
+    font-size: 1.6rem;
+    color: #171414;
+    text-align: center; }
+
+/* line 139, ../sass/myorder-placeorder.scss */
+.enterinfobox {
+  position: relative;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  font-size: 0px; }
+  /* line 145, ../sass/myorder-placeorder.scss */
+  .enterinfobox:after {
+    border-color: #000;
+    z-index: -1; }
+  /* line 150, ../sass/myorder-placeorder.scss */
+  .enterinfobox > .icon {
+    padding: 0 10px;
+    width: 25px; }
+  /* line 154, ../sass/myorder-placeorder.scss */
+  .enterinfobox > .input {
+    padding: 0px 10px;
+    height: 2.8rem;
+    border: none;
+    border-left: 1px solid #999999;
+    font-size: 16px; }
+  /* line 161, ../sass/myorder-placeorder.scss */
+  .enterinfobox > .verification-cord {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    width: 90px;
+    height: 2.5rem;
+    background: #a90125;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 2.5rem; }
+    /* line 174, ../sass/myorder-placeorder.scss */
+    .enterinfobox > .verification-cord.disable {
+      background: #aaaaaa; }

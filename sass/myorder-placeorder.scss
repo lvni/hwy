@@ -117,3 +117,62 @@ body {
 }
 
 
+#bind-mobile-box {
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    padding-top: 80px;
+    height: 100%;
+    background: #fff;
+    display:none;
+}
+.findPassword-contbox {
+  padding:0 10px;
+  &>.title {
+        padding: 20px 0;
+        font-size: 1.6rem;
+        color: #171414;
+        text-align: center;
+  }
+}
+
+.enterinfobox {
+  position: relative;
+  @extend %box-middle;
+  padding:5px 0;
+  margin-bottom:10px;
+  font-size:0px;
+  &:after {
+    @extend %border-all;
+    border-color:#000;
+    z-index: -1;
+  }
+  &>.icon {
+    padding:0 10px;
+    width:25px;
+  }
+  &>.input {
+    padding:0px 10px;
+    height:2.8rem;
+    border:none;
+    border-left:1px solid $fontcolorLv3;
+    font-size:16px;
+  }
+  &>.verification-cord {
+    position: absolute;
+    right:10px;
+    top:50%;
+    -webkit-transform:translate(0,-50%);
+    width:90px;
+    height:2.5rem;
+    background: $maincolor;
+    color:#fff;
+    font-size:13px;
+    border-radius:6px;
+    text-align: center;
+    line-height: 2.5rem;
+    &.disable {
+      background: #aaaaaa;
+    }
+  }
+}

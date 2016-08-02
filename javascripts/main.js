@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+    //'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
@@ -1606,6 +1606,10 @@ var Order = {
                     lock = false;
                     if (data.errno != 0) {
                           messageBox.toast(data.errmsg);
+                          if (data.errno == 10403) {
+                              //需要绑定手机
+                              $("#bind-mobile-box").show();
+                          }
                     } else {
                         me.order_info.order_sn = data.data.order_sn;
                         me.gotoPay(me.order_info.order_sn);

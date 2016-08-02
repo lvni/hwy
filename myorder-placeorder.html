@@ -79,6 +79,23 @@
         <span>确认</span>
     </button>
 </div>
+<div id="bind-mobile-box">
+<div class="findPassword-contbox">
+    <p class="title">为了保障您的权益，请完善您的信息</p>
+    <div class="enterinfobox">
+        <img src="img/password_03.png" class="icon">
+        <input type="text" class="input" name="mobile" placeholder="请输入手机号码">
+        <p class="verification-cord disable">获取验证码</p>
+    </div>
+    <div class="enterinfobox">
+        <img src="img/password_06.png" class="icon">
+        <input type="text" class="input" name="vcode" placeholder="请输入验证码">
+    </div>
+    <button class="u-button-main">
+        <span>提交</span>
+    </button>
+</div>
+</div>
 <script id="confirm_goods_template" type="text/template">
 <div class="mr-10-0 placeorder-productinfo">
     <div class="u-productlist02" data-id="{$goods_id}">
@@ -105,6 +122,53 @@
 $(function(){
     var ignoreNavi = true;
     Order.runConfirm();
+    var timeout  = 60;
+    var timer = 0;
+    var sendBnt = $("#bind-mobile-box .verification-cord");
+    function setSendCode(mobile) {
+         
+         if (Util.isCorrectMobile(mobile) && timer ==0 ) {
+            sendBnt.removeClass('disable');
+            return true
+         }
+         sendBnt.addClass('disable');
+         return false;
+    }
+    
+    //手机绑定相关
+    $("#bind-mobile-box input[name=mobile]").bind('keyup', function(){
+        var val = $(this).val();
+        setSendCode(val);
+    });
+    
+    $("#bind-mobile-box .verification-cord").click(function(){
+            if ($(this).hasClass('disable')) {
+                return ;
+            }
+            //请求获取验证接口
+            var mobile = $("#bind-mobile-box input[name=mobile]").val().trim();
+            Util.requestApi("?r=user/verifymobile", {mobile:mobile, no_check_user:1}, function(data){
+                   messageBox.toast(data.errmsg);
+                   timer = 60;
+                   setSendCode(mobile) 
+                   setTimeout(function(){timer =0; setSendCode(mobile) }, 60);
+            });
+    });
+    
+    var bindMobile = function() {
+        var mobile = $("#bind-mobile-box input[name=mobile]").val().trim();
+        var vcode  = $("#bind-mobile-box input[name=vcode]").val().trim();
+        if (!Util.isCorrectMobile(mobile)) {
+             messageBox.toast("请输入正确的手机号码");
+             return ;
+        }
+        if (vcode == "") {
+            messageBox.toast("请输入验证码");
+            return ;
+        }
+    }
+    //提交
+    $("#bind-mobile-box .u-button-main").bind('click', bindMobile);
 });
 </script>
 </body>
