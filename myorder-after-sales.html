@@ -79,7 +79,10 @@ $(function(){
              var goodsTemplate = $("#goods_list").html();
              var listTempate = $("#refund_list_template").html();
              var htm = "";
-             
+             if (data.data.list.length == 0) {
+                Util.showTips($("#list"), "没有相关记录");
+                return;
+             }
              for (i in data.data.list) {
                     var goods_list = "";
                     var item = data.data.list[i];
