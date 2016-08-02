@@ -1811,7 +1811,10 @@ var Order = {
             if (goods.order_status == 101) {
                 //待发货
                 tips = "待发货";
-                Buttons += mainBntTemplate.replace('{$type}', 'remind').replace('{$tips}', '提醒发货');
+                if (goods.can_return_money) {
+                    Buttons += mainBntTemplate.replace('{$type}', 'remind').replace('{$tips}', '提醒发货');
+                }
+                
             }
             if (goods.order_status == 103) {
                 //待收货
