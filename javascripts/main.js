@@ -1846,6 +1846,9 @@ var Order = {
             if (goods.order_status == 111) {
                 tips = "退款失败";
             }
+            if (goods.order_status == 112) {
+                tips = "交易关闭";
+            }
             return {'bnt': Buttons, 'tips': tips};
     }
     ,getOrderTips: function (order_info) {
@@ -1915,6 +1918,12 @@ var Order = {
                 st: "感谢您惠顾",
                 icon: "img/order_cancel.png",
                 type : 1,
+            },
+            112: {
+                t: "交易关闭",
+                st: "感谢您惠顾",
+                icon: "img/order_cancel.png",
+                type : 2,
             }
             
         };
