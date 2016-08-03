@@ -613,7 +613,8 @@ var FuncNavi = {
           if (sid) {
               params['sid'] = sid;
           }
-          
+          var find_last_time = Storge.getItem('find_last_time', 0);
+          params['find_last_time'] = find_last_time;
           var api = config.api + "?r=center/navi";
           var me = this;
           if ( true) {

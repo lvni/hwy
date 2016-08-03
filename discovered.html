@@ -130,6 +130,12 @@
                     } else {
                         $("#loading-more").html("没有更多");
                     }
+                    
+                    if (data.page == 1) {
+                        //首页，将时间写入本地
+                        Storge.setItem('find_last_time', data.time);
+                    
+                    }
             });
         }
         
