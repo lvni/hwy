@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <META NAME="MobileOptimized" CONTENT="240">
-<title>文章详情</title>
+<title>发现</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/discovered.css">
 </head>
@@ -12,382 +12,122 @@
     <div class="title">
         <p>发现</p>
     </div>
-    <a href="#" class="turnback">
+    <a href="javascript:history.go(-1);" class="turnback">
         <img src="img/arrowleft.png">
     </a>
 </div>
+<div id="container">
+
+</div>
+<div id="load-more"></div>
+<script type="text/template" id="item_normal">
 <div class="u-friendsbox">
     <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
+        <img src="{$avatar}" class="photo">
+        <p class="name">{$publisher}</p>
+        {$icon}
+        <time class="time">{$add_time}</time>
     </div>
     <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
+        <p>{$brief}</p>
         <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
+            {$imges}
         </div>
     </div>
+    {$more}
 </div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_15.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/index_74.png">
-            </div>
-        </div>
-    </div>
+</script>
+<script type="text/template" id="item_image">
+<div class="imgbox {$extClass}">
+    <img src="{$thumb}">
 </div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_19.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/index_220.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/sweethearth_05.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/icon130.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/icon120.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/addressbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/index_164.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox" >
-                <img src="img/hongwu_12.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/index_160.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/sweethearth_03.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/index_160.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/index_144.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <img src="img/discovered_03.png" class="icon">
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-</div>
-<img src="img/hongwu_12.png" class="banner">
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-            <div class="imgbox">
-                <img src="img/registerbg.png">
-            </div>
-        </div>
-    </div>
-    <a href="#" class="more">查看更多 &gt;</a>
-</div>
-<div class="u-friendsbox">
-    <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <time class="time">2016-3-1</time>
-    </div>
-    <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <div class="imgboxes">
-            <div class="imgbox">
-                <img src="img/hongwu_12.png">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="u-bottomnav">
-    <a href="#">
-        <img src="img/hw_72.png">
-        <p>首页</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_74.png">
-        <p>所有产品</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_76.png">
-        <p>发现</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_78.png">
-        <p>购物车</p>
-        <span>12</span>
-    </a>
-    <a href="#">
-        <img src="img/hw_80.png">
-        <p>个人中心</p>
-        <span>12</span>
-    </a>
-</div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js?v2"></script>
 <script>
-    //当用户照片数量为4个的时候做特殊处理
+    //<a href="{$link}" class="more">查看更多 &gt;</a>
+    //<img src="{$icon}" class="icon">
     (function(){
+        var TYPES = {
+            BUYER_SHOW: 1,
+            TOP_NEWS:2,
+            GOODS_SOLD: 3,
+            VEDIO: 4,
+            ACTIVE_POSTER: 5,
+            NEW_GOODS: 6,
+            AUCTION: 7,
+        };
+        var typeIcons = {
+            1: 'img/discovered_03.png',
+            2: 'img/discovered_15.png',
+            3: 'img/discovered_19.png',
+            4: '',
+            5: '',
+            6: '',
+            7: 'img/discovered_27.png',
+        };
+        var pageInfo = {page:1, page_count: 0} ;
+        function loadList(p) {
+            Util.requestApi("?r=finds/list", {p:p}, function(data){
+                    if (data.errno != 0) {
+                        messageBox.toast(data.errmsg);
+                        return;
+                    }
+                    data = data.data;
+                    if (data.page_count == 0) {
+                        Util.showTips($("#container"), "没有相关内容");
+                        return ;
+                    }
+                    var html = "";
+                    pageInfo.page = data.page;
+                    pageInfo.page_count = data.page_count;
+                    var template = $("#item_normal").html();
+                    var imageTemplate = $("#item_image").html();
+                    for (i in data.list) {
+                        var item = data.list[i];
+                        item.more = "";
+                        var icon = typeIcons[item.find_type];
+                        item.icon = '<img src="'+icon+'" class="icon">';
+                        if (item.link) {
+                            item.more = '<a href="'+item.link+'" class="more">查看更多 &gt;</a>';
+                        }
+                        if (item.find_type == TYPES.VEDIO && item.vedio) {
+                            //有视频
+                            item.images = '<vedio src="'+item.vedio+'"></vedio>';
+                        } else if (item.images.length > 0) {
+                             var extClass = item.images.length == 4 ? "clearright" : "";
+                             for (i in item.images) {
+                                    var img = item.images[i];
+                                    img.extClass = extClass;
+                                    item.images += Template.renderByTemplate(imageTemplate, img);
+                                    
+                             }
+                        }
+                        
+                        html += Template.renderByTemplate(template,item);
+                        $("#container").append(html);
+                        if (data.page_count > data.page) {
+                            $("#load-more").html('加载中 ... <img src="img/loading.gif" style="width:24px;">');
+                        } else {
+                            $("#load-more").html("没有更多");
+                        }
+                         
+                    }
+            });
+        }
+        
+        function handleScroll() {
+            if ($(window).scrollTop() >= $(document).height()-$(window).height()) {
+                //底部了
+                if (pageInfo.page < pageInfo.page_count) {
+                    loadList(pageInfo.page + 1);
+                }
+            } 
+        }
+        loadList(pageInfo.page);
+        //下拉事件
+        $(window).scroll(handleScroll);
+        //当用户照片数量为4个的时候做特殊处理
         var imgboxArr = document.querySelectorAll('.imgboxes'),len,i;
         for(i = 0,len = imgboxArr.length; i < len; i++) {
             if(imgboxArr[i].children.length == 4) {

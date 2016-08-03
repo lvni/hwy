@@ -523,7 +523,7 @@ var FuncNavi = {
                      + '<img src="'+default_icons.product+'">'
                      + '<p>所有产品</p>'
                      + '{$prod_num}</a>'
-                     + '<a href="javascript:;">'
+                     + '<a href="discovered.html">'
                      + '<img src="img/hw_76.png">'
                      + '<p>发现</p>'
                      + '{$find_num}</a>'
@@ -3767,6 +3767,7 @@ var NavFunc = {
        '/webapp/index.html' : {show:true},
        '/webapp/allproduct.html' : {show:true},
        '/webapp/shoppingCart.html' : {show:true},
+       '/webapp/discovered.html' : {show:true},
        '/webapp/king.html' : {show:true, callback:{a:User.initKing,b:User}},
        '/webapp/supplier.html' : {show:true, callback:{a:User.initSupplier,b:User}}
 };
