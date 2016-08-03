@@ -5,6 +5,12 @@
 <title>发现</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/discovered.css">
+    <style>
+        #loading-more {
+            text-align:center;
+        }
+    
+    </style>
 </head>
 
 <body>
@@ -19,7 +25,7 @@
 <div id="container">
 
 </div>
-<div id="load-more"></div>
+<div id="loading-more"></div>
 <script type="text/template" id="item_normal">
 <div class="u-friendsbox">
     <div class="title">
@@ -31,7 +37,7 @@
     <div class="u-details">
         <p>{$brief}</p>
         <div class="imgboxes">
-            {$imges}
+            {$imagesHtml}
         </div>
     </div>
     {$more}
@@ -52,7 +58,7 @@
             BUYER_SHOW: 1,
             TOP_NEWS:2,
             GOODS_SOLD: 3,
-            VEDIO: 4,
+            VIDEO: 4,
             ACTIVE_POSTER: 5,
             NEW_GOODS: 6,
             AUCTION: 7,
@@ -78,40 +84,51 @@
                         Util.showTips($("#container"), "没有相关内容");
                         return ;
                     }
-                    var html = "";
+                    
                     pageInfo.page = data.page;
                     pageInfo.page_count = data.page_count;
                     var template = $("#item_normal").html();
                     var imageTemplate = $("#item_image").html();
+                    var html = "";
                     for (i in data.list) {
+                        
                         var item = data.list[i];
                         item.more = "";
                         var icon = typeIcons[item.find_type];
-                        item.icon = '<img src="'+icon+'" class="icon">';
+                        if (icon != "") {
+                            item.icon = '<img src="'+icon+'" class="icon">';
+                        } else {
+                            item.icon = "";
+                        }
+                        
                         if (item.link) {
                             item.more = '<a href="'+item.link+'" class="more">查看更多 &gt;</a>';
                         }
-                        if (item.find_type == TYPES.VEDIO && item.vedio) {
+                        item.imagesHtml = "";
+                        if (item.find_type == TYPES.VIDEO && item.video) {
                             //有视频
-                            item.images = '<vedio src="'+item.vedio+'"></vedio>';
+                            item.imagesHtml = '<video width="100%" src="'+item.video+'" controls="controls" poster="'+item.video_poster+'"></video>';
                         } else if (item.images.length > 0) {
-                             var extClass = item.images.length == 4 ? "clearright" : "";
+                             //var extClass = item.images.length == 4 ? "clearright" : "";
+                             var extClass = "";
+                             
                              for (i in item.images) {
                                     var img = item.images[i];
                                     img.extClass = extClass;
-                                    item.images += Template.renderByTemplate(imageTemplate, img);
+                                    item.imagesHtml += Template.renderByTemplate(imageTemplate, img);
                                     
                              }
                         }
-                        
                         html += Template.renderByTemplate(template,item);
-                        $("#container").append(html);
-                        if (data.page_count > data.page) {
-                            $("#load-more").html('加载中 ... <img src="img/loading.gif" style="width:24px;">');
-                        } else {
-                            $("#load-more").html("没有更多");
-                        }
-                         
+                        
+                    }
+                    
+                    
+                    $("#container").append(html);
+                    if (data.page_count > data.page) {
+                        $("#loading-more").html('加载中 ... <img src="img/loading.gif" style="width:24px;">');
+                    } else {
+                        $("#loading-more").html("没有更多");
                     }
             });
         }
