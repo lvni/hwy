@@ -5,8 +5,8 @@
  * @brief 洪五爷珠宝
  **/
 var config = {
-    'api': 'http://app.hong5ye.com/api/backend/web/index.php',
-    //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
+   // 'api': 'http://app.hong5ye.com/api/backend/web/index.php',
+    'api': 'http://test.hong5ye.com/api/backend/web/index.php',
     'webapp': 'http://app.hong5ye.com/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页

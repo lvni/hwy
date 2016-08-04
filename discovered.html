@@ -45,7 +45,7 @@
 </script>
 <script type="text/template" id="item_image">
 <div class="imgbox {$extClass}">
-    <img src="{$thumb}"  data-link={$link_info}> 
+    <img src="{$thumb}"  data-link='{$link_info}'> 
 </div>
 </script>
 <script src="javascripts/zepto.min.js"></script>
@@ -108,6 +108,10 @@
                         if (item.find_type == TYPES.VIDEO && item.video) {
                             //有视频
                             item.imagesHtml = '<video width="100%" src="'+item.video+'" controls="controls" poster="'+item.video_poster+'"></video>';
+                        } else if (item.find_type == TYPES.ACTIVE_POSTER) {
+                            // 
+                            var img = item.images[0];
+                            item.imagesHtml = '<div class="imgbox "><img src="'+img.src+'"  data-link="'+img.link_info+'"></div>';
                         } else if (item.images.length > 0) {
                              //var extClass = item.images.length == 4 ? "clearright" : "";
                              var extClass = "";
