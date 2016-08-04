@@ -9,15 +9,15 @@
 
 <body>
 <div class="u-top-msg indextitle">
-    <button class="u-mainbutton-little">
+    <button class="u-mainbutton-little" id="publish">
         <span>发布</span>
     </button>
-    <a href="#" class="turnback">
+    <a href="javascript:history.go(-1);" class="turnback">
         <img src="img/arrowleft.png">
     </a>
 </div>
 <div class="updata-contbox">
-    <textarea placeholder="分享你刚入手的好货吧" class="textarea"></textarea>
+    <textarea placeholder="分享你刚入手的好货吧" class="textarea" id="brief"></textarea>
     <div class="addimgbox" >
         <!--<div  class="photobox">-->
             <!--<img src="img/discovered_07.png" class="photo">-->
@@ -25,17 +25,15 @@
 
         <div id="progress"></div>
         <div id="js-outputbox"></div>
-        <form id="upload-img" enctype="multipart/form-data">
+        <form id="upload-img" enctype="multipart/form-data" accept="image/*" capture="camara">
         <label class="addimg-button">
-            <input type="file" class="file" id="js-addbutton">
+            <input type="file" name="datafile" class="file" id="js-addbutton">
             <img src="img/discovered_10.png" class="icon">
         </label>
         </form>
     </div>
 </div>
 <script src="javascripts/zepto.min.js"></script>
-<script>jQuery = $ ;</script>
-<script src="javascripts/ajax.form.js"></script>
 <script src="javascripts/main.js?v2"></script>
 <script>
     var EventUtil={
@@ -123,65 +121,87 @@
         }
     };
     (function(){
-        var filesList = document.getElementById('js-addbutton');
-        EventUtil.addHandler(filesList,'change',function(event){
-            var info = '',
-                    output = document.querySelector('#js-outputbox'),
-                    progress = document.querySelector('#progress'),
-                    files = EventUtil.getTarget(event).files,
-                    type = 'default',
-                    reader = new FileReader();
-
-            if(files[0] && files[0].type && /image/.test(files[0].type)) {
-                reader.readAsDataURL(files[0]);
-                type = 'image';
-            } else {
-                reader.readAsText(files[0]);
-                type = 'text';
-            }
-            reader.onerror = function() {
-                output.innerHTML = '读取不到文件';
-            }
-            reader.onprogress = function() {
-                if(event.lengthComputable) {
-                    progress.innerHTML = event.loaded + '/' + event.total;
-                }
-            }
-            reader.onload = function() {
-                var html = '';
-                switch(type) {
-                    case 'image':
-                        html = '<div  class=\"photobox\"><img src=\"' + reader.result + '\"  class=\"photo\"></div>';
-                        break;
-                    case 'text':
-                        html = reader.result;
-                        break;
-                }
-                output.innerHTML = html + output.innerHTML;
-            }
-            //console.log(reader);
-        });
         
+        
+        var orderSn = Util.getQueryString('order');
         $("#js-addbutton").change(function(){
             try {
                 var file = $(this).val();
                 
                 if (file != "") {
                         //有文件，上传被
-                        console.log("上传文件呗");
-                        var form = $("#upload-img");
-                        form.attr({
-                            method: 'post',
-                            action: config.api + "?r=finds/uploadimg",
-                        });
-                        form.ajaxSubmit(function(data) {
-                            console.log(data);
-                        });
-             
+                    var form = $("#upload-img")[0];
+                    var url = config.api + "?r=finds/uploadimg";
+           
+                    var fd = new FormData();//创建表单数据对象
+                    files = form['datafile'].files;
+                    if (files.length == 0) {
+                        console.log("没有文件");
+                        return;
+                    }
+                    fd.append('datafile', files[0]);//将文件添加到表单数据中
+                    fd.append('order', orderSn);
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange=function(){
+                        if (this.readyState==4) {
+                            if (this.status==200) {
+                                var responseText = this.responseText;
+                                try {
+                                    var result = JSON.parse(responseText);
+                                    if (result.errno != 0) {
+                                        messageBox.toast(result.errmsg);
+                                    }
+                                    //将图片显示
+                                    html = '<div  class=\"photobox\"><img img_id="'+result.data.img_id+'" src=\"' + result.data.thumb + '\"  class=\"photo\"></div>'
+                                    $('#js-outputbox').append(html);
+                                } catch(e) {
+                                    messageBox.toast("服务器错误啦");
+                                }
+                            } else {
+                                messageBox.toast("服务器错误啦");
+                            }
+                        } 
+                    };
+                      //xhr.addEventListener("error", opts.uploadFailed, false);
+                    xhr.open("POST", url);
+                    xhr.send(fd);
+                    console.log("send");
                 }
             } catch(e) {
+                console.log(e);
             }
+        
         });
+        //发布
+        function publish() {
+            
+            var brief = $('#brief').val().trim();
+            
+            if (brief.length > 255) {
+                messageBox.toast("字符数超限");
+                return;
+            }
+            var imgs = $('#js-outputbox img').map(function(){
+                return $(this).attr('img_id');
+            }).get().join(',');
+            var params = {
+                brief:brief,
+                img_ids: imgs,
+                order:orderSn,
+            };
+            $("#publish").unbind('click', publish);
+            Util.requestApi("?r=finds/comment",params, function(data){
+                messageBox.toast(data.errmsg);
+                if (data.errno != 0){
+                    $("#publish").bind('click', publish);
+                    return;
+                }
+                
+                history.go(-1);
+            });
+        }
+        
+        $("#publish").bind('click', publish);
     })();
 </script>
 </body>
