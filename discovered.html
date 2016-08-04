@@ -45,7 +45,7 @@
 </script>
 <script type="text/template" id="item_image">
 <div class="imgbox {$extClass}">
-    <img src="{$thumb}">
+    <img src="{$thumb}"  data-link={$link_info}> 
 </div>
 </script>
 <script src="javascripts/zepto.min.js"></script>
@@ -148,6 +148,15 @@
             } 
         }
         loadList(pageInfo.page);
+        
+        $("#container").delegate('.imgbox img', 'click', function(){
+            var link = $(this).attr('data-link');
+            if (link && link.indexOf('goods://') === 0) {
+                var goodsId = link.replace('goods://', '');
+                Util.goGoodsDetail(goodsId);
+                return;
+            }
+        });
         //下拉事件
         $(window).scroll(handleScroll);
         //当用户照片数量为4个的时候做特殊处理
