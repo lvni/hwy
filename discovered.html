@@ -156,6 +156,9 @@
                 Util.goGoodsDetail(goodsId);
                 return;
             }
+            if (link && link.indexOf('http') === 0) {
+                location.href = link;
+            }
         });
         //下拉事件
         $(window).scroll(handleScroll);
