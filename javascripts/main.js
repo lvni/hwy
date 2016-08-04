@@ -11,6 +11,8 @@ var config = {
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
         'detail': 'details.html',
+        'comment' : 'updataimg.html', //评价
+        'buyer_show' : 'buyersshow.html', //
         'select_address': 'address-select.html',
         'cart' : 'shoppingCart.html', //购物车
         'login': 'login.html', //登录页
@@ -1726,7 +1728,7 @@ var Order = {
             }
             if (type == 'comment') {
                 //评价
-                messageBox.toast("功能升级中,敬请期待");
+                window.location.href = config.page.comment + "?order="+order_sn;
             }
             if (type == 'remind') {
                 //提现发货

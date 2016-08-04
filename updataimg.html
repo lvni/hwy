@@ -25,12 +25,18 @@
 
         <div id="progress"></div>
         <div id="js-outputbox"></div>
+        <form id="upload-img" enctype="multipart/form-data">
         <label class="addimg-button">
             <input type="file" class="file" id="js-addbutton">
             <img src="img/discovered_10.png" class="icon">
         </label>
+        </form>
     </div>
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script>jQuery = $ ;</script>
+<script src="javascripts/ajax.form.js"></script>
+<script src="javascripts/main.js?v2"></script>
 <script>
     var EventUtil={
         addHandler:function(element,type,handler){
@@ -126,7 +132,7 @@
                     type = 'default',
                     reader = new FileReader();
 
-            if(/image/.test(files[0].type)) {
+            if(files[0] && files[0].type && /image/.test(files[0].type)) {
                 reader.readAsDataURL(files[0]);
                 type = 'image';
             } else {
@@ -153,8 +159,29 @@
                 }
                 output.innerHTML = html + output.innerHTML;
             }
-            console.log(reader);
-        })
+            //console.log(reader);
+        });
+        
+        $("#js-addbutton").change(function(){
+            try {
+                var file = $(this).val();
+                
+                if (file != "") {
+                        //有文件，上传被
+                        console.log("上传文件呗");
+                        var form = $("#upload-img");
+                        form.attr({
+                            method: 'post',
+                            action: config.api + "?r=finds/uploadimg",
+                        });
+                        form.ajaxSubmit(function(data) {
+                            console.log(data);
+                        });
+             
+                }
+            } catch(e) {
+            }
+        });
     })();
 </script>
 </body>
