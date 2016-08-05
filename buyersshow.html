@@ -12,26 +12,55 @@
     <div class="title">
         <p class="red">买家秀</p>
     </div>
-    <div class="msgbox">
+    <a class="msgbox" href="message.html">
         <img src="img/hw_03.png">
         <span class="msg"></span>
-    </div>
-    <a href="#" class="turnback">
+    </a>
+    <a href="javascript:history.go(-1);" class="turnback">
         <img src="img/arrowleft.png">
     </a>
 </div>
 <div class="u-friendsbox">
     <div class="title">
-        <img src="img/icon-110.png" class="photo">
-        <p class="name">呵呵哒</p>
-        <time class="time">2016-3-1</time>
+        <img src="" class="photo" id="img">
+        <p class="name" id="name"></p>
+        <time class="time" id="time"></time>
     </div>
     <div class="u-details">
-        <p>每当提起翡翠，脑中总会先浮现出传统的手镯，蛋面指环，抑或老辈人常握手中的手把件。翡翠在现代雕琢和镶嵌的工艺之下，也演绎着时尚的光辉。</p>
-        <img src="img/index_144.png">
-        <img src="img/index_144.png">
-        <img src="img/index_144.png">
+        <p id="brief"></p>
+
     </div>
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js?v2"></script>
+<script>
+    $(function(){
+        var id = Util.getQueryString('id');
+        Util.requestApi("?r=finds/detail", {id:id}, function(data) {
+             if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+                return;
+               }
+             datainfo = data.data;
+             $("#img").attr("src",datainfo.finds.avatar);
+             $("#name").html(datainfo.finds.publisher);
+             $("#time").html(datainfo.finds.add_time);
+             $("#brief").html(datainfo.finds.brief);
+             var htm = "";
+             if (datainfo.finds.video_link) {
+                 htm += "<video src='"+datainfo.finds.video_link+"' poster='"+datainfo.finds.video_poster+"'></video>";
+             }
+             
+             for (i in datainfo.imgs) {
+                var item  = datainfo.imgs[i];
+                var imgsrc = item.src != "" ? item.src : item.thumb;
+                htm += '<img src='+imgsrc+'>';
+             }
+             
+             $(".u-details").append(htm);
+        });
+    
+    });
+</script>
 </body>
 </html>

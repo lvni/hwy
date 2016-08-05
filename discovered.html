@@ -100,7 +100,11 @@
                         } else {
                             item.icon = "";
                         }
-                        
+                        if (item.find_type == TYPES.BUYER_SHOW) {
+                            if (item.link == "") {
+                                item.link = "buyersshow.html?id=" + item.id;
+                            }
+                        }
                         if (item.link) {
                             item.more = '<a href="'+item.link+'" class="more">查看更多 &gt;</a>';
                         }
@@ -123,6 +127,7 @@
                                     
                              }
                         }
+                        
                         html += Template.renderByTemplate(template,item);
                         
                     }
