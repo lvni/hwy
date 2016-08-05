@@ -3782,7 +3782,31 @@ var Share = {
    }
     
 };
-
+var setName = {
+    //修改用户昵称
+    init: function(data) {
+        if (data.is_login != 1) {
+            //没有登录
+            Util.goLogin();
+            return;
+        }
+        $("#nick_name").val(data.user.name);
+        
+        var updateNickName = function(){
+            var name = $("#nick_name").val().trim();
+            if (name == "") {
+                messageBox.toast("名称不能为空");
+                return;
+            }
+            $("#nickname-save").unbind('click', updateNickName);
+            Util.requestApi('?r=user/modifyname', {name:name}, function(data){
+                messageBox.toast(data.errmsg);
+                $("#nickname-save").bind('click', updateNickName);
+            })
+        };
+        $("#nickname-save").bind('click', updateNickName);
+    },
+};
 Share.init();
 var NavFunc = {
        '/webapp/' : {show:true},
@@ -3791,7 +3815,8 @@ var NavFunc = {
        '/webapp/shoppingCart.html' : {show:true},
        '/webapp/discovered.html' : {show:true},
        '/webapp/king.html' : {show:true, callback:{a:User.initKing,b:User}},
-       '/webapp/supplier.html' : {show:true, callback:{a:User.initSupplier,b:User}}
+       '/webapp/supplier.html' : {show:true, callback:{a:User.initSupplier,b:User}},
+       '/webapp/editname.html': {show:false,callback:{a:setName.init,b:setName}}
 };
 path = location.pathname;
 //注册分享回调
@@ -3802,7 +3827,7 @@ if (path in NavFunc) {
     if (item.callback) {
         FuncNavi.addCallback(item.callback.a, item.callback.b);
     }
-    funcRun = function() { FuncNavi.run(); }; 
+    funcRun = function() { FuncNavi.run(!item.show); }; 
 } else {
     //不显示导航栏
     funcRun = function() { FuncNavi.run(true); }; 
