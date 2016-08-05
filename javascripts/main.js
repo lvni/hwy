@@ -1784,6 +1784,8 @@ var Order = {
                                     $("#js-changecont div[data-type=wait_comment]").trigger('click');
                                 }, 1200);
                                 
+                            } else {
+                                location.reload();
                             }
                         
                     });
