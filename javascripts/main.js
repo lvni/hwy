@@ -1043,6 +1043,11 @@ var Bootstrap = {
     //渲染商品详情
     ,renderGoodsDetail: function(data) {
         var me = Bootstrap;
+        if (data.video != "") {
+            //有视频
+            var video = '<video width="100%" src="'+data.video+'" controls="controls"></video>';
+            $("#video").show().append(video);
+        }
         $(".details-infobox .cont").html(data.detail);
         var attrHtml = "";
         var attrItemTemplate = "<p>{$key}: {$value}</p>";
