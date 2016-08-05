@@ -781,11 +781,21 @@ var goodsCart = {
         var me = this;
         $('#add').click(function(){
             var goodsId = $(this).attr('data-id');
+            var num = parseInt($(this).attr('num'));
+            if (num < 1) {
+                messageBox.toast("库存不足");
+                return;
+            }
             me.add(goodsId);
         });
         $('#buy').click(function(){
             var goodsId = $(this).attr('data-id');
             var role = $(this).attr('user-role');
+            var num = parseInt($(this).attr('num'));
+            if (num < 1) {
+                messageBox.toast("库存不足");
+                return;
+            }
             if (role >= Const.USER_ROLE_SUPPLIER) {
                 messageBox.toast("供应商不能购买");
                 return;
@@ -1056,7 +1066,7 @@ var Bootstrap = {
         $(".productinfo-head .likes").html(data.likes_cnt); 
         $(".productinfo-list .cont").html(attrHtml);
         $(".details-slide .slides").html(slideHtml);
-        $("#add,#buy,#detail_collect,#detail_likes_up").attr('data-id', data.id);
+        $("#add,#buy,#detail_collect,#detail_likes_up").attr('data-id', data.id).attr('num', data.number);
         $("#add,#buy,#detail_collect,#detail_likes_up").attr('user-role', data.role);
         $("#detail_collect").attr('data-collected', data.is_collected);
         me.updateIcon(data.is_collected);
@@ -3779,16 +3789,20 @@ var NavFunc = {
 path = location.pathname;
 //注册分享回调
 FuncNavi.addCallback(Share.registerShare, Share);
+var funcRun;
 if (path in NavFunc) {
     var item = NavFunc[path];
     if (item.callback) {
         FuncNavi.addCallback(item.callback.a, item.callback.b);
     }
-    FuncNavi.run();
+    funcRun = function() { FuncNavi.run(); }; 
 } else {
     //不显示导航栏
-    FuncNavi.run(true);
+    funcRun = function() { FuncNavi.run(true); }; 
+    
 }
+funcRun();
+//setInterval(funcRun, 4000);
 
 history.igo = history.go;
 history.go = function(index){
