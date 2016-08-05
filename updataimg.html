@@ -278,7 +278,7 @@
             var id = parent.find("img").attr('img_id');
             //调用接口删除
             Util.requestApi("?r=finds/removeimg", {img_id:id}, function(data){}, 'GET', true);
-            //parent.remove();
+            parent.remove();
         });
     })();
 </script>
