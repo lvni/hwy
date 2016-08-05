@@ -24,6 +24,12 @@
             opacity: 0.7;
             border-radius: 5px;
         }
+        .remove-img {
+            position: absolute;
+            top:0;
+            right:0;
+            width:
+        }
     </style>
 </head>
 
@@ -170,7 +176,9 @@
                         messageBox.toast("请选择图片文件");
                         return ;
                     }
-                    
+                    var processBar = '<div class="process"></div>'
+                                           + '<div class="process-bar"></div>'
+                                           + '<img src="img/remove.png" class="remove-img">';
                     imgIndex ++;
                     //生成预览
                     reader.onload = function() {
@@ -187,8 +195,7 @@
                     fd.append('datafile', files[0]);//将文件添加到表单数据中
                     fd.append('order', orderSn);
                     var xhr = new XMLHttpRequest();
-                    var processBar = '<div class="process"></div>'
-                                           + '<div class="process-bar"></div>';
+                    
                     updateProgress = function(event) {
                         //更新进图条
                         var imgBox  = $('#js-outputbox div[name=index_'+imgIndex+']');
@@ -265,6 +272,14 @@
         }
         
         $("#publish").bind('click', publish);
+        
+        $("#js-outputbox").delegate('.remove-img', 'click', function(){
+            var parent = $(this).parent();
+            var id = parent.find("img").attr('img_id');
+            //调用接口删除
+            Util.requestApi("?r=finds/removeimg", {img_id:id}, function(data){}, 'GET', true);
+            //parent.remove();
+        });
     })();
 </script>
 </body>
