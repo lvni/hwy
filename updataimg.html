@@ -231,11 +231,11 @@
                         } 
                     };
                     xhr.onprogress = updateProgress;
-　　              xhr.upload.onprogress = updateProgress;
+　　                xhr.upload.onprogress = updateProgress;
                       //xhr.addEventListener("error", opts.uploadFailed, false);
                     xhr.open("POST", url);
                     xhr.send(fd);
-                    console.log("send");
+                    //console.log("send");
                 }
             } catch(e) {
                 console.log(e);

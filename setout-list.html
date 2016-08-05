@@ -5,6 +5,7 @@
 <title>设置</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/setout-list.css">
+    <link rel="stylesheet" href="css/headphoto.css">
 </head>
 
 <body>
@@ -20,7 +21,7 @@
         <img src="img/arrowleft.png">
     </a>
 </div>
-<div class="u-list-arrow">
+<div class="u-list-arrow" id="set-list">
     <a href="editname.html">
         <i>修改昵称</i>
         <img src="img/arrowright.png">
@@ -45,6 +46,29 @@
         <i>退出当前账号</i>
         <img src="img/arrowright.png">
     </a>
+</div>
+<div class="contbox" id="photo" style="display:none;">
+    <input type="file" id="head-avatar" style="display:none;" accept="image/*" capture="camara">
+    <div class="mainbox">
+        <img class="photo" src="">
+        <div class="bg"></div>
+    </div>
+    <p class="tips">您上传的头像将生成两种尺寸，请注意小尺寸的头像是否清晰</p>
+    <div class="photoshow">
+        <div class="bigphoto">
+            <div><img src=""></div>
+            <p>100*100</p>
+        </div>
+        <div class="smollphoto">
+            <div><img src=""></div>
+            <p>50*50</p>
+        </div>
+    </div>
+    <div class="buttonbox">
+        <button class="u-mainbutton-little" id="modify-img">
+            <span>保存</span>
+        </button>
+    </div>
 </div>
 <div class="u-popodbox">
     <div class="cont">
@@ -84,6 +108,79 @@
          messageBox.confirm("您确定要清理缓存吗?", function(){
             messageBox.toast("已清理");
          });
+    });
+    //触发选择图片
+    $("#js-uploadPhotoTrigger").click(function(){
+        $("#head-avatar").trigger('click');
+    });
+    $(window).on('hashchange', function() {
+      var hash = Util.getHash();
+      if (hash == 'head-img') {
+        $("#photo").show();
+        $("#set-list").hide();
+      } else {
+        $("#photo").hide();
+        $("#set-list").show();
+      }
+      
+    });
+    //文件变化事件
+    $("#head-avatar").change(function(){
+        var fd = new FormData();//创建表单数据对象
+        files = this.files;
+        if (files.length == 0) {
+            //没有文件
+            return;
+        }
+        reader = new FileReader();
+        if(/image/.test(files[0].type)) {
+            reader.readAsDataURL(files[0]);
+            type = 'image';
+        }  else {
+            messageBox.toast("请选择图片文件");
+            return ;
+        }
+        //生成预览
+        reader.onload = function() {
+         var html = '';
+            switch(type) {
+                case 'image':
+                    $("#photo img").attr('src', reader.result);
+                    //location.hash = "head-img";
+                    location.href = location.href + "#head-img";
+                break;
+            }
+        }
+        function upload() {
+            files = $("#head-avatar")[0].files;
+            fd.append('datafile', files[0]);//将文件添加到表单数据中
+            var xhr = new XMLHttpRequest();
+            $("#modify-img").unbind('click', upload);
+            xhr.onreadystatechange=function(){
+                if (this.readyState==4) {
+                    $("#modify-img").bind('click', upload);
+                    if (this.status==200) {
+                        var responseText = this.responseText;
+                        try {
+                            var result = JSON.parse(responseText);
+                            messageBox.toast(result.errmsg);
+                        } catch(e) {
+                            console.log(e);
+                            messageBox.toast("服务器错误啦");
+                        }
+                    } else {
+                        
+                        messageBox.toast("服务器错误啦");
+                    }
+                    
+                    history.go(-1);
+                } 
+            };
+            var url = config.api + "?r=user/uploadavatar";
+            xhr.open("POST", url);
+            xhr.send(fd);
+        };
+        $("#modify-img").bind('click', upload);
     });
 </script>
 </body>
