@@ -3665,6 +3665,9 @@ var Share = {
        var html = '<div id="share_guid" style="position: fixed;top: 0; left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.7);display: ;z-index: 20000;">'
                      + '<img style="position: fixed;right: 30px;top: 10px;z-index: 999;" src="img/share_guid.png"></div>';
         $('body').append(html);             
+        $("#share_guid").click(function(){
+            $(this).remove();
+        });
    }
    ,registerShare: function(proxy){
       
