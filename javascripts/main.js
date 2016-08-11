@@ -364,6 +364,12 @@ var Util = {
                 return false;
             }
     }
+    ,callAppApi: function(action, prams) {
+        //调用本地api
+        var iframe = document.createElement("iframe");
+        iframe.src = action;
+        document.getElementsByTagName('body')[0].appendChild(iframe);
+    }
     ,goGoodsDetail: function(id) {
         window.location.href = "details.html?id=" + id ;
     }
@@ -380,6 +386,10 @@ var Util = {
             url += "&redirect=" + redirect;
         }
         window.location.href = url;
+    }
+    ,goAppWxLogin: function(redirect, callback) {
+        //原生微信登陆
+        Util.callAppApi("hwy://login?act=weixin");
     }
     //微信扫码登录
     ,goWxQrLogin: function(redirect) {
@@ -407,6 +417,15 @@ var Util = {
     ,hideLoading: function() {
         clearTimeout(this.loadingId);
         $("#loading_box").remove();
+    }
+    ,isApp: function() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        var preg = /hwy\/([0-9\.]+)/i;
+        var a = ua.match(preg);
+        if (a) {
+            return a[1];
+        }
+        return false;
     }
     //获取微信版本号
     ,getWxVer: function() {
@@ -3859,4 +3878,6 @@ $(function(){
         document.documentElement.scrollTop = document.body.scrollTop =0;
     });
     
-})
+});
+
+//alert("test");

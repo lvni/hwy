@@ -38,13 +38,22 @@
     </button>
 </div>
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js"></script>
+<script src="javascripts/main.js?v=wr32423"></script>
 <script src="javascripts/md5.min.js"></script>
 <script>
 $(function(){
     $('.wechatbutton').click(function(){  
         var redirect = Util.getQueryString('redirect');
-        Util.goWxLogin(redirect);
+        
+        if (Util.isWeiXin()) {
+            Util.goWxLogin(redirect);
+        }
+        if (Util.isApp()) {
+            alert("xsdf");
+            Util.goAppWxLogin();
+            return;
+        }
+        messageBox.toast("暂不支持");
     });
     
     //设置注册register.html
