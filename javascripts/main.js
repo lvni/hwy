@@ -3903,7 +3903,7 @@ var AppCall = {
             }
             
             if (jsObt.errCode != 0) {
-                messageBox.toast(jsObt.errStr);
+                messageBox.toast("取消登录");
                 return ;
             }
             var params = {
