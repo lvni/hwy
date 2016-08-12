@@ -368,6 +368,7 @@ var Util = {
         //调用本地api
         var iframe = document.createElement("iframe");
         iframe.src = action;
+        iframe.style.display = 'none';
         document.getElementsByTagName('body')[0].appendChild(iframe);
     }
     ,goGoodsDetail: function(id) {
@@ -387,9 +388,9 @@ var Util = {
         }
         window.location.href = url;
     }
-    ,goAppWxLogin: function(redirect, callback) {
+    ,goAppWxLogin: function(callback) {
         //原生微信登陆
-        Util.callAppApi("hwy://login?act=weixin");
+        Util.callAppApi("hwy://login?act=weixin&callback="+callback);
     }
     //微信扫码登录
     ,goWxQrLogin: function(redirect) {
@@ -3884,3 +3885,61 @@ $(function(){
 });
 
 //alert("test");
+
+//客户端回调前端的js
+var AppCall = {
+    
+    hello: function(obc) {
+        messageBox.toast("hello : " + obc);
+    },
+    wxCallback: function(data) {
+        //微信成功回调
+        
+        try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            
+            if (jsObt.errCode != 0) {
+                messageBox.toast(jsObt.errStr);
+                return ;
+            }
+            var params = {
+                isApp: 1,
+                code: jsObt.code,
+                state : 123,
+            };
+            //messageBox.toast(params.code);
+            var redirect = Util.getQueryString('redirect');
+            //调用服务端接口
+            $.ajax({
+                url: config.api +"?r=user/wxcallback",
+                data:params,
+                type: 'GET',
+                //dataType: 'json',
+                success: function(redata) {
+                    messageBox.toast(redata);
+                    if (redata.errno == 0) {
+                         messageBox.toast("成功");
+                         redirect = redirect ? redirect : config.page.home;
+                         location.href = redirect;
+                    } else {
+                        messageBox.toast(redata.errmsg);
+                    }
+                },
+                error: function() {
+                    messageBox.toast("登录出现问题，请稍后重试");
+                }
+                
+            });
+            
+        }catch(e) {
+            console.log(e);
+            messageBox.toast("出错啦");
+        }
+         
+    }
+    
+};

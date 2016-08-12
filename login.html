@@ -41,7 +41,10 @@
 <script src="javascripts/main.js?v=wr32423"></script>
 <script src="javascripts/md5.min.js"></script>
 <script>
+
 $(function(){
+    
+    
     $('.wechatbutton').click(function(){  
         var redirect = Util.getQueryString('redirect');
         
@@ -49,8 +52,7 @@ $(function(){
             Util.goWxLogin(redirect);
         }
         if (Util.isApp()) {
-            alert("xsdf");
-            Util.goAppWxLogin();
+            Util.goAppWxLogin('AppCall.wxCallback');
             return;
         }
         messageBox.toast("暂不支持");
