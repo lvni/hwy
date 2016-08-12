@@ -3920,7 +3920,6 @@ var AppCall = {
                 type: 'GET',
                 dataType: 'json',
                 success: function(redata) {
-                    messageBox.toast(redata);
                     if (redata.errno == 0) {
                          messageBox.toast("登录成功");
                          redirect = redirect ? redirect : config.page.home;
