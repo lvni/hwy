@@ -3918,11 +3918,11 @@ var AppCall = {
                 url: config.api +"?r=user/wxcallback",
                 data:params,
                 type: 'GET',
-                //dataType: 'json',
+                dataType: 'json',
                 success: function(redata) {
                     messageBox.toast(redata);
                     if (redata.errno == 0) {
-                         messageBox.toast("成功");
+                         messageBox.toast("登录成功");
                          redirect = redirect ? redirect : config.page.home;
                          location.href = redirect;
                     } else {
