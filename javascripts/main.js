@@ -2119,13 +2119,17 @@ var Order = {
     ,getWxPayParams: function(orderSn) {
         var api = config.api + "?r=order/weixinpayid";
         var ret = {};
+        var isApp = Util.isApp();
         $.ajax({
             url: api,
-            data: {order: orderSn},
+            data: {order: orderSn,isApp:isApp},
             dataType: 'json',
             async: false,
             success: function(data) {
                 ret = data;
+            }
+            ,error: function(data) {
+                messageBox.toast("支付异常");
             }
             
         });
@@ -2137,8 +2141,10 @@ var Order = {
         if (!me.wxParams) {
              
         }
+        
         me.wxParams = me.getWxPayParams(orderSn);
         if (me.wxParams.errno != 0) {
+
             messageBox.toast(me.wxParams.errmsg);
             return;
          }
@@ -2160,16 +2166,28 @@ var Order = {
                }
            ); 
         }
-        if (typeof WeixinJSBridge == "undefined"){
-           if( document.addEventListener ){
-               document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-           }else if (document.attachEvent){
-               document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-               document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-           }
-        }else{
-           onBridgeReady();
+        if (Util.isWeiXin() && Util.canWeixinPay()) {
+
+            if (typeof WeixinJSBridge == "undefined"){
+               if( document.addEventListener ){
+                   document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+               }else if (document.attachEvent){
+                   document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+                   document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+               }
+            }else{
+               onBridgeReady();
+            }
+                        
+        }else if (Util.isApp()) {
+            //app
+            var api = "hwy://pay?act=weixin&callback=AppCall.wxPayBack&params="
+                       + JSON.stringify(me.wxParams.data);
+            Utiil.callAppApi(api);
+        } else {
+            messageBox.toast("请在微信5.0打开");
         }
+        
     }
     ,bindPaymentEvent: function(orderSn){
         //u-arrow-list
@@ -2180,11 +2198,11 @@ var Order = {
              
              if (payType == 'weixin') {
                  //微信支付
-
-                 if (!Util.canWeixinPay()) {
+                  /**
+                 if (Util.canWeixinPay()) {
                      messageBox.toast("请使用微信5.0以上版本打开");
                      return;
-                 }
+                 } **/
                  me.weixinPay(orderSn);
                  
              } 
@@ -3939,6 +3957,19 @@ var AppCall = {
             messageBox.toast("出错啦");
         }
          
+    }
+    //微信支付回调
+    ,wxPayBack: function(data) {
+        try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            
+        } catch(e) {
+            messageBox.toast("支付异常");
+        }
     }
     
 };
