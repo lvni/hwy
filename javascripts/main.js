@@ -3667,6 +3667,7 @@ var Share = {
        var desc = content.hasOwnProperty('desc') ? content.desc : "让珠宝不再暴利,让珠宝零距离,让志同道合的业者都能共享平台成果";
        var link = content.hasOwnProperty('link')? content.link :  location.href;
        var img = content.hasOwnProperty('img') ? content.img : config.share_logo;
+       Share.sid = "";
        if (window.hwy && window.hwy.user) {
            //一登陆用户
            //修改sid ,替换为自己的分享
@@ -3793,7 +3794,14 @@ var Share = {
         }
     }
    ,shareFriend: function() {
-       
+       var me = this;
+       if (Util.isApp()) {
+           //是自己app
+           var api = "hwy://share?callback=AppCall.shareBack&params="
+                       + encodeURIComponent(JSON.stringify(me.getShareContent()));
+           Util.callAppApi(api);
+           return ;
+       }
        if (!Util.isWeiXin()) {
            return;
        }
