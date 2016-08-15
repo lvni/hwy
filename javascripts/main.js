@@ -426,7 +426,7 @@ var Util = {
         if (a) {
             return a[1];
         }
-        return false;
+        return "";
     }
     //获取微信版本号
     ,getWxVer: function() {
@@ -2148,11 +2148,13 @@ var Order = {
             messageBox.toast(me.wxParams.errmsg);
             return;
          }
+         
          function onBridgeReady(){
            WeixinJSBridge.invoke(
                'getBrandWCPayRequest', me.wxParams.data,
                function(res){     
                     if (res.err_code) {
+                        //messageBox.toast(res.err_msg);
                         //有错误码，则表示支付失败
                          messageBox.toast("支付失败");
                     } else if (res.err_msg == 'get_brand_wcpay_request:cancel'){
@@ -2181,9 +2183,16 @@ var Order = {
                         
         }else if (Util.isApp()) {
             //app
+            //稍微处理下
+            var params = me.wxParams.data;
+            delete params['package'];
             var api = "hwy://pay?act=weixin&callback=AppCall.wxPayBack&params="
-                       + JSON.stringify(me.wxParams.data);
-            Utiil.callAppApi(api);
+                       + JSON.stringify(params);
+            //messageBox.toast(api);
+            AppCall.successCallback = function(){
+                setTimeout(function(){me.gotoDetail(orderSn);}, 1500);
+            };
+            Util.callAppApi(api);
         } else {
             messageBox.toast("请在微信5.0打开");
         }
@@ -3973,6 +3982,14 @@ var AppCall = {
                 var jsObt  = data;
             } else {
                 var jsObt  = JSON.parse(data);
+            }
+            if (jsObt.errCode == 0) {
+                messageBox.toast("成功支付，请耐心等待");
+                if (AppCall.successCallback) {
+                    AppCall.successCallback();
+                }
+            } else {
+                messageBox.toast("支付失败");
             }
             
         } catch(e) {
