@@ -3996,5 +3996,24 @@ var AppCall = {
             messageBox.toast("支付异常");
         }
     }
+    ,shareBack: function(data) {
+        try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            if (jsObt.errCode == 0) {
+                messageBox.toast("分享成功");
+   
+            } else {
+                messageBox.toast("分享取消");
+            }
+            
+        } catch(e) {
+            messageBox.toast("分享异常");
+        }
+    }
     
 };
+//Util.showLoading();
