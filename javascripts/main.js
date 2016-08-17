@@ -3836,7 +3836,14 @@ var Share = {
        });
    }
    ,scan: function(){
-       wx.scanQRCode();
+       if (Util.isWeiXin()) {
+           wx.scanQRCode();
+       }
+       if (Util.isApp()) {
+           var api = "hwy://scan?params={}&callback=AppCall.scanBack";
+           Util.callAppApi(api);
+       }
+       
    }
     
 };
@@ -4012,6 +4019,19 @@ var AppCall = {
             
         } catch(e) {
             messageBox.toast("分享异常");
+        }
+    }
+    //二维码扫描回调
+    ,scanBack: function(data) {
+        try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            
+        } catch(e) {
+            messageBox.toast("扫码出现异常");
         }
     }
     
