@@ -4029,6 +4029,22 @@ var AppCall = {
             } else {
                 var jsObt  = JSON.parse(data);
             }
+            if (jsObt.errCode == 0) {
+                //扫码成功
+                var content = jsObt.content;
+                if (content.indexOf('http') == 0) {
+                    location.href=content;
+                } else {
+                    messageBox.toast("扫描结果:" + content);
+                }
+            }
+            if (jsObt.errCode == -1) {
+                messageBox.toast("扫描失败，请检查是否有摄像头权限");
+            }
+            if (jsObt.errCode == 1) {
+                //正常取消
+                //messageBox.toast("");
+            }
             
         } catch(e) {
             messageBox.toast("扫码出现异常");
