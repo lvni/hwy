@@ -2207,11 +2207,11 @@ var Order = {
              
              if (payType == 'weixin') {
                  //微信支付
-                  /**
-                 if (Util.canWeixinPay()) {
+                 
+                 if (!Util.isApp() && !Util.canWeixinPay()) {
                      messageBox.toast("请使用微信5.0以上版本打开");
                      return;
-                 } **/
+                 } 
                  me.weixinPay(orderSn);
                  
              } 
