@@ -2837,7 +2837,7 @@ var Income = {
             for (i in data.data.list) {
                 var item = data.data.list[i];
                 item.display = "";
-                if (parseInt(item.rebate_money) == 0) {
+                if (parseFloat(item.rebate_money) == 0) {
                     item.display = "none";
                 }
                 html += Template.renderByTemplate(template, item);
