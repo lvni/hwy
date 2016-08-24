@@ -414,7 +414,7 @@ $(function(){
         var htm = "";
         var template = $("#guess_tempate").html();
         for (i in data.data) {
-            htm += Template.renderByTemplate(template, data.data[1]);
+            htm += Template.renderByTemplate(template, data.data[i]);
         }
         $("#guess_area").html(htm);
         
