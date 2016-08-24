@@ -369,8 +369,9 @@ $(function(){
                  var one = data.data.hotan[0];
                  var area = $("#ad_hotan");
                  if (one.link) {
+                     var ad_hotan_link = one.link;
                     area.find(".content").bind('click', function(){
-                        location.href = one.link;
+                        location.href = ad_hotan_link;
                     });
                  }
                  area.find("img").attr('src', one.img);
@@ -380,8 +381,9 @@ $(function(){
                  var one = data.data.soutred[0];
                  var area = $("#ad_soutred");
                  if (one.link) {
+                     var ad_soutred_link = one.link;
                     area.find(".content").bind('click', function(){
-                        location.href = one.link;
+                        location.href = ad_soutred_link;
                     });
                  }
                  area.find("img").attr('src', one.img);
@@ -391,8 +393,9 @@ $(function(){
                  var one = data.data.emerald[0];
                  var area = $("#ad_emerald");
                  if (one.link) {
+                    var emerald_link = one.link;
                     area.find(".content").bind('click', function(){
-                        location.href = one.link;
+                        location.href = emerald_link;
                     });
                  }
                  area.find("img").attr('src', one.img);

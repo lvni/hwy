@@ -565,7 +565,7 @@ var FuncNavi = {
                      + '<img src="'+default_icons.product+'">'
                      + '<p>所有产品</p>'
                      + '{$prod_num}</a>'
-                     + '<a href="javascript:;" onclick="FuncNavi.rfPage(\'discovered.html\')">'
+                     + '<a href="discovered.html" >'
                      + '<img src="img/hw_76.png">'
                      + '<p>发现</p>'
                      + '{$find_num}</a>'
