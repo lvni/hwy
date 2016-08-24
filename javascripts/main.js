@@ -5,7 +5,10 @@
  * @brief 洪五爷珠宝
  **/
  var host = location.host;
- var prefx = "/test";
+ var prefx = "";
+ if (location.pathname.indexOf('test')) {
+    prefx = "/test";
+ }
 
  host +=  prefx;
 var config = {
