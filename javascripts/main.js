@@ -5,6 +5,9 @@
  * @brief 洪五爷珠宝
  **/
  var host = location.host;
+ var prefx = "/test";
+
+ host +=  prefx;
 var config = {
     'api': 'http://'+host+'/api/backend/web/index.php',
     //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
@@ -34,6 +37,15 @@ var config = {
         'king.html', 'index.html', 'allproduct.html',
     ],
 };
+history.igo = history.go;
+history.go = function(index){
+    if (history.length > 1) {
+        history.igo(index); 
+    } else {
+        location.replace("index.html");
+    }
+       
+}
 //错误码
 var ErrorCode = {
     NO_LOGIN: 12, //没有登录
@@ -500,6 +512,12 @@ var Storge = {
 var FuncNavi = {
     data: {},
     funcs: [], //回调函数列表
+    //去到某个页面，同事清除浏览器history
+    rfPage: function(page) {
+        var hl = history.length;
+         history.igo(-hl);
+         window.location.replace(page);
+    },
     html: function(data) {
         var default_icons = {
             'index': 'img/hw_72.png',
@@ -533,21 +551,21 @@ var FuncNavi = {
                    icon: 'img/s-cart.png',
                }
         };
-        var pathname = location.pathname;
+        var pathname = location.pathname.replace(prefx, "");
         if (pathname in paths_icons) {
             var icon_info = paths_icons[pathname];
             default_icons[icon_info['key']] = icon_info['icon'];
         }
         var html = '<div class="u-bottomnav">'
-                     + '<a href="index.html">'
+                     + '<a href="javascript:;" onclick="FuncNavi.rfPage(\'index.html\')">'
                      + '<img src="'+default_icons.index+'">'
                      + '<p>首页</p>'
                      + '{$idx_num}</a>'
-                     + '<a href="allproduct.html">'
+                     + '<a href="allproduct.html" >'
                      + '<img src="'+default_icons.product+'">'
                      + '<p>所有产品</p>'
                      + '{$prod_num}</a>'
-                     + '<a href="discovered.html">'
+                     + '<a href="javascript:;" onclick="FuncNavi.rfPage(\'discovered.html\')">'
                      + '<img src="img/hw_76.png">'
                      + '<p>发现</p>'
                      + '{$find_num}</a>'
@@ -1575,9 +1593,13 @@ var Bootstrap = {
         } else {
             
             var k = Util.getQueryString('k');
+            var material = Util.getQueryString('material');
             if (k) {
                 $('title').html("搜索-"+Util.escape(k));
             }        
+            if (material) {
+                this.searchQuery.material = material;
+            }
             var type = Util.getQueryString('type');
             var typeTitles = {
                 'zhen' : "臻品堂",
@@ -3691,7 +3713,7 @@ var Share = {
             '/webapp/details.html' : 1,
             '/webapp/allproduct.html': 1
        }
-       if ( !(location.pathname in valids)) {
+       if ( !(location.pathname.replace(prefx, '') in valids)) {
            link = config.webapp;
        }
        if (reg.test(link)) {
@@ -3887,8 +3909,9 @@ path = location.pathname;
 //注册分享回调
 FuncNavi.addCallback(Share.registerShare, Share);
 var funcRun;
+path = path.replace(prefx, '');
 if (path in NavFunc) {
-    var item = NavFunc[path];
+    var item =  NavFunc[path];
     if (item.callback) {
         FuncNavi.addCallback(item.callback.a, item.callback.b);
     }
@@ -3901,15 +3924,7 @@ if (path in NavFunc) {
 funcRun();
 //setInterval(funcRun, 4000);
 
-history.igo = history.go;
-history.go = function(index){
-    if (history.length > 1) {
-        history.igo(index); 
-    } else {
-        location.replace("index.html");
-    }
-       
-}
+
 
 //插入统计代码
 var doc=document;  
