@@ -609,9 +609,9 @@ var FuncNavi = {
             //已登陆
             //to-do 不同角色，不同页面
             
-            var ucenter_page = "king.html?" + Math.random();
+            var ucenter_page = "king.html";
             if (data.user.role >= Const.USER_ROLE_SUPPLIER) {
-                ucenter_page = "supplier.html?"+ Math.random();
+                ucenter_page = "supplier.html";
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
