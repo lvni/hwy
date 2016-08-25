@@ -6,7 +6,8 @@
  **/
  var host = location.host;
  var prefx = "";
- if (location.pathname.indexOf('test')) {
+var pathname = location.pathname;
+ if (pathname.indexOf('test') >= 0) {
     prefx = "/test";
  }
 
@@ -4070,4 +4071,16 @@ var AppCall = {
     }
     
 };
+
+
+//统计相关
+var Statics = {
+    send: function() {
+        $.get(config.api+"?r=statics/push", function(res){
+            console.log(res);
+        });
+    }
+    
+};
+Statics.send();
 //Util.showLoading();
