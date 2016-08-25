@@ -6,6 +6,7 @@
  **/
  var host = location.host;
  var prefx = "";
+ var _czc = _czc || []; //统计
  if (location.pathname.indexOf('test')) {
     prefx = "/test";
  }
@@ -637,6 +638,8 @@ var FuncNavi = {
                                       .replace('{$ucenter_action}', clickNone);
         }
         
+        var isLogin = data.is_login == 0 ? "未登录" : "已登录";
+        _czc.push(["_setCustomVar","是否登录",isLogin,7200]);
         return htmlStr;
     }
     ,rendNavi: function(data) {
@@ -1340,14 +1343,17 @@ var Bootstrap = {
         //获取分类ids
         $('#js-chooseclass .cont').each(function(i,e){
             var role = $(e).attr('data-role');
+            var name  =$(e).find('p').html();
             if ( role== 'shaixuan') {
                 cids.push($(e).attr('data_cat_id'));
             }
             if ( role== 'buwei') {
                 position.push($(e).attr('data_cat_id'));
+                _czc.push(["_setCustomVar", '部位',name,1]);
             }
             if ( role== 'caizhi') {
                 material.push($(e).attr('data_cat_id'));
+                _czc.push(["_setCustomVar", '材质',name,1]);
             }
             
         });
@@ -3798,7 +3804,7 @@ var Share = {
             
             //var doc=document;  
             var script=doc.createElement("script"); 
-            var url = 'http://app.hong5ye.com/api/backend/web/index.php?r=user/wxjsonfig&v='+Math.random();
+            var url = 'http://'+host+'/api/backend/web/index.php?r=user/wxjsonfig&v='+Math.random();
             script.setAttribute("src", url);  
             //var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
@@ -4070,4 +4076,17 @@ var AppCall = {
     }
     
 };
+
+//统计相关
+
+var origin = "web";
+origin = Util.isApp() ? "app" : origin;
+origin = Util.isWeiXin() ? "weixin" : origin;
+_czc.push(["_setCustomVar","终端",origin,0]);
+
+//访问来源
+var fr = Util.getQueryString('fr');
+if (fr) {
+    var frStr = "未知";
+}
 //Util.showLoading();
