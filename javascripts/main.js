@@ -424,7 +424,7 @@ var Util = {
     ,showLoading: function(){
          var html = '<div  id="loading_box"><div style="position: fixed;top: 0;width: 100%;height: 100%;background: #ECE6E6;opacity: 0.2;z-index: 10;"></div>'
                       + '<div style="position: fixed;top: 50%;left: 50%;margin-left: -54px;margin-top: -54px;width: 108px;height: 108px;z-index: 13;border-radius: 4px;text-align: center;line-height: 108px;background: #565353;">'
-                      + '<img src="img/loading.gif" style="width: 56px;"></div></div>';
+                      + '<img src="http://'+host+'/webapp/img/loading.gif" style="width: 56px;"></div></div>';
         if (this.loadingId == 0) {
             //延迟150ms出现
             this.loadingId = setTimeout(function(){$('body').append(html);}, 150);
