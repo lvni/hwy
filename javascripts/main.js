@@ -4088,7 +4088,7 @@ var Statics = {
     
 };
 
-Statics.send();
+setTimeout(function(){Statics.send()}, 1500);
 
 var origin = "web";
 origin = Util.isApp() ? "app" : origin;
