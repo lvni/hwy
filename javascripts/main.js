@@ -1370,15 +1370,15 @@ var Bootstrap = {
         
         var p_from = $("#price-range input[name=from]").val();
         var p_to = $("#price-range input[name=to]").val();
-        if (p_from) {
-            me.searchQuery.p_from = p_from;
-        }
-        if (p_to) {
-            me.searchQuery.p_to = p_to;
-        }
+        me.searchQuery.p_from = p_from;
+        me.searchQuery.p_to = p_to;
+
         me.searchQuery['cids'] = cids.join(',');
         me.searchQuery['position'] = position.join(',');
-        me.searchQuery['material'] = material.join(',');
+        if (!Util.getQueryString('material')) {
+            me.searchQuery['material'] = material.join(',');
+        }
+        
         me.searchQuery.p = 1; //重置页码
     }
     //搜索变化事件
