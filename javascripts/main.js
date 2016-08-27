@@ -2218,7 +2218,7 @@ var Order = {
             var params = me.wxParams.data;
             delete params['package'];
             var api = "hwy://pay?act=weixin&callback=AppCall.wxPayBack&params="
-                       + JSON.stringify(params);
+                       + encodeURIComponent(JSON.stringify(params));
             //messageBox.toast(api);
             AppCall.successCallback = function(){
                 setTimeout(function(){me.gotoDetail(orderSn);}, 1500);
