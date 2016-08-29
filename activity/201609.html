@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <META NAME="MobileOptimized" CONTENT="240">
-<title>活动</title>
+<title>聚缘阁</title>
     <link rel="stylesheet" href="../css/public.css">
     <link rel="stylesheet" href="../css/myfootprint.css">
     <link rel="stylesheet" href="../css/index.css">
@@ -28,6 +28,40 @@
         }
         .u-nav-autowidth {
             position:static;
+        }
+        
+        .draw_time {
+            text-align: center;
+            height: 3rem;
+            line-height: 3rem;
+            /* background: #fff; */
+            color: #727372;
+        }
+        .draw_content {
+            background: #fff;
+        }
+        .draw_content .item {
+                height: 30px;
+                line-height: 30px;
+                border-bottom: 1px solid #ccc;
+        }
+        .draw_content .name {
+                display: inline-block;
+                width: 30%;
+                text-align:right;
+        }
+        .draw_content .goods {
+                display: inline-block;
+                width: 50%;
+                margin-left:20%;
+                text-align:left;
+        }
+        .rule-content {
+                white-space: pre-wrap;
+                line-height: 2.3rem;
+                color: #333;
+                background: #fff;
+                padding: 5px 10px;
         }
     </style>
 </head>
@@ -69,10 +103,36 @@
 </div>
 </div>
 <div id="ctx_2" style="display:none;" class="box_area">
-    获奖名单
+    <div>
+        <div class="draw_time">2016-09-05</div>
+        <ul class="draw_content">
+            <li class="item"><span class="name">*某年</span><span class="goods">如意翡翠</span></li>
+            <li class="item"><span class="name">*某年</span><span class="goods">如意翡翠</span></li>
+        </ul>
+    </div>
 </div>
-<div id="ctx_3" style="display:none;" class="box_area">
-    活动规则
+<div id="ctx_3" style="display:none;" class="box_area" >
+<div class="rule-content">
+1.在“聚缘阁”尽情挑选心仪的翡翠珠宝（每人仅限一次参加活动资格）
+
+2.选中心仪产品填写姓名、地址、电话并提交定单，不用付款
+
+3.联系客服：分享活动/产品至微信朋友圈（附加文字“与玉结缘，与好相牵，分享活动/产品免费获得心仪翡翠哦，本人试过，是真的是真的是真的，重要的事情说三遍。”），并截屏给客服
+
+4.联系客服获取抽奖码
+
+5.直播抽奖
+<div style="margin-left: 12%;">
+每天下午3点抽奖
+定时抽出结缘人，包邮免费送出结缘珠宝
+机缘奖：0-200元  （每周一、三、五抽出五名结缘人）
+福缘奖：201-500元（每周二、四抽出两名结缘人）
+奇缘奖：501-1000  （每周六抽出两名结缘人）
+天缘奖：1000以上 （每周六抽出一名结缘人）
+</div>
+
+6.抽奖获奖交品将于隔天寄出，周末不发货
+  </div>
 </div>
 <script type="text/template" id="list_item_template">
 <div class="contbox" >
@@ -134,12 +194,40 @@ $(function(){
         console.log(data);
     }, 'GET', false);
     
+    
+    function getDrawList() {
+        //获取中奖用户
+        var area = $("#ctx_2");
+        Util.showTips(area, "加载中 ...");
+        Util.requestApi("?r=activity/drawlist", {}, function(data) {
+               if (data.errno != 0) {
+                   messageBox.toast(data.errmsg);
+                   Util.showTips(area, "加载失败");
+                   return ; 
+               }
+               
+               if (data.data.length == 0) {
+                   Util.showTips(area, "等待开奖中");
+                   return ;
+               }
+        });
+    }
+    
     $(".u-nav-autowidth div").click(function(){
         $(".u-nav-autowidth div").removeClass("on");
         $(this).addClass("on");
         var idex = $(this).attr("data-index");
         $(".box_area").hide();
         $("#ctx_" + idex).show();
+        
+        if (idex == 1) {
+            //产品列表
+            
+        }
+        if (idex == 2) {
+            //中奖名单
+            //getDrawList();
+        }
     });
 });
 </script>
