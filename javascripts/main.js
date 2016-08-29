@@ -1156,15 +1156,15 @@ var Bootstrap = {
             likeCnt = 0;
         }
         if (likeCnt > 0) {
-            $("#detail_likes_up img").attr('src', 'img/s-likes.png');
+            $("#detail_likes_up img").attr('src', 'http://'+host+'/webapp/img/s-likes.png');
         }
     }
     ,updateIcon: function(collected) {
         
         if (collected == "1") {
-            $("#detail_collect img").attr('src', 'img/star.png');
+            $("#detail_collect img").attr('src', 'http://'+host+'/webapp/img/star.png');
         } else {
-            $("#detail_collect img").attr('src', 'img/details_22.png');
+            $("#detail_collect img").attr('src', 'http://'+host+'/webapp/img/details_22.png');
         }
     }
     //渲染搜索/所有产品页面

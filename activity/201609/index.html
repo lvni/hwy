@@ -205,10 +205,10 @@
 </div>
 <script type="text/template" id="list_item_template">
 <div class="contbox" >
-        <img src="{$goods_thumb}" onclick="javascript:location.href='../details.html?id={$goods_id}&rf=act201609'">
+        <img src="{$goods_thumb}" onclick="javascript:location.href='details.html?id={$goods_id}&rf=act201609'">
         <div class="cont">
             <p class="name">{$goods_name}</p>
-            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;" data-id='{$goods_id}'  data-name='{$goods_name}'>立即参与</a></p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;" dataid='{$goods_id}'  data-name='{$goods_name}'>立即参与</a></p>
         </div>
         <div class="sold"  style="{$display}"><img src="../../img/sold.png"></div>
     </div>
@@ -274,6 +274,7 @@ $(function(){
          $("#input_address").show();
          $("#goods_name").html(goods_tite);
          $("#goods_id").val(goods_id);
+         //console.log(goods_id);
          if (uaData.u_addr) {
             var address = uaData.u_addr;
             var province_city_district = address.province + " " + address.city + " " + address.district;
@@ -284,7 +285,9 @@ $(function(){
             
             $(".u-arrow-list input").each(function(i){
                 var name = $(this).attr('name');
-                $(this).val(address[name]);
+                if (name in address) {
+                    $(this).val(address[name]);
+                }
             });
             $("#addr_new").val(0);
             delete uaData.u_addr;
@@ -346,9 +349,9 @@ $(function(){
             } else {
                     
                     //可以参加活动
-                    var goods_id = $(this).attr("data-id");
+                    var goods_id = $(this).attr("dataid");
                     var goods_name= $(this).attr("data-name");
-                    showSubmit(goods_id, goods_name);
+                    showSubmit(goods_id , goods_name);
                 
             }
               
@@ -433,7 +436,14 @@ $(function(){
     
     $("#submit").click(function(){
         var params = Address.getAddressFormData();
-        console.log(params);
+        Util.requestApi("?r=activity/submit", params, function(data) {
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+            }
+            if (data.errno == 0) {
+                location.href = "next-step.html";
+            }
+        }, 'get');
     });
 });
 </script>

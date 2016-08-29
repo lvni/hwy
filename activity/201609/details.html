@@ -1,0 +1,157 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>产品详情</title>
+    <link rel="stylesheet" href="../../css/public.css">
+    <link rel="stylesheet" href="../../css/details.css?v=1">
+</head>
+
+<body>
+<div class="details-slide">
+    <div class="top">
+        <a href="javascript:history.go(-1)" ><img src="../../img/details_03.png" class="back"></a>
+        <a href="javascript:;"  id="share"><img src="../../img/details_05.png" class="share"></a>
+    </div>
+    <div id="hl-swiper" class="hl-swiper cont">
+        <div class="position-nav"></div>
+        <div class="slides">
+        
+        </div>
+    </div>
+</div>
+<div class="productinfo-head">
+    <h3 class="title"> 加载中 ... </h3>
+    <p class="price red"><i>￥</i><span class="shop_price">0.00<span></p>
+    <div class="rightbox">
+        <p>点赞量：<i class="red likes">0</i></p>
+        <p>浏览量：<i class="red view">0</i></p>
+    </div>
+</div>
+<div class="u-list-arrow">
+    <a href="allproduct.html">
+        <i>商品分类</i>
+        <img src="../../img/arrowright.png">
+    </a>
+</div>
+<div class="productinfo-list">
+    <h4 class="details-title">商品详情</h4>
+    <div class="cont">
+        加载中 ...
+    </div>
+</div>
+
+<div class="video" id="video" style="display:none;">
+    <h4 class="details-title">视频展示</h4>
+    
+</div>
+
+<div class="details-infobox">
+    <h4 class="details-title">图文详情</h4>
+    <div class="cont">
+        加载中 ...
+    </div>
+</div>
+<div class="comment" style="display:none;">
+    <input type="text" class="cont">
+    <button class="submit">
+        <span>评论</span>
+    </button>
+</div>
+
+<div class="u-index-title" style="display:;">
+    <p>猜你喜欢</p>
+</div>
+<div class="u-box-left50-right50" style="display:;" >
+    <div class="rightbox" id="guess_area">
+
+    </div>
+</div>
+<a href="javascript:;" class="u-backtop">
+    <img src="../../img/index_295.png">
+    回到顶部
+</a>
+
+<div class="details-bottombox">
+    <div class="icon" id="kefu">
+        <img src="../../img/details_27.png">
+        <p>客服</p>
+    </div>
+    <div class="icon" id="detail_collect">
+        <img src="../../img/details_22.png">
+        <p>收藏</p>
+    </div>
+    <div class="icon" id="detail_likes_up">
+        <img src="../../img/details_24.png">
+        <p>点赞</p>
+    </div>
+    <button class="add" onclick="javascript:;">
+        <span>聚缘阁</span>
+    </button>
+    <button class="buy" onclick="javascript:;" >
+        <span>立即参与</span>
+    </button>
+</div>
+<script id="guess_item" type="text/template">
+<div class="u-autoheight" onclick="javascript:location.href='../../details.html?id={$goods_id}'">
+                <div class="dummy"></div>
+                <div class="content"><img src="{$goods_thumb}" width="100%"> </div>
+            </div>
+</script>
+<script src="../../javascripts/hl-swiper.js"></script>
+<script src="../../javascripts/zepto.min.js"></script>
+<script src="../../javascripts/main.js?v3"></script>
+<script>
+$(function(){
+    var ignoreNavi = true;
+    Bootstrap.rungoodsdetail();
+    goodsCart.bindAddEvent();
+    //注册客服事件
+    $("#kefu").bind('click', function(){
+         Util.goKefu();
+    });
+    //猜你喜欢
+    var goodsId = Util.getQueryString('id');
+    
+    function getItem(goods_list) {
+        var template = $("#guess_item").html();
+        if (!goods_list || goods_list.length == 0) {
+            return "";
+        }
+        var html = '<div class="rows">';
+        for (i in goods_list) {
+            html += Template.renderByTemplate(template, goods_list[i]);
+        }
+        html += "</div>";
+        return html;
+    }
+    Util.requestApi('?r=good/guess', {goods_id:goodsId}, function(data) {
+        
+        if (data.data) {
+            j = [];
+            var html = "";
+            for (i in data.data) {
+            
+                j.push(data.data[i]);
+                if (j.length == 4) {
+                    html += getItem(j);
+                    j = [];
+                } 
+
+            }
+            
+            if (j.length > 0) {
+                html += getItem(j);
+            }
+            
+            $("#guess_area").html(html);
+        }
+        
+        
+    }, 'get', true);
+    
+});
+</script>
+
+</body>
+</html>
