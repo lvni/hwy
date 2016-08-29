@@ -832,6 +832,7 @@ var goodsCart = {
             }
             me.add(goodsId);
         });
+        
         $('#buy').click(function(){
             var goodsId = $(this).attr('data-id');
             var role = $(this).attr('user-role');
@@ -844,6 +845,14 @@ var goodsCart = {
                 messageBox.toast("供应商不能购买");
                 return;
             }
+            
+            if (window['goods']) {
+                if (window['goods'].act_type != 0) {
+                    messageBox.toast("活动商品不能购买");
+                return;
+                }
+            }
+            
             me.buy(goodsId);
         });
         
@@ -1109,6 +1118,7 @@ var Bootstrap = {
             var item = data.pics[i];
             slideHtml += slideTemplate.replace('{$src}', item);
         }
+        window['goods'] = data;
         $(".productinfo-head .title").html(data.title); 
         $(".productinfo-head .shop_price").html(data.price); 
         $(".productinfo-head .view").html(data.view_cnt); 
@@ -4017,8 +4027,8 @@ var AppCall = {
             if (jsObt.errCode == 0) {
                 messageBox.toast("成功支付，请耐心等待");
                 if (AppCall.successCallback) {
-                    AppCall.successCallback();
-                }
+                    return AppCall.successCallback();
+                } 
             } else {
                 messageBox.toast("支付失败");
             }
@@ -4026,6 +4036,8 @@ var AppCall = {
         } catch(e) {
             messageBox.toast("支付异常");
         }
+        
+        
     }
     ,shareBack: function(data) {
         try {

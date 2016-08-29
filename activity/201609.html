@@ -6,6 +6,30 @@
     <link rel="stylesheet" href="../css/public.css">
     <link rel="stylesheet" href="../css/myfootprint.css">
     <link rel="stylesheet" href="../css/index.css">
+    
+    <style>
+        .main_bnt {
+            display: -webkit-box;
+            background: #b30011;
+            color: white;
+            border-radius: 3px;
+            padding: 2px;
+        }
+        .gray { 
+            background: #ccc;
+            color: white;
+        }
+        .draw_navi {
+            height: 40px;
+            line-height: 40px;
+            background: #fff;
+            padding-left: 10px;
+            color: #666666;
+        }
+        .u-nav-autowidth {
+            position:static;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +45,7 @@
         <img src="../img/arrowleft.png">
     </a>
 </div>
-<div class="details-slide indexsilde" style=" padding-bottom: 10px;">
+<div class="details-slide indexsilde" >
     <div id="hl-swiper" class="hl-swiper cont">
         <div class="position-nav"></div>
         <div class="slides">
@@ -29,19 +53,33 @@
         </div>
     </div>
 </div>
+
+<nav class="u-nav-autowidth">
+    <div class="on" data-index="1"> <span>寻缘</span> </div> 
+    <div data-index="2"> <span>结缘名单</span></div>
+    <div data-index="3"> <span>活动规则</span></div> 
+</nav>
+
+<div id="ctx_1" class="box_area">
 <div class="u-productlist">
 
     
 </div>
 <div id="loading-more" style=" clear: both;text-align: center;">
 </div>
-
+</div>
+<div id="ctx_2" style="display:none;" class="box_area">
+    获奖名单
+</div>
+<div id="ctx_3" style="display:none;" class="box_area">
+    活动规则
+</div>
 <script type="text/template" id="list_item_template">
-<div class="contbox" onclick="javascript:location.href='../details.html?id={$goods_id}&rf=act201609'">
-        <img src="{$goods_thumb}">
+<div class="contbox" >
+        <img src="{$goods_thumb}" onclick="javascript:location.href='../details.html?id={$goods_id}&rf=act201609'">
         <div class="cont">
             <p class="name">{$goods_name}</p>
-            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection"><img src="../img/hongwu_66.png"> {$fav_count}人收藏</span></p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;">立即参与</a></p>
         </div>
     </div>
 </script>
@@ -53,6 +91,7 @@ $(function(){
     var page = 1;
     var pageCnt = 0;
     var loading = 0;
+    var UserAI = {};
     function loadList(p) {
         Util.requestApi("?r=activity/yuanlai", {p:p}, function(data){
             if (data.errno) {
@@ -89,6 +128,19 @@ $(function(){
             }
         });
         loadList(page );
+        
+    //获取用户活动参与情况
+    Util.requestApi("?r=activity/getuserai", {}, function(data){
+        console.log(data);
+    }, 'GET', false);
+    
+    $(".u-nav-autowidth div").click(function(){
+        $(".u-nav-autowidth div").removeClass("on");
+        $(this).addClass("on");
+        var idex = $(this).attr("data-index");
+        $(".box_area").hide();
+        $("#ctx_" + idex).show();
+    });
 });
 </script>
 </body>
