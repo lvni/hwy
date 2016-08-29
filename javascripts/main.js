@@ -2227,6 +2227,7 @@ var Order = {
             //稍微处理下
             var params = me.wxParams.data;
             //delete params['package'];
+            params['order_sn'] = orderSn;
             var api = "hwy://pay?act=weixin&callback=AppCall.wxPayBack&params="
                        + encodeURIComponent(JSON.stringify(params));
             //messageBox.toast(api);
