@@ -198,7 +198,7 @@
         <img class="arrow" src="../img/arrowright.png">
     </a>
     <div style="text-align:right; background:#fff;padding:5px;" >
-    <button class="u-mainbutton-little" >
+    <button class="u-mainbutton-little" id="submit">
         <span>提交</span>
     </button></div>
 </div>
@@ -429,6 +429,12 @@ $(function(){
             }
     );
     area.init();
+    
+    
+    $("#submit").click(function(){
+        var params = Address.getAddressFormData();
+        console.log(params);
+    });
 });
 </script>
 </body>
