@@ -28,6 +28,7 @@
         }
         .u-nav-autowidth {
             position:static;
+            margin-bottom:5px;
         }
         
         .draw_time {
@@ -63,13 +64,28 @@
                 background: #fff;
                 padding: 5px 10px;
         }
+        
+        a:hover, a:active, a:focus {
+                color: #fff;
+                text-decoration: none;
+        }
+        
+        .sold {
+            position: absolute;
+            right: 10px;
+            bottom:5px;
+            display:none;
+        }
+        .u-productlist > .contbox {
+            position:relative;
+        }
     </style>
 </head>
 
 <body>
 <div class="u-top-msg">
     <div class="title">
-        <p>活动</p>
+        <p>聚缘阁</p>
     </div>
     <a href="message.html" class="msgbox">
         <img src="../img/hw_03.png">
@@ -95,6 +111,7 @@
 </nav>
 
 <div id="ctx_1" class="box_area">
+<div id="v_code" style="display:none"></div>
 <div class="u-productlist">
 
     
@@ -103,13 +120,7 @@
 </div>
 </div>
 <div id="ctx_2" style="display:none;" class="box_area">
-    <div>
-        <div class="draw_time">2016-09-05</div>
-        <ul class="draw_content">
-            <li class="item"><span class="name">*某年</span><span class="goods">如意翡翠</span></li>
-            <li class="item"><span class="name">*某年</span><span class="goods">如意翡翠</span></li>
-        </ul>
-    </div>
+    
 </div>
 <div id="ctx_3" style="display:none;" class="box_area" >
 <div class="rule-content">
@@ -139,9 +150,23 @@
         <img src="{$goods_thumb}" onclick="javascript:location.href='../details.html?id={$goods_id}&rf=act201609'">
         <div class="cont">
             <p class="name">{$goods_name}</p>
-            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;">立即参与</a></p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;" data-id='{$goods_id}'>立即参与</a></p>
         </div>
+        <div class="sold"  style="{$display}"><img src="../img/sold.png"></div>
     </div>
+</script>
+
+<script type="text/template" id="draw_list_template">
+<div>
+        <div class="draw_time">{$dat3}</div>
+        <ul class="draw_content">
+            {$draw_list}
+            
+        </ul>
+    </div>
+</script>
+<script type="text/template" id="draw_item_template">
+    <li class="item"><span class="name">{$name}</span><span class="goods">{$goods_name}</span></li>
 </script>
 <script src="../javascripts/zepto.min.js"></script>
 <script src="../javascripts/main.js"></script>
@@ -166,6 +191,10 @@ $(function(){
             var html = "";
             for (i in data.data.list) {
                 var item = data.data.list[i];
+                item.display = "";
+                if (item.goods_number < 1) {
+                    item.display = "display:block;";
+                }
                 html += Template.renderByTemplate(template, item);
             }
             page = data.data.page ;
@@ -188,14 +217,59 @@ $(function(){
             }
         });
         loadList(page );
-        
+    var uaData = {};
     //获取用户活动参与情况
     Util.requestApi("?r=activity/getuserai", {}, function(data){
-        console.log(data);
+        
+        uaData = data.data;
+        console.log(data.data);
+        if (uaData.act_ed > 0 && uaData.v_code != "") {
+                //已经参与过
+                $("#v_code").html("您已参与活动,抽奖码:" + uaData.v_code).show();
+              
+        }
+        
+        $(".u-productlist").delegate(".main_bnt", 'click', function(){
+              if (uaData.is_login == false) {
+                //没有登录
+                    Util.goLogin(location.href);
+                   return;
+              }
+              if (uaData.act_ed > 0) {
+                //已经参与过
+                if (uaData.v_code != "") {
+                    messageBox.toast("您已参加了活动，不能重复参加");
+                } else {
+                    
+                    //已参与，但还没有抽奖码
+                    messageBox.confirm("还差一步，联系我们的客服获取您的抽奖码", function(){
+                          Util.goKefu();
+                    });
+                
+                }
+                
+              
+              }
+              
+              
+        });
+        
+        
     }, 'GET', false);
     
-    
+    var DrawGetTime = new Date();
+    var DrawLoaded = false;
     function getDrawList() {
+        var now = new Date();
+        var minus = now.getTime() - DrawGetTime.getTime();
+        console.log(DrawLoaded);
+        console.log(minus < 30000);
+        if (DrawLoaded && minus < 30000) {
+                console.log("cached");
+                return ; 
+        }
+       DrawLoaded = true;
+       DrawGetTime = now;
         //获取中奖用户
         var area = $("#ctx_2");
         Util.showTips(area, "加载中 ...");
@@ -210,7 +284,25 @@ $(function(){
                    Util.showTips(area, "等待开奖中");
                    return ;
                }
+               
+               var html = "";
+               var DlistT = $("#draw_list_template").html();
+               var DitemT = $("#draw_item_template").html();
+               for (date in data.data) {
+                       var item = {date: date, draw_list: ''};
+                        
+                       for (j in data.data[date]) {
+                           var ditem = data.data[date][j];
+                           
+                           item.draw_list += Template.renderByTemplate(DitemT, ditem);
+                       }
+                       
+                       html += Template.renderByTemplate(DlistT, item);
+               }
+               
+               area.html(html);
         });
+        
     }
     
     $(".u-nav-autowidth div").click(function(){
@@ -226,7 +318,7 @@ $(function(){
         }
         if (idex == 2) {
             //中奖名单
-            //getDrawList();
+            getDrawList();
         }
     });
 });

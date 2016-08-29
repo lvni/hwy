@@ -1,0 +1,43 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>聚缘阁</title>
+    <link rel="stylesheet" href="../css/public.css">
+    <link rel="stylesheet" href="../css/myfootprint.css">
+    <link rel="stylesheet" href="../css/index.css">
+    
+    
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>聚缘阁</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="../img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="../img/arrowleft.png">
+    </a>
+</div>
+<div style="padding: 15px;">
+    还差一步!
+    <div>马上联系我们的客服获取您的抽奖码
+    <div class="icon" id="kefu" style="display:inline-block;">
+        <img src="../img/details_27.png">
+    </div>
+     </div>
+</div>
+
+<script src="../javascripts/zepto.min.js"></script>
+<script src="../javascripts/main.js"></script>
+<script>
+$("#kefu").bind('click', function(){
+         Util.goKefu();
+    });
+</script>
+</body>
+</html>

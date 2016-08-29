@@ -23,7 +23,7 @@ var config = {
         'buyer_show' : 'buyersshow.html', //
         'select_address': 'address-select.html',
         'cart' : 'shoppingCart.html', //购物车
-        'login': 'login.html', //登录页
+        'login': 'http://'+host+'/webapp/login.html', //登录页
         'home': 'index.html', //首页
         'address_edit': 'address-edit.html', //地址编辑页面
         'order_pay': 'myorder-paymode.html', //订单支付页面
@@ -484,7 +484,7 @@ var Util = {
     }
     ,goKefu: function(param){
         //location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
-        location.href = "kefu/im.html?tenantId=23970";
+        location.href = 'http://'+host+"/webapp/kefu/im.html?tenantId=23970";
     }
     ,isIphone: function() {
         var ua = navigator.userAgent.toLowerCase();	
