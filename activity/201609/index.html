@@ -303,8 +303,7 @@ $(function(){
     }
     
     function canLoadMore() {
-        return $("#ctx_1")[0].style.display == 'block' 
-        &&  $("#input_address")[0].style.display == "none";
+        return $("#ctx_1")[0].style.display != "none" ;
     }
     
     $(window).scroll(function(){

@@ -5,6 +5,90 @@
 <title>产品详情</title>
     <link rel="stylesheet" href="../../css/public.css">
     <link rel="stylesheet" href="../../css/details.css?v=1">
+    <style>
+        .main_bnt {
+            display: -webkit-box;
+            background: #b30011;
+            color: white;
+            border-radius: 3px;
+            padding: 2px;
+        }
+        .gray { 
+            background: #ccc;
+            color: white;
+        }
+        .draw_navi {
+            height: 40px;
+            line-height: 40px;
+            background: #fff;
+            padding-left: 10px;
+            color: #666666;
+        }
+        .u-nav-autowidth {
+            position:static;
+            margin-bottom:5px;
+        }
+        
+        .draw_time {
+            text-align: center;
+            height: 3rem;
+            line-height: 3rem;
+            /* background: #fff; */
+            color: #727372;
+        }
+        .draw_content {
+            background: #fff;
+        }
+        .draw_content .item {
+                height: 30px;
+                line-height: 30px;
+                border-bottom: 1px solid #ccc;
+        }
+        .draw_content .name {
+                display: inline-block;
+                width: 30%;
+                text-align:right;
+        }
+        .draw_content .goods {
+                display: inline-block;
+                width: 50%;
+                margin-left:20%;
+                text-align:left;
+        }
+        .rule-content {
+                white-space: pre-wrap;
+                line-height: 2.3rem;
+                color: #333;
+                background: #fff;
+                padding: 5px 10px;
+        }
+        
+        a:hover, a:active, a:focus {
+                color: #fff;
+                text-decoration: none;
+        }
+        
+        .sold {
+            position: absolute;
+            right: 10px;
+            bottom:5px;
+            display:none;
+        }
+        .u-productlist > .contbox {
+            position:relative;
+        }
+        
+        #input_address {
+            position:absolute;
+            top:0;
+            z-index:999;
+            width:100%;
+            height:100%;
+            background:#fff;
+            display:none;
+            overflow:hidden;
+        }
+    </style>
 </head>
 
 <body>
@@ -92,6 +176,54 @@
         <span>立即参与</span>
     </button>
 </div>
+
+<div id="input_address" >
+<div class="u-arrow-list">
+    <div class="list"><span id="close_addr">关闭</span></div>
+    
+    <div class="list"><span>完善信息有机会领取 </span><span id="goods_name" style="color:red"></span></div>
+    <input type="hidden" id="goods_id" name="goods_id" value="">
+    <input type="hidden" id="addr_new" name="addr_new" value="1">
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title">
+                <input id="select_area" type="text" readonly="" name="province_city_district" class="input" value="" placeholder="请选择所在地">
+            </h3>
+        </div>
+        <img class="arrow" src="../../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title">
+                <input type="text" name="address" class="input" value="" placeholder="请输入详细地址">
+            </h3>
+        </div>
+        <img class="arrow" src="../../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="consignee" class="input" value="" placeholder="请输入收货人姓名"></h3>
+        </div>
+        <img class="arrow" src="../../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="mobile" class="input" value="" placeholder="请输入手机号码"></h3>
+        </div>
+        <img class="arrow" src="../../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="zipcode" class="input" value="" placeholder="请输入邮编"></h3>
+        </div>
+        <img class="arrow" src="../../img/arrowright.png">
+    </a>
+    <div style="text-align:right; background:#fff;padding:5px;" >
+    <button class="u-mainbutton-little" id="submit">
+        <span>提交</span>
+    </button></div>
+</div>
+</div>
 <script id="guess_item" type="text/template">
 <div class="u-autoheight" onclick="javascript:location.href='../../details.html?id={$goods_id}'">
                 <div class="dummy"></div>
@@ -99,8 +231,10 @@
             </div>
 </script>
 <script src="../../javascripts/hl-swiper.js"></script>
-<script src="../../javascripts/zepto.min.js"></script>
+<script src="../../javascripts/zepto_v1.min.js"></script>
 <script src="../../javascripts/main.js?v3"></script>
+<script src="../../javascripts/areaDatas.js"></script>
+<script src="../../javascripts/selecter.js"></script>
 <script>
 $(function(){
     var ignoreNavi = true;
@@ -149,7 +283,110 @@ $(function(){
         
         
     }, 'get', true);
+    var uaData = {};
+    //获取用户活动参与情况
+    Util.requestApi("?r=activity/getuserai", {}, function(data){
+        
+        uaData = data.data;
+        if (uaData.act_ed > 0 && uaData.v_code != "") {
+                //已经参与过
+                $("#v_code").html("您已参与活动,抽奖码:" + uaData.v_code).show();
+              
+        }
+        
+        $("body").delegate(".buy", 'click', function(){
+              if (uaData.is_login == false) {
+                //没有登录
+                    Util.goLogin(location.href);
+                   return;
+              }
+              
+              if (uaData.act_ed > 0) {
+                //已经参与过
+                if (uaData.v_code != "") {
+                    messageBox.toast("您已参加了活动，不能重复参加");
+                } else {
+                    
+                    //已参与，但还没有抽奖码
+                    messageBox.confirm("您已参加了活动，联系我们的客服获取您的抽奖码", function(){
+                          Util.goKefu();
+                    });
+                    
+                }
+                return;
+            } else {
+                    
+                    //可以参加活动
+                    if (window['goods']) {
+                        var goods_id = window['goods'].id;
+                        var goods_name= window['goods'].title;
+                        showSubmit(goods_id , goods_name);
+                    }
+                    
+                
+            }
+              
+        });
+        
+        
+    }, 'GET', false);
     
+    function showSubmit(goods_id, goods_tite) {
+         $(".productinfo-list").hide();
+         $(".details-infobox").hide();
+         $(".details-bottombox").hide();
+         $("#input_address").show();
+         $("#goods_name").html(goods_tite);
+         $("#goods_id").val(goods_id);
+         //console.log(goods_id);
+         if (uaData.u_addr) {
+            var address = uaData.u_addr;
+            var province_city_district = address.province + " " + address.city + " " + address.district;
+            address['province_city_district'] = province_city_district;
+            delete address['province'];
+            delete address['city'];
+            delete address['district'];
+            
+            $(".u-arrow-list input").each(function(i){
+                var name = $(this).attr('name');
+                if (name in address) {
+                    $(this).val(address[name]);
+                }
+            });
+            $("#addr_new").val(0);
+            delete uaData.u_addr;
+         }
+    }
+    
+    $("#close_addr").click(function() {
+        hideSubmit();
+    });
+    function hideSubmit() {
+        $(".productinfo-list").show();
+        $(".details-infobox").show();
+        $(".details-bottombox").show();
+        $("#input_address").hide();
+    }
+    
+    var area = new Area.selecter(
+            '#select_area',
+            {
+                areaData : {provs : provs_data, citys : citys_data, dists : dists_data},
+            }
+    );
+    area.init();
+    
+    $("#submit").click(function(){
+        var params = Address.getAddressFormData();
+        Util.requestApi("?r=activity/submit", params, function(data) {
+            if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+            }
+            if (data.errno == 0) {
+                location.href = "next-step.html";
+            }
+        }, 'get');
+    });
 });
 </script>
 
