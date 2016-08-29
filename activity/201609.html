@@ -79,6 +79,16 @@
         .u-productlist > .contbox {
             position:relative;
         }
+        
+        #input_address {
+            position:absolute;
+            top:0;
+            z-index:999;
+            width:100%;
+            height:100%;
+            background:#fff;
+            display:none;
+        }
     </style>
 </head>
 
@@ -145,12 +155,60 @@
 6.抽奖获奖交品将于隔天寄出，周末不发货
   </div>
 </div>
+
+<div id="input_address" >
+<div class="u-arrow-list">
+    <div class="list"><span id="close_addr">关闭</span></div>
+    
+    <div class="list"><span>完善信息有机会领取 </span><span id="goods_name" style="color:red"></span></div>
+    <input type="hidden" id="goods_id" name="goods_id" value="">
+    <input type="hidden" id="addr_new" name="addr_new" value="1">
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title">
+                <input id="select_area" type="text" readonly="" name="province_city_district" class="input" value="" placeholder="请选择所在地">
+            </h3>
+        </div>
+        <img class="arrow" src="../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title">
+                <input type="text" name="address" class="input" value="" placeholder="请输入详细地址">
+            </h3>
+        </div>
+        <img class="arrow" src="../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="consignee" class="input" value="" placeholder="请输入收货人姓名"></h3>
+        </div>
+        <img class="arrow" src="../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="mobile" class="input" value="" placeholder="请输入手机号码"></h3>
+        </div>
+        <img class="arrow" src="../img/arrowright.png">
+    </a>
+    <a href="javascript:;" class="list">
+        <div class="contbox">
+            <h3 class="title"><input type="text" name="zipcode" class="input" value="" placeholder="请输入邮编"></h3>
+        </div>
+        <img class="arrow" src="../img/arrowright.png">
+    </a>
+    <div style="text-align:right; background:#fff;padding:5px;" >
+    <button class="u-mainbutton-little" >
+        <span>提交</span>
+    </button></div>
+</div>
+</div>
 <script type="text/template" id="list_item_template">
 <div class="contbox" >
         <img src="{$goods_thumb}" onclick="javascript:location.href='../details.html?id={$goods_id}&rf=act201609'">
         <div class="cont">
             <p class="name">{$goods_name}</p>
-            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;" data-id='{$goods_id}'>立即参与</a></p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection  "><a class="main_bnt" href="javascript:;" data-id='{$goods_id}'  data-name='{$goods_name}'>立即参与</a></p>
         </div>
         <div class="sold"  style="{$display}"><img src="../img/sold.png"></div>
     </div>
@@ -168,8 +226,10 @@
 <script type="text/template" id="draw_item_template">
     <li class="item"><span class="name">{$name}</span><span class="goods">{$goods_name}</span></li>
 </script>
-<script src="../javascripts/zepto.min.js"></script>
+<script src="../javascripts/zepto_v1.min.js"></script>
 <script src="../javascripts/main.js"></script>
+<script src="../javascripts/areaDatas.js"></script>
+<script src="../javascripts/selecter.js"></script>
 <script>
 $(function(){
 
@@ -209,8 +269,43 @@ $(function(){
         
     }
     
+    function showSubmit(goods_id, goods_tite) {
+         $("#ctx_1").hide();
+         $("#input_address").show();
+         $("#goods_name").html(goods_tite);
+         $("#goods_id").val(goods_id);
+         if (uaData.u_addr) {
+            var address = uaData.u_addr;
+            var province_city_district = address.province + " " + address.city + " " + address.district;
+            address['province_city_district'] = province_city_district;
+            delete address['province'];
+            delete address['city'];
+            delete address['district'];
+            
+            $(".u-arrow-list input").each(function(i){
+                var name = $(this).attr('name');
+                $(this).val(address[name]);
+            });
+            $("#addr_new").val(0);
+            delete uaData.u_addr;
+         }
+    }
+    
+    $("#close_addr").click(function() {
+        hideSubmit();
+    });
+    function hideSubmit() {
+        $("#ctx_1").show();
+         $("#input_address").hide();
+    }
+    
+    function canLoadMore() {
+        return $("#ctx_1")[0].style.display == 'block' 
+        &&  $("#input_address")[0].style.display == "none";
+    }
+    
     $(window).scroll(function(){
-            if (page < pageCnt && loading == 0) {
+            if (page < pageCnt && loading == 0 && canLoadMore()) {
                     $("#loading-more").html("加载中 ...");
                     loading = 1;
                     loadList(page + 1);
@@ -222,7 +317,6 @@ $(function(){
     Util.requestApi("?r=activity/getuserai", {}, function(data){
         
         uaData = data.data;
-        console.log(data.data);
         if (uaData.act_ed > 0 && uaData.v_code != "") {
                 //已经参与过
                 $("#v_code").html("您已参与活动,抽奖码:" + uaData.v_code).show();
@@ -235,6 +329,7 @@ $(function(){
                     Util.goLogin(location.href);
                    return;
               }
+              
               if (uaData.act_ed > 0) {
                 //已经参与过
                 if (uaData.v_code != "") {
@@ -242,15 +337,20 @@ $(function(){
                 } else {
                     
                     //已参与，但还没有抽奖码
-                    messageBox.confirm("还差一步，联系我们的客服获取您的抽奖码", function(){
+                    messageBox.confirm("您已参加了活动，联系我们的客服获取您的抽奖码", function(){
                           Util.goKefu();
                     });
-                
+                    
                 }
+                return;
+            } else {
+                    
+                    //可以参加活动
+                    var goods_id = $(this).attr("data-id");
+                    var goods_name= $(this).attr("data-name");
+                    showSubmit(goods_id, goods_name);
                 
-              
-              }
-              
+            }
               
         });
         
@@ -321,6 +421,14 @@ $(function(){
             getDrawList();
         }
     });
+    
+    var area = new Area.selecter(
+            '#select_area',
+            {
+                areaData : {provs : provs_data, citys : citys_data, dists : dists_data},
+            }
+    );
+    area.init();
 });
 </script>
 </body>
