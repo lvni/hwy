@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;AAwBA,IAAK;EACH,KAAK,EAtBI,OAAO;;AAyBlB,QAAS;EACP,KAAK,EAAC,OAAO;;AAEf,KAAM;EACJ,KAAK,EAAC,OAAO;;AAGf,MAAO;EACL,KAAK,EAjCI,OAAO;EAkChB,iCAA6B;IAC3B,KAAK,EAnCE,OAAO;;;;;AAqBlB,IAAK;EACH,KAAK,EAtBI,OAAO;;AAyBlB,QAAS;EACP,KAAK,EAAC,OAAO;;AAEf,KAAM;EACJ,KAAK,EAAC,OAAO;;AAGf,MAAO;EACL,KAAK,EAjCI,OAAO;EAkChB,iCAA6B;IAC3B,KAAK,EAnCE,OAAO;;ACClB,SAAU;EACR,MAAM,EAAC,MAAM",
+"sources": ["../sass/_color.scss","../sass/myorder-after-sales.scss"],
+"names": [],
+"file": "myorder-after-sales.css"
+}
