@@ -605,19 +605,40 @@ var FuncNavi = {
             }
             
         }
-        if (data.msg.length) {
+        if (data.msg && data.msg.id) {
             //有消息
             if (Storge.getItem("msg_read") != data.msg.id) {
                 //可以显示
-                var  msgHtml = '<div id="msg_tips" style="height: 4rem;line-height: 4rem;font-size: 1.5rem;position:fixed;top:0;width:100%;z-index:9999;background:rgba(255, 249, 178, 0.99);">'
-                                + '<span style="margin-left:10px;" id="msg_content">'+data.msg.content+'</span>'
-                                + '<span id="msg_close" style="float:right;padding:0 10px;">x</span></div>';
+                var style = 'margin-left:10px;';
+  
+                var  msgHtml = '<div id="msg_tips" style="height: 32px;line-height: 32px;font-size: 1.2rem;position:fixed;top:0;width:100%;z-index:9999;background:rgba(12, 12, 12, 0.8);">'
+                                + '<div style="display:inline-block;width:85%;height: 30px;overflow: hidden;" id="msg_container"><span style="'+style+'" id="msg_content">'+data.msg.content+'</span></div>'
+                                + '<span id="msg_close" style="float:right;padding:0 10px;color:#fff;">x</span></div>';
                 $('body').append(msgHtml);
                 var msg = data.msg;
                 $("#msg_tips").delegate('#msg_close', 'click', function(){ 
                      Storge.setItem("msg_read", msg.id);
                     $("#msg_tips").remove();
                 });
+                
+                //设置跑马灯效果
+                if ($("#msg_content").height() > $("#msg_container").height()) {
+                   // console.log("内容溢出了");
+                  var length = $("#msg_container").width()
+                  var oldHtml = $("#msg_content").html();
+                  $("#msg_content").html(oldHtml + "&nbsp;&nbsp;&nbsp;&nbsp;" + oldHtml);
+                   var tid = setInterval(function(){
+                        var left = $("#msg_content").offset().left;
+                        if (0 - left > length) {
+                            $("#msg_content").css("margin-left", "10px");
+                        } else {
+                            left -= 10;
+                            $("#msg_content").css("margin-left", left + "px");;
+                        }
+                        
+                    }, 500);
+                    
+                }
             }
         }
         if (data && data.is_login) {
