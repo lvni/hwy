@@ -609,22 +609,13 @@ var FuncNavi = {
             //有消息
             if (Storge.getItem("msg_read") != data.msg.id) {
                 //可以显示
-                
-         
-                var  msgHtml = '<div id="msg_tips" style="position:fixed;top:0;width:100%;z-index:9999;background:rgba(255, 249, 178, 0.99);">'
+                var  msgHtml = '<div id="msg_tips" style="height: 4rem;line-height: 4rem;font-size: 1.8rem;position:fixed;top:0;width:100%;z-index:9999;background:rgba(255, 249, 178, 0.99);">'
                                 + '<span style="margin-left:10px;" id="msg_content">'+data.msg.content+'</span>'
                                 + '<span id="msg_close" style="float:right;padding:0 10px;">x</span></div>';
                 $('body').append(msgHtml);
                 var msg = data.msg;
-                $("#msg_tips").delegate('#msg_content', 'click', function(){
-                     if (msg.link) {
-                         //Storge.setItem("msg_read", msg.id);
-                         window.location.href = msg.link;
-                     }
-                     
-                });
                 $("#msg_tips").delegate('#msg_close', 'click', function(){ 
-                    //Storge.setItem("msg_read", msg.id);
+                     Storge.setItem("msg_read", msg.id);
                     $("#msg_tips").remove();
                 });
             }
