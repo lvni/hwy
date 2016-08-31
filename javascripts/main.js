@@ -605,7 +605,7 @@ var FuncNavi = {
             }
             
         }
-        if (data.msg) {
+        if (data.msg.length) {
             //有消息
             if (Storge.getItem("msg_read") != data.msg.id) {
                 //可以显示
