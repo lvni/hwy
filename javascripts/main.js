@@ -483,8 +483,8 @@ var Util = {
         return;
     }
     ,goKefu: function(param){
-        //location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
-        location.href = 'http://'+host+"/webapp/kefu/im.html?tenantId=23970";
+        location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
+        //location.href = 'http://'+host+"/webapp/kefu/im.html?tenantId=23970";
     }
     ,isIphone: function() {
         var ua = navigator.userAgent.toLowerCase();	
