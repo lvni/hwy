@@ -12,10 +12,15 @@ var pathname = location.pathname;
  }
  var _czc = _czc || []; //统计
  host +=  prefx;
+if (location.href.indexOf("https://") == 0) {
+    host = "https://"+host;
+} else {
+    host = "http://" + host;
+}
 var config = {
-    'api': 'http://'+host+'/api/backend/web/index.php',
+    'api': host+'/api/backend/web/index.php',
     //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
-    'webapp': 'http://'+host+'/webapp/index.html',
+    'webapp': host+'/webapp/index.html',
     'page': {
         'confirm_order': 'myorder-placeorder.html',//订单确认页
         'detail': 'details.html',
@@ -23,7 +28,7 @@ var config = {
         'buyer_show' : 'buyersshow.html', //
         'select_address': 'address-select.html',
         'cart' : 'shoppingCart.html', //购物车
-        'login': 'http://'+host+'/webapp/login.html', //登录页
+        'login': host+'/webapp/login.html', //登录页
         'home': 'index.html', //首页
         'address_edit': 'address-edit.html', //地址编辑页面
         'order_pay': 'myorder-paymode.html', //订单支付页面
@@ -424,7 +429,7 @@ var Util = {
     ,showLoading: function(){
          var html = '<div  id="loading_box"><div style="position: fixed;top: 0;width: 100%;height: 100%;background: #ECE6E6;opacity: 0.2;z-index: 10;"></div>'
                       + '<div style="position: fixed;top: 50%;left: 50%;margin-left: -54px;margin-top: -54px;width: 108px;height: 108px;z-index: 13;border-radius: 4px;text-align: center;line-height: 108px;background: #565353;">'
-                      + '<img src="http://'+host+'/webapp/img/loading.gif" style="width: 56px;"></div></div>';
+                      + '<img src="'+host+'/webapp/img/loading.gif" style="width: 56px;"></div></div>';
         if (this.loadingId == 0) {
             //延迟150ms出现
             this.loadingId = setTimeout(function(){$('body').append(html);}, 150);
@@ -484,7 +489,7 @@ var Util = {
     }
     ,goKefu: function(param){
         location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
-        //location.href = 'http://'+host+"/webapp/kefu/im.html?tenantId=23970";
+        //location.href = 'host+"/webapp/kefu/im.html?tenantId=23970";
     }
     ,isIphone: function() {
         var ua = navigator.userAgent.toLowerCase();	
@@ -1192,15 +1197,15 @@ var Bootstrap = {
             likeCnt = 0;
         }
         if (likeCnt > 0) {
-            $("#detail_likes_up img").attr('src', 'http://'+host+'/webapp/img/s-likes.png');
+            $("#detail_likes_up img").attr('src', host+'/webapp/img/s-likes.png');
         }
     }
     ,updateIcon: function(collected) {
         
         if (collected == "1") {
-            $("#detail_collect img").attr('src', 'http://'+host+'/webapp/img/star.png');
+            $("#detail_collect img").attr('src', host+'/webapp/img/star.png');
         } else {
-            $("#detail_collect img").attr('src', 'http://'+host+'/webapp/img/details_22.png');
+            $("#detail_collect img").attr('src', host+'/webapp/img/details_22.png');
         }
     }
     //渲染搜索/所有产品页面
@@ -3791,7 +3796,7 @@ var Share = {
    }
    //微信分享引导
    ,wxShareGuid: function() {
-       var simg = 'http://'+host+'/webapp/img/share_guid.png'
+       var simg = host+'/webapp/img/share_guid.png'
        var html = '<div id="share_guid" style="position: fixed;top: 0; left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.7);display: ;z-index: 20000;">'
                      + '<img style="position: fixed;right: 30px;top: 10px;z-index: 999;" src="'+simg+'"></div>';
         $('body').append(html);             
@@ -3855,7 +3860,7 @@ var Share = {
             
             //var doc=document;  
             var script=doc.createElement("script"); 
-            var url = 'http://'+host+'/api/backend/web/index.php?r=user/wxjsonfig&v='+Math.random();
+            var url = host+'/api/backend/web/index.php?r=user/wxjsonfig&v='+Math.random();
             script.setAttribute("src", url);  
             //var heads = doc.getElementsByTagName("head");  
             heads[0].appendChild(script); 
