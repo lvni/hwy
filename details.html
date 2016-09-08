@@ -5,6 +5,10 @@
 <title>产品详情</title>
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/details.css?v=1">
+    <link rel="stylesheet" href="javascripts/swipe/photoswipe.css"> 
+    <link rel="stylesheet" href="javascripts/swipe/default-skin/default-skin.css"> 
+    <script src="javascripts/swipe/photoswipe.min.js"></script> 
+    <script src="javascripts/swipe/photoswipe-ui-default.min.js"></script> 
 </head>
 
 <body>
@@ -104,6 +108,74 @@
         <span>立即购买</span>
     </button>
 </div>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script id="guess_item" type="text/template">
 <div class="u-autoheight" onclick="javascript:location.href='details.html?id={$goods_id}'">
                 <div class="dummy"></div>
@@ -116,6 +188,42 @@
 <script>
 $(function(){
     var ignoreNavi = true;
+    Bootstrap.goodsDetailLoadCallback.push(function(){
+        //商品加载完注册事件
+        var openPhotoSwipe = function() {
+        var pswpElement = document.querySelectorAll('.pswp')[0];
+
+        // build items array
+        var items = [];
+        $(".details-infobox img").each(function(i) {
+             var src = $(this).attr('src');
+             items.push({
+                  src: src,
+                  w: $(this).width(),
+                  h: $(this).height(),
+             });
+        });
+        
+        // define options (if needed)
+        var options = {
+                 // history & focus options are disabled on CodePen        
+            history: false,
+            focus: false,
+
+            showAnimationDuration: 0,
+            hideAnimationDuration: 0
+            
+        };
+        
+        var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+        gallery.init();
+    };
+    
+    $(".details-infobox img").click(function(){
+        openPhotoSwipe();
+    });
+    
+    });
     Bootstrap.rungoodsdetail();
     goodsCart.bindAddEvent();
     //注册客服事件

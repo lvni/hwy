@@ -1109,6 +1109,7 @@ var goodsCart = {
 //首页&&商品详情&&搜索
 var Bootstrap = {
     data: []
+    ,goodsDetailLoadCallback: [] //商品加载回调
     ,toast: function(msg) {
         messageBox.toast(msg);
     }
@@ -1189,6 +1190,15 @@ var Bootstrap = {
         Share.registerShare();
         //加入浏览记录
         History.addGoodsView(data.id);
+        
+        //商品回调
+       for (i in Bootstrap.goodsDetailLoadCallback) {
+           var fc = Bootstrap.goodsDetailLoadCallback[i];
+           if (typeof fc == 'function') {
+               fc();
+           }
+       }
+        
     }
     ,setLikes: function(goodsId) {
         var key = 'gl_' + goodsId;
