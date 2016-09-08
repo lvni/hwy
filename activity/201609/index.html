@@ -116,7 +116,7 @@
 
 <nav class="u-nav-autowidth">
     <div class="on" data-index="1"> <span>寻缘</span> </div> 
-    <div data-index="2"> <span>结缘名单</span></div>
+    <div data-index="2"  id="drawlist"> <span>结缘名单</span></div>
     <div data-index="3"> <span>活动规则</span></div> 
 </nav>
 
@@ -364,8 +364,6 @@ $(function(){
     function getDrawList() {
         var now = new Date();
         var minus = now.getTime() - DrawGetTime.getTime();
-        console.log(DrawLoaded);
-        console.log(minus < 30000);
         if (DrawLoaded && minus < 30000) {
                 console.log("cached");
                 return ; 
@@ -444,6 +442,11 @@ $(function(){
             }
         }, 'get');
     });
+    
+    var hash = Util.getHash();
+    if (hash == "draw") {
+        $("#drawlist").trigger('click');
+    }
 });
 </script>
 </body>
