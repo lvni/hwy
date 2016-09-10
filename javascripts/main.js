@@ -358,7 +358,7 @@ var Util = {
         var url = config.api + api;
         var dataType = 'jsonp';
         var method = 'get';
-        if (type.toLowerCase() == 'post') {
+        if (type && type.toLowerCase() == 'post') {
             dataType = 'json';
             method = 'post';
         }
