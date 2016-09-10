@@ -358,7 +358,7 @@ var Util = {
         var url = config.api + api;
         var dataType = 'jsonp';
         var method = 'get';
-        if (type == 'post') {
+        if (type.toLowerCase() == 'post') {
             dataType = 'json';
             method = 'post';
         }
@@ -4141,6 +4141,45 @@ var AppCall = {
         } catch(e) {
             messageBox.toast("扫码出现异常");
         }
+    }
+    
+    //推送信息
+    ,pushBack: function(data) {
+          try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            //messageBox.toast(jsObt.title + ":" + jsObt.content);
+            if (jsObt.customContent && jsObt.customContent.url) {
+                //
+                location.href = jsObt.customContent.url;
+            }
+          } catch (e) {
+              //解析异常，不处理
+          }
+    }
+    
+    //设备注册
+    ,deviceRegister: function(data) {
+        try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            if (jsObt.token) {
+                Util.requestApi("?r=device/bind", {token:jsObt.token}, function(data) {
+                    console.log(data);
+                }, "post", true);
+            }
+            
+            
+            
+          } catch (e) {
+              //解析异常，不处理
+          }
     }
     
 };
