@@ -119,6 +119,37 @@ var messageBox = {
         });
         
     }
+    ,updateDialog: function(title, content, force, callback) {
+   
+        var html = '<div class="u-popodbox" id="js-confirm-box">'
+                      + '<div class="cont">'+'<span>' +title+'</span>'
+                      +'<h2>'+ content + '</h2><div class="buttonbox">';
+                      
+        if (force != 1) {
+            html +=  '<button class="u-button-gray"><span>稍后再说</span></button>';
+        }
+                      
+        html  += '<button class="u-button-main">'
+                      + '<span>马上升级</span></button></div></div></div>';
+        if ($("js-confirm-box").length) {
+            return;
+        }
+        $('body').append(html);
+        $("#js-confirm-box")[0].style.display = '-webkit-box';
+        var yscfunc = function(){
+            $("#js-confirm-box").remove();
+            if (typeof callback == 'function') {
+                callback();
+            }
+        }
+        
+        $("#js-confirm-box .u-button-main").bind('click', yscfunc);
+        $("#js-confirm-box .u-button-gray").bind("click", function(){
+            $("#js-confirm-box").remove();
+            var session = Util.getCookie('PHPSESSID');
+            Storge.setItem('last_check_sid', session);
+        });
+    }
     
 };
 
@@ -337,10 +368,11 @@ var Util = {
     //请求接口
     ,requestApi: function(api, data, callback, type, silence) {
         
-        var me = this;
+        var me = Util;
         if (!silence) {
             me.showLoading();
         } 
+        
         var beforeCallback = function(data) {
               if (!silence) {
                   me.hideLoading();
@@ -362,6 +394,7 @@ var Util = {
             dataType = 'json';
             method = 'post';
         }
+        
         $.ajax({
             url: url,
             type: method,
@@ -373,6 +406,7 @@ var Util = {
                 if (!silence) {
                     messageBox.toast("服务器出错啦");
                 }
+                
             }
         });
     }
@@ -497,6 +531,13 @@ var Util = {
              return true;		
         } 
         return false;
+    }
+    ,getCookie: function (name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+        return unescape(arr[2]);
+        else
+        return null;
     }
 };
 //存储相关
@@ -4208,3 +4249,101 @@ if (fr) {
     var frStr = "未知";
 }
 //Util.showLoading();
+//当前客户端信息
+var Client = {
+    client : 3,// 1 app 2 weixin 3 web 
+    buildNo:0,
+    channel: "",
+    os: -1, // 0 android, 1 ios -1 web
+    sv: "", 
+    init:function() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        var appPattern = /(hwy)\/([0-9\.]+)(\s+\((\d+)\))?/i;
+        var wxPattern  = /MicroMessenger\/([0-9\.]+)/i;
+        var androidPattern = /(android)/i;
+        var iphonePattern =  /(iphone|ipad)/i;
+        var channelPattern = /channel\((\d+)\)/i;
+        var result ;
+        var me = this;
+        if (result = ua.match(appPattern)) {
+            me.client = 1;
+            me.buildNo = result[4] ? result[4] : 0;
+            me.sv = result[2];
+            
+        }
+        if (result = ua.match(wxPattern)) {
+            me.client = 2;
+        } 
+        if (result = ua.match(androidPattern)) {
+            me.os = 0;
+        } 
+        if (result = ua.match(iphonePattern)) {
+            me.os = 1;
+        } 
+        if (result = ua.match(channelPattern)) {
+            me.channel = result[1];
+        } 
+        
+    },
+    isApp: function() {
+        return this.client == 1;
+    },
+    isAndroid: function() {
+        return this.os == 0;
+    },
+    isIos: function() {
+        return this.os == 1;
+    },
+    isWeixin: function() {
+        return this.client == 2;
+    },
+    toString: function() {
+        return "client " + this.client  
+                   + " os " + this.os
+                   + " channel " + this.channel
+                   + " buildNo " + this.buildNo
+                   + " sv " + this.sv;
+    }
+    
+};
+
+Client.init();
+
+/**
+ * app 检查更新
+ **/
+var UpdaterManager = {
+    
+     check: function() {
+        //messageBox.toast("开始检查");
+        try {
+         Util.requestApi("?r=package/checkupdate", {}, function(data){
+            
+             if (data.errno ==0) {
+                  
+                 if (data.data.has_update == '1') {
+                     //有更新
+                     //messageBox.toast("edfdf" + data.data.has_update);
+                     var info = data.data.update_info;
+                     var  title = "app有新版v"+info.sv;
+                     //messageBox.toast(title);
+                     messageBox.updateDialog(title, info.feature, info.is_force, function(){
+                         //调用接口更新
+                         if (Client.isAndroid()) {
+                             var api = "hwy://update?url="+encodeURIComponent(info.link);
+                            Util.callAppApi(api);
+                         }
+                         
+                         
+                     });
+                 }
+             }
+             
+         },
+         'get', true);
+         } catch(e) {
+             alert(e);
+         }
+     }
+};
+UpdaterManager.check();
