@@ -247,6 +247,9 @@
 <script type="text/template" id="draw_item_template">
     <li class="item"><span class="name">{$name}</span><span class="goods">{$goods_name}</span></li>
 </script>
+<script>
+var notShowDiago = 1;
+</script>
 <script src="../../javascripts/zepto_v1.min.js"></script>
 <script src="../../javascripts/main.js"></script>
 <script src="../../javascripts/areaDatas.js"></script>
@@ -286,7 +289,7 @@ $(function(){
             }
             loading = 0;
             
-            if (page == 1) {
+            if (page == 1 && Storge.getItem('act_guid') != '1') {
                 $("#ctx_1 img")[0].onload= function(){
                     showGuide();
                 };
@@ -600,6 +603,7 @@ $(function(){
         $("#input_address").hide();
         $(".details-slide").show();
         $("#input_address .u-arrow-list .list").eq(0).show();
+        Storge.setItem("act_guid", '1');
         
     }
 }); 
