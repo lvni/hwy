@@ -1,0 +1,62 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title></title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/buyersshow.css">
+    <style>
+    #brief img {
+        width:100%;
+    }
+    </style>
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p class="red"></p>
+    </div>
+    <a class="msgbox" href="message.html">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1);" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="u-friendsbox">
+    <div class="title">
+        <p class="name" id="name"></p>
+        <time class="time" id="time"></time>
+    </div>
+    <div class="u-details">
+        <p id="brief"></p>
+
+    </div>
+</div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js?v2"></script>
+<script>
+    $(function(){
+        var id = Util.getQueryString('id');
+        Util.requestApi("?r=article/detail", {id:id}, function(data) {
+             if (data.errno != 0) {
+                messageBox.toast(data.errmsg);
+                return;
+               }
+             datainfo = data.data;
+             $("title").html(datainfo.title);
+             $(".title .red").html(datainfo.title);
+             $("#name").html(datainfo.author);
+             $("#time").html(datainfo.add_time);
+             $("#brief").html(datainfo.content);
+
+             
+             $(".u-details").append(htm);
+        });
+    
+    });
+</script>
+</body>
+</html>
