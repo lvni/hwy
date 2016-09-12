@@ -89,6 +89,22 @@
             background:#fff;
             display:none;
         }
+        
+        .guid_mask {
+            width:100%;
+            height: 100%;
+            position: fixed;
+            top:0;
+            z-index: 9999;
+            overflow: hidden;
+            background: rgba(0,0,0,0.6);
+            opacity: 0;
+            display:none;
+        }
+        .guid_mask div {
+            position: absolute;
+        }
+        
     </style>
 </head>
 
@@ -203,6 +219,11 @@
     </button></div>
 </div>
 </div>
+<div class="guid_mask" id="mask">
+<div id="choose_div"><img src="img/choose.png"  /></div>
+<div id="addr_div" style="display:none;"><img src="img/addr.png?v=22"  /></div>
+<div id="iknow_div"><img src="img/iknow.png" ></div>
+</div>
 <script type="text/template" id="list_item_template">
 <div class="contbox" >
         <img src="{$goods_thumb}" onclick="javascript:location.href='details.html?id={$goods_id}&rf=act201609'">
@@ -264,6 +285,13 @@ $(function(){
                 $("#loading-more").html("没有更多");
             }
             loading = 0;
+            
+            if (page == 1) {
+                $("#ctx_1 img")[0].onload= function(){
+                    showGuide();
+                };
+                
+            }
         });
         
         
@@ -430,7 +458,7 @@ $(function(){
     );
     area.init();
     
-    
+    //$("body").css("overflow", "hidden");
     $("#submit").click(function(){
         var params = Address.getAddressFormData();
         Util.requestApi("?r=activity/submit", params, function(data) {
@@ -447,7 +475,134 @@ $(function(){
     if (hash == "draw") {
         $("#drawlist").trigger('click');
     }
-});
+    
+    function showGuide() {
+        $("#mask").show();
+        $(".details-slide").hide();
+        $("body").css({
+            overflow: 'hidden',
+            height: $(window).height()  + "px",
+        });
+       
+        $("body").bind("touchmove", function(ev) {
+            event.preventDefault();
+        });
+        // 获取第一个“立即参与”位置
+        var wWidth = $('body').width();
+        
+        
+        
+        
+        $("#choose_div img").css({
+            width: (wWidth * 0.8) + "px",
+        });
+        $("#addr_div img").css({
+            width: (wWidth * 0.87) + "px",
+        });
+        $("#iknow_div img").css({
+            width: (wWidth * 0.4) + "px",
+        });
+
+        $("#iknow_div").css({
+            'bottom' : '7%',
+            'left' : '50%',
+            'margin-left': (- $("#iknow_div img").width() / 2) + "px", 
+        });
+        
+       
+        var currentStep = 0;
+        fixedChoosePos();
+        /**
+         * 调整选择引导的位置
+         **/
+        function fixedChoosePos() {
+            var offset = $("#ctx_1 .collection").eq(0).offset();
+             //选择框的相对坐标
+            var choose_circle_pos = {
+                x: ($("#choose_div").width() * 0.32),
+                y : ($("#choose_div").height() * 0.9 )
+            };
+            //计算第一个引导图片的新坐标
+            var new_pos = {
+                x: (offset.left - choose_circle_pos.x),
+                y: (offset.top - choose_circle_pos.y),
+            };
+            
+
+            $("#choose_div").css( {
+                left: new_pos.x + "px",
+                top: new_pos.y + "px",
+                }
+            );
+
+        }
+        
+        setTimeout(function(){
+            $("#mask").css({
+                    opacity : "1",
+            });
+        }, 200)
+        
+        /**
+          * 调整填写信息引导的位置
+          **/
+        function fixedpuAddrPos() {
+            var targetOffset = $("#submit").offset();
+            //选择框的相对坐标
+            var choose_circle_pos = {
+                x: ($("#addr_div").width() * 0.86),
+                y : ($("#addr_div").height() * 0.76 )
+            };
+            //计算第一个引导图片的新坐标
+            var new_pos = {
+                x: (targetOffset.left - choose_circle_pos.x),
+                y: (targetOffset.top - choose_circle_pos.y),
+            };
+            $("#addr_div").css( {
+                    left: new_pos.x + "px",
+                    top: new_pos.y + "px",
+                    }
+                );
+
+            
+            
+        }
+        
+        $("#iknow_div").bind('click', function(){
+             currentStep ++;
+             if (currentStep == 1) {
+                //下一步
+                $("#choose_div").hide();
+                $("#addr_div").show();
+                showGuidSubmit("翡翠葫芦");
+                fixedpuAddrPos();
+             }
+             if (currentStep >= 2) {
+                  hideGuide() ;
+             }
+        });
+        
+        
+        function showGuidSubmit(goods_tite) {
+            $("#ctx_1").hide();
+            $("#input_address").show();
+            $("#goods_name").html(goods_tite);
+            $("#input_address .u-arrow-list .list").eq(0).hide();
+        }
+        
+        
+    }
+    function hideGuide() {
+        $("#mask").hide();
+        $("body").css("overflow", "auto");
+        $("body").unbind('touchmove');
+        $("#ctx_1").show();
+        $("#input_address").hide();
+        $(".details-slide").show();
+        $("#input_address .u-arrow-list .list").eq(0).show();
+        
+    }
+}); 
 </script>
 </body>
 </html>
