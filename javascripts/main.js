@@ -2779,7 +2779,7 @@ var User = {
             }
             if (data.user.role >= Const.USER_ROLE_KING) {
                 //王爷以上，可以进入我的收入和我的下级
-                $("#my_mate").show();
+                //$("#my_mate").show();
                 $("#myincome-entry").attr('href', config.page.income_king);
                 var role = data.user.role == Const.USER_ROLE_KING_ONE ? "一品王爷" : "王爷";
                 $('title').html("个人中心-"+role);
@@ -3509,6 +3509,16 @@ var UserRelation = {
                 me.loadSubIncome(id, page);
             }
         });
+    }
+    ,initMyjadeTeam: function(data) {
+        
+        if (data.is_login) {
+            
+        } else {
+            //
+            messageBox.toast("请先登录");
+            Util.goLogin(location.href);
+        }
     }
 };
 

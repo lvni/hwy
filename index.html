@@ -48,7 +48,7 @@
     <div id="hl-swiper" class="hl-swiper cont">
         <div class="position-nav"></div>
         <div class="slides">
-            <div class="slide-list"><a href="javascript:;"><img src="img/index_21.png" alt=""></a></div>
+              
         </div>
     </div>
 </div>
@@ -77,7 +77,8 @@
 <div class="newsbox" >
     <img src="img/index_56.png" class="head">
     <ul class="newsul" id="article_list">
-        
+        <br/>
+        <br/>
     </ul>
 </div>
 
@@ -440,6 +441,9 @@ $(function(){
         setTimeout(function(){messageBox.toast("功能升级中，敬请期待")}, 200);
     });
 });
+
+//计算轮播图位置的高度,后台图片配置720*320
+$(".slides").height(320 *  $("body").width() / 720);
 </script>
 
 </body>
