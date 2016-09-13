@@ -4503,7 +4503,7 @@ var UpdaterManager = {
              adshowinfo = {id:0,st:0,t:0,sid:''};
          }
          var sid = yoAdInfo.sid; //会话id
-         if (adshowinfo.sid == sid) {
+         if (adshowinfo.sid == sid && adshowinfo.id == adId) {
               // 一次会话只显示一次
              return;
          }
