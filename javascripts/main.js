@@ -4485,7 +4485,7 @@ var UpdaterManager = {
          }
          Util.requestApi('?r=ad/dialog', {}, function(data){
              
-             if (data.data) {
+             if (data.data && data.data.id) {
                  //有广告
                  AdManager.showDialog(data.data);
              }
@@ -4493,8 +4493,6 @@ var UpdaterManager = {
          'get', true);
      }
      ,showDialog: function(data) {
-
-        
 
          
          var yoAdInfo = data;
