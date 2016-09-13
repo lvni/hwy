@@ -137,7 +137,7 @@ var messageBox = {
         $('body').append(html);
         $("#js-confirm-box")[0].style.display = '-webkit-box';
         var yscfunc = function(){
-            $("#js-confirm-box").remove();
+            //$("#js-confirm-box").remove();
             if (typeof callback == 'function') {
                 callback();
             }
@@ -4320,7 +4320,6 @@ var UpdaterManager = {
          Util.requestApi("?r=package/checkupdate", {}, function(data){
             
              if (data.errno ==0) {
-                  
                  if (data.data.has_update == '1') {
                      //有更新
                      //messageBox.toast("edfdf" + data.data.has_update);
@@ -4330,7 +4329,13 @@ var UpdaterManager = {
                      messageBox.updateDialog(title, info.feature, info.is_force, function(){
                          //调用接口更新
                          if (Client.isAndroid()) {
-                             var api = "hwy://update?url="+encodeURIComponent(info.link);
+                             title = "洪五爷珠宝v"+info.sv;
+                             var params = {
+                                 title: title,
+                                 url: info.link,
+                                 desc: "正在下载洪五爷珠宝",
+                             };
+                             var api = "hwy://update?params="+encodeURIComponent(JSON.stringify(params));
                             Util.callAppApi(api);
                          }
                          
