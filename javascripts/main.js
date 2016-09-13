@@ -119,7 +119,7 @@ var messageBox = {
         });
         
     }
-    ,updateDialog: function(title, content, force, callback) {
+    ,updateDialog: function(title, content, force, sid, callback) {
    
         var html = '<div class="u-popodbox" id="js-confirm-box">'
                       + '<div class="cont">'+'<span>' +title+'</span>'
@@ -146,8 +146,7 @@ var messageBox = {
         $("#js-confirm-box .u-button-main").bind('click', yscfunc);
         $("#js-confirm-box .u-button-gray").bind("click", function(){
             $("#js-confirm-box").remove();
-            var session = Util.getCookie('PHPSESSID');
-            Storge.setItem('last_check_sid', session);
+            Storge.setItem('last_check_sid', sid);
         });
     }
     
@@ -4442,7 +4441,7 @@ var UpdaterManager = {
                      var info = data.data.update_info;
                      var  title = "app有新版v"+info.sv;
                      //messageBox.toast(title);
-                     messageBox.updateDialog(title, info.feature, info.is_force, function(){
+                     messageBox.updateDialog(title, info.feature, info.is_force,data.data.sid, function(){
                          //调用接口更新
                          if (Client.isAndroid()) {
                              title = "洪五爷珠宝v"+info.sv;
@@ -4479,11 +4478,15 @@ var UpdaterManager = {
       * 加载大图广告，每个页面都需要，所以每次都要请求
       **/
      requestAd: function() {
+         
+         if ((typeof notShowDiago != 'undefined') && notShowDiago == 1) {
+             //特殊页面不显示
+             return;
+         }
          Util.requestApi('?r=ad/dialog', {}, function(data){
              
              if (data.data) {
                  //有广告
-                 console.log(data.data);
                  AdManager.showDialog(data.data);
              }
          },
@@ -4491,20 +4494,24 @@ var UpdaterManager = {
      }
      ,showDialog: function(data) {
 
-     if ((typeof notShowDiago != 'undefined') && notShowDiago == 1) {
-             //特殊页面不显示
-             return;
-         }
+        
+
+         
          var yoAdInfo = data;
          var adId = yoAdInfo.id;
          var adshowinfo = Storge.getItem('ad_dialog');
          adshowinfo = JSON.parse(adshowinfo);
          if (adshowinfo == null) {
-             adshowinfo = {id:0,st:0,t:0};
+             adshowinfo = {id:0,st:0,t:0,sid:''};
          }
-         
+         var sid = yoAdInfo.sid; //会话id
+         if (adshowinfo.sid == sid) {
+              // 一次会话只显示一次
+             return;
+         }
          if (data.period == 0) {
              //常驻
+             
          }
          if (data.period == 1) {
              //显示一次
@@ -4532,13 +4539,14 @@ var UpdaterManager = {
                       + '<img src="'+host+'/webapp/img/yo_close.png" style="position:absolute;top:0;right:10%;width:12%;" id="yo_close">'
                       + '</div></td></tr></table></div>';
          $('body').append(htm);
-         $("body").bind("touchmove", function(ev) {
+         $("body").bind("touchmove", function(event) {
             event.preventDefault();
         });
          function setView() {
              adshowinfo.id = data.id;
              adshowinfo.t = (new Date()).getTime();
              adshowinfo.st ++;
+             adshowinfo.sid = sid;
              console.log(adshowinfo)
              Storge.setItem('ad_dialog', JSON.stringify(adshowinfo));
              $("body").unbind('touchmove');
