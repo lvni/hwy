@@ -4481,15 +4481,16 @@ var UpdaterManager = {
      requestAd: function() {
          Util.requestApi('?r=ad/dialog', {}, function(data){
              
-             if (data.data.length) {
+             if (data.data) {
                  //有广告
-                 AdManager.AdManager(data.data);
+                 console.log(data.data);
+                 AdManager.showDialog(data.data);
              }
          },
          'get', true);
      }
      ,showDialog: function(data) {
-         
+
      if ((typeof notShowDiago != 'undefined') && notShowDiago == 1) {
              //特殊页面不显示
              return;
@@ -4527,16 +4528,20 @@ var UpdaterManager = {
          }
          var htm = '<div id="yo_dialog" style=" position: fixed;width: 100%;height: 100%;background: rgba(0,0,0,0.5);top: 0;z-index: 999;text-align: center;">'
                       + '<table style="height: 100%;">'
-                      + '<tr><td><div style="position:relative;"><img src="img/12.png" style="width:80%" id="yo_img">'
+                      + '<tr><td><div style="position:relative;"><img src="'+yoAdInfo.img+'" style="width:80%" id="yo_img">'
                       + '<img src="'+host+'/webapp/img/yo_close.png" style="position:absolute;top:0;right:10%;width:12%;" id="yo_close">'
                       + '</div></td></tr></table></div>';
          $('body').append(htm);
+         $("body").bind("touchmove", function(ev) {
+            event.preventDefault();
+        });
          function setView() {
              adshowinfo.id = data.id;
              adshowinfo.t = (new Date()).getTime();
              adshowinfo.st ++;
              console.log(adshowinfo)
              Storge.setItem('ad_dialog', JSON.stringify(adshowinfo));
+             $("body").unbind('touchmove');
          }
          if (yoAdInfo.link) {
              $("#yo_img").bind('click', function(){
