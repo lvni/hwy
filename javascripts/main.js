@@ -4479,7 +4479,14 @@ var UpdaterManager = {
       * 加载大图广告，每个页面都需要，所以每次都要请求
       **/
      requestAd: function() {
-         
+         Util.requestApi('?r=ad/dialog', {}, function(data){
+             
+             if (data.data.length) {
+                 //有广告
+                 AdManager.AdManager(data.data);
+             }
+         },
+         'get', true);
      }
      ,showDialog: function(data) {
          
@@ -4494,6 +4501,7 @@ var UpdaterManager = {
          if (adshowinfo == null) {
              adshowinfo = {id:0,st:0,t:0};
          }
+         
          if (data.period == 0) {
              //常驻
          }
@@ -4546,4 +4554,4 @@ var UpdaterManager = {
       
  };
  
- AdManager.showDialog({"id":3,'img':'img/12.png', 'link' : 'http://www.baidu.com', 'period' : 2});
+ AdManager.requestAd();
