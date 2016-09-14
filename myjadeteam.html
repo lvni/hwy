@@ -85,6 +85,7 @@
             padding-top:10px;
             text-align: center;
             display:none;
+            margin-bottom: 50px;
         }
     </style>
 </head>
@@ -147,11 +148,14 @@ var MyJadeTeam = {
         } else {
             $(".head-photo img").attr('src', data.user.avatar);
             $(".user-name").html(data.user.name);
-            if (data.role < Const.USER_ROLE_KING) {
+            
+            if (parseInt(data.user.role) < Const.USER_ROLE_KING) {
                 $(".un-actiation").show();
+                $(".un-actiation").height($(window).height() - $(".un-actiation").offset().top);
                 canshow = 0;
             } else {
                 canshow = 1;
+                
             }
         }
     },
@@ -161,9 +165,9 @@ var CustomNaviFunc = {
 };
 </script>
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js"></script>
+<script src="javascripts/main.js?v=5"></script>
 <script>
-    $(".un-actiation").height($(window).height() - $(".un-actiation").offset().top);
+    
     $("#close").click(function(){
         $("#how_to_active").hide();
     });
@@ -199,6 +203,10 @@ var CustomNaviFunc = {
         Util.requestApi("?r=user/downstream", {p:p}, function(data){
         
             $(".teammate-num").html("团员 " + data.data.count);
+            
+            if (canshow < 1) {
+                return ;
+            }
             if (data.data.count <= 0) {
                 //没有团员
                 $("#load-more").html("您还没有团员");
@@ -227,9 +235,9 @@ var CustomNaviFunc = {
         if (canshow >=0 ) {
             clearInterval(id);
         }
+        loadList(page);
         if (canshow == 1) {
             $("#load-more").show();
-            loadList(page);
             $(window).scroll(function(){
                 if (Bootstrap.checkWindowAtButtom()) {
                         if (page < pageCnt) {
