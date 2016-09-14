@@ -79,10 +79,10 @@
         .mate-u-list .wbox {
             display: table-cell;
         }
-        table {
+        #mate-list {
             width:100%;
         }
-        tr {background: #ffffff;    border-bottom: 1px solid #ccc;}
+        #mate-list tr {background: #ffffff;    border-bottom: 1px solid #ccc;}
         #load-more {
             padding-top:10px;
             text-align: center;
@@ -111,10 +111,10 @@
         <div class="teammate-num"></div>
     
 </div>
-<table >
+<table id="mate-list">
    
 
-</table>
+</table >
 <div id="load-more">加载中 ... </div>
 <div class="un-actiation"  style="display:none;">
 <div >
@@ -220,7 +220,7 @@ var CustomNaviFunc = {
                 var item = data.data.list[i];
                 htm += Template.renderByTemplate(template, item);
             }
-            $('table').append(htm);
+            $('#mate-list').append(htm);
             page = data.data.page;
             pageCnt = data.data.page_count;
             
