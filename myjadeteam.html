@@ -34,6 +34,7 @@
         .un-actiation {
             text-align:center;
             background: #fff;
+            padding-bottom: 120px;
         }
         .un-actiation div {
             padding-top:40px;
@@ -45,6 +46,7 @@
             border-radius: 7px;
             font-size: 1.3rem;
             color: #fff;
+            
         }
         /**
         .wbox {
@@ -122,7 +124,7 @@
   <a id="ac_click">立即激活</a>
 </div>
 </div>
-<div id="how_to_active" style="position:fixed;width:100%;height:100%;top:0;z-index:999;display:none;">
+<div id="how_to_active" style="position:fixed;width:100%;height:100%;top:0;z-index:999;display:none; overflow: auto;">
 <img src="img/ye_rule.png" style="width: 100%;" usemap="#emergencyMap">
  <map name="emergencyMap" id="emergencyMap">
  <area   id="active_map" shape="rect"/> 
@@ -176,12 +178,12 @@ var CustomNaviFunc = {
     });
     
     //设置"立即购物"区域
-    var wW = $(window).width();
-    var wH = $(window).height();
+    
     $(function() {
         //140,407,582,545
         //0 0 720,1280
-        
+        var wW = $(window).width();
+        var wH = 1280 * wW / 720 ;
          var lt = {x:0.194,y:0.318}; //目标区域左上角的相对位置
          var rt = {x:0.808,y:0.426}; //目标区域右下角的相对位置
          var area = {
