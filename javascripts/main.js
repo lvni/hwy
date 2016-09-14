@@ -2067,15 +2067,15 @@ var Order = {
         });
         
         //下拉事件
-        console.log("注册事件");
+        //console.log("注册事件");
         $(window).scroll(me.orderMainScrollEvent);
     }
     //订单下拉事件实际处理
     ,orderMainScrollEvent: function() {
         var me = Order;
-        console.log("gun");
+        //console.log("gun");
         if (Bootstrap.checkWindowAtButtom()) {
-        console.log("底部了");
+        //console.log("底部了");
             //到底部了，加载更多
             var type = $("#js-changecont .on").attr('data-type');
             var p = me.page;
@@ -4136,6 +4136,7 @@ var setName = {
     },
 };
 Share.init();
+Share.init();
 var NavFunc = {
        '/webapp/' : {show:true},
        '/webapp/index.html' : {show:true},
@@ -4146,6 +4147,10 @@ var NavFunc = {
        '/webapp/supplier.html' : {show:true, callback:{a:User.initSupplier,b:User}},
        '/webapp/editname.html': {show:false,callback:{a:setName.init,b:setName}}
 };
+//继承，用户页面可以自定义是否显示导航栏
+if (typeof CustomNaviFunc == 'object') {
+    NavFunc = $.extend(NavFunc, CustomNaviFunc);
+}
 path = location.pathname;
 //注册分享回调
 FuncNavi.addCallback(Share.registerShare, Share);

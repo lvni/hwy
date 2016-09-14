@@ -1,0 +1,245 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>我的珠宝团</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/mysubordinates.css">
+    <style>
+        .head-photo {
+             padding-top:20px;
+        }
+        .head-photo img {
+            max-width: 80px;
+            border-radius: 50%;
+            border: 1px solid #a90125;
+        }
+        .user-info div {
+            text-align: center;
+        }
+        .user-info {
+            padding: 0 0 10px 0;
+            min-height: 100px;
+            background: #ffffff;
+            margin-bottom: 10px;
+        }
+        .user-name {
+            font-size: 1.7rem; 
+            padding: 10px 0;
+        }
+        .teammate-num {
+            font-size: 1.5rem;
+            color: #666;
+        }
+        .un-actiation {
+            text-align:center;
+            background: #fff;
+        }
+        .un-actiation div {
+            padding-top:40px;
+        }
+        
+        .un-actiation .text a {
+            padding: 10px 20px;
+            background: #b22b2f;
+            border-radius: 7px;
+            font-size: 1.3rem;
+            color: #fff;
+        }
+        /**
+        .wbox {
+            display: -webkit-box;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+        }
+        .infolist .name {
+                width: 20%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+        }
+        .infolist .money {
+            display: -webkit-inline-box;
+        }
+        
+        .name {
+                width: 130px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+        }**/
+        .mate-u-list {
+                position: relative;
+                display: table-cell;
+                margin: 5px 0px;
+                background: #ffffff;
+        }
+        .mate-u-list .wbox {
+            display: table-cell;
+        }
+        table {
+            width:100%;
+        }
+        tr {background: #ffffff;    border-bottom: 1px solid #ccc;}
+        #load-more {
+            padding-top:10px;
+            text-align: center;
+            display:none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>我的珠宝团</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="user-info" style="min-height: 100px;">
+        <div class="head-photo"><img src="" ></div>
+        <div class="user-name"></div>
+        <div class="teammate-num"></div>
+    
+</div>
+<table >
+   
+
+</table>
+<div id="load-more">加载中 ... </div>
+<div class="un-actiation"  style="display:none;">
+<div >
+    <img src="img/ujihuo.png" style="width:90%">
+</div>
+<div class="text">
+  <a id="ac_click">立即激活</a>
+</div>
+</div>
+<div id="how_to_active" style="position:fixed;width:100%;height:100%;top:0;z-index:999;display:none;">
+<img src="img/ye_rule.png" style="width: 100%;" usemap="#emergencyMap">
+ <map name="emergencyMap" id="emergencyMap">
+ <area   id="active_map" shape="rect"/> 
+ </map>
+<img id="close" src="img/yo_close.png" style="position:absolute;top:10px;right:10px;width:12%"/>
+</div>
+<script id="downstream_item_template" type="text/template">
+    <tr>
+         <td style="width:80px;"><img src="{$avatar}" style="width:80px;margin:5px;" onerror="javascript:this.src=config.default_icons;"></td>
+         <td >
+         <div class="name">{$user_name}</td>
+         </div>
+         <td style="width:80px;"><a href="mysubordinates-moneycount.html?id={$rec_id}">佣金统计</a></td>
+     </tr>
+</script>
+<script>
+var canshow = -1;
+var MyJadeTeam = {
+    init: function(data) {
+        if (data.is_login == 0) {
+            messageBox.toast("请先登录");
+            Util.goLogin(location.href);
+        } else {
+            $(".head-photo img").attr('src', data.user.avatar);
+            $(".user-name").html(data.user.name);
+            if (data.role < Const.USER_ROLE_KING) {
+                $(".un-actiation").show();
+                canshow = 0;
+            } else {
+                canshow = 1;
+            }
+        }
+    },
+};
+var CustomNaviFunc = {
+    '/webapp/myjadeteam.html' : {show:true, callback:{a:MyJadeTeam.init,b:MyJadeTeam}},
+};
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+    $(".un-actiation").height($(window).height() - $(".un-actiation").offset().top);
+    $("#close").click(function(){
+        $("#how_to_active").hide();
+    });
+    $("#ac_click").click(function(){
+        $("#how_to_active").show();
+    });
+    
+    //设置"立即购物"区域
+    var wW = $(window).width();
+    var wH = $(window).height();
+    $(function() {
+        //140,407,582,545
+        //0 0 720,1280
+        
+         var lt = {x:0.194,y:0.318}; //目标区域左上角的相对位置
+         var rt = {x:0.808,y:0.426}; //目标区域右下角的相对位置
+         var area = {
+            x1: (wW * lt.x),
+            y1: (wH * lt.y),
+            x2: (wW * rt.x),
+            y2:(wH * rt.y),
+         }
+        $("#active_map").attr({
+            coords : area.x1 + "," + area.y1+ "," + area.x2+ "," + area.y2,
+            href: 'allproduct.html',
+        });
+        
+        var nameTdWidth = wW * 0.486;
+    });
+    var page = 1;
+    var pageCnt = 0;
+    function loadList(p) {
+        Util.requestApi("?r=user/downstream", {p:p}, function(data){
+        
+            $(".teammate-num").html("团员 " + data.data.count);
+            if (data.data.count <= 0) {
+                //没有团员
+                $("#load-more").html("您还没有团员");
+                return;
+            }
+            var template = $("#downstream_item_template").html();
+            var htm = "";
+            for (i in data.data.list) {
+                var item = data.data.list[i];
+                htm += Template.renderByTemplate(template, item);
+            }
+            $('table').append(htm);
+            page = data.data.page;
+            pageCnt = data.data.page_count;
+            
+            if (page >= pageCnt) {
+                $("#load-more").html('');
+            } else {
+                $("#load-more").html('加载中 ...');
+            }
+        
+        });
+    }
+    
+    var id = setInterval(function(){
+        if (canshow >=0 ) {
+            clearInterval(id);
+        }
+        if (canshow == 1) {
+            $("#load-more").show();
+            loadList(page);
+            $(window).scroll(function(){
+                if (Bootstrap.checkWindowAtButtom()) {
+                        if (page < pageCnt) {
+                            loadList(page + 1);
+                        }
+                }
+            });
+        }
+    }, 500);
+    
+</script>
+</body>
+</html>
