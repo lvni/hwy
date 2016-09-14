@@ -116,12 +116,14 @@
 
 </table >
 <div id="load-more">加载中 ... </div>
+
 <div class="un-actiation"  style="display:none;">
+<div style="font-size: 3rem;font-weight:900;color:#b22b2f">成为团长</div>
 <div >
     <img src="img/ujihuo.png" style="width:90%">
 </div>
 <div class="text">
-  <a id="ac_click">立即激活</a>
+  <a id="ac_click">立即激活团员</a>
 </div>
 </div>
 <div id="how_to_active" style="position:fixed;width:100%;height:100%;top:0;z-index:999;display:none; overflow: auto;">
@@ -153,7 +155,7 @@ var MyJadeTeam = {
             
             if (parseInt(data.user.role) < Const.USER_ROLE_KING) {
                 $(".un-actiation").show();
-                $(".un-actiation").height($(window).height() - $(".un-actiation").offset().top);
+               // $(".un-actiation").height($(window).height() - $(".un-actiation").offset().top);
                 canshow = 0;
             } else {
                 canshow = 1;
