@@ -2464,9 +2464,41 @@ var Order = {
                  me.weixinPay(orderSn);
                  
              } 
+             
+             if (payType == 'alipay') {
+                 me.alipay(orderSn);
+             }
         });
 
+    }
+    ,alipay: function(orderSn) {
+        var api = config.api +"?r=order/alipay";
+        var ret = {};
+        var isApp = Util.isApp();
+        //获取支付宝支付参数
+        $.ajax({
+            url: api,
+            data: {order: orderSn,isApp:isApp},
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                ret = data;
+            }
+            ,error: function(data) {
+                messageBox.toast("支付异常");
+                return ;
+            }
+            
+        });
+        if (ret.errno != 0) {
+            
+            messageBox.toast(data.errmsg);
+            return;
         }
+        var nativeApi = "hwy://pay?act=alipay&callback=AppCall.wxPayBack&orderStr=" + encodeURIComponent(ret.data.orderStr);
+        Util.callAppApi(nativeApi);
+        
+    }
     ,runPayment: function() {
         var orderSn = Util.getQueryString('order');
         var me = this;

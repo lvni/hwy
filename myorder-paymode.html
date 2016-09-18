@@ -29,8 +29,8 @@
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
-    <!--
-    <a href="#" class="list">
+    
+    <a href="javascript:;" class="list" pay-type='alipay' style="display:none;" id="alipay-section">
         <img src="img/paymode02.png" class="icon">
         <div class="contbox">
             <h3 class="title"><p class="name">支付宝支付</p></h3>
@@ -38,7 +38,8 @@
         </div>
         <img class="arrow" src="img/arrowright.png">
     </a>
-    <a href="#" class="list">
+    
+    <!--<a href="#" class="list">
         <img src="img/paymode03.png" class="icon">
         <div class="contbox">
             <h3 class="title"><p class="name">找人代付</p></h3>
@@ -60,6 +61,16 @@
 <script src="javascripts/main.js"></script>
 <script>
 Order.runPayment();
+function canAlipay() {
+    if (Client.isApp()) {
+        return (Client.isAndroid() && Client.buildNo >= 48) 
+                  || (Client.isIos() && Client.buildNo >= 48);
+    }
+    return false;
+}
+if (canAlipay()) {
+    $("#alipay-section").show();
+}
 </script>
 </body>
 </html>
