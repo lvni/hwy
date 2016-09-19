@@ -2495,7 +2495,10 @@ var Order = {
             messageBox.toast(data.errmsg);
             return;
         }
-        var nativeApi = "hwy://pay?act=alipay&callback=AppCall.wxPayBack&orderStr=" + encodeURIComponent(ret.data.orderStr);
+        var nativeApi = "hwy://pay?act=alipay&callback=AppCall.aliPayBack&orderStr=" + encodeURIComponent(ret.data.orderStr);
+        AppCall.successCallback = function(){
+             setTimeout(function(){me.gotoDetail(orderSn);}, 1500);
+        };
         Util.callAppApi(nativeApi);
         
     }
@@ -4298,6 +4301,29 @@ var AppCall = {
         
         
     }
+    //支付宝支付回调
+    ,aliPayBack: function(data) {
+        try {
+            if (typeof data == 'object') {
+                var jsObt  = data;
+            } else {
+                var jsObt  = JSON.parse(data);
+            }
+            if (jsObt.resultStatus == '9000') {
+                messageBox.toast("成功支付，请耐心等待");
+                if (AppCall.successCallback) {
+                    return AppCall.successCallback();
+                } 
+            } else {
+                messageBox.toast("支付失败");
+            }
+            
+        } catch(e) {
+            messageBox.toast("支付异常");
+        }
+        
+        
+    }
     ,shareBack: function(data) {
         try {
             if (typeof data == 'object') {
@@ -4387,35 +4413,11 @@ var AppCall = {
     
 };
 
-
-//统计相关
-var Statics = {
-    send: function() {
-        $.get(config.api+"?r=statics/push", function(res){
-            console.log(res);
-        });
-    }
-    
-};
-
-setTimeout(function(){Statics.send()}, 1500);
-
-var origin = "web";
-origin = Util.isApp() ? "app" : origin;
-origin = Util.isWeiXin() ? "weixin" : origin;
-_czc.push(["_setCustomVar","终端",origin,0]);
-
-//访问来源
-var fr = Util.getQueryString('fr');
-if (fr) {
-    var frStr = "未知";
-}
-//Util.showLoading();
 //当前客户端信息
 var Client = {
     client : 3,// 1 app 2 weixin 3 web 
     buildNo:0,
-    channel: "",
+    channel: "web",
     os: -1, // 0 android, 1 ios -1 web
     sv: "", 
     init:function() {
@@ -4470,6 +4472,36 @@ var Client = {
 };
 
 Client.init();
+
+
+//统计相关
+var Statics = {
+    send: function() {
+        $.get(config.api+"?r=statics/push", function(res){
+            console.log(res);
+        });
+    }
+    
+};
+
+setTimeout(function(){Statics.send()}, 1000);
+
+var origin = "web";
+origin = Util.isApp() ? "app" : origin;
+origin = Util.isWeiXin() ? "weixin" : origin;
+_czc.push(["_setCustomVar","终端",origin,0]);
+if (Client.isApp()) {
+    _czc.push(["_setCustomVar","渠道",Client.channel,0]);
+}
+
+
+//访问来源
+var fr = Util.getQueryString('fr');
+if (fr) {
+    var frStr = "未知";
+}
+//Util.showLoading();
+
 
 /**
  * app 检查更新
