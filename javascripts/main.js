@@ -120,7 +120,8 @@ var messageBox = {
         
     }
     ,updateDialog: function(title, content, force, sid, callback) {
-   
+    
+        
         var html = '<div class="u-popodbox" id="js-confirm-box">'
                       + '<div class="cont">'+'<span>' +title+'</span>'
                       +'<h2>'+ content + '</h2><div class="buttonbox">';
@@ -4303,14 +4304,23 @@ var AppCall = {
         
     }
     //支付宝支付回调
+    ,alipayCalled : 0
     ,aliPayBack: function(data) {
+        var me = this;
         try {
+            
             if (typeof data == 'object') {
                 var jsObt  = data;
             } else {
                 var jsObt  = JSON.parse(data);
             }
+            
             if (jsObt.resultStatus == '9000') {
+                if (me.alipayCalled == 1) {
+                    return ;
+                    //支付宝回调可能会调用两次，故在此作个判断
+                }
+                me.alipayCalled = 1;
                 messageBox.toast("成功支付，请耐心等待");
                 if (AppCall.successCallback) {
                     return AppCall.successCallback();
@@ -4509,9 +4519,11 @@ if (fr) {
  **/
 var UpdaterManager = {
     
-     check: function() {
+     check: function(ignore) {
         //messageBox.toast("开始检查");
         try {
+            
+         
          Util.requestApi("?r=package/checkupdate", {}, function(data){
             
              if (data.errno ==0) {
@@ -4521,6 +4533,10 @@ var UpdaterManager = {
                      var info = data.data.update_info;
                      var  title = "app有新版v"+info.sv;
                      //messageBox.toast(title);
+                     var oldSid = Storge.getItem('last_check_sid');
+                     if (oldSid == data.data.sid && !ignore ) {
+                            return ;
+                     }
                      messageBox.updateDialog(title, info.feature, info.is_force,data.data.sid, function(){
                          //调用接口更新
                          if (Client.isAndroid()) {
@@ -4546,7 +4562,7 @@ var UpdaterManager = {
          }
      }
 };
-//UpdaterManager.check();
+UpdaterManager.check();
 
 
 /**

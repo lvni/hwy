@@ -38,7 +38,7 @@
         <i>清理缓存</i>
         <img src="img/arrowright.png">
     </a>
-    <a href="javascript:;">
+    <a href="javascript:;" id="check_update">
         <i>当前版本/版本更新</i>
         <img src="img/arrowright.png">
     </a>
@@ -181,6 +181,12 @@
             xhr.send(fd);
         };
         $("#modify-img").bind('click', upload);
+        $("#check_update").bind('click', function(){
+            //检查升级
+            //TO-DO 添加等待框
+            messageBox.toast("ddf");
+            UpdaterManager.check(true);
+        });
     });
 </script>
 </body>
