@@ -4554,7 +4554,7 @@ var UpdaterManager = {
                      });
                  } else {
                      if (ignore) {
-                         messageBox.toast("当前app已经是最新版本");
+                         messageBox.toast("当前已经是最新版本");
                      }
                  }
              }
