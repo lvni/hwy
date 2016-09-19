@@ -2472,6 +2472,7 @@ var Order = {
 
     }
     ,alipay: function(orderSn) {
+        var me = Order;
         var api = config.api +"?r=order/alipay";
         var ret = {};
         var isApp = Util.isApp();
