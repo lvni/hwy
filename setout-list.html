@@ -10,7 +10,7 @@
 
 <body>
 <div class="u-top-msg">
-    <div class="title">
+    <div class="title" id="title">
         <p>设置</p>
     </div>
     <a href="message.html" class="msgbox">
@@ -188,6 +188,17 @@
         //UpdaterManager.check(true);
         
     });
+    var clickCnt = 0;
+        $("#title").click(function(){
+                clickCnt ++;
+                if (clickCnt >= 7) {
+                    //7次进入测试模式
+                    messageBox.toast("进入debug模式");
+                    var api = "hwy://setDebug?tag=open";
+                    Util.callAppApi(api);
+                    clickCnt = 0;
+                }
+        });
 </script>
 </body>
 </html>
