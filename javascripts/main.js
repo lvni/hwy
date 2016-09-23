@@ -4556,7 +4556,7 @@ var UpdaterManager = {
                      }
                      messageBox.updateDialog(title, info.feature, info.is_force,data.data.sid, function(){
                          //调用接口更新
-                         if (Client.isAndroid()) {
+                         if (true) {
                              title = "洪五爷珠宝v"+info.sv;
                              var params = {
                                  title: title,
@@ -4569,10 +4569,6 @@ var UpdaterManager = {
                          
                          
                      });
-                 } else {
-                     if (ignore) {
-                         messageBox.toast("当前已经是最新版本");
-                     }
                  }
              }
              
