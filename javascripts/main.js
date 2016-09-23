@@ -4391,13 +4391,30 @@ var AppCall = {
             } else {
                 var jsObt  = JSON.parse(data);
             }
+
             //messageBox.toast(jsObt.title + ":" + jsObt.content);
-            if (jsObt.customContent && jsObt.customContent.url) {
-                //
+            if (('customContent' in jsObt) && jsObt.customContent.url) {
+                //android 有链接直接跳
                 location.href = jsObt.customContent.url;
+            }
+            if ('aps' in jsObt) {
+                //ios 
+                if (jsObt.in_app) {
+                    //弹出框
+                    messageBox.confirm(jsObt.aps.alert, function(){
+                        
+                        if (jsObt.url) {
+                            location.href = jsObt.url;
+                        }
+                    });
+                    
+                } else if (jsObt.url) {
+                    location.href = jsObt.url;
+                }
             }
           } catch (e) {
               //解析异常，不处理
+              messageBox.toast(e.message);
           }
     }
     
