@@ -17,6 +17,65 @@ if (location.href.indexOf("https://") == 0) {
 } else {
     host = "http://" + host;
 }
+//当前客户端信息
+var Client = {
+    client : 3,// 1 app 2 weixin 3 web 
+    buildNo:0,
+    channel: "web",
+    os: -1, // 0 android, 1 ios -1 web
+    sv: "", 
+    init:function() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        var appPattern = /(hwy)\/([0-9\.]+)(\s+\((\d+)\))?/i;
+        var wxPattern  = /MicroMessenger\/([0-9\.]+)/i;
+        var androidPattern = /(android)/i;
+        var iphonePattern =  /(iphone|ipad)/i;
+        var channelPattern = /channel\((\d+)\)/i;
+        var result ;
+        var me = this;
+        if (result = ua.match(appPattern)) {
+            me.client = 1;
+            me.buildNo = result[4] ? result[4] : 0;
+            me.sv = result[2];
+            
+        }
+        if (result = ua.match(wxPattern)) {
+            me.client = 2;
+        } 
+        if (result = ua.match(androidPattern)) {
+            me.os = 0;
+        } 
+        if (result = ua.match(iphonePattern)) {
+            me.os = 1;
+        } 
+        if (result = ua.match(channelPattern)) {
+            me.channel = result[1];
+        } 
+        
+    },
+    isApp: function() {
+        return this.client == 1;
+    },
+    isAndroid: function() {
+        return this.os == 0;
+    },
+    isIos: function() {
+        return this.os == 1;
+    },
+    isWeixin: function() {
+        return this.client == 2;
+    },
+    toString: function() {
+        return "client " + this.client  
+                   + " os " + this.os
+                   + " channel " + this.channel
+                   + " buildNo " + this.buildNo
+                   + " sv " + this.sv;
+    }
+    
+};
+
+Client.init();
 var config = {
     'api': host+'/api/backend/web/index.php',
     //'api': 'http://test.hong5ye.com/api/backend/web/index.php',
@@ -1818,7 +1877,7 @@ var Bootstrap = {
     ,runsearch: function() {
         var me = this;
         var context = Storge.getItem("search_context");
-        if (context ) {
+        if (context && !Client.isIos()) {
             //返回,恢复现场
             context = JSON.parse(context);
             Storge.removeItem("search_context");
@@ -4449,65 +4508,7 @@ var AppCall = {
     
 };
 
-//当前客户端信息
-var Client = {
-    client : 3,// 1 app 2 weixin 3 web 
-    buildNo:0,
-    channel: "web",
-    os: -1, // 0 android, 1 ios -1 web
-    sv: "", 
-    init:function() {
-        var ua = window.navigator.userAgent.toLowerCase();
-        var appPattern = /(hwy)\/([0-9\.]+)(\s+\((\d+)\))?/i;
-        var wxPattern  = /MicroMessenger\/([0-9\.]+)/i;
-        var androidPattern = /(android)/i;
-        var iphonePattern =  /(iphone|ipad)/i;
-        var channelPattern = /channel\((\d+)\)/i;
-        var result ;
-        var me = this;
-        if (result = ua.match(appPattern)) {
-            me.client = 1;
-            me.buildNo = result[4] ? result[4] : 0;
-            me.sv = result[2];
-            
-        }
-        if (result = ua.match(wxPattern)) {
-            me.client = 2;
-        } 
-        if (result = ua.match(androidPattern)) {
-            me.os = 0;
-        } 
-        if (result = ua.match(iphonePattern)) {
-            me.os = 1;
-        } 
-        if (result = ua.match(channelPattern)) {
-            me.channel = result[1];
-        } 
-        
-    },
-    isApp: function() {
-        return this.client == 1;
-    },
-    isAndroid: function() {
-        return this.os == 0;
-    },
-    isIos: function() {
-        return this.os == 1;
-    },
-    isWeixin: function() {
-        return this.client == 2;
-    },
-    toString: function() {
-        return "client " + this.client  
-                   + " os " + this.os
-                   + " channel " + this.channel
-                   + " buildNo " + this.buildNo
-                   + " sv " + this.sv;
-    }
-    
-};
 
-Client.init();
 
 
 //统计相关
