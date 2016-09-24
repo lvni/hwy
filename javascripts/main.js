@@ -4578,13 +4578,18 @@ var UpdaterManager = {
                          
                          
                      });
+                 } else {
+                     if (ignore) {
+                         
+                         messageBox.toast("您当前使用的是最新版本");
+                     }
                  }
              }
              
          },
          'get', true);
          } catch(e) {
-             alert(e);
+             //alert(e);
          }
      }
 };
