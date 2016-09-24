@@ -72,7 +72,7 @@ body {
     clear: both; }
 
 /* line 53, ../sass/login.scss */
-.u-button-main {
+.u-loginbox .u-button-main {
   background: rgba(255, 255, 255, 0.19); }
 
 /* line 57, ../sass/login.scss */

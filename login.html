@@ -37,8 +37,26 @@
         <span>微信一键登录更方便</span>
     </button>
 </div>
+<script>
+var LoginForm = {
+    init: function(data) {
+        if (data.is_login == 1) {
+            
+            //已登录，去到个人中心
+            if (data.user.role <= Const.USER_ROLE_SUPPLIER) {
+                location.href = "king.html";
+            } else {
+                location.href = "supplier.html";
+            }
+        }
+    },
+};
+var CustomNaviFunc = {
+    '/webapp/login.html' : {show:false, callback:{a:LoginForm.init,b:LoginForm}},
+};
+</script>
 <script src="javascripts/zepto.min.js"></script>
-<script src="javascripts/main.js?v=wr32423"></script>
+<script src="javascripts/main.js"></script>
 <script src="javascripts/md5.min.js"></script>
 <script>
 
@@ -101,6 +119,7 @@ $(function(){
 
           };
     $('.u-button-main').bind('click', loginMobile);
+    
 });
 </script>
 </body>
