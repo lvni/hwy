@@ -16,7 +16,7 @@
         <img src="img/hw_03.png">
         <span class="msg"></span>
     </a>
-    <a href="javascript:history.go(-1)" class="turnback">
+    <a href="javascript:;" class="turnback">
         <img src="img/arrowleft.png">
     </a>
 </div>
@@ -116,6 +116,17 @@ $('body').delegate("button", 'click', function(){
         location.href="tel:4000-111-550";
     }
       
+ });
+ $(".turnback").click(function(){
+     //如果是订单列表进来的，则返回，否则返回订单列表(所有)
+     //messageBox.toast(window.document.referrer );
+     if (window.document.referrer 
+     && window.document.referrer.indexOf('myorder-paymode.html')) {
+         location.href = "myorder-allorders.html";
+     } else {
+        history.go(-1);
+        
+     }
  });
 </script>
 </body>

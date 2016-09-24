@@ -48,8 +48,9 @@ var config = {
 };
 history.igo = history.go;
 history.go = function(index){
+    
     if (history.length > 1) {
-        history.igo(index); 
+        history.igo(index);
     } else {
         location.replace("index.html");
     }
@@ -413,6 +414,12 @@ var Util = {
                         r.push(c); r.push(";");
                         return r.join("");
                     });
+    }
+    ,goBack: function(){
+            if (/(iPhone|iPad|iPod)/i.test(navigator.userAgent)) {             
+                    window.location.replace(window.document.referrer);
+            } else { window.history.go("-1"); 
+            }
     }
     //获取请求参数
     ,getQueryString: function(name) {
@@ -2543,7 +2550,8 @@ var Address = {
                 //选择当前地址
                 Util.requestApi('?r=address/select', {address_id:addressId}, function(data){
                     if (data.errno == 0) {
-                        history.go(-1);
+                        //history.go(-1);
+                        Util.goBack();
                     } else {
                         messageBox.toast(data.errmsg);
                     }
