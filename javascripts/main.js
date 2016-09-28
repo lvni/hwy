@@ -2686,7 +2686,8 @@ var Address = {
                     messageBox.toast(data.errmsg)
                     if (data.errno == 0) {
                         //成功 返回
-                        history.go(-1);
+                        //history.go(-1);
+                        Util.goBack();
                     }
                 },
                 error: function() {
