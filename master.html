@@ -1,0 +1,75 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>大师推荐</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/master.css">
+    <link href="javascripts/islider/iSlider.css" rel="stylesheet">
+    <script src="javascripts/islider/iSlider.min.js"></script>
+    <script src="javascripts/islider/iSlider.animate.min.js"></script>
+</head>
+
+<body>
+<div class="u-top-msg" >
+    <div class="title">
+        <p>大师推荐</p>
+    </div>
+    <a href="message.html" class="msgbox">
+        <img src="img/hw_03.png">
+        <span class="msg"></span>
+    </a>
+    <a href="index.html" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+
+<div class="u-choosebox"><!--这里加上on之后筛选内容的box会出现-->
+    <div class="u-sortnav" id="js-navSelect">
+        <div class="cont" data-role="buwei">
+            <p><span data-role="cate_name">部位</span><img src="img/hongwu_54.png"></p>
+        </div>
+        <div class="cont" data-role="caizhi">
+            <p><span data-role="cate_name">材质</span><img src="img/hongwu_54.png"></p>
+        </div>
+        <div class="cont" data-role="paixu">
+            <p>排序<img src="img/hongwu_54.png"></p>
+        </div>
+        <div class="cont" id="js-choose" data-role="shaixuan">
+            <p><span data-role="cate_name">筛选</span><img src="img/hongwu_54.png"></p>
+        </div>
+    </div>
+</div>
+<div class="banner">
+<img src="img/master_bn.jpg" >
+</div>
+<div class="master-list" >
+    <div id="iSlider-wrapper" >
+    </div>
+    <div class="name-box">
+        <span class="name-text">谢太增大师</span>
+    </div>
+    
+</div>
+<script>
+//http://be-fe.github.io/iSlider/demo/#frame-iSlider
+var list = [
+        {content: "img/master_poster.jpg"},
+        {content: "img/master_poster.jpg"},
+
+    ];
+
+    var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
+        isLooping: 1,
+        isOverspread: 1,
+        isAutoplay: 0,
+        animateTime: 800,
+        animateType: 'flow',
+    });
+    S.on('slideChanged', function(n, he){
+        
+        console.log(n);
+    });
+</script>
+</body>
+</html>
