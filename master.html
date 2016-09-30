@@ -47,29 +47,63 @@
     <div id="iSlider-wrapper" >
     </div>
     <div class="name-box">
-        <span class="name-text">谢太增大师</span>
+        <span class="name-text"></span>
     </div>
     
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
 <script>
 //http://be-fe.github.io/iSlider/demo/#frame-iSlider
-var list = [
-        {content: "img/master_poster.jpg"},
-        {content: "img/master_poster.jpg"},
 
-    ];
+var srcArr = [
+    {
+        'id' : 1,
+        'name' : '谢太增大师',
+        'img' : "img/master_poster.jpg",
+    },
+    {
+        'id' : 2,
+        'name' : '梁区容大师',
+        'img' : "img/master_poster.jpg",
+    },
+    {
+        'id' : 3,
+        'name' : '慕容雪山大师',
+        'img' : "img/master_poster.jpg",
+    },
+];
 
-    var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
-        isLooping: 1,
-        isOverspread: 1,
-        isAutoplay: 0,
-        animateTime: 800,
-        animateType: 'flow',
-    });
-    S.on('slideChanged', function(n, he){
+function showF(masters, id) {
+      var list  = [];
+      var idx = 0;
+      for (i in masters) {
+          if (id == masters[i].id) {
+               idx = i;
+          }
+          list.push({'content':masters[i].img});
+      }
+      console.log(idx);
+      var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
+            isLooping: 1,
+            isOverspread: 1,
+            isAutoplay: 0,
+            animateTime: 800,
+            animateType: 'flow',
+        });
+        $(".name-text").html(masters[idx].name);
+        S.on('slideChanged', function(n, he){
+            $(".name-text").html(masters[n].name);
+            
+        });
+        if (idx > 0) {
+            S.slideTo(idx);
+        }
         
-        console.log(n);
-    });
+}
+
+showF(srcArr, 3);
+    
 </script>
 </body>
 </html>
