@@ -172,8 +172,8 @@
     <button class="add" onclick="javascript:location.href='index.html';">
         <span>聚缘阁</span>
     </button>
-    <button class="buy" onclick="javascript:;" >
-        <span>立即参与</span>
+    <button class="buy" onclick="javascript:;" style="background:#ccc;">
+        <span>活动已结束</span>
     </button>
 </div>
 
@@ -298,6 +298,9 @@ $(function(){
         }
         
         $("body").delegate(".buy", 'click', function(){
+        
+              messageBox.toast("活动已经结束");
+              return ;
               if (uaData.is_login == false) {
                 //没有登录
                     Util.goLogin(location.href);
