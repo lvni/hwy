@@ -53,4 +53,18 @@
   border: 1px solid #fff;
   text-align: center;
   color: #fff;
-  border-radius: 5px; }
+  border-radius: 5px;
+  font-size: 1.7rem; }
+
+/* line 37, ../sass/master.scss */
+.tips {
+  text-align: center;
+  font-size: 1.9rem;
+  vertical-align: middle; }
+
+/* line 42, ../sass/master.scss */
+.line {
+  display: inline-block;
+  width: 80px;
+  height: 1px;
+  background: #000; }
