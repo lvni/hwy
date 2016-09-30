@@ -61,10 +61,3 @@
   text-align: center;
   font-size: 1.9rem;
   vertical-align: middle; }
-
-/* line 42, ../sass/master.scss */
-.line {
-  display: inline-block;
-  width: 80px;
-  height: 1px;
-  background: #000; }
