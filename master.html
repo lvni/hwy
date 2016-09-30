@@ -89,11 +89,13 @@ function showF(masters, id) {
             isOverspread: 1,
             isAutoplay: 0,
             animateTime: 800,
-            animateType: 'flow',
+            animateType: 'depth', //flow
         });
         $(".name-text").html(masters[idx].name);
         S.on('slideChanged', function(n, he){
             $(".name-text").html(masters[n].name);
+            
+            //加载该大师的产品
             
         });
         if (idx > 0) {
