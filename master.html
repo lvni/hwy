@@ -163,7 +163,8 @@ var srcArr = [
         'img' : "img/master_poster.jpg",
     },
 ];
-
+var S ; //图片播放插件
+var masterGoodsQuery = {}; //当前大师商品的查询条件： 大师id，当前加载页码
 function initNameNavi(masters, id) {
     //名字导航栏
       var i = 0;
@@ -175,7 +176,7 @@ function initNameNavi(masters, id) {
                 var exStyle = i > 3 ? "style='display:none;'" : "";
                 nameHtml += "<tr "+exStyle+">";
            }
-           nameHtml += "<td>"+masters[i].s_name+"</td>";
+           nameHtml += "<td data='"+i+"'>"+masters[i].s_name+"</td>";
            if (i%4 == 3) {
                nameHtml += "</tr>";
            }
@@ -207,6 +208,13 @@ function initNameNavi(masters, id) {
              $(this).attr("src", "img/down.png");
           }
       });
+      
+      $(".master-name-table").delegate("td", "click", function(){
+             var targetIdx = parseInt($(this).attr("data"));
+             S.slideTo(targetIdx);
+             $(".master-name-table td").removeClass("red");
+             $(this).addClass("red");
+      });
 }
 function showF(masters, id) {
       var list  = [];
@@ -222,7 +230,7 @@ function showF(masters, id) {
       
       
       //大图滑动效果
-      var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
+      S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
             isLooping: 1,
             isOverspread: 1,
             isAutoplay: 0,
@@ -234,12 +242,21 @@ function showF(masters, id) {
             $(".name-text").html(masters[n].name);
             
             //加载该大师的产品
+            masterGoodsQuery = {
+                'id': masters[n].id,
+                'p' : 1
+            };
+            loadMasterGoods(masterGoodsQuery);
             
         });
         if (idx > 0) {
             S.slideTo(idx);
         }
         
+}
+
+function loadMasterGoods(GoodsQuery) {
+    console.log(GoodsQuery);
 }
 
 
