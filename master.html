@@ -26,20 +26,11 @@
 </div>
 
 <div class="u-choosebox"><!--这里加上on之后筛选内容的box会出现-->
-    <div class="u-sortnav" id="js-navSelect">
-        <div class="cont" >
-            <p><span >谢太增</span></p>
-        </div>
-        <div class="cont" >
-            <p><span >梁区容</span></p>
-        </div>
-        <div class="cont" data-role="paixu">
-            <p>林秋杰</p>
-        </div>
-        <div class="cont" >
-            <p><span >张秉</span></p>
-        </div>
-    </div>
+    <table class="master-name-table" >
+
+        
+    </table>
+   
 </div>
 <div class="banner">
 <img src="img/master_bn.jpg" >
@@ -143,31 +134,94 @@
 var srcArr = [
     {
         'id' : 1,
+        's_name': '谢太增',
         'name' : '谢太增大师',
         'img' : "img/master_poster.jpg",
     },
     {
         'id' : 2,
+        's_name': '梁区容',
         'name' : '梁区容大师',
         'img' : "img/master_poster.jpg",
     },
     {
         'id' : 3,
+        's_name': '慕容雪山',
         'name' : '慕容雪山大师',
+        'img' : "img/master_poster.jpg",
+    },
+    {
+        'id' : 4,
+        's_name': '林秋杰',
+        'name' : '林秋杰大师',
+        'img' : "img/master_poster.jpg",
+    },
+    {
+        'id' : 3,
+        's_name': '张秉光',
+        'name' : '张秉光大师',
         'img' : "img/master_poster.jpg",
     },
 ];
 
+function initNameNavi(masters, id) {
+    //名字导航栏
+      var i = 0;
+      var tlen = masters.length;
+      var nameHtml = "";
+      i = 0;
+      for (i=0; i< tlen; i++) {
+           if (i % 4 == 0) {
+                var exStyle = i > 3 ? "style='display:none;'" : "";
+                nameHtml += "<tr "+exStyle+">";
+           }
+           nameHtml += "<td>"+masters[i].s_name+"</td>";
+           if (i%4 == 3) {
+               nameHtml += "</tr>";
+           }
+      }
+      var emNeed = 3 - i % 4;
+      if (emNeed > 0) {
+        //补齐
+         for (j = 0; j< emNeed; j++) {
+             nameHtml +="<td></td>";
+         }
+         nameHtml += "</tr>";
+      }
+      
+      $(".master-name-table").html(nameHtml);
+      var down = '<img src="img/down.png" class="name-more-bnt" data="down">';
+      $(".master-name-table").append(down);
+      
+      $(".master-name-table .name-more-bnt").bind('click', function(){
+          //按钮事件
+          var status = $(this).attr("data");
+          if (status == "down") {
+             $(".master-name-table tr").show();
+             $(this).attr("data", "up");
+             $(this).attr("src", "img/up.png");
+          }  else {
+             $(".master-name-table tr").hide();
+             $(".master-name-table tr").eq(0).show();
+             $(this).attr("data", "down");
+             $(this).attr("src", "img/down.png");
+          }
+      });
+}
 function showF(masters, id) {
       var list  = [];
       var idx = 0;
-      for (i in masters) {
+      var i = 0;
+      var tlen = masters.length;
+      for (i=0; i< tlen; i++) {
           if (id == masters[i].id) {
                idx = i;
           }
           list.push({'content':masters[i].img});
       }
-      console.log(idx);
+      
+      
+      //大图滑动效果
       var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
             isLooping: 1,
             isOverspread: 1,
@@ -190,6 +244,7 @@ function showF(masters, id) {
 
 
 showF(srcArr, 3);
+initNameNavi(srcArr, 3);
     
 </script>
 </body>
