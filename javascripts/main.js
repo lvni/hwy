@@ -1542,7 +1542,7 @@ var Bootstrap = {
     }
     //检查滚动条是否到底部了
     ,checkWindowAtButtom: function() {
-        return $(window).scrollTop() >= $(document).height()-$(window).height();
+        return $(window).scrollTop() >= $(document).height()-$(window).height(); 
     }
     //处理搜索列表下拉
     ,handleSearchPull: function() {
