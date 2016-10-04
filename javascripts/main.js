@@ -1798,7 +1798,7 @@ var Bootstrap = {
                     'search' : me.searchQuery,
                     'context' : $("#context").html(),
                 };
-                Storge.setItem("search_context" , JSON.stringify(context));
+                SStorge.setItem("search_context" , JSON.stringify(context));
                 setTimeout(function(){location.href = url;}, 100);
             }
 
@@ -1894,11 +1894,11 @@ var Bootstrap = {
     //搜索/所有产品入口
     ,runsearch: function() {
         var me = this;
-        var context = Storge.getItem("search_context");
+        var context = SStorge.getItem("search_context");
         if (context && !Client.isIos()) {
             //返回,恢复现场
             context = JSON.parse(context);
-            Storge.removeItem("search_context");
+            SStorge.removeItem("search_context");
             $("#context").html(context.context);
             me.searchQuery = context.search;
         } else {
