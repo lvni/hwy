@@ -126,8 +126,18 @@
         </div>
 </a>
 </div>
+<script id="list_item_template" type="text/template">
+<a href="javascript:;" data-id={$goods_id} class="contbox page_{$page}">
+        <img src="img/default.jpg" data-src="{$goods_img}">
+        <div class="cont">
+            <p class="name">{$goods_name}</p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection">{$fav_count}人收藏</span></p>
+        </div>
+</a>
+</script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
+
 <script>
 //http://be-fe.github.io/iSlider/demo/#frame-iSlider
 
@@ -264,18 +274,78 @@ function showF(masters, id) {
             S.slideTo(idx);
         }
         
+        goodsQuery = {
+            'id': masters[idx].id,
+            'p' : 1
+        };
+        loadMasterGoods(goodsQuery);
+        
 }
 
 function loadMasterGoods(GoodsQuery) {
-    console.log(GoodsQuery);
     
-    //成功的话
+    Util.requestApi("?r=master/goods", GoodsQuery, function(data){
+            
+         if (data.data.length == 0) {
+            //没有商品
+            Util.showTips($(".u-productlist"), "大师暂时没有发布作品");
+            return ;
+         }
+         var html = "";
+         var template = $("#list_item_template").html();
+         
+         for (i in data.data.list) {
+            var item = data.data.list[i];
+            item.page = data.data.page;
+            html += Template.renderByTemplate(template, item);
+            
+         }
+         if (data.data.page == 1) {
+            $(".u-productlist").html(html);
+         } else {
+            $(".u-productlist").append(html);
+         }
+          //图片lazy load
+        var imgs = [];
+        $(".page_"+data.data.page+" img").each(function(){
+           //加载图片
+           var image = new Image();
+           image.src = $(this).attr('data-src');
+           image.target = this;
+           image.onload = function(){
+              this.target.src = this.src;
+              delete this;
+           }
+           
+        });
+         
+         masterGoodsQuery = {
+                'id'  : GoodsQuery.id,
+                'p'  : data.data.page,
+         };
+         
+    });
+    
+
     
 }
 
 
-showF(srcArr, 3);
-initNameNavi(srcArr, 3);
+
+//获取大师列表
+Util.requestApi("?r=master/list",{}, function(data){
+        
+        if (data.errno  == 0 && data.data.length > 0) {
+                initNameNavi(data.data, 0);
+                showF(data.data, 0);
+        } else {
+            message.toast("未找到大师列表，请稍后重试");
+        }
+}, 'get', true);
+
+
+//showF(srcArr, 3);
+//initNameNavi(srcArr, 3);
     
 </script>
 </body>
