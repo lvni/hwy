@@ -191,29 +191,40 @@ function initNameNavi(masters, id) {
       }
       
       $(".master-name-table").html(nameHtml);
-      var down = '<img src="img/down.png" class="name-more-bnt" data="down">';
-      $(".master-name-table").append(down);
       
-      $(".master-name-table .name-more-bnt").bind('click', function(){
-          //按钮事件
-          var status = $(this).attr("data");
-          if (status == "down") {
-             $(".master-name-table tr").show();
-             $(this).attr("data", "up");
-             $(this).attr("src", "img/up.png");
-          }  else {
-             $(".master-name-table tr").hide();
-             $(".master-name-table tr").eq(0).show();
-             $(this).attr("data", "down");
-             $(this).attr("src", "img/down.png");
-          }
-      });
       
+      if (tlen > 4) {
+      
+          var down = '<img src="img/down.png" class="name-more-bnt" data="down">';
+          $(".master-name-table").append(down);
+          $(".master-name-table .name-more-bnt").bind('click', function(){
+              //按钮事件
+              var status = $(this).attr("data");
+              if (status == "down") {
+                 $(".master-name-table tr").show();
+                 $(this).attr("data", "up");
+                 $(this).attr("src", "img/up.png");
+              }  else {
+                 $(".master-name-table tr").hide();
+                 $(".master-name-table tr").eq(0).show();
+                 $(this).attr("data", "down");
+                 $(this).attr("src", "img/down.png");
+              }
+          });
+      }
+      
+      var lastIdx = -1;
       $(".master-name-table").delegate("td", "click", function(){
-             var targetIdx = parseInt($(this).attr("data"));
-             S.slideTo(targetIdx);
-             $(".master-name-table td").removeClass("red");
-             $(this).addClass("red");
+      
+            var targetIdx = parseInt($(this).attr("data"));
+            if (lastIdx != targetIdx) {
+                S.slideTo(targetIdx);
+                $(".master-name-table td").removeClass("red");
+                $(this).addClass("red");
+                lastIdx = targetIdx;
+            }
+             
+             
       });
 }
 function showF(masters, id) {
@@ -242,11 +253,11 @@ function showF(masters, id) {
             $(".name-text").html(masters[n].name);
             
             //加载该大师的产品
-            masterGoodsQuery = {
+            goodsQuery = {
                 'id': masters[n].id,
                 'p' : 1
             };
-            loadMasterGoods(masterGoodsQuery);
+            loadMasterGoods(goodsQuery);
             
         });
         if (idx > 0) {
@@ -257,6 +268,9 @@ function showF(masters, id) {
 
 function loadMasterGoods(GoodsQuery) {
     console.log(GoodsQuery);
+    
+    //成功的话
+    
 }
 
 
