@@ -45,12 +45,14 @@
 <div class="u-index-title" >
     <p>优选好货</p>
 </div>
+<div id="context">
 <div class="u-productlist" style="display:;">
 
 </div>
 <div style="clear:both;"></div>
 <div id="loading-more" style="text-align:center;margin-bottom:52px;">
     
+</div>
 </div>
 <script id="list_item_template" type="text/template">
 <a href="javascript:;" data-id={$goods_id} class="contbox page_{$page}">
@@ -101,6 +103,7 @@ var srcArr = [
 ];
 var S ; //图片播放插件
 var masterGoodsQuery = {}; //当前大师商品的查询条件： 大师id，当前加载页码
+var masterList = [];
 function initNameNavi(masters, id) {
     //名字导航栏
       var i = 0;
@@ -184,6 +187,7 @@ function showF(masters, id) {
             isAutoplay: 0,
             animateTime: 800,
             animateType: 'depth', //flow
+            initIndex: idx,
         });
         $(".name-text").html(masters[idx].name);
         S.on('slideChanged', function(n, he){
@@ -200,7 +204,7 @@ function showF(masters, id) {
             
         });
         if (idx > 0) {
-            S.slideTo(idx);
+           // S.slideTo(idx);
         }
         
         
@@ -261,7 +265,7 @@ $(window).scroll(function(){
                  //可以加载
                  if (!masterGoodsQuery.loading) {
                      masterGoodsQuery.p += 1;
-                     loadMasterGoods(masterGoodsQuery);
+                     //loadMasterGoods(masterGoodsQuery);
                      masterGoodsQuery.loading = true;
                      $("#loading-more").html("加载中 ...");
                  }
@@ -285,28 +289,45 @@ $(".u-productlist").delegate('a', 'click', function(){
         var stateObj = { goods_id: goodsId};
         context = {
             'search' : masterGoodsQuery,
-            'context' : $("#context").html(),
+            'masterlist' : masterList,
+            'context' : $(".u-productlist").html(),
         };
+        
+        Storge.setItem("master_context" , JSON.stringify(context));
         setTimeout(function(){location.href = url;}, 100);
     }
 
 });
+var context = Storge.getItem("master_context");
+if (context && !Client.isIos()) {
 
-//获取大师列表
-Util.requestApi("?r=master/list",{}, function(data){
-        
-        if (data.errno  == 0 && data.data.length > 0) {
-                initNameNavi(data.data, 0);
-                showF(data.data, 0);
-                goodsQuery = {
-                    'id': data.data[0].id,
-                    'p' : 1
-                };
-                loadMasterGoods(goodsQuery);
-        } else {
-            message.toast("未找到大师列表，请稍后重试");
-        }
-}, 'get', true);
+    //返回,恢复现场
+    context = JSON.parse(context);
+    Storge.removeItem("master_context");
+    $(".u-productlist").html(context.context);
+    masterGoodsQuery = context.search;
+    masterList = context.masterlist;
+    initNameNavi(masterList, 0);
+    showF(masterList, masterGoodsQuery.id);
+} else {
+    //获取大师列表
+    Util.requestApi("?r=master/list",{}, function(data){
+            
+            if (data.errno  == 0 && data.data.length > 0) {
+                    initNameNavi(data.data, 0);
+                    showF(data.data, 0);
+                    goodsQuery = {
+                        'id': data.data[0].id,
+                        'p' : 1
+                    };
+                    loadMasterGoods(goodsQuery);
+                    masterList = data.data;
+            } else {
+                message.toast("未找到大师列表，请稍后重试");
+            }
+    }, 'get', true);
+}
+
 
 //如果是返回
 
