@@ -293,17 +293,17 @@ $(".u-productlist").delegate('a', 'click', function(){
             'context' : $(".u-productlist").html(),
         };
         
-        Storge.setItem("master_context" , JSON.stringify(context));
+        SStorge.setItem("master_context" , JSON.stringify(context));
         setTimeout(function(){location.href = url;}, 100);
     }
 
 });
-var context = Storge.getItem("master_context");
+var context = SStorge.getItem("master_context");
 if (context && !Client.isIos()) {
 
     //返回,恢复现场
     context = JSON.parse(context);
-    Storge.removeItem("master_context");
+    SStorge.removeItem("master_context");
     $(".u-productlist").html(context.context);
     masterGoodsQuery = context.search;
     masterList = context.masterlist;
