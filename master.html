@@ -194,6 +194,8 @@ function showF(masters, id) {
                 'id': masters[n].id,
                 'p' : 1
             };
+            $(".u-productlist").html("");
+            $("#loading-more").html("");
             loadMasterGoods(goodsQuery);
             
         });
@@ -259,7 +261,6 @@ $(window).scroll(function(){
     //滚动条事件
     
     if (Bootstrap.checkWindowAtButtom()) {
-            console.log("load");
             if (masterGoodsQuery.p < masterGoodsQuery.p_cnt) {
                  //可以加载
                  if (!masterGoodsQuery.loading) {
@@ -282,7 +283,7 @@ Util.requestApi("?r=master/list",{}, function(data){
         
         if (data.errno  == 0 && data.data.length > 0) {
                 initNameNavi(data.data, 0);
-                showF(data.data, 0);
+               showF(data.data, 0);
         } else {
             message.toast("未找到大师列表，请稍后重试");
         }
