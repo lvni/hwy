@@ -203,11 +203,7 @@ function showF(masters, id) {
             S.slideTo(idx);
         }
         
-        goodsQuery = {
-            'id': masters[idx].id,
-            'p' : 1
-        };
-        loadMasterGoods(goodsQuery);
+        
         
 }
 
@@ -278,17 +274,41 @@ $(window).scroll(function(){
 
 
 
+
+
+$(".u-productlist").delegate('a', 'click', function(){
+    var goodsId = $(this).attr('data-id');
+    //location.href = ;
+    
+    if (goodsId) {
+        var url = config.page.detail + "?id="+goodsId;
+        var stateObj = { goods_id: goodsId};
+        context = {
+            'search' : masterGoodsQuery,
+            'context' : $("#context").html(),
+        };
+        setTimeout(function(){location.href = url;}, 100);
+    }
+
+});
+
 //获取大师列表
 Util.requestApi("?r=master/list",{}, function(data){
         
         if (data.errno  == 0 && data.data.length > 0) {
                 initNameNavi(data.data, 0);
-               showF(data.data, 0);
+                showF(data.data, 0);
+                goodsQuery = {
+                    'id': data.data[0].id,
+                    'p' : 1
+                };
+                loadMasterGoods(goodsQuery);
         } else {
             message.toast("未找到大师列表，请稍后重试");
         }
 }, 'get', true);
 
+//如果是返回
 
 //showF(srcArr, 3);
 //initNameNavi(srcArr, 3);

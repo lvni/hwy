@@ -740,6 +740,24 @@ var Storge = {
     
 };  
 
+//单次会话保存
+var SStorge = {
+    removeItem: function(e) {
+        return sessionStorage.removeItem(e);
+    }
+    ,getItem: function(e, d) {
+        var r = sessionStorage.getItem(e);
+        if (d != undefined && (r == undefined || r == null)) {
+            return d;
+        }
+        return r;
+    }
+    ,setItem: function(k, e) {
+        return sessionStorage.setItem(k, e);
+    }
+    
+}; 
+
 //功能导航
 var FuncNavi = {
     data: {},
