@@ -740,6 +740,24 @@ var Storge = {
     
 };  
 
+//单次会话保存
+var SStorge = {
+    removeItem: function(e) {
+        return sessionStorage.removeItem(e);
+    }
+    ,getItem: function(e, d) {
+        var r = sessionStorage.getItem(e);
+        if (d != undefined && (r == undefined || r == null)) {
+            return d;
+        }
+        return r;
+    }
+    ,setItem: function(k, e) {
+        return sessionStorage.setItem(k, e);
+    }
+    
+}; 
+
 //功能导航
 var FuncNavi = {
     data: {},
@@ -1542,7 +1560,7 @@ var Bootstrap = {
     }
     //检查滚动条是否到底部了
     ,checkWindowAtButtom: function() {
-        return $(window).scrollTop() >= $(document).height()-$(window).height();
+        return $(window).scrollTop() >= $(document).height()-$(window).height(); 
     }
     //处理搜索列表下拉
     ,handleSearchPull: function() {
@@ -1780,7 +1798,7 @@ var Bootstrap = {
                     'search' : me.searchQuery,
                     'context' : $("#context").html(),
                 };
-                Storge.setItem("search_context" , JSON.stringify(context));
+                SStorge.setItem("search_context" , JSON.stringify(context));
                 setTimeout(function(){location.href = url;}, 100);
             }
 
@@ -1876,11 +1894,11 @@ var Bootstrap = {
     //搜索/所有产品入口
     ,runsearch: function() {
         var me = this;
-        var context = Storge.getItem("search_context");
+        var context = SStorge.getItem("search_context");
         if (context && !Client.isIos()) {
             //返回,恢复现场
             context = JSON.parse(context);
-            Storge.removeItem("search_context");
+            SStorge.removeItem("search_context");
             $("#context").html(context.context);
             me.searchQuery = context.search;
         } else {

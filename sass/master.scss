@@ -3,7 +3,7 @@
 @import 'color';
 
 .banner {
-        margin-top: 38px;
+        margin-top: 30px;
 }
 .banner img {
     width: 100%;
@@ -39,10 +39,19 @@
     font-size: 1.9rem;
     vertical-align: middle;
 }
-.line {
-    display:inline-block;
-    width:80px;
-    height: 1px;
-    background:#000;
-    
+.u-sortnav {
+    margin : 0;
 }
+.master-name-table {
+    width:100%;
+    background:#fff;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.name-more-bnt {
+    position:absolute;
+    top:0;
+    right:0;
+    height:30px;
+}
+

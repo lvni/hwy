@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/master.css">
     <link href="javascripts/islider/iSlider.css" rel="stylesheet">
+    <link href="javascripts/islider/iSlider.css" rel="stylesheet">
     <script src="javascripts/islider/iSlider.min.js"></script>
     <script src="javascripts/islider/iSlider.animate.min.js"></script>
 </head>
@@ -25,20 +26,11 @@
 </div>
 
 <div class="u-choosebox"><!--这里加上on之后筛选内容的box会出现-->
-    <div class="u-sortnav" id="js-navSelect">
-        <div class="cont" data-role="buwei">
-            <p><span data-role="cate_name">部位</span><img src="img/hongwu_54.png"></p>
-        </div>
-        <div class="cont" data-role="caizhi">
-            <p><span data-role="cate_name">材质</span><img src="img/hongwu_54.png"></p>
-        </div>
-        <div class="cont" data-role="paixu">
-            <p>排序<img src="img/hongwu_54.png"></p>
-        </div>
-        <div class="cont" id="js-choose" data-role="shaixuan">
-            <p><span data-role="cate_name">筛选</span><img src="img/hongwu_54.png"></p>
-        </div>
-    </div>
+    <table class="master-name-table" >
+
+        
+    </table>
+   
 </div>
 <div class="banner">
 <img src="img/master_bn.jpg" >
@@ -47,147 +39,300 @@
     <div id="iSlider-wrapper" >
     </div>
     <div class="name-box">
-        <span class="name-text"></span>
+        <span class="name-text">加载中 ...</span>
     </div>
 </div>
 <div class="u-index-title" >
     <p>优选好货</p>
 </div>
+<div id="context">
 <div class="u-productlist" style="display:;">
-<a href="javascript:;" data-id="3901" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3901_thumb_G_1474102864512.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3901_thumb_G_1474102864512.jpg">
-        <div class="cont">
-            <p class="name">翡翠宝宝佛牌</p>
-            <p class="other"><span class="money"><i>￥</i>3150.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
 
-<a href="javascript:;" data-id="3900" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3900_thumb_G_1474102380460.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3900_thumb_G_1474102380460.jpg">
-        <div class="cont">
-            <p class="name">翡翠坐佛</p>
-            <p class="other"><span class="money"><i>￥</i>5040.00</span><span class="collection">1人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3899" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3899_thumb_G_1474102256247.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3899_thumb_G_1474102256247.jpg">
-        <div class="cont">
-            <p class="name">翡翠坐佛</p>
-            <p class="other"><span class="money"><i>￥</i>8820.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3898" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3898_thumb_G_1474102131509.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3898_thumb_G_1474102131509.jpg">
-        <div class="cont">
-            <p class="name">翡翠坐佛</p>
-            <p class="other"><span class="money"><i>￥</i>15120.00</span><span class="collection">1人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3897" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3897_thumb_G_1474101977989.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3897_thumb_G_1474101977989.jpg">
-        <div class="cont">
-            <p class="name">翡翠怀古（平安扣）</p>
-            <p class="other"><span class="money"><i>￥</i>3528.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3896" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3896_thumb_G_1474101846370.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3896_thumb_G_1474101846370.jpg">
-        <div class="cont">
-            <p class="name">翡翠怀古（平安扣）</p>
-            <p class="other"><span class="money"><i>￥</i>3528.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3895" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3895_thumb_G_1474101699662.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3895_thumb_G_1474101699662.jpg">
-        <div class="cont">
-            <p class="name">紫罗兰怀古（平安扣）</p>
-            <p class="other"><span class="money"><i>￥</i>3528.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3894" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3894_thumb_G_1474101577397.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3894_thumb_G_1474101577397.jpg">
-        <div class="cont">
-            <p class="name">翡翠怀古（平安扣）</p>
-            <p class="other"><span class="money"><i>￥</i>3528.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3893" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3893_thumb_G_1474101470049.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3893_thumb_G_1474101470049.jpg">
-        <div class="cont">
-            <p class="name">翡翠怀古（平安扣）</p>
-            <p class="other"><span class="money"><i>￥</i>3528.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
-
-<a href="javascript:;" data-id="3892" class="contbox page_1">
-        <img src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3892_thumb_G_1474101361082.jpg" data-src="https://hwy-10042975.file.myqcloud.com/images/201609/thumb_img/3892_thumb_G_1474101361082.jpg">
-        <div class="cont">
-            <p class="name">翡翠如意</p>
-            <p class="other"><span class="money"><i>￥</i>6300.00</span><span class="collection">0人收藏</span></p>
-        </div>
-</a>
 </div>
+<div style="clear:both;"></div>
+<div id="loading-more" style="text-align:center;margin-bottom:52px;">
+    
+</div>
+</div>
+<script id="list_item_template" type="text/template">
+<a href="javascript:;" data-id={$goods_id} class="contbox page_{$page}">
+        <img src="img/default.jpg" data-src="{$goods_img}">
+        <div class="cont">
+            <p class="name">{$goods_name}</p>
+            <p class="other"><span class="money"><i>￥</i>{$goods_price}</span><span class="collection">{$fav_count}人收藏</span></p>
+        </div>
+</a>
+</script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
+
 <script>
 //http://be-fe.github.io/iSlider/demo/#frame-iSlider
 
 var srcArr = [
     {
         'id' : 1,
+        's_name': '谢太增',
         'name' : '谢太增大师',
         'img' : "img/master_poster.jpg",
     },
     {
         'id' : 2,
+        's_name': '梁区容',
         'name' : '梁区容大师',
         'img' : "img/master_poster.jpg",
     },
     {
         'id' : 3,
+        's_name': '慕容雪山',
         'name' : '慕容雪山大师',
         'img' : "img/master_poster.jpg",
     },
+    {
+        'id' : 4,
+        's_name': '林秋杰',
+        'name' : '林秋杰大师',
+        'img' : "img/master_poster.jpg",
+    },
+    {
+        'id' : 3,
+        's_name': '张秉光',
+        'name' : '张秉光大师',
+        'img' : "img/master_poster.jpg",
+    },
 ];
-
+var S ; //图片播放插件
+var masterGoodsQuery = {}; //当前大师商品的查询条件： 大师id，当前加载页码
+var masterList = [];
+function initNameNavi(masters, id) {
+    //名字导航栏
+      var i = 0;
+      var tlen = masters.length;
+      var nameHtml = "";
+      i = 0;
+      for (i=0; i< tlen; i++) {
+           if (i % 4 == 0) {
+                var exStyle = i > 3 ? "style='display:none;'" : "";
+                nameHtml += "<tr "+exStyle+">";
+           }
+           nameHtml += "<td data='"+i+"'>"+masters[i].s_name+"</td>";
+           if (i%4 == 3) {
+               nameHtml += "</tr>";
+           }
+      }
+      var emNeed = 3 - i % 4;
+      if (emNeed > 0) {
+        //补齐
+         for (j = 0; j< emNeed; j++) {
+             nameHtml +="<td></td>";
+         }
+         nameHtml += "</tr>";
+      }
+      
+      $(".master-name-table").html(nameHtml);
+      
+      
+      if (tlen > 4) {
+      
+          var down = '<img src="img/down.png" class="name-more-bnt" data="down">';
+          $(".master-name-table").append(down);
+          $(".master-name-table .name-more-bnt").bind('click', function(){
+              //按钮事件
+              var status = $(this).attr("data");
+              if (status == "down") {
+                 $(".master-name-table tr").show();
+                 $(this).attr("data", "up");
+                 $(this).attr("src", "img/up.png");
+              }  else {
+                 $(".master-name-table tr").hide();
+                 $(".master-name-table tr").eq(0).show();
+                 $(this).attr("data", "down");
+                 $(this).attr("src", "img/down.png");
+              }
+          });
+      }
+      
+      var lastIdx = -1;
+      $(".master-name-table").delegate("td", "click", function(){
+      
+            var targetIdx = parseInt($(this).attr("data"));
+            if (lastIdx != targetIdx) {
+                S.slideTo(targetIdx);
+                $(".master-name-table td").removeClass("red");
+                $(this).addClass("red");
+                lastIdx = targetIdx;
+            }
+             
+             
+      });
+}
 function showF(masters, id) {
       var list  = [];
       var idx = 0;
-      for (i in masters) {
+      var i = 0;
+      var tlen = masters.length;
+      var loading = false;
+      for (i=0; i< tlen; i++) {
           if (id == masters[i].id) {
                idx = i;
           }
           list.push({'content':masters[i].img});
       }
-      console.log(idx);
-      var S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
+      
+      
+      //大图滑动效果
+      S = new iSlider(document.getElementById('iSlider-wrapper'), list, {
             isLooping: 1,
             isOverspread: 1,
             isAutoplay: 0,
             animateTime: 800,
             animateType: 'depth', //flow
+            initIndex: idx,
         });
         $(".name-text").html(masters[idx].name);
         S.on('slideChanged', function(n, he){
             $(".name-text").html(masters[n].name);
             
             //加载该大师的产品
+            goodsQuery = {
+                'id': masters[n].id,
+                'p' : 1
+            };
+            $(".u-productlist").html("");
+            $("#loading-more").html("加载中 ...");
+            loadMasterGoods(goodsQuery);
             
         });
         if (idx > 0) {
-            S.slideTo(idx);
+           // S.slideTo(idx);
         }
+        
+        
         
 }
 
-showF(srcArr, 3);
+function loadMasterGoods(GoodsQuery) {
+    Util.requestApi("?r=master/goods", GoodsQuery, function(data){
+            
+         if (data.data.length == 0) {
+            //没有商品
+            Util.showTips($(".u-productlist"), "大师暂时没有发布作品");
+            return ;
+         }
+         var html = "";
+         var template = $("#list_item_template").html();
+         
+         for (i in data.data.list) {
+            var item = data.data.list[i];
+            item.page = data.data.page;
+            html += Template.renderByTemplate(template, item);
+            
+         }
+         if (data.data.page == 1) {
+            $(".u-productlist").html(html);
+         } else {
+            $(".u-productlist").append(html);
+         }
+          //图片lazy load
+        var imgs = [];
+        $(".page_"+data.data.page+" img").each(function(){
+           //加载图片
+           var image = new Image();
+           image.src = $(this).attr('data-src');
+           image.target = this;
+           image.onload = function(){
+              this.target.src = this.src;
+              delete this;
+           }
+           
+        });
+         
+         masterGoodsQuery = {
+                'id'  : GoodsQuery.id,
+                'p'  : data.data.page,
+                'p_cnt' : data.data.page_count,
+         };
+         
+    });
+
+}
+
+$(window).scroll(function(){
+    //滚动条事件
+    
+    if (Bootstrap.checkWindowAtButtom()) {
+            if (masterGoodsQuery.p < masterGoodsQuery.p_cnt) {
+                 //可以加载
+                 if (!masterGoodsQuery.loading) {
+                     masterGoodsQuery.p += 1;
+                     //loadMasterGoods(masterGoodsQuery);
+                     masterGoodsQuery.loading = true;
+                     $("#loading-more").html("加载中 ...");
+                 }
+            } else {
+                //没有更多
+                $("#loading-more").html("没有更多");
+            }
+    }
+});
+
+
+
+
+
+$(".u-productlist").delegate('a', 'click', function(){
+    var goodsId = $(this).attr('data-id');
+    //location.href = ;
+    
+    if (goodsId) {
+        var url = config.page.detail + "?id="+goodsId;
+        var stateObj = { goods_id: goodsId};
+        context = {
+            'search' : masterGoodsQuery,
+            'masterlist' : masterList,
+            'context' : $(".u-productlist").html(),
+        };
+        
+        SStorge.setItem("master_context" , JSON.stringify(context));
+        setTimeout(function(){location.href = url;}, 100);
+    }
+
+});
+var context = SStorge.getItem("master_context");
+if (context && !Client.isIos()) {
+
+    //返回,恢复现场
+    context = JSON.parse(context);
+    SStorge.removeItem("master_context");
+    $(".u-productlist").html(context.context);
+    masterGoodsQuery = context.search;
+    masterList = context.masterlist;
+    initNameNavi(masterList, 0);
+    showF(masterList, masterGoodsQuery.id);
+} else {
+    //获取大师列表
+    Util.requestApi("?r=master/list",{}, function(data){
+            
+            if (data.errno  == 0 && data.data.length > 0) {
+                    initNameNavi(data.data, 0);
+                    showF(data.data, 0);
+                    goodsQuery = {
+                        'id': data.data[0].id,
+                        'p' : 1
+                    };
+                    loadMasterGoods(goodsQuery);
+                    masterList = data.data;
+            } else {
+                message.toast("未找到大师列表，请稍后重试");
+            }
+    }, 'get', true);
+}
+
+
+//如果是返回
+
+//showF(srcArr, 3);
+//initNameNavi(srcArr, 3);
     
 </script>
 </body>

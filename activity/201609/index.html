@@ -10,7 +10,7 @@
     <style>
         .main_bnt {
             display: -webkit-box;
-            background: #b30011;
+            background: #d4cdcd;
             color: white;
             border-radius: 3px;
             padding: 2px;
@@ -137,7 +137,7 @@
 </nav>
 
 <div id="ctx_1" class="box_area">
-<div id="v_code" style="display:none"></div>
+<div id="v_code" style="    text-align: center;color: #a90c0c;font-size: 2rem;">活动已经结束</div>
 <div class="u-productlist">
 
     
@@ -291,7 +291,7 @@ $(function(){
             
             if (page == 1 && Storge.getItem('act_guid') != '1') {
                 $("#ctx_1 img")[0].onload= function(){
-                    showGuide();
+                    //showGuide();
                 };
                 
             }
@@ -352,11 +352,17 @@ $(function(){
         uaData = data.data;
         if (uaData.act_ed > 0 && uaData.v_code != "") {
                 //已经参与过
-                $("#v_code").html("您已参与活动,抽奖码:" + uaData.v_code).show();
+                //$("#v_code").html("您已参与活动,抽奖码:" + uaData.v_code).show();
               
         }
         
         $(".u-productlist").delegate(".main_bnt", 'click', function(){
+        
+        
+                
+                
+              messageBox.toast("活动已经结束");
+              return ;
               if (uaData.is_login == false) {
                 //没有登录
                     Util.goLogin(location.href);
