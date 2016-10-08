@@ -1,0 +1,77 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>推荐有奖</title>
+</head>
+<body>
+<div id="name"></div>
+<div >金额: <span id="money"></span></div>
+<div >可提现: <span id="money_can_get"></span></div>
+<div id="withdraw" style="display:none;">
+<div id="needValidate">
+    手机号码<input type="text" name="mobile">
+    <br/>
+    验证码<input type="text" name="vcode">
+</div>
+<div>
+    <button>提现</button>
+</div>
+</div>
+</body>
+<script src="../../javascripts/zepto.min.js"></script>
+<script>
+
+
+$(function(){
+    var host = location.host;
+    var prefx = "";
+    var pathname = location.pathname;
+     if (pathname.indexOf('test') >= 0) {
+         prefx = "/test";
+     }
+     var _czc = _czc || []; //统计
+     host +=  prefx;
+    if (location.href.indexOf("https://") == 0) {
+        host = "https://"+host;
+    } else {
+        host = "http://" + host;
+    }
+    var api = host+"/api/backend/web/index.php";
+    
+    
+    //公众号内登录
+    var goWxLogin =  function(redirect) {
+        var url = api + "?r=user/loginwx";
+        if (redirect) {
+            url += "&redirect=" + redirect;
+        }
+        window.location.href = url;
+    };
+    //获取我的金额
+    $.ajax({
+         'url' : api + "?r=activity/getmymoney",
+         type: 'GET',
+        dataType: 'json',
+        success: function(redata) {
+            if (redata.errno == 12) {
+                //没有登录
+                goWxLogin(location.href);
+            }
+            var info = redata.data;
+            $("#name").html(info.name);
+            $("#money").html(info.money);
+            $("#money_can_get").html(info.money_can_get);
+            if (info.valided == 1) {
+                //不需要验证手机
+                $("#needValidate").hide();
+            }
+            $("#withdraw").show();
+            
+        }
+    });
+    
+
+});
+</script>
+</html>
