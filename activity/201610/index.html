@@ -12,10 +12,10 @@
 <div id="needValidate">
     手机号码<input type="text" name="mobile">
     <br/>
-    验证码<input type="text" name="vcode">
+    验证码<input type="text" name="vcode"> <a href="javascript:;" id="getCode">获取验证码</a>
 </div>
 <div>
-    <button>提现</button>
+    <button id="submit">提现</button>
 </div>
 </div>
 </body>
@@ -24,6 +24,89 @@
 
 
 $(function(){
+
+    //消息盒子相关
+    var messageBox = {
+        id : 0,
+        hidde: function(target) {
+            target.hide('slow').remove();
+        }
+        ,toast: function(msg) {
+            var me = this;
+            var html = '<div id="system_messagebox_toast" style="position:fixed; '
+                         + 'bottom:30%;background:'
+                         + '#262631;color: #fff;border-radius: 5px;padding: 6px 10px;'
+                         + 'text-align: center;left:100;z-index:999;">'+msg+'</div>';
+            //alert(msg);
+            if ($("#system_messagebox_toast").length) {
+                return;
+            }
+            $('body').append(html);
+            var marginLeft = 0 - $("#system_messagebox_toast").width() / 2;
+            $("#system_messagebox_toast").css('margin-left', marginLeft + "px").css("left", "50%");
+            
+            setTimeout(function(){me.hidde($("#system_messagebox_toast"))}, 1000);
+        }
+        //弹出确认框
+        ,confirm: function(msg, callback) {
+            var html = '<div class="u-popodbox" id="js-confirm-box">'
+                          + '<div class="cont"><h2>'
+                          + msg + '</h2><div class="buttonbox">'
+                          + '<button class="u-button-gray">'
+                          + '<span>取消</span></button>'
+                          + '<button class="u-button-main">'
+                          + '<span>确认</span></button></div></div></div>';
+            if ($("js-confirm-box").length) {
+                return;
+            }
+            $('body').append(html);
+            $("#js-confirm-box")[0].style.display = '-webkit-box';
+            var yscfunc = function(){
+                $("#js-confirm-box").remove();
+                if (typeof callback == 'function') {
+                    callback();
+                }
+            }
+            
+            $("#js-confirm-box .u-button-main").bind('click', yscfunc);
+            $("#js-confirm-box .u-button-gray").bind("click", function(){
+                $("#js-confirm-box").remove();
+            });
+            
+        }
+        ,updateDialog: function(title, content, force, sid, callback) {
+        
+            
+            var html = '<div class="u-popodbox" id="js-confirm-box">'
+                          + '<div class="cont">'+'<span>' +title+'</span>'
+                          +'<h2>'+ content + '</h2><div class="buttonbox">';
+                          
+            if (force != 1) {
+                html +=  '<button class="u-button-gray"><span>稍后再说</span></button>';
+            }
+                          
+            html  += '<button class="u-button-main">'
+                          + '<span>马上升级</span></button></div></div></div>';
+            if ($("js-confirm-box").length) {
+                return;
+            }
+            $('body').append(html);
+            $("#js-confirm-box")[0].style.display = '-webkit-box';
+            var yscfunc = function(){
+                //$("#js-confirm-box").remove();
+                if (typeof callback == 'function') {
+                    callback();
+                }
+            }
+            
+            $("#js-confirm-box .u-button-main").bind('click', yscfunc);
+            $("#js-confirm-box .u-button-gray").bind("click", function(){
+                $("#js-confirm-box").remove();
+                Storge.setItem('last_check_sid', sid);
+            });
+        }
+        
+    };
     var host = location.host;
     var prefx = "";
     var pathname = location.pathname;
@@ -48,6 +131,10 @@ $(function(){
         }
         window.location.href = url;
     };
+    var isCorrectMobile = function(mobile) {
+        var reg = /^0?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+        return reg.test(mobile);
+    };
     //获取我的金额
     $.ajax({
          'url' : api + "?r=activity/getmymoney",
@@ -70,6 +157,54 @@ $(function(){
             
         }
     });
+    
+    
+    $("#submit").click(function(){
+        var mobile = $("input[name=mobile]").val();
+        var vcode = $("input[name=vcode]").val();
+        $.ajax({
+             'url' : api + "?r=activity/withdraw",
+             type: 'post',
+             data: {mobile:mobile,vcode:vcode},
+             dataType: 'json',
+             success: function(redata) {
+                console.log(redata);
+            }
+        });
+    });
+    
+    function getVcode() {
+         var mobile = $("input[name=mobile]").val();
+         if (!isCorrectMobile(mobile)) {
+            alert("手机号码格式错误");
+            return;
+         }
+         $.ajax({
+             'url' : api + "?r=user/verifymobile",
+             type: 'get',
+             data: {mobile: mobile,no_check_user:1},
+             dataType: 'json',
+             success: function(redata) {
+                messageBox.toast(redata.errmsg);
+                if (redata.errno ==0) {
+                     //一分钟内不允许点击
+                     $("#getCode").unbind("click");
+                }
+                var timeout = 60;
+                var id = setInterval(function(){ 
+                        timeout--;
+                        if (timeout <=0) {
+                            $("#getCode").html("获取验证码");
+                            $("#getCode").bind("click", getVcode);
+                            clearInterval(id);
+                        } else {
+                            $("#getCode").html(timeout + "s后重试");
+                        }
+                }, 1000);
+            }
+        });
+    }
+    $("#getCode").bind("click", getVcode);
     
 
 });
