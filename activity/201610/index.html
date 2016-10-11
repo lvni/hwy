@@ -33,9 +33,13 @@
     
     .confirm {
         text-align: center;
+        padding-top: 20px;
+        /*
         position: absolute;
-        width: 100%;
         bottom: 1%;
+        */
+        width: 100%;
+        
     }
     .confirm button {
         width: 96%;
@@ -43,8 +47,11 @@
         background: #a90125;
         color: #fff;
         height: 3rem;
-        font-size: 1.8rem;
+        font-size: 1.4rem;
         border-radius: 4px;
+    }
+    .disabled,.confirm button.disabled {
+        background: #ccc;
     }
     /*a90125 dadada*/
 </style>
@@ -54,7 +61,7 @@
 <div class="banner">
     <img src="img/ac_bn.png" style="width:100%;">
 </div>
-<div id="needValidate">
+<div id="needValidate"  style="display:none;">
     <div class="item">
     <input type="number" name="mobile" placeholder="请填写手机号码">
     </div>
@@ -65,12 +72,12 @@
 <div id="money_area" style="background: #fff;padding: 10px; margin-top: 5px;">
 <div style="color: #dadada;">可提现金额</div>
 <div style="padding-top:20px;">
-<span style="vertical-align: top;">¥</span><span id="money_can_get" style="font-size:1.5rem;margin-left: 5px;">0.00</span>
+<span style="vertical-align: top;">¥</span><span id="money_can_get" style="font-size:2rem;margin-left: 10px;">0.00</span>
 </div>
 </div>
 
 <div class="confirm">
-    <button id="submit">提现</button>
+    <button id="submit" class="disabled">马上提现</button>
 </div>
 
 </div>
@@ -172,32 +179,40 @@ $(function(){
                 goWxLogin(location.href);
             }
             var info = redata.data;
-            $("#name").html(info.name);
-            $("#money").html(info.money);
             $("#money_can_get").html(parseFloat(info.money_can_get).toFixed(2));
-            if (info.valided == 1) {
-                //不需要验证手机
-                //$("#needValidate").hide();
+            if (info.valided == 0) {
+                //需要验证手机
+                $("#needValidate").show();
             }
             $("#withdraw").show();
             
+            if (info.money_can_get) {
+                //可以提现
+                $("#submit").removeClass("disabled");
+                $("#submit").click(function(){
+                    var mobile = $("input[name=mobile]").val();
+                    var vcode = $("input[name=vcode]").val();
+                    $.ajax({
+                         'url' : api + "?r=activity/withdraw",
+                         type: 'post',
+                         data: {mobile:mobile,vcode:vcode},
+                         dataType: 'json',
+                         success: function(redata) {
+                            messageBox.toast(redata.errmsg);
+                            if (redata.errno == 0) {
+                                location.reload();
+                            }
+                        }
+                    });
+                });
+                
+            }
         }
     });
     
     
-    $("#submit").click(function(){
-        var mobile = $("input[name=mobile]").val();
-        var vcode = $("input[name=vcode]").val();
-        $.ajax({
-             'url' : api + "?r=activity/withdraw",
-             type: 'post',
-             data: {mobile:mobile,vcode:vcode},
-             dataType: 'json',
-             success: function(redata) {
-                console.log(redata);
-            }
-        });
-    });
+    
+    
     
     function getVcode() {
          var mobile = $("input[name=mobile]").val();
@@ -215,12 +230,14 @@ $(function(){
                 if (redata.errno ==0) {
                      //一分钟内不允许点击
                      $("#getCode").unbind("click");
+                     $("#getCode").addClass("disabled");
                      var timeout = 60;
                      var id = setInterval(function() { 
                             timeout--;
                             if (timeout <=0) {
                                 $("#getCode").html("获取验证码");
                                 $("#getCode").bind("click", getVcode);
+                                $("#getCode").removeClass("disabled");
                                 clearInterval(id);
                             } else {
                                 $("#getCode").html(timeout + "s后重试");
