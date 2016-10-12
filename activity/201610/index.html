@@ -50,7 +50,7 @@
         font-size: 1.4rem;
         border-radius: 4px;
     }
-    .disabled,.confirm button.disabled {
+    .disabled,.confirm button.disabled,#getCode.disabled {
         background: #ccc;
     }
     /*a90125 dadada*/
@@ -186,7 +186,7 @@ $(function(){
             }
             $("#withdraw").show();
             
-            if (info.money_can_get) {
+            if (info.can_get) {
                 //可以提现
                 $("#submit").removeClass("disabled");
                 $("#submit").click(function(){
@@ -206,6 +206,10 @@ $(function(){
                     });
                 });
                 
+                $("#getCode").removeClass("disabled");
+                $("#getCode").bind("click", getVcode);
+            } else {
+                $("#getCode").addClass("disabled");
             }
         }
     });
@@ -248,7 +252,7 @@ $(function(){
             }
         });
     }
-    $("#getCode").bind("click", getVcode);
+    
     
 
 });
