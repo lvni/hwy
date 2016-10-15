@@ -160,7 +160,41 @@ var weixinPay = function(actid) {
         } else {
             messageBox.toast("请在微信5.0打开");
         }
-}
+};
+var alipay = function(actid) {
+        var me = Order;
+        var api = config.api +"?r=auction/payalipay";
+        var ret = {};
+        var isApp = Util.isApp();
+        //获取支付宝支付参数
+        $.ajax({
+            url: api,
+            data: {actid: actid,isApp:isApp},
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                ret = data;
+            }
+            ,error: function(data) {
+                messageBox.toast("支付异常");
+                return ;
+            }
+            
+        });
+        if (ret.errno != 0) {
+            
+            messageBox.toast(data.errmsg);
+            return;
+        }
+        var nativeApi = "hwy://pay?act=alipay&callback=AppCall.aliPayBack&orderStr=" + encodeURIComponent(ret.data.orderStr);
+        AppCall.successCallback = function(){
+             messageBox.toast("支付成功");
+        };
+        Util.callAppApi(nativeApi);
+        
+    }
+
+
 $(".u-arrow-list").delegate('a', 'click', function(){
      var payType = $(this).attr('pay-type');
      switch (payType) {
@@ -171,6 +205,9 @@ $(".u-arrow-list").delegate('a', 'click', function(){
                      return;
             } 
             weixinPay(actid);
+        break;
+        case 'alipay':
+            alipay(actid);
         break;
      }
 });
