@@ -1,0 +1,179 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>支付保证金</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/myorder-paymode.css">
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>支付保证金</p>
+    </div>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="u-list-justify">
+    <p class="left">需支付</p>
+    <p class="right red">￥ <span id="order_fee"></span></p>
+</div>
+<div class="u-arrow-list">
+    <a href="javascript:;" class="list" pay-type='weixin'>
+        <img src="img/paymode01.png" class="icon">
+        <div class="contbox">
+            <h3 class="title"><p class="name">微信支付</p></h3>
+            <p class="tips">微信安全支付</p>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    
+    <a href="javascript:;" class="list" pay-type='alipay' style="display:none;" id="alipay-section">
+        <img src="img/paymode02.png" class="icon">
+        <div class="contbox">
+            <h3 class="title"><p class="name">支付宝支付</p></h3>
+            <p class="tips">支付宝安全支付</p>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    
+    <!--<a href="#" class="list">
+        <img src="img/paymode03.png" class="icon">
+        <div class="contbox">
+            <h3 class="title"><p class="name">找人代付</p></h3>
+            <p class="tips">找朋友帮忙支付</p>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    <a href="#" class="list">
+        <img src="img/paymode04.png" class="icon">
+        <div class="contbox">
+            <h3 class="title"><p class="name">线下支付</p></h3>
+            <p class="tips">联系客服，线下支付</p>
+        </div>
+        <img class="arrow" src="img/arrowright.png">
+    </a>
+    -->
+</div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+//Order.runPayment();
+function canAlipay() {
+    if (Client.isApp()) {
+        return (Client.isAndroid() && Client.buildNo >= 48) 
+                  || (Client.isIos() && Client.buildNo >= 48);
+    }
+    return false;
+}
+if (canAlipay()) {
+    $("#alipay-section").show();
+}
+var actid = Util.getQueryString('actid');
+Util.requestApi("?r=auction/getdeposit", {actid:actid}, function(data) {
+    if (data.errno == 0) {
+        $("#order_fee").html(data.data.deposit);
+    } else {
+        messageBox.toast(data.errmsg);
+    }
+
+});
+
+function getWxparams(actid) {
+    var api = config.api + "?r=auction/payweixin";
+        var ret = {};
+        var isApp = Util.isApp();
+        $.ajax({
+            url: api,
+            data: {actid: actid,isApp:isApp},
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                ret = data;
+            }
+            ,error: function(data) {
+                messageBox.toast("支付异常");
+            }
+            
+        });
+        return ret;
+}
+var weixinPay = function(actid) {
+
+    var wxParams = getWxparams(actid); 
+    if (wxParams.errno != 0) {
+
+            messageBox.toast(wxParams.errmsg);
+            return;
+         }
+         //messageBox.toast(wxParams.errmsg);
+         function onBridgeReady(){
+           WeixinJSBridge.invoke(
+               'getBrandWCPayRequest', wxParams.data,
+               function(res){     
+                    console.log(res);
+                    if (res.err_code) {
+                        messageBox.toast(res.err_msg);
+                        //有错误码，则表示支付失败
+                         messageBox.toast("支付失败");
+                    } else if (res.err_msg == 'get_brand_wcpay_request:cancel'){
+                        
+                        messageBox.toast("已取消支付");
+
+                    } else if (res.err_msg == 'get_brand_wcpay_request:ok') {
+                        //支付成功，进入订单详情页面
+                        messageBox.toast("支付成功");
+                        Util.goBack();
+                    }
+                    
+               }
+           ); 
+        }
+        if (Util.isWeiXin() && Util.canWeixinPay()) {
+
+            if (typeof WeixinJSBridge == "undefined"){
+               if( document.addEventListener ){
+                   document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+               }else if (document.attachEvent){
+                   document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+                   document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+               }
+            }else{
+               onBridgeReady();
+            }
+                        
+        }else if (Util.isApp()) {
+            //app
+            
+            //稍微处理下
+            var params = wxParams.data;
+            //delete params['package'];
+            //params['order_sn'] = orderSn;
+            var api = "hwy://pay?act=weixin&callback=AppCall.wxPayBack&params="
+                       + encodeURIComponent(JSON.stringify(params));
+            AppCall.successCallback = function(){
+                 Util.goBack();
+            };
+            Util.callAppApi(api);
+        } else {
+            messageBox.toast("请在微信5.0打开");
+        }
+}
+$(".u-arrow-list").delegate('a', 'click', function(){
+     var payType = $(this).attr('pay-type');
+     switch (payType) {
+        case 'weixin':
+            //微信支付
+            if (!Util.isApp() && !Util.canWeixinPay()) {
+                     messageBox.toast("请使用微信5.0以上版本打开");
+                     return;
+            } 
+            weixinPay(actid);
+        break;
+     }
+});
+</script>
+</body>
+</html>
