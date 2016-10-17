@@ -631,7 +631,11 @@ var Util = {
     }
     //微信扫码登录
     ,goWxQrLogin: function(redirect) {
-        
+        var url = config.api + "?r=user/loginwx&type=qr";
+        if (redirect) {
+            url += "&redirect=" + redirect;
+        }
+        window.location.href = url;
     }
     ,showTips: function(target, tips) {
         var div = "<div style='text-align:center;padding-top:100px;'>"+tips+"</div>";

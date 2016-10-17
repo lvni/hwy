@@ -68,11 +68,14 @@ $(function(){
         
         if (Util.isWeiXin()) {
             Util.goWxLogin(redirect);
+            return ;
         }
         if (Util.isApp()) {
             Util.goAppWxLogin('AppCall.wxCallback');
             return;
         }
+        //否则
+        //Util.goWxQrLogin(redirect);
         messageBox.toast("暂不支持");
     });
     
