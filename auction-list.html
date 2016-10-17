@@ -26,6 +26,17 @@
 <p>精品拍卖，期待您捡漏</p>
 </div>
 <div class="auction-list">
+<div class="item">
+    <div class="cell left">
+        <img src="https://hwy-10042975.file.myqcloud.com/HongWuYe/businessImg/upload_11750665_153b0b8eb9b__7ff5_00020169.jpg" style="width:112px;"> 
+    </div>
+    <div class="cell middle">
+        标题
+    </div >
+    <div class="cell right">
+    <div class="end">竞拍中</div>
+    </div>
+</div>
 </div>
 <div class="auction-rule">
 <div class="content">
@@ -49,5 +60,39 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 </div>
 </div>
 </div>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+$(function(){
+    
+    var loadAuctionList = function() {
+         Util.requestApi("?r=auction/list", {}, function(data){
+              if (data.errno != 0 ) {
+                    messageBox.toast("data.errmsg");
+                    
+                    var tips = "<span id='reload'>点击重试</span>";
+                    Util.showTips($(".auction-list"), tips);
+                    return;
+              }
+              
+              if (data.data.length < 1) {
+                    var tips = "暂时没有拍卖活动哦";
+                    Util.showTips($(".auction-list"), tips);
+                    return; 
+              }
+              
+              for (i in data.data) {
+                var item = data.data[i];
+              }
+              
+         });
+    };
+    loadAuctionList();
+    $(".auction-list").delegate("#reload", 'click', function(){
+        loadAuctionList();
+    });
+
+});
+</script>
 </body>
 </html>
