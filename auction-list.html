@@ -26,17 +26,7 @@
 <p>精品拍卖，期待您捡漏</p>
 </div>
 <div class="auction-list">
-<div class="item">
-    <div class="cell left">
-        <img src="https://hwy-10042975.file.myqcloud.com/HongWuYe/businessImg/upload_11750665_153b0b8eb9b__7ff5_00020169.jpg" style="width:112px;"> 
-    </div>
-    <div class="cell middle">
-        标题
-    </div >
-    <div class="cell right">
-    <div class="end">竞拍中</div>
-    </div>
-</div>
+加载中 ...
 </div>
 <div class="auction-rule">
 <div class="content">
@@ -62,6 +52,21 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 </div>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
+<script id="list_item_template" type="text/template">
+<div class="item">
+    <div class="cell left">
+        <img src="{$img}"> 
+    </div>
+    <div class="cell middle">
+        {$act_name}
+    </div >
+    <div class="cell right">
+    <span class="{$status}">{$auction_tip}</span>
+    {$action}
+    <!-- <div class="join">立即竞拍</div> -->
+    </div>
+</div>
+</script>
 <script>
 $(function(){
     
@@ -80,10 +85,23 @@ $(function(){
                     Util.showTips($(".auction-list"), tips);
                     return; 
               }
-              
+              var template = $("#list_item_template").html();
+              var htm = "";
+              var action_tips = {
+                 'not_start' : "未开始",
+                 'ongoing' : "进行中",
+                 'end' : "已结束",
+              };
               for (i in data.data) {
                 var item = data.data[i];
+                if (item.status == 'ongoing') {
+                    item.action = '<div class="join">立即竞拍</div>';
+                }
+                item.auction_tip = action_tips[item.status];
+                htm += Template.renderByTemplate(template, item);
               }
+              
+              $(".auction-list").html(htm);
               
          });
     };

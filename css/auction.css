@@ -56,26 +56,27 @@
 .auction-list .item {
   background: #fff;
   height: 132px;
-  position: relative; }
+  position: relative;
+  margin-top: 2px; }
 
-/* line 36, ../sass/auction.scss */
+/* line 37, ../sass/auction.scss */
 .item img {
   width: 112px;
   height: 112px;
   margin: 10px; }
 
-/* line 41, ../sass/auction.scss */
+/* line 42, ../sass/auction.scss */
 .item .left, .item .right {
   position: absolute;
   top: 0;
   height: 100%; }
 
-/* line 46, ../sass/auction.scss */
+/* line 47, ../sass/auction.scss */
 .item .left {
   left: 0;
   width: 112px; }
 
-/* line 50, ../sass/auction.scss */
+/* line 51, ../sass/auction.scss */
 .item .right {
   right: 0;
   width: 100px;
@@ -83,7 +84,7 @@
   text-align: right;
   padding-right: 10px; }
 
-/* line 57, ../sass/auction.scss */
+/* line 58, ../sass/auction.scss */
 .item .middle {
   height: 100%;
   margin: 0 100px 0 135px;
@@ -91,23 +92,33 @@
   font-size: 1.5rem;
   font-weight: 900; }
 
-/* line 65, ../sass/auction.scss */
+/* line 66, ../sass/auction.scss */
 .ongoing {
   color: #a90125;
   border: 1px solid #a90125;
   padding: 2px 5px;
   border-radius: 15px; }
 
-/* line 72, ../sass/auction.scss */
-.not-start {
+/* line 73, ../sass/auction.scss */
+.not_start {
   color: #f7d567;
   border: 1px solid #f7d567;
   padding: 2px 5px;
   border-radius: 15px; }
 
-/* line 79, ../sass/auction.scss */
+/* line 80, ../sass/auction.scss */
 .end {
   color: #666666;
   border: 1px solid #666666;
   padding: 2px 5px;
   border-radius: 15px; }
+
+/* line 86, ../sass/auction.scss */
+.join {
+  position: absolute;
+  right: 10px;
+  bottom: 33px;
+  color: #fff;
+  background: #a90125;
+  padding: 2px 10px;
+  border-radius: 5px; }
