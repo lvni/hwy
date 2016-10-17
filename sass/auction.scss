@@ -1,0 +1,29 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+.board {
+    text-align: center;
+    background: #fff;
+    padding: 20px 0;
+    font-size: 1.5rem;
+    line-height: 3rem;
+}
+.auction-rule {
+    background: #fff;
+    line-height: 2.6rem;
+    padding: 0 10px;
+    white-space: pre-line;
+}
+.auction-rule .content {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+.auction-list {
+    min-height: 200px;
+    
+}
+.rule-title {
+    font-size: 2.1rem;
+    text-align: center;
+}

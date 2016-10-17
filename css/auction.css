@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
+.red {
+  color: #a90125; }
+
+/* line 29, ../sass/_color.scss */
+.dackred {
+  color: #6b4544; }
+
+/* line 32, ../sass/_color.scss */
+.pink {
+  color: #cf4d55; }
+
+/* line 36, ../sass/_color.scss */
+.error {
+  color: #a90125; }
+  /* line 38, ../sass/_color.scss */
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/*用来被继承的占位样式*/
+/* line 4, ../sass/auction.scss */
+.board {
+  text-align: center;
+  background: #fff;
+  padding: 20px 0;
+  font-size: 1.5rem;
+  line-height: 3rem; }
+
+/* line 11, ../sass/auction.scss */
+.auction-rule {
+  background: #fff;
+  line-height: 2.6rem;
+  padding: 0 10px;
+  white-space: pre-line; }
+
+/* line 17, ../sass/auction.scss */
+.auction-rule .content {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 10px; }
+
+/* line 22, ../sass/auction.scss */
+.auction-list {
+  min-height: 200px; }
+
+/* line 26, ../sass/auction.scss */
+.rule-title {
+  font-size: 2.1rem;
+  text-align: center; }
