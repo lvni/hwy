@@ -22,7 +22,7 @@
     </a>
 </div>
 <div class="auction-nav">
-<span class="red">拍卖详情</span><span>竞拍详情</span>
+<span class="red" data="detail">拍卖详情</span><span data="comment">竞拍详情</span>
 </div>
 <div class="details-slide">
     <div id="hl-swiper" class="hl-swiper cont">
@@ -75,7 +75,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <button>报名交保证金</button>
 </div>
 <div class="auction-offer">
-<div><input  type="number" name="money"><img ></div>
+<div><input  type="number" name="money"><button> + </button> <button>出价</button></div>
 <div><input type="text" name="comment" placeholder="评论"><button>发送</button></div>
 </div>
 <a href="javascript:;" class="u-backtop">
@@ -201,6 +201,13 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             var item = goods.pics[i];
             slideHtml += slideTemplate.replace('{$src}', item);
         }
+        
+        if (data.data.auction.is_deposit_paid) {
+            //用户已经交了保证金
+            $(".auction-offer").show();
+        } else {
+            $(".enroll").show();
+        }
         $(".productinfo-list .cont").html(attrHtml);
         $(".details-slide .slides").html(slideHtml);
         var swiper = new hlSwiper("#hl-swiper", {
@@ -209,6 +216,20 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             speed: 3000 //间隔时间毫秒
         });
      });
+     
+     $(".auction-nav").delegate('span', 'click', function(){
+          if ($(this).hasClass('red')) {
+            return;
+          }
+          $(".auction-nav span").removeClass("red");
+          $(this).addClass("red");
+          if ($(this).attr('data') == 'comment') {
+            $(".auction-comment").addClass("show");
+          } else {
+          $(".auction-comment").removeClass("show");
+          }
+          
+     })
 })();
 </script>
 

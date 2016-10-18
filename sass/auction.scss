@@ -98,6 +98,8 @@
     left: 0;
     width: 100%;
     text-align: center;
+    display: none;
+    z-index: 99;
 }
 .enroll button {
     width: 96%;
@@ -129,13 +131,22 @@
 
 .auction-comment {
     position: fixed;
-    height: 90%;
+    height: 100%;
     width: 100%;
     top: 0;
-    left: 0;
+    left: 100%;
+    background: #fff;
     background: image-url('auction-bg.png');
     background-size: 100% 100%;
     z-index: 90;
+    transition-property: left;
+    transition-duration: 0.6s;
+    transition-timing-function: linear;
+    
+    
+}
+.auction-comment.show {
+    left:0;
 }
 
 .auction-offer {
@@ -146,4 +157,5 @@
     left: 0;
     background: #fff;
     z-index: 99;
+    display: none;
 }

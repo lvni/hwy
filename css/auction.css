@@ -129,9 +129,11 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  text-align: center; }
+  text-align: center;
+  display: none;
+  z-index: 99; }
 
-/* line 102, ../sass/auction.scss */
+/* line 104, ../sass/auction.scss */
 .enroll button {
   width: 96%;
   background: #a90125;
@@ -140,7 +142,7 @@
   border-radius: 5px;
   font-size: 2rem; }
 
-/* line 111, ../sass/auction.scss */
+/* line 113, ../sass/auction.scss */
 .auction-nav {
   position: fixed;
   top: 50px;
@@ -152,25 +154,33 @@
   color: #fff;
   background: rrgb(0, 0, 0, 0.8); }
 
-/* line 123, ../sass/auction.scss */
+/* line 125, ../sass/auction.scss */
 .auction-nav span {
   font-size: 1.5rem;
   display: inline-block;
   width: 50%;
   text-align: center; }
 
-/* line 130, ../sass/auction.scss */
+/* line 132, ../sass/auction.scss */
 .auction-comment {
   position: fixed;
-  height: 90%;
+  height: 100%;
   width: 100%;
   top: 0;
-  left: 0;
+  left: 100%;
+  background: #fff;
   background: url('../img/auction-bg.png?1476778603');
   background-size: 100% 100%;
-  z-index: 90; }
+  z-index: 90;
+  transition-property: left;
+  transition-duration: 0.6s;
+  transition-timing-function: linear; }
 
-/* line 141, ../sass/auction.scss */
+/* line 148, ../sass/auction.scss */
+.auction-comment.show {
+  left: 0; }
+
+/* line 152, ../sass/auction.scss */
 .auction-offer {
   position: fixed;
   height: 10%;
@@ -178,4 +188,5 @@
   bottom: 0;
   left: 0;
   background: #fff;
-  z-index: 99; }
+  z-index: 99;
+  display: none; }
