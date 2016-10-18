@@ -1,0 +1,204 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>拍卖详情</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/details.css">
+    <link rel="stylesheet" href="css/auction.css">
+    <link rel="stylesheet" href="javascripts/swipe/photoswipe.css"> 
+    <link rel="stylesheet" href="javascripts/swipe/default-skin/default-skin.css"> 
+    <script src="javascripts/swipe/photoswipe.min.js"></script> 
+    <script src="javascripts/swipe/photoswipe-ui-default.min.js"></script> 
+</head>
+
+<body>
+<div class="u-top-msg">
+    <div class="title">
+        <p>拍卖详情</p>
+    </div>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+<div class="details-slide">
+    <div id="hl-swiper" class="hl-swiper cont">
+        <div class="position-nav"></div>
+        <div class="slides">
+        
+        </div>
+    </div>
+</div>
+<div class="productinfo-list">
+    <h4 class="details-title">商品详情</h4>
+    <div class="cont">
+        加载中 ...
+    </div>
+</div>
+
+<div class="video" id="video" style="display:none;">
+    <h4 class="details-title">视频展示</h4>
+    
+</div>
+
+<div class="details-infobox">
+    <h4 class="details-title">图文详情</h4>
+    <div class="cont">
+        加载中 ...
+    </div>
+</div>
+<div class="auction-rule">
+<div class="content">
+<h2 class="rule-title">洪五爷珠宝拍卖规则</h2>
+1.本规则适用于本平台线上拍卖行为。任何参加拍卖的个人或机构均应仔细阅读《洪五爷拍卖规则》，拍卖期间出价即默认同意本规则。
+2.竞买人是指在洪五爷客户端进行微信登陆并报名参拍（需缴纳一定的保证金）享有竞价权的个人及机构。未进行微信登陆并参拍者，只能在一定范围内浏览拍品或享受其它服务，但无资格参与竞买。
+3.拍品提供材质、尺寸、重量、种水等说明文字和视频、图片材料，仅供参考。因摄影、显示器等造成的色差，以实物为准。
+4.竞买人可向工作人员索要更多拍卖资料，出价则表示同意拍品现状。
+5.采用竞投的方式出价，其出价数额必须比“常规竞买”程序的出价高一个竞价阶梯方可成为合格竞买人。
+6.拍卖过程中，除特别规定的拍卖方式外，竞买人出价不得低于当前价，否则出价无效。到达规定时间，系统自动倒计时10秒后宣布成交。任何服务费用。洪五爷欢迎得标者自行取货物（有精美礼品送哦）。
+7.拍卖期间，围观及竞买人若出现敏感词汇、不良信息、恶性参拍或其他违反拍卖规则的行为，工作人员有权屏蔽其评论、取消竞拍资格，情况恶劣者，将封号处理。
+8.竞标人竞标成功后，将得到平台发送的竞标物品短信，并在平台的个人中心——“我的订单”自动生成订单。得标者应在成功之时起24小时内付清拍品款项，有特殊情况的应及时与拍卖人联系说明。拒付则平台有权采取以下措施：
+（1）报名保证金不予以退还；
+（2）此项拍卖视为未成交，撤消该买家在洪五爷所有其它拍品的竞投纪录，并取消其用户资格。
+9.得标者成功付款后，平台将在48小时内寄出拍品。得标者承担快递费及运输风险，特殊情况将予以说明。平台为得标者包装拍品，不收取任何服务费用。欢迎自取。
+10.出现下述任一情况时，本平台不承担退货责任:
+A.拍品实物与描述一致或无明显缺陷；
+B.因客户摄影或屏幕原因而造成与拍品原物有差异；
+C.由于得标者本人原因，平台已对某拍品的限制进行提示，但该得标者仍参与竞标并成交反悔时；
+D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀疑但无法出具书面鉴定意见。
+</div>
+</div>
+<a href="javascript:;" class="u-backtop">
+    <img src="img/index_295.png">
+    回到顶部
+</a>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <!-- <button class="pswp__button pswp__button--share" title="Share"></button> -->
+
+                <!-- <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> -->
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script id="guess_item" type="text/template">
+<div class="u-autoheight" onclick="javascript:location.href='details.html?id={$goods_id}'">
+                <div class="dummy"></div>
+                <div class="content"><img src="{$goods_thumb}" width="100%"> </div>
+            </div>
+</script>
+<script src="javascripts/hl-swiper.js"></script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script>
+(function(){
+
+    // 加载拍卖详情
+    var id = Util.getQueryString('id');
+     Util.requestApi("?r=auction/detail", {id:id}, function(data){
+        if (data.errno) {
+            messageBox.toast(data.errmsg);
+            return ;
+        }
+        
+        $('title').html(data.data.auction.act_name);
+        $(".title p").html(data.data.auction.act_name);
+        if (!data.data.goods) {
+            messageBox.toast("商品不存在");
+            return ;
+        }
+        var goods = data.data.goods;
+         $(".details-infobox .cont").html(goods.detail);
+         if (goods.video != "") {
+            //有视频
+            var video = '<video width="100%" src="'+goods.video+'" controls="controls"></video>';
+            $("#video").show().append(video);
+        }
+        var attrHtml = "";
+        var attrItemTemplate = "<p>{$key}: {$value}</p>";
+        //轮播图模版
+        var slideTemplate = '<div class="slide-list"><img src="{$src}" alt=""></div>';
+        for (i in goods.attr) {
+            var item = goods.attr[i];
+            if (item.value != '') {
+                attrHtml += attrItemTemplate.replace('{$key}', item.key)
+                            .replace('{$value}', item.value);
+            }
+        }
+        var slideHtml = '';
+        for (i in goods.pics) {
+            var item = goods.pics[i];
+            slideHtml += slideTemplate.replace('{$src}', item);
+        }
+        $(".productinfo-list .cont").html(attrHtml);
+        $(".details-slide .slides").html(slideHtml);
+        var swiper = new hlSwiper("#hl-swiper", {
+            loop: true, //是否循环
+            autoloop: true, //是否自动循环
+            speed: 3000 //间隔时间毫秒
+        });
+     });
+})();
+</script>
+
+</body>
+</html>
