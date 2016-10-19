@@ -19,7 +19,7 @@
     .item input {
         border:none;
         font-size:1.2rem;
-        width: 70%;
+        width: 90%;
     }
     
     #getCode {
@@ -65,8 +65,11 @@
     <div class="item">
     <input type="number" name="mobile" placeholder="请填写手机号码">
     </div>
-    <div class="item" style="padding-top: 30px;">
-    <input type="number" name="vcode" placeholder="请输入验证码"> <a href="javascript:;" id="getCode">获取验证码</a>
+    <div class="item" style="padding-top: 30px;position:relative;">
+    <div style="display:inline-block;width:90%;margin-right:100px;">
+    <input type="number" name="vcode" placeholder="请输入验证码"> 
+    </div>
+    <div style="display:inline-block; width: 100px;position:absolute;right:0;top:30px;"><a href="javascript:;" id="getCode">获取验证码</a></div>
     </div>
 </div>
 <div id="money_area" style="background: #fff;padding: 10px; margin-top: 5px;">
