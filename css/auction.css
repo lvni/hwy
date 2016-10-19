@@ -126,7 +126,7 @@
 /* line 95, ../sass/auction.scss */
 .enroll {
   position: fixed;
-  bottom: 0;
+  bottom: 5px;
   left: 0;
   width: 100%;
   text-align: center;
@@ -167,7 +167,7 @@
   height: 100%;
   width: 100%;
   top: 0;
-  left: 100%;
+  left: 0;
   background: #fff;
   background: url('../img/auction-bg.png?1476778603');
   background-size: 100% 100%;
@@ -190,3 +190,102 @@
   background: #fff;
   z-index: 99;
   display: none; }
+
+/* line 162, ../sass/auction.scss */
+.auction-comment .mask {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0; }
+
+/* line 169, ../sass/auction.scss */
+.live {
+  height: 84px;
+  margin-top: 110px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff; }
+
+/* line 177, ../sass/auction.scss */
+.live .headphoto {
+  width: 64px;
+  border-radius: 50%;
+  margin: 10px; }
+
+/* line 182, ../sass/auction.scss */
+.cur_offer {
+  position: absolute;
+  right: 10%;
+  top: 0;
+  height: 60px;
+  line-height: 30px;
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 1px solid #fff; }
+
+/* line 192, ../sass/auction.scss */
+.name {
+  font-size: 2rem; }
+
+/* line 195, ../sass/auction.scss */
+.cur_offer > div {
+  font-size: 1.6rem; }
+
+/* line 198, ../sass/auction.scss */
+.cur_offer > div + div {
+  font-size: 2.5rem; }
+
+/* line 202, ../sass/auction.scss */
+.comment-item .avatar, .comment-item .chat-content {
+  display: inline-block; }
+
+/**聊天气泡**/
+/* line 206, ../sass/auction.scss */
+.arrow_box {
+  position: relative;
+  background: #88b7d5;
+  border: 1px solid #c2e1f5;
+  padding: 40px;
+  max-width: 280px;
+  min-height: 100px;
+  border-radius: 6px; }
+
+/* line 215, ../sass/auction.scss */
+.arrow_box:after, .arrow_box:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none; }
+
+/* line 226, ../sass/auction.scss */
+.arrow_box_left:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-right-color: #88b7d5;
+  border-width: 30px;
+  margin-top: -30px; }
+
+/* line 232, ../sass/auction.scss */
+.arrow_box_left:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-right-color: #c2e1f5;
+  border-width: 31px;
+  margin-top: -31px; }
+
+/* line 239, ../sass/auction.scss */
+.arrow_box_right:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-left-color: #88b7d5;
+  border-width: 30px;
+  margin-top: -30px; }
+
+/* line 245, ../sass/auction.scss */
+.arrow_box_right:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-left-color: #c2e1f5;
+  border-width: 31px;
+  margin-top: -31px; }
