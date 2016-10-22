@@ -90,7 +90,7 @@
     <button id="submit" class="disabled">马上提现</button>
 </div>
 <div id="tips">
-    注：每个人最高能提现额度为50元，剩余部分将转入你在洪五爷珠宝的余额中 
+    注：每个人最高能提现额度为50元，剩余部分将转入您在洪五爷珠宝的余额中 
 </div>
 </div>
 </body>
@@ -212,7 +212,7 @@ $(function(){
                          success: function(redata) {
                             messageBox.toast(redata.errmsg);
                             if (redata.errno == 0) {
-                                location.reload();
+                                location.href = location.href;
                             }
                         }
                     });
