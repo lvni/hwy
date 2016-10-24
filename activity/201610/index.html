@@ -19,7 +19,7 @@
     .item input {
         border:none;
         font-size:1.2rem;
-        width: 70%;
+        width: 90%;
     }
     
     #getCode {
@@ -39,6 +39,7 @@
         bottom: 1%;
         */
         width: 100%;
+        margin-bottom: 10px;
         
     }
     .confirm button {
@@ -53,20 +54,29 @@
     .disabled,.confirm button.disabled,#getCode.disabled {
         background: #ccc;
     }
+    .wrap {    overflow: hidden;}
+    #tips {
+        margin: 20px;
+        font-size: 0.8rem;
+        color: #928A8A;
+    }
     /*a90125 dadada*/
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="banner">
+<div class="wrap">  
+<div class="banner" onclick="location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.hwyjr.app&g_f=991653';">
     <img src="img/ac_bn.png" style="width:100%;">
 </div>
 <div id="needValidate"  style="display:none;">
     <div class="item">
     <input type="number" name="mobile" placeholder="请填写手机号码">
     </div>
-    <div class="item" style="padding-top: 30px;">
-    <input type="number" name="vcode" placeholder="请输入验证码"> <a href="javascript:;" id="getCode">获取验证码</a>
+    <div class="item" style="padding-top: 30px;position:relative;">
+    <div style="display:inline-block;width:90%;margin-right:100px;">
+    <input type="number" name="vcode" placeholder="请输入验证码"> 
+    </div>
+    <div style="display:inline-block; width: 100px;position:absolute;right:0;top:30px;"><a href="javascript:;" id="getCode">获取验证码</a></div>
     </div>
 </div>
 <div id="money_area" style="background: #fff;padding: 10px; margin-top: 5px;">
@@ -79,7 +89,9 @@
 <div class="confirm">
     <button id="submit" class="disabled">马上提现</button>
 </div>
-
+<div id="tips">
+    注：每个人最高能提现额度为50元，剩余部分将转入您在洪五爷珠宝的余额中 
+</div>
 </div>
 </body>
 <script src="../../javascripts/zepto.min.js"></script>
@@ -200,7 +212,7 @@ $(function(){
                          success: function(redata) {
                             messageBox.toast(redata.errmsg);
                             if (redata.errno == 0) {
-                                location.reload();
+                                location.href = location.href;
                             }
                         }
                     });
