@@ -195,11 +195,12 @@
 .auction-comment .mask {
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   position: absolute;
-  top: 0; }
+  top: 0;
+  z-index: -1; }
 
-/* line 169, ../sass/auction.scss */
+/* line 170, ../sass/auction.scss */
 .live {
   height: 84px;
   margin-top: 110px;
@@ -207,13 +208,13 @@
   background: rgba(0, 0, 0, 0.5);
   color: #fff; }
 
-/* line 177, ../sass/auction.scss */
+/* line 178, ../sass/auction.scss */
 .live .headphoto {
   width: 64px;
   border-radius: 50%;
   margin: 10px; }
 
-/* line 182, ../sass/auction.scss */
+/* line 183, ../sass/auction.scss */
 .cur_offer {
   position: absolute;
   right: 10%;
@@ -224,68 +225,119 @@
   padding-left: 20px;
   border-left: 1px solid #fff; }
 
-/* line 192, ../sass/auction.scss */
+/* line 193, ../sass/auction.scss */
 .name {
   font-size: 2rem; }
 
-/* line 195, ../sass/auction.scss */
+/* line 196, ../sass/auction.scss */
 .cur_offer > div {
   font-size: 1.6rem; }
 
-/* line 198, ../sass/auction.scss */
+/* line 199, ../sass/auction.scss */
 .cur_offer > div + div {
   font-size: 2.5rem; }
 
-/* line 202, ../sass/auction.scss */
+/* line 203, ../sass/auction.scss */
 .comment-item .avatar, .comment-item .chat-content {
   display: inline-block; }
 
 /**聊天气泡**/
-/* line 206, ../sass/auction.scss */
+/* line 207, ../sass/auction.scss */
 .arrow_box {
   position: relative;
-  background: #88b7d5;
-  border: 1px solid #c2e1f5;
-  padding: 40px;
+  background: rgba(64, 57, 57, 0.4);
+  border: 1px solid #c7c7c7;
+  color: #fff;
+  padding: 10px;
   max-width: 280px;
-  min-height: 100px;
   border-radius: 6px; }
 
-/* line 215, ../sass/auction.scss */
-.arrow_box:after, .arrow_box:before {
-  right: 100%;
-  top: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
+/* line 216, ../sass/auction.scss */
+.arrow_box:after {
+  content: '';
+  width: 8px;
+  height: 8px;
   position: absolute;
-  pointer-events: none; }
+  top: 10px;
+  left: -5px;
+  transform: rotate(45deg);
+  background-color: rgba(90, 88, 88, 0.4);
+  border: 1px #c7c7c7;
+  border-style: none none solid solid; }
 
-/* line 226, ../sass/auction.scss */
-.arrow_box_left:after {
-  border-color: rgba(136, 183, 213, 0);
-  border-right-color: #88b7d5;
-  border-width: 30px;
-  margin-top: -30px; }
+/* line 229, ../sass/auction.scss */
+.me .arrow_box:after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 10px;
+  left: auto;
+  right: -5px;
+  transform: rotate(45deg);
+  background-color: rgba(90, 88, 88, 0.4);
+  border: 1px #c7c7c7;
+  border-style: solid solid none none; }
 
-/* line 232, ../sass/auction.scss */
-.arrow_box_left:before {
-  border-color: rgba(194, 225, 245, 0);
-  border-right-color: #c2e1f5;
-  border-width: 31px;
-  margin-top: -31px; }
+/* line 243, ../sass/auction.scss */
+.comment-item {
+  color: #fff;
+  margin: 15px 0; }
 
-/* line 239, ../sass/auction.scss */
-.arrow_box_right:after {
-  border-color: rgba(136, 183, 213, 0);
-  border-left-color: #88b7d5;
-  border-width: 30px;
-  margin-top: -30px; }
+/* line 247, ../sass/auction.scss */
+.avatar {
+  margin: 10px;
+  vertical-align: top; }
 
-/* line 245, ../sass/auction.scss */
-.arrow_box_right:before {
-  border-color: rgba(194, 225, 245, 0);
-  border-left-color: #c2e1f5;
-  border-width: 31px;
-  margin-top: -31px; }
+/* line 251, ../sass/auction.scss */
+.avatar img {
+  width: 48px;
+  border-radius: 50%; }
+
+/* line 255, ../sass/auction.scss */
+.chat-content .nickname {
+  margin: 5px 0; }
+
+/* line 258, ../sass/auction.scss */
+.me {
+  text-align: right; }
+
+/* line 261, ../sass/auction.scss */
+.me .avatar {
+  float: right; }
+
+/* line 265, ../sass/auction.scss */
+.offer .arrow_box {
+  background: rgba(255, 0, 0, 0.4); }
+
+/* line 268, ../sass/auction.scss */
+.offer .arrow_box:after {
+  background: rgba(255, 0, 0, 0.3); }
+
+/* line 272, ../sass/auction.scss */
+.effect {
+  background: #bd0e0e;
+  /* padding: 5px; */
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  border: 1px solid #fff;
+  border-radius: 50%; }
+
+/* line 283, ../sass/auction.scss */
+.comment-content {
+  overflow: auto;
+  height: 65%; }
+
+/* line 289, ../sass/auction.scss */
+.u-refresh > .line:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  background: none;
+  z-index: 1; }
