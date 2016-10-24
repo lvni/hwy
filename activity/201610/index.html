@@ -224,10 +224,10 @@ $(function(){
                 $("#needValidate").show();
             }
             $("#withdraw").show();
-            $("#d_money").html("￥" + info.d_money);
-            $("#c_money").html("￥" + info.c_money);
-            $("#s_money").html("￥" + info.s_money);
-            $("#money").html("￥" + info.money);
+            $("#d_money").html("￥" + info.d_money.toFixed(2));
+            $("#c_money").html("￥" + info.c_money.toFixed(2));
+            $("#s_money").html("￥" + info.s_money.toFixed(2));
+            $("#money").html("￥" + info.money.toFixed(2));
             if (info.can_get) {
                 //可以提现
                 $("#submit").removeClass("disabled");
