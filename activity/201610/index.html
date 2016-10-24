@@ -60,6 +60,21 @@
         font-size: 0.8rem;
         color: #928A8A;
     }
+    .c_tips {
+        width: 100%;
+    }
+    .c_tips td {width: 50%;}
+    .c_tips  div {
+        text-align: center;
+    }
+    .c_tips td > div:first-child {
+        font-size: 0.8rem;
+        color: #908282;
+    }
+    .c_tips td > div + div{
+        font-size: 1.6rem;
+        color: #1F1E1E;
+    }
     /*a90125 dadada*/
 </style>
 </head>
@@ -89,8 +104,20 @@
 <div class="confirm">
     <button id="submit" class="disabled">马上提现</button>
 </div>
+<div>
+<table class="c_tips">
+<tr>
+<td><div>已提现</div><div>￥20</div></td>
+<td><div>剩余额度</div><div>￥20</div></td>
+</tr>
+<tr>
+<td><div>转入商城</div><div>￥20</div></td>
+<td><div>总额</div><div>￥20</div></td>
+</tr>
+</table>
+</div>
 <div id="tips">
-    注：每个人最高能提现额度为50元，剩余部分将转入您在洪五爷珠宝的余额中 
+    注：每人最高能提现额度为50元，剩余部分将转入您在洪五爷珠宝商城的余额中 
 </div>
 </div>
 </body>
@@ -210,7 +237,7 @@ $(function(){
                          data: {mobile:mobile,vcode:vcode},
                          dataType: 'json',
                          success: function(redata) {
-                            messageBox.toast(redata.errmsg);
+                            alert(redata.errmsg);
                             if (redata.errno == 0) {
                                 location.href = location.href;
                             }
@@ -233,7 +260,7 @@ $(function(){
     function getVcode() {
          var mobile = $("input[name=mobile]").val();
          if (!isCorrectMobile(mobile)) {
-            messageBox.toast("手机号码格式错误");
+            alert("手机号码格式错误");
             return;
          }
          $.ajax({
@@ -242,7 +269,7 @@ $(function(){
              data: {mobile: mobile,no_check_user:1},
              dataType: 'json',
              success: function(redata) {
-                messageBox.toast(redata.errmsg);
+                alert(redata.errmsg);
                 if (redata.errno ==0) {
                      //一分钟内不允许点击
                      $("#getCode").unbind("click");
