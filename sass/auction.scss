@@ -242,6 +242,7 @@
 
 .comment-item {
     color: #fff;
+    margin: 15px 0;
 }
 .avatar {
     margin: 10px;
@@ -282,4 +283,17 @@
 .comment-content {
     overflow: auto;
     height: 65%;
+}
+
+
+.u-refresh > .line:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    background: none;
+    z-index: 1;
 }
