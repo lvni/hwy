@@ -107,12 +107,12 @@
 <div>
 <table class="c_tips">
 <tr>
-<td><div>已提现</div><div>￥20</div></td>
-<td><div>剩余额度</div><div>￥20</div></td>
+<td><div>已提现</div><div id="d_money">￥0</div></td>
+<td><div>剩余额度</div><div id="c_money">￥0</div></td>
 </tr>
 <tr>
-<td><div>转入商城</div><div>￥20</div></td>
-<td><div>总额</div><div>￥20</div></td>
+<td><div>转入商城</div><div id="s_money">￥0</div></td>
+<td><div>总额</div><div id="money">￥0</div></td>
 </tr>
 </table>
 </div>
@@ -224,7 +224,10 @@ $(function(){
                 $("#needValidate").show();
             }
             $("#withdraw").show();
-            
+            $("#d_money").html("￥" + info.d_money);
+            $("#c_money").html("￥" + info.c_money);
+            $("#s_money").html("￥" + info.s_money);
+            $("#money").html("￥" + info.money);
             if (info.can_get) {
                 //可以提现
                 $("#submit").removeClass("disabled");
