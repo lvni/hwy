@@ -95,7 +95,9 @@ $(function(){
               for (i in data.data) {
                 var item = data.data[i];
                 if (item.status == 'ongoing') {
-                    item.action = '<div class="join">立即竞拍</div>';
+                    item.action = '<div class="join" data="'+item.act_id+'">立即竞拍</div>';
+                } else {
+                    item.action = "";
                 }
                 item.auction_tip = action_tips[item.status];
                 htm += Template.renderByTemplate(template, item);
@@ -108,6 +110,12 @@ $(function(){
     loadAuctionList();
     $(".auction-list").delegate("#reload", 'click', function(){
         loadAuctionList();
+    });
+    
+    $(".auction-list").delegate('.join', 'click', function(){
+    
+        var id = $(this).attr('data');
+        location.href="auction-detail.html?id="+id;
     });
 
 });

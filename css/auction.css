@@ -244,48 +244,22 @@
 /* line 206, ../sass/auction.scss */
 .arrow_box {
   position: relative;
-  background: #88b7d5;
-  border: 1px solid #c2e1f5;
-  padding: 40px;
+  background: rgba(241, 241, 241, 0.4);
+  border: 1px solid #c7c7c7;
+  padding: 10px;
   max-width: 280px;
-  min-height: 100px;
+  min-height: 50px;
   border-radius: 6px; }
 
 /* line 215, ../sass/auction.scss */
-.arrow_box:after, .arrow_box:before {
-  right: 100%;
-  top: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none; }
-
-/* line 226, ../sass/auction.scss */
 .arrow_box_left:after {
-  border-color: rgba(136, 183, 213, 0);
-  border-right-color: #88b7d5;
-  border-width: 30px;
-  margin-top: -30px; }
-
-/* line 232, ../sass/auction.scss */
-.arrow_box_left:before {
-  border-color: rgba(194, 225, 245, 0);
-  border-right-color: #c2e1f5;
-  border-width: 31px;
-  margin-top: -31px; }
-
-/* line 239, ../sass/auction.scss */
-.arrow_box_right:after {
-  border-color: rgba(136, 183, 213, 0);
-  border-left-color: #88b7d5;
-  border-width: 30px;
-  margin-top: -30px; }
-
-/* line 245, ../sass/auction.scss */
-.arrow_box_right:before {
-  border-color: rgba(194, 225, 245, 0);
-  border-left-color: #c2e1f5;
-  border-width: 31px;
-  margin-top: -31px; }
+  content: '';
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 10px;
+  right: -5px;
+  transform: rotate(45deg);
+  background-color: rgba(241, 241, 241, 0.4);
+  border: 1px #fbe2a0;
+  border-style: solid solid none none; }
