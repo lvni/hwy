@@ -67,18 +67,28 @@
     .c_tips td {width: 50%;}
     .c_tips  div {
         text-align: center;
+        display: inline-block;
     }
     .c_tips td > div:first-child {
         font-size: 0.8rem;
         color: #908282;
+        width: 60px;
+        padding-left:10px;
+        text-align: left;
     }
     .c_tips td > div + div{
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         color: #1F1E1E;
     }
     /*a90125 dadada*/
     .c_tips td {
         border: 1px #ccc;
+    }
+    #money_left{
+        margin: 5px 0;
+        background: #fff;
+        padding: 10px;
+        color: #A9062A;
     }
 </style>
 </head>
@@ -87,6 +97,7 @@
 <div class="banner" onclick="location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.hwyjr.app&g_f=991653';">
     <img src="img/ac_bn.png" style="width:100%;">
 </div>
+<div id="money_left"></div>
 <table class="c_tips" style="background:#fff;margin-bottom:5px;border-collapse:collapse;border:none;" >
 <tr>
 <td style="border-style:  none solid none none;"><div>已提现</div><div id="d_money">￥0.00</div></td>
@@ -94,7 +105,7 @@
 </tr>
 <tr>
 <td style="border-style:  solid none none none;"><div>转入商城</div><div id="s_money">￥0.00</div></td>
-<td style="border-style:  none none  none solid;"><div>总额</div><div id="money">￥0.00</div></td>
+<td style="border-style:  none none  none solid;"><div>总奖金</div><div id="money">￥0.00</div></td>
 </tr>
 </table>
 <div id="needValidate"  style="display:none;">
@@ -237,7 +248,7 @@ $(function(){
                 $("#c_money").html("¥" + info.c_money.toFixed(2));
                 $("#s_money").html("¥" + info.s_money.toFixed(2));
                 $("#money").html("¥" + info.money.toFixed(2));
-                
+                $("#money_left").html("奖池剩余奖金: ¥"+ info.money_left.toFixed(2));
                 if (info.tips) {
                     $("#submit").html("提现("+info.tips+")");
                 }
