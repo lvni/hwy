@@ -89,12 +89,12 @@
 </div>
 <table class="c_tips" style="background:#fff;margin-bottom:5px;border-collapse:collapse;border:none;" >
 <tr>
-<td style="border-style:  none solid none none;"><div>已提现</div><div id="d_money">￥0</div></td>
-<td style="border-style:  none none solid none;"><div>剩余额度</div><div id="c_money">￥0</div></td>
+<td style="border-style:  none solid none none;"><div>已提现</div><div id="d_money">￥0.00</div></td>
+<td style="border-style:  none none solid none;"><div>剩余额度</div><div id="c_money">￥0.00</div></td>
 </tr>
 <tr>
-<td style="border-style:  solid none none none;"><div>转入商城</div><div id="s_money">￥0</div></td>
-<td style="border-style:  none none  none solid;"><div>总额</div><div id="money">￥0</div></td>
+<td style="border-style:  solid none none none;"><div>转入商城</div><div id="s_money">￥0.00</div></td>
+<td style="border-style:  none none  none solid;"><div>总额</div><div id="money">￥0.00</div></td>
 </tr>
 </table>
 <div id="needValidate"  style="display:none;">
@@ -303,7 +303,13 @@ $(function(){
             }
         });
     }
-    
+    //插入统计代码
+var doc=document;  
+var script=doc.createElement("script"); 
+var url = 'https://s95.cnzz.com/z_stat.php?id=1259996740&web_id=1259996740';
+script.setAttribute("src", url);  
+var heads = doc.getElementsByTagName("head");  
+heads[0].appendChild(script); 
 });
 </script>
 </html>
