@@ -265,7 +265,7 @@ $(window).scroll(function(){
                  //可以加载
                  if (!masterGoodsQuery.loading) {
                      masterGoodsQuery.p += 1;
-                     //loadMasterGoods(masterGoodsQuery);
+                     loadMasterGoods(masterGoodsQuery);
                      masterGoodsQuery.loading = true;
                      $("#loading-more").html("加载中 ...");
                  }

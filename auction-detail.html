@@ -6,10 +6,8 @@
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/details.css">
     <link rel="stylesheet" href="css/auction.css">
-    <link rel="stylesheet" href="javascripts/swipe/photoswipe.css"> 
-    <link rel="stylesheet" href="javascripts/swipe/default-skin/default-skin.css"> 
-    <script src="javascripts/swipe/photoswipe.min.js"></script> 
-    <script src="javascripts/swipe/photoswipe-ui-default.min.js"></script> 
+    
+    <link rel="stylesheet" href="javascripts/dropload/dropload.css">
 </head>
 
 <body>
@@ -93,12 +91,6 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
     </div>
 </div>
 <div class="comment-content">
-<div class="u-refresh" style="">
-        <div class="line">
-            <img src="img/refresharrow.png" class="arrow">
-        </div>
-        <p class="tips">下拉刷新...</p>
-    </div>
 <div  class="comment-item">
     <div class="avatar"><img src="img/hw_06.png"></div>
     <div class="chat-content">
@@ -247,6 +239,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <script src="javascripts/hl-swiper.js"></script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
+<script src="javascripts/dropload/dropload.min.js"></script>
 <script>
 (function(){
 
@@ -315,7 +308,36 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
           $(".auction-comment").removeClass("show");
           }
           
-     })
+     });
+     
+     
+     // dropload
+    var dropload = $('.comment-content').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown : {
+            domClass   : 'dropload-down',
+            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            domNoData  : '<div class="dropload-noData">暂无数据</div>'
+        },
+        loadUpFn : function(me){
+            
+            setTimeout(function(){
+                dropload.resetload();
+            }, 3000);
+        },
+        loadDownFn : function(me){
+            setTimeout(function(){
+                dropload.resetload();
+            }, 3000);
+        }
+    });
+    
 })();
 </script>
 
