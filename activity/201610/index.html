@@ -122,7 +122,7 @@
 
 </div>
 <div id="tips">
-    注：每人最高能提现额度为50元，剩余部分将转入您在洪五爷珠宝商城的余额中 
+    注：每人最高能提现额度为50元, 2元以上(含2元)才能提现, 剩余部分将转入您在洪五爷珠宝商城的余额中 
 </div>
 </div>
 </body>
@@ -237,6 +237,10 @@ $(function(){
                 $("#c_money").html("¥" + info.c_money.toFixed(2));
                 $("#s_money").html("¥" + info.s_money.toFixed(2));
                 $("#money").html("¥" + info.money.toFixed(2));
+                
+                if (info.tips) {
+                    $("#submit").html("提现("+info.tips+")");
+                }
                 if (info.can_get) {
                     //可以提现
                     $("#submit").removeClass("disabled");
@@ -250,7 +254,7 @@ $(function(){
                              dataType: 'json',
                              success: function(redata) {
                                 alert(redata.errmsg);
-                                if (redata.errno == 0) {
+                                if (redata.errno == 0 || redata.errno == 10409) {
                                     location.href = location.href;
                                 }
                             }
