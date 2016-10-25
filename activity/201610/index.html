@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <META NAME="MobileOptimized" CONTENT="240">
+
 <title>推荐有奖</title>
 <style>
     body,div,a,img {margin:0;padding:0;}
@@ -60,7 +61,25 @@
         font-size: 0.8rem;
         color: #928A8A;
     }
+    .c_tips {
+        width: 100%;
+    }
+    .c_tips td {width: 50%;}
+    .c_tips  div {
+        text-align: center;
+    }
+    .c_tips td > div:first-child {
+        font-size: 0.8rem;
+        color: #908282;
+    }
+    .c_tips td > div + div{
+        font-size: 1.6rem;
+        color: #1F1E1E;
+    }
     /*a90125 dadada*/
+    .c_tips td {
+        border: 1px #ccc;
+    }
 </style>
 </head>
 <body>
@@ -68,6 +87,16 @@
 <div class="banner" onclick="location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.hwyjr.app&g_f=991653';">
     <img src="img/ac_bn.png" style="width:100%;">
 </div>
+<table class="c_tips" style="background:#fff;margin-bottom:5px;border-collapse:collapse;border:none;" >
+<tr>
+<td style="border-style:  none solid none none;"><div>已提现</div><div id="d_money">￥0.00</div></td>
+<td style="border-style:  none none solid none;"><div>剩余额度</div><div id="c_money">￥0.00</div></td>
+</tr>
+<tr>
+<td style="border-style:  solid none none none;"><div>转入商城</div><div id="s_money">￥0.00</div></td>
+<td style="border-style:  none none  none solid;"><div>总额</div><div id="money">￥0.00</div></td>
+</tr>
+</table>
 <div id="needValidate"  style="display:none;">
     <div class="item">
     <input type="number" name="mobile" placeholder="请填写手机号码">
@@ -89,12 +118,17 @@
 <div class="confirm">
     <button id="submit" class="disabled">马上提现</button>
 </div>
+<div>
+
+</div>
 <div id="tips">
-    注：每个人最高能提现额度为50元，剩余部分将转入您在洪五爷珠宝的余额中 
+    注：最低提现金额为2元 , 每人最高能提现额度为50元 ,  剩余部分将转入您在洪五爷珠宝商城的余额中 
 </div>
 </div>
 </body>
 <script src="../../javascripts/zepto.min.js"></script>
+<!-- <script src="../../javascripts/dropload/dropload.min.js"></script>
+<link rel="stylesheet" href="../../javascripts/dropload/dropload.css"> -->
 <script>
 
 
@@ -181,59 +215,68 @@ $(function(){
         return reg.test(mobile);
     };
     //获取我的金额
-    $.ajax({
-         'url' : api + "?r=activity/getmymoney",
-        type: 'GET',
-        dataType: 'json',
-        success: function(redata) {
-            if (redata.errno == 12) {
-                //没有登录
-                goWxLogin(location.href);
-            }
-            var info = redata.data;
-            $("#money_can_get").html(parseFloat(info.money_can_get).toFixed(2));
-            if (info.valided == 0) {
-                //需要验证手机
-                $("#needValidate").show();
-            }
-            $("#withdraw").show();
-            
-            if (info.can_get) {
-                //可以提现
-                $("#submit").removeClass("disabled");
-                $("#submit").click(function(){
-                    var mobile = $("input[name=mobile]").val();
-                    var vcode = $("input[name=vcode]").val();
-                    $.ajax({
-                         'url' : api + "?r=activity/withdraw",
-                         type: 'post',
-                         data: {mobile:mobile,vcode:vcode},
-                         dataType: 'json',
-                         success: function(redata) {
-                            messageBox.toast(redata.errmsg);
-                            if (redata.errno == 0) {
-                                location.href = location.href;
-                            }
-                        }
-                    });
-                });
+    var init = function(){
+   
+        $.ajax({
+             'url' : api + "?r=activity/getmymoney",
+            type: 'GET',
+            dataType: 'json',
+            success: function(redata) {
+                if (redata.errno == 12) {
+                    //没有登录
+                    goWxLogin(location.href);
+                }
+                var info = redata.data;
+                $("#money_can_get").html(parseFloat(info.money_can_get).toFixed(2));
+                if (info.valided == 0) {
+                    //需要验证手机
+                    $("#needValidate").show();
+                }
+                $("#withdraw").show();
+                $("#d_money").html("¥" + info.d_money.toFixed(2));
+                $("#c_money").html("¥" + info.c_money.toFixed(2));
+                $("#s_money").html("¥" + info.s_money.toFixed(2));
+                $("#money").html("¥" + info.money.toFixed(2));
                 
-                $("#getCode").removeClass("disabled");
-                $("#getCode").bind("click", getVcode);
-            } else {
-                $("#getCode").addClass("disabled");
+                if (info.tips) {
+                    $("#submit").html("提现("+info.tips+")");
+                }
+                if (info.can_get) {
+                    //可以提现
+                    $("#submit").removeClass("disabled");
+                    $("#submit").click(function(){
+                        var mobile = $("input[name=mobile]").val();
+                        var vcode = $("input[name=vcode]").val();
+                        $.ajax({
+                             'url' : api + "?r=activity/withdraw",
+                             type: 'post',
+                             data: {mobile:mobile,vcode:vcode},
+                             dataType: 'json',
+                             success: function(redata) {
+                                alert(redata.errmsg);
+                                if (redata.errno == 0 || redata.errno == 10409) {
+                                    location.href = location.href;
+                                }
+                            }
+                        });
+                    });
+                    
+                    $("#getCode").removeClass("disabled");
+                    $("#getCode").bind("click", getVcode);
+                } else {
+                    $("#getCode").addClass("disabled");
+                }
             }
-        }
-    });
+        });
+     };
     
-    
-    
+    init();
     
     
     function getVcode() {
          var mobile = $("input[name=mobile]").val();
          if (!isCorrectMobile(mobile)) {
-            messageBox.toast("手机号码格式错误");
+            alert("手机号码格式错误");
             return;
          }
          $.ajax({
@@ -242,7 +285,7 @@ $(function(){
              data: {mobile: mobile,no_check_user:1},
              dataType: 'json',
              success: function(redata) {
-                messageBox.toast(redata.errmsg);
+                alert(redata.errmsg);
                 if (redata.errno ==0) {
                      //一分钟内不允许点击
                      $("#getCode").unbind("click");
@@ -264,9 +307,13 @@ $(function(){
             }
         });
     }
-    
-    
-
+    //插入统计代码
+var doc=document;  
+var script=doc.createElement("script"); 
+var url = 'https://s95.cnzz.com/z_stat.php?id=1259996740&web_id=1259996740';
+script.setAttribute("src", url);  
+var heads = doc.getElementsByTagName("head");  
+heads[0].appendChild(script); 
 });
 </script>
 </html>
