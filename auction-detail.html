@@ -257,6 +257,16 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <script>
 (function(){
 
+    var bindEvent = function() {
+            $(".enroll button").click(function(){
+                 $(".deposit_confirm").show();
+                 $('body').css("overflow","hidden")
+            });
+            $(".deposit_confirm .close").click(function(){
+                 $(".deposit_confirm").hide();
+                 $('body').css("overflow","auto")
+            });
+    } ;
     // 加载拍卖详情
     var id = Util.getQueryString('id');
      Util.requestApi("?r=auction/detail", {id:id}, function(data){
@@ -295,12 +305,14 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             slideHtml += slideTemplate.replace('{$src}', item);
         }
         
+        $("#deposit_money").html(data.data.auction.ext_info.deposit);
         if (data.data.auction.is_deposit_paid) {
             //用户已经交了保证金
             $(".auction-offer").show();
         } else {
             $(".enroll").show();
         }
+        bindEvent();
         $(".productinfo-list .cont").html(attrHtml);
         $(".details-slide .slides").html(slideHtml);
         var swiper = new hlSwiper("#hl-swiper", {
@@ -309,6 +321,8 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             speed: 3000 //间隔时间毫秒
         });
      });
+     
+     
      
      $(".auction-nav").delegate('span', 'click', function(){
           if ($(this).hasClass('red')) {
