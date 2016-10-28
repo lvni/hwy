@@ -373,9 +373,10 @@
 /* line 329, ../sass/auction.scss */
 .comment-content {
   overflow: auto;
-  height: 50%; }
+  height: 100%;
+  margin-bottom: -120px; }
 
-/* line 335, ../sass/auction.scss */
+/* line 336, ../sass/auction.scss */
 .u-refresh > .line:after {
   content: '';
   display: block;
@@ -387,7 +388,7 @@
   background: none;
   z-index: 1; }
 
-/* line 347, ../sass/auction.scss */
+/* line 348, ../sass/auction.scss */
 .deposit_confirm {
   width: 100%;
   height: 100%;
@@ -397,7 +398,7 @@
   display: none;
   z-index: 999; }
 
-/* line 357, ../sass/auction.scss */
+/* line 358, ../sass/auction.scss */
 .deposit_confirm .board {
   position: relative;
   width: 88%;
@@ -407,28 +408,28 @@
   margin-top: 40%;
   font-size: 1.2rem; }
 
-/* line 366, ../sass/auction.scss */
+/* line 367, ../sass/auction.scss */
 .deposit_confirm .close {
   font-size: 2rem; }
 
-/* line 369, ../sass/auction.scss */
+/* line 370, ../sass/auction.scss */
 .deposit_confirm p {
   text-align: left;
   margin-left: 20px; }
 
-/* line 374, ../sass/auction.scss */
+/* line 375, ../sass/auction.scss */
 .deposit_confirm .close {
   position: absolute;
   top: 0;
   right: 10px;
   margin: 0 10px; }
 
-/* line 380, ../sass/auction.scss */
+/* line 381, ../sass/auction.scss */
 .deposit_confirm h1 {
   font-size: 1.8rem;
   font-weight: 900; }
 
-/* line 384, ../sass/auction.scss */
+/* line 385, ../sass/auction.scss */
 .deposit_confirm button {
   background: #bf1726;
   color: #fff;
