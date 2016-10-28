@@ -151,13 +151,59 @@
 
 .auction-offer {
     position: fixed;
-    height: 10%;
+    height: 120px;
     width: 100%;
     bottom: 0;
     left: 0;
     background: #fff;
     z-index: 99;
     display: none;
+    div {
+        margin: 0 10px;
+        height: 60px;
+        line-height: 60px;
+        position: relative;
+    }
+    .content {
+        width: 70%;
+    }
+    input {
+        border-radius: 5px;
+        font-size: 1.8rem;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+    .money {
+        width: 50%;
+        margin-right: 5px;
+    }
+    .bnt_send {
+        position: absolute;
+        top:12px;
+        right: 0;
+        padding: 8px 15px;
+        color: #000;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        background: #fff;
+    }
+    .bnt_offer {
+        position: absolute;
+        top:12px;
+        right: 0;
+        padding: 8px 15px ;
+        border-radius: 3px;
+        background: #ddd;
+        color: #fff;
+    }
+    .bnt_pls {
+        font-size: 3rem;
+        padding: 0 10px ;
+        border-radius: 3px;
+        background: #ddd;
+        color: #fff;
+    }
+
 }
 .auction-comment .mask {
     width: 100%;

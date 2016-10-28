@@ -183,15 +183,60 @@
 /* line 152, ../sass/auction.scss */
 .auction-offer {
   position: fixed;
-  height: 10%;
+  height: 120px;
   width: 100%;
   bottom: 0;
   left: 0;
   background: #fff;
   z-index: 99;
   display: none; }
+  /* line 161, ../sass/auction.scss */
+  .auction-offer div {
+    margin: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    position: relative; }
+  /* line 167, ../sass/auction.scss */
+  .auction-offer .content {
+    width: 70%; }
+  /* line 170, ../sass/auction.scss */
+  .auction-offer input {
+    border-radius: 5px;
+    font-size: 1.8rem;
+    padding: 5px;
+    border: 1px solid #ccc; }
+  /* line 176, ../sass/auction.scss */
+  .auction-offer .money {
+    width: 50%;
+    margin-right: 5px; }
+  /* line 180, ../sass/auction.scss */
+  .auction-offer .bnt_send {
+    position: absolute;
+    top: 12px;
+    right: 0;
+    padding: 8px 15px;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background: #fff; }
+  /* line 190, ../sass/auction.scss */
+  .auction-offer .bnt_offer {
+    position: absolute;
+    top: 12px;
+    right: 0;
+    padding: 8px 15px;
+    border-radius: 3px;
+    background: #ddd;
+    color: #fff; }
+  /* line 199, ../sass/auction.scss */
+  .auction-offer .bnt_pls {
+    font-size: 3rem;
+    padding: 0 10px;
+    border-radius: 3px;
+    background: #ddd;
+    color: #fff; }
 
-/* line 162, ../sass/auction.scss */
+/* line 208, ../sass/auction.scss */
 .auction-comment .mask {
   width: 100%;
   height: 100%;
@@ -200,7 +245,7 @@
   top: 0;
   z-index: -1; }
 
-/* line 170, ../sass/auction.scss */
+/* line 216, ../sass/auction.scss */
 .live {
   height: 84px;
   margin-top: 110px;
@@ -208,13 +253,13 @@
   background: rgba(0, 0, 0, 0.5);
   color: #fff; }
 
-/* line 178, ../sass/auction.scss */
+/* line 224, ../sass/auction.scss */
 .live .headphoto {
   width: 64px;
   border-radius: 50%;
   margin: 10px; }
 
-/* line 183, ../sass/auction.scss */
+/* line 229, ../sass/auction.scss */
 .cur_offer {
   position: absolute;
   right: 10%;
@@ -225,24 +270,24 @@
   padding-left: 20px;
   border-left: 1px solid #fff; }
 
-/* line 193, ../sass/auction.scss */
+/* line 239, ../sass/auction.scss */
 .name {
   font-size: 2rem; }
 
-/* line 196, ../sass/auction.scss */
+/* line 242, ../sass/auction.scss */
 .cur_offer > div {
   font-size: 1.6rem; }
 
-/* line 199, ../sass/auction.scss */
+/* line 245, ../sass/auction.scss */
 .cur_offer > div + div {
   font-size: 2.5rem; }
 
-/* line 203, ../sass/auction.scss */
+/* line 249, ../sass/auction.scss */
 .comment-item .avatar, .comment-item .chat-content {
   display: inline-block; }
 
 /**聊天气泡**/
-/* line 207, ../sass/auction.scss */
+/* line 253, ../sass/auction.scss */
 .arrow_box {
   position: relative;
   background: rgba(64, 57, 57, 0.4);
@@ -252,7 +297,7 @@
   max-width: 280px;
   border-radius: 6px; }
 
-/* line 216, ../sass/auction.scss */
+/* line 262, ../sass/auction.scss */
 .arrow_box:after {
   content: '';
   width: 8px;
@@ -265,7 +310,7 @@
   border: 1px #c7c7c7;
   border-style: none none solid solid; }
 
-/* line 229, ../sass/auction.scss */
+/* line 275, ../sass/auction.scss */
 .me .arrow_box:after {
   content: '';
   width: 8px;
@@ -279,42 +324,42 @@
   border: 1px #c7c7c7;
   border-style: solid solid none none; }
 
-/* line 243, ../sass/auction.scss */
+/* line 289, ../sass/auction.scss */
 .comment-item {
   color: #fff;
   margin: 15px 0; }
 
-/* line 247, ../sass/auction.scss */
+/* line 293, ../sass/auction.scss */
 .avatar {
   margin: 10px;
   vertical-align: top; }
 
-/* line 251, ../sass/auction.scss */
+/* line 297, ../sass/auction.scss */
 .avatar img {
   width: 48px;
   border-radius: 50%; }
 
-/* line 255, ../sass/auction.scss */
+/* line 301, ../sass/auction.scss */
 .chat-content .nickname {
   margin: 5px 0; }
 
-/* line 258, ../sass/auction.scss */
+/* line 304, ../sass/auction.scss */
 .me {
   text-align: right; }
 
-/* line 261, ../sass/auction.scss */
+/* line 307, ../sass/auction.scss */
 .me .avatar {
   float: right; }
 
-/* line 265, ../sass/auction.scss */
+/* line 311, ../sass/auction.scss */
 .offer .arrow_box {
   background: rgba(255, 0, 0, 0.4); }
 
-/* line 268, ../sass/auction.scss */
+/* line 314, ../sass/auction.scss */
 .offer .arrow_box:after {
   background: rgba(255, 0, 0, 0.3); }
 
-/* line 272, ../sass/auction.scss */
+/* line 318, ../sass/auction.scss */
 .effect {
   background: #bd0e0e;
   /* padding: 5px; */
@@ -325,12 +370,12 @@
   border: 1px solid #fff;
   border-radius: 50%; }
 
-/* line 283, ../sass/auction.scss */
+/* line 329, ../sass/auction.scss */
 .comment-content {
   overflow: auto;
   height: 65%; }
 
-/* line 289, ../sass/auction.scss */
+/* line 335, ../sass/auction.scss */
 .u-refresh > .line:after {
   content: '';
   display: block;
@@ -342,7 +387,7 @@
   background: none;
   z-index: 1; }
 
-/* line 301, ../sass/auction.scss */
+/* line 347, ../sass/auction.scss */
 .deposit_confirm {
   width: 100%;
   height: 100%;
@@ -352,7 +397,7 @@
   display: none;
   z-index: 999; }
 
-/* line 311, ../sass/auction.scss */
+/* line 357, ../sass/auction.scss */
 .deposit_confirm .board {
   position: relative;
   width: 88%;
@@ -362,28 +407,28 @@
   margin-top: 40%;
   font-size: 1.2rem; }
 
-/* line 320, ../sass/auction.scss */
+/* line 366, ../sass/auction.scss */
 .deposit_confirm .close {
   font-size: 2rem; }
 
-/* line 323, ../sass/auction.scss */
+/* line 369, ../sass/auction.scss */
 .deposit_confirm p {
   text-align: left;
   margin-left: 20px; }
 
-/* line 328, ../sass/auction.scss */
+/* line 374, ../sass/auction.scss */
 .deposit_confirm .close {
   position: absolute;
   top: 0;
   right: 10px;
   margin: 0 10px; }
 
-/* line 334, ../sass/auction.scss */
+/* line 380, ../sass/auction.scss */
 .deposit_confirm h1 {
   font-size: 1.8rem;
   font-weight: 900; }
 
-/* line 338, ../sass/auction.scss */
+/* line 384, ../sass/auction.scss */
 .deposit_confirm button {
   background: #bf1726;
   color: #fff;
