@@ -297,3 +297,50 @@
     background: none;
     z-index: 1;
 }
+
+.deposit_confirm {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display:none;
+    z-index: 999;
+}
+
+.deposit_confirm .board {
+    position: relative;
+    width: 88%;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40%;
+    font-size: 1.2rem;
+}
+.deposit_confirm .close {
+    font-size: 2rem;
+}
+.deposit_confirm p {
+    text-align: left;
+    margin-left: 20px;
+}
+
+.deposit_confirm .close {
+    position: absolute;
+    top:0;
+    right : 10px;
+    margin: 0 10px;
+}
+.deposit_confirm h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+}
+.deposit_confirm button {
+    background: #bf1726;
+    color: #fff;
+    width: 70%;
+    height: 30px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    margin-top: 20px;
+}
