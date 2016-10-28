@@ -261,11 +261,11 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
     var bindEvent = function() {
             $(".enroll button").click(function(){
                  $(".deposit_confirm").show();
-                 $('body').css("overflow","hidden");
+                 Util.lockScoll();
             });
             $(".deposit_confirm .close").click(function(){
                  $(".deposit_confirm").hide();
-                 $('body').css("overflow","auto");
+                 Util.unlockScoll();
             });
             
             $("#pay_rightnow").click(function(){

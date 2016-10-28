@@ -725,6 +725,16 @@ var Util = {
         else
         return null;
     }
+    ,lockScoll: function() {
+        
+        $("body").bind("touchmove", function(event) {
+            event.preventDefault();
+        });
+    }
+    ,unlockScoll: function() {
+        $("body").unbind("touchmove");
+        
+    }
 };
 //存储相关
 var Storge = {
