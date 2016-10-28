@@ -373,7 +373,7 @@
 /* line 329, ../sass/auction.scss */
 .comment-content {
   overflow: auto;
-  height: 65%; }
+  height: 50%; }
 
 /* line 335, ../sass/auction.scss */
 .u-refresh > .line:after {
