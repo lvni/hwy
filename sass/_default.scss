@@ -116,6 +116,12 @@
       font-size:15px;
       color:$fontcolorLv2;
     }
+    & > p {
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
   }
   .saoyisao {
     @extend %boxcenter;
