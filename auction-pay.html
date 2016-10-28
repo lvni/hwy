@@ -125,7 +125,9 @@ var weixinPay = function(actid) {
                     } else if (res.err_msg == 'get_brand_wcpay_request:ok') {
                         //支付成功，进入订单详情页面
                         messageBox.toast("支付成功");
-                        Util.goBack();
+                        setTimeout(function(){ 
+                            location.href = "auction-detail.html?id=" + actid;
+                         }, 1000);
                     }
                     
                }
@@ -154,7 +156,9 @@ var weixinPay = function(actid) {
             var api = "hwy://pay?act=weixin&callback=AppCall.wxPayBack&params="
                        + encodeURIComponent(JSON.stringify(params));
             AppCall.successCallback = function(){
-                 Util.goBack();
+                 setTimeout(function(){ 
+                    location.href = "auction-detail.html?id=" + actid;
+                 }, 1000);
             };
             Util.callAppApi(api);
         } else {
@@ -189,6 +193,9 @@ var alipay = function(actid) {
         var nativeApi = "hwy://pay?act=alipay&callback=AppCall.aliPayBack&orderStr=" + encodeURIComponent(ret.data.orderStr);
         AppCall.successCallback = function(){
              messageBox.toast("支付成功");
+             setTimeout(function(){ 
+                location.href = "auction-detail.html?id=" + actid;
+             }, 1000);
         };
         Util.callAppApi(nativeApi);
         

@@ -256,19 +256,24 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <script src="javascripts/dropload/dropload.min.js"></script>
 <script>
 (function(){
-
+    var auctionInfo = {};
+    var id = Util.getQueryString('id');
     var bindEvent = function() {
             $(".enroll button").click(function(){
                  $(".deposit_confirm").show();
-                 $('body').css("overflow","hidden")
+                 $('body').css("overflow","hidden");
             });
             $(".deposit_confirm .close").click(function(){
                  $(".deposit_confirm").hide();
-                 $('body').css("overflow","auto")
+                 $('body').css("overflow","auto");
+            });
+            
+            $("#pay_rightnow").click(function(){
+                  location.href = "auction-pay.html?actid=" + id;
             });
     } ;
     // 加载拍卖详情
-    var id = Util.getQueryString('id');
+    
      Util.requestApi("?r=auction/detail", {id:id}, function(data){
         if (data.errno) {
             messageBox.toast(data.errmsg);
@@ -281,6 +286,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             messageBox.toast("商品不存在");
             return ;
         }
+        auctionInfo = data.data;
         var goods = data.data.goods;
          $(".details-infobox .cont").html(goods.detail);
          if (goods.video != "") {
@@ -305,8 +311,8 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             slideHtml += slideTemplate.replace('{$src}', item);
         }
         
-        $("#deposit_money").html(data.data.auction.ext_info.deposit);
-        if (data.data.auction.is_deposit_paid) {
+        $("#deposit_money").html(auctionInfo.auction.ext_info.deposit);
+        if (auctionInfo.auction.is_deposit_paid) {
             //用户已经交了保证金
             $(".auction-offer").show();
         } else {
