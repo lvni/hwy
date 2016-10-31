@@ -74,7 +74,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 </div>
 <div class="auction-offer">
 <div><input  type="number" name="money" class="money"><button class="bnt_pls"> + </button> <button class="bnt_offer">出价</button></div>
-<div><input type="text" name="comment" class="content" placeholder="评论"><button class="bnt_send">发送</button></div>
+<div><input type="text" name="comment" class="content" placeholder="评论" maxlength="100" ><button class="bnt_send">发送</button></div>
 </div>
 <a href="javascript:;" class="u-backtop">
     <img src="img/index_295.png">
@@ -84,82 +84,14 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <div class="mask"></div>
 <!-- 竞拍详情-->
 <div class="live">
-    <img src="img/hw_06.png" class="headphoto"> <span class="name">BB~</span> 
+    <img alt="加载中..." class="headphoto"> <span class="name"></span> 
     <div class="cur_offer">
         <div>当前价:</div>
-        <div>8888元</div>
+        <div class="offer_money"></div>
     </div>
 </div>
 <div class="comment-content">
-<div  class="comment-item">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">我出800w </div>
-    </div>
-</div>
 
-<div  class="comment-item offer">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">800元 <div class="effect">有效</div></div>
-    </div>
-</div>
-
-<div  class="comment-item me">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">这是我的发言 </div>
-    </div>
-</div>
-<div  class="comment-item">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">我出800w </div>
-    </div>
-</div>
-
-<div  class="comment-item offer">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">800元 <div class="effect">有效</div></div>
-    </div>
-</div>
-
-<div  class="comment-item me">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">这是我的发言 </div>
-    </div>
-</div>
-<div  class="comment-item">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">我出800w </div>
-    </div>
-</div>
-
-<div  class="comment-item offer me">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">800元 <div class="effect">有效</div></div>
-    </div>
-</div>
-
-<div  class="comment-item me">
-    <div class="avatar"><img src="img/hw_06.png"></div>
-    <div class="chat-content">
-        <div class="nickname">昵称</div>
-        <div class="arrow_box ">这是我的发言 </div>
-    </div>
-</div>
 </div>
 <div></div>
 </div>
@@ -167,7 +99,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <div class="deposit_confirm">
 
     <div class="board">
-         <h1>确认缴纳<span id="deposit_money">100</span>元保证金</h1>
+         <h1>确认缴纳<span id="deposit_money">0</span>元保证金</h1>
          <p>1. 竞拍成功则保证金用于抵扣拍品货款</p>
          <p>2. 竞拍失败将在次日退货保证金</p>
          <p>3. 如竞拍成功后24小时内拒付货款 , 则没收保证金</p>
@@ -250,6 +182,15 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                 <div class="content"><img src="{$goods_thumb}" width="100%"> </div>
             </div>
 </script>
+<script type="text/template" id="comment_item">
+<div  class="comment-item {$ext_class}">
+    <div class="avatar"><img src="{$avatar}"></div>
+    <div class="chat-content">
+        <div class="nickname">{$name}</div>
+        <div class="arrow_box ">{$content}</div>
+    </div>
+</div>
+</script>
 <script src="javascripts/hl-swiper.js"></script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
@@ -257,7 +198,74 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <script>
 (function(){
     var auctionInfo = {};
+    var curentMoney = 0; //当前价格
     var id = Util.getQueryString('id');
+    var nCmtId = 0;  //最新的评论id
+    var oCmtId = 0;  //最早的评论id
+    
+    /**
+      * 获取评论
+      * id 评论id ； type : new ,old  
+      **/
+      
+    /**
+        <div  class="comment-item offer">
+    <div class="avatar"><img src="img/hw_06.png"></div>
+    <div class="chat-content">
+        <div class="nickname">昵称</div>
+        <div class="arrow_box ">800元 <div class="effect">有效</div></div>
+    </div>
+</div>
+     **/
+    var fetchCmt = function(cmt_id, type, callback) {
+            Util.requestApi("?r=auction/getcomments", {id:cmt_id,actid:id,type:type}, function(data) {
+                    if (data.errno) {
+                        messageBox.toast(data.errmsg);
+                        return ;
+                    }
+                   var info = data.data;
+                   if (info.offer) {
+                      //更新当前出价
+                      $(".live .headphoto").attr("src", info.offer.avatar);
+                      $(".live .name").html(info.offer.name);
+                      $(".live .offer_money").html(info.offer.price + "元");
+                      
+                      //如果价格太大，修改字体大小
+                   }
+                   var effect = '<div class="effect">有效</div>';
+                   var template = $("#comment_item").html();
+                   var htm = "";
+                   for (i in info.list) {
+                        var item = info.list[i];
+                        item.ext_class = "";
+                        if (item.is_me) {
+                            item.ext_class += " me" ;
+                        }
+                        if (item.type == 1) {
+                            item.ext_class += " offer";
+                            item.content = item.content  + "元 " + effect;
+                        }
+                        htm += Template.renderByTemplate(template, item);
+                        
+                   }
+                   if (htm) {
+                       if (type == 'new') {
+                          // 插入头部
+                          $(htm).appendTo(".comment-content");
+                       } else {
+                          //追加
+                          $(".comment-content").append(htm);
+                       }
+                   }
+                   // dropload.resetload();
+                   callback && callback(data);
+                   
+                    
+            }, 'get', true);
+    } ;
+    
+    
+    
     var bindEvent = function() {
             $(".enroll button").click(function(){
                  $(".deposit_confirm").show();
@@ -270,6 +278,61 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             
             $("#pay_rightnow").click(function(){
                   location.href = "auction-pay.html?actid=" + id;
+            });
+            
+            $(".bnt_send").bind('click', function() {
+                //发送评论
+                var comment = $(".auction-offer .content").val();
+                if (comment == "") {
+                    // 评论为空
+                    messageBox.toast("评论内容不能为空");
+                    return;
+                }
+                var params = {
+                    'actid' : id,
+                    'comment' : comment,
+                };
+                Util.requestApi("?r=auction/comment", params, function(data){
+                     messageBox.toast(data.errmsg);
+                     
+                     if (data.errno == 0) {
+                        //刷新评论
+                     }
+                    
+                }, 'post');
+                
+            });
+            
+            //加价
+            $(".auction-offer .bnt_pls").bind('click', function() {
+                
+            }); 
+            
+            $(".bnt_offer").bind('click', function()    {
+                //出价
+                var money = $(".auction-offer .money").val();
+                money = parseInt(money);
+                if (money != NaN && money > 0) {
+                    Util.requestApi("?r=auction/offer" , {money:money,id:id}, function(data){
+                        messageBox.toast(data.errmsg);
+                     
+                         if (data.errno == 0) {
+                            //刷新评论
+                         }
+                    }, 'post');
+                }
+                
+            });
+            
+            //金额变动事件
+            $(".auction-offer .money").bind('change', function(){
+                 var money = $(this).val();
+                 money = parseInt(money);
+                 if (money != NaN && money > 0) {
+                     $(".bnt_offer").addClass("red");
+                 } else {
+                    $(".bnt_offer").removeClass("red");
+                 }
             });
     } ;
     // 加载拍卖详情
@@ -311,7 +374,12 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             slideHtml += slideTemplate.replace('{$src}', item);
         }
         
+        //设置保证金金额
         $("#deposit_money").html(auctionInfo.auction.ext_info.deposit);
+        
+        //设置最低加价
+        $(".auction-offer .money").attr("placeholder", "起步价" + 
+                            auctionInfo.auction.ext_info.start_price + "元");
         if (auctionInfo.auction.is_deposit_paid) {
             //用户已经交了保证金
             $(".auction-offer").show();
@@ -338,6 +406,9 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
           $(this).addClass("red");
           if ($(this).attr('data') == 'comment') {
             $(".auction-comment").addClass("show");
+            
+            //加载评价
+            fetchCmt(nCmtId, "new", null);
           } else {
           $(".auction-comment").removeClass("show");
           }
@@ -361,14 +432,10 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
         },
         loadUpFn : function(me){
             
-            setTimeout(function(){
-                dropload.resetload();
-            }, 3000);
+            //me.resetload();
         },
         loadDownFn : function(me){
-            setTimeout(function(){
-                dropload.resetload();
-            }, 3000);
+            //me.resetload();
         }
     });
     

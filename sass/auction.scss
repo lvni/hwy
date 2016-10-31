@@ -196,6 +196,9 @@
         background: #ddd;
         color: #fff;
     }
+    .bnt_offer.red {
+        background: #a90125;
+    }
     .bnt_pls {
         font-size: 3rem;
         padding: 0 10px ;
@@ -228,7 +231,7 @@
 }
 .cur_offer {
     position: absolute;
-    right: 10%;
+    right: 15px;
     top: 0;
     height: 60px;
     line-height: 30px;
