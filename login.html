@@ -41,12 +41,12 @@
 var LoginForm = {
     init: function(data) {
         if (data.is_login == 1) {
-            
+            var redirect = Util.getQueryString('redirect');
             //已登录，去到个人中心
             if (data.user.role <= Const.USER_ROLE_SUPPLIER) {
-                location.href = "king.html";
+                location.href = redirect ? redirect : "king.html";
             } else {
-                location.href = "supplier.html";
+                location.href = redirect ? redirect : "supplier.html";
             }
         }
     },

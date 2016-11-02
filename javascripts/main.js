@@ -492,13 +492,13 @@ var Util = {
           }
        }
        if (name in theRequest) {
-           return decodeURI(theRequest[name]);
+           return decodeURIComponent(theRequest[name]);
        }
        return ''; 
     }
     //跳转登录
     ,goLogin: function(redistrict) {
-        var callback = redistrict ? redistrict : config.page.home; 
+        var callback = redistrict ? encodeURIComponent(redistrict) : config.page.home; 
         var sid = Util.getQueryString('sid'); 
         if (sid) {
             callback += "&sid="+sid;

@@ -277,7 +277,14 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             });
             
             $("#pay_rightnow").click(function(){
-                  location.href = "auction-pay.html?actid=" + id;
+            
+                   if (auctionInfo && !auctionInfo.is_login) {
+                      //未登录
+                      Util.goLogin(location.href );
+                   } else {
+                      location.href = "auction-pay.html?actid=" + id;
+                   }
+                  
             });
             
             $(".bnt_send").bind('click', function() {
