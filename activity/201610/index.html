@@ -73,11 +73,11 @@
         font-size: 0.8rem;
         color: #908282;
         width: 60px;
-        padding-left:10px;
+        padding-left: 5px;
         text-align: left;
     }
     .c_tips td > div + div{
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         color: #1F1E1E;
     }
     /*a90125 dadada*/
@@ -251,6 +251,10 @@ $(function(){
                 $("#money_left").html("奖池剩余奖金: ¥"+ info.money_left.toFixed(2));
                 if (info.tips) {
                     $("#submit").html("提现("+info.tips+")");
+                }
+                
+                if (info.stips) {
+                    alert(info.stips);
                 }
                 if (info.can_get) {
                     //可以提现
