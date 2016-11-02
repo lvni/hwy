@@ -338,7 +338,14 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             
             //加价
             $(".auction-offer .bnt_pls").bind('click', function() {
-                
+                   var money = parseInt($(".auction-offer .money").val());
+                   var step = auctionInfo.auction.ext_info.amplitude;
+                   if (money != NaN || money <= 0) {
+                         money = curentMoney;
+                   }
+                   
+                   money += step;
+                   $(".auction-offer .money").val(money);
             }); 
             
             $(".bnt_offer").bind('click', function()    {
@@ -419,6 +426,14 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
         } else {
             $(".enroll").show();
         }
+        
+        curentMoney = auctionInfo.auction.ext_info.start_price;
+        if (auctionInfo.auction.current_offer > 0) {
+             curentMoney = auctionInfo.auction.current_offer + auctionInfo.auction.ext_info.amplitude;
+        }
+        
+        $(".auction-offer .money").val(curentMoney);
+        
         bindEvent();
         $(".productinfo-list .cont").html(attrHtml);
         $(".details-slide .slides").html(slideHtml);
