@@ -203,7 +203,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
     var nCmtId = 0;  //最新的评论id
     var oCmtId = 0;  //最早的评论id
          // dropload
-
+    
     /**
       * 获取评论
       * id 评论id ； type : new ,old  
@@ -217,7 +217,12 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
         <div class="arrow_box ">800元 <div class="effect">有效</div></div>
     </div>
 </div>
+
+
      **/
+     //动态修改评论内容的高度
+    $(".comment-content").height($(window).height() - $(".live").height() - 230);
+    
     var fetchCmt = function(cmt_id, type, callback) {
             Util.requestApi("?r=auction/getcomments", {id:cmt_id,actid:id,type:type}, function(data) {
                     if (data.errno) {
@@ -255,13 +260,20 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                           if (nCmtId) {
                               $(htm).insertBefore($(".comment-content .comment-item").eq(0));
                           } else {
-                              $(".comment-content").append(htm);
+                              $(htm).insertBefore(".dropload-down");
+                              
+                              if (oCmtId == 0) {
+                                 oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
+                              }
+                              
                           }
                          
                           nCmtId = info.list[0].id;
                        } else {
                           //追加
-                          $(".comment-content").append(htm);
+                          $(htm).insertBefore(".dropload-down");
+                          oCmtId = info.list[info.list.length - 1].id;
+                          
                        }
                    }
                    // dropload.resetload();
@@ -451,6 +463,13 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
         },
         loadDownFn : function(me){
             //me.resetload();
+            fetchCmt(oCmtId, "old", function(data) {
+                dropload.resetload();
+                if (data.data.hasMore == 0) {
+                    //没有更多了
+                    dropload.lock("down");
+                }
+            });
         }
     });
      
