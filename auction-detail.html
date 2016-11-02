@@ -194,7 +194,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <script src="javascripts/hl-swiper.js"></script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
-<script src="javascripts/dropload/dropload.min.js"></script>
+<script src="javascripts/dropload/dropload.js"></script>
 <script>
 (function(){
     var auctionInfo = {};
@@ -202,7 +202,8 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
     var id = Util.getQueryString('id');
     var nCmtId = 0;  //最新的评论id
     var oCmtId = 0;  //最早的评论id
-    
+         // dropload
+
     /**
       * 获取评论
       * id 评论id ； type : new ,old  
@@ -251,7 +252,13 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                    if (htm) {
                        if (type == 'new') {
                           // 插入头部
-                          $(htm).appendTo(".comment-content");
+                          if (nCmtId) {
+                              $(htm).insertBefore($(".comment-content .comment-item").eq(0));
+                          } else {
+                              $(".comment-content").append(htm);
+                          }
+                         
+                          nCmtId = info.list[0].id;
                        } else {
                           //追加
                           $(".comment-content").append(htm);
@@ -413,19 +420,15 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
           $(this).addClass("red");
           if ($(this).attr('data') == 'comment') {
             $(".auction-comment").addClass("show");
+                fetchCmt(nCmtId, "new", null);
             
-            //加载评价
-            fetchCmt(nCmtId, "new", null);
           } else {
           $(".auction-comment").removeClass("show");
           }
           
      });
      
-     
-     // dropload
-    /**
-    var dropload = $('.comment-content').dropload({
+     var dropload = $('.comment-content').dropload({
         domUp : {
             domClass   : 'dropload-up',
             domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
@@ -438,15 +441,21 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
             domNoData  : '<div class="dropload-noData">暂无数据</div>'
         },
+        autoLoad : false,
         loadUpFn : function(me){
-            
+            //加载评价
+            fetchCmt(nCmtId, "new", function(data) {
+                dropload.resetload();
+            });
             //me.resetload();
         },
         loadDownFn : function(me){
             //me.resetload();
         }
     });
-    **/
+     
+
+
 })();
 </script>
 
