@@ -254,6 +254,12 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                         htm += Template.renderByTemplate(template, item);
                         
                    }
+                   if (oCmtId == 0) {
+                         oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
+                   }
+                   if (nCmtId == 0) {
+                         nCmtId = info.list[0].id; //第一次更新oCmtId
+                   }
                    if (htm) {
                        if (type == 'new') {
                           // 插入头部
@@ -261,11 +267,6 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                               $(htm).insertBefore($(".comment-content .comment-item").eq(0));
                           } else {
                               $(htm).insertBefore(".dropload-down");
-                              
-                              if (oCmtId == 0) {
-                                 oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
-                              }
-                              
                           }
                          
                           nCmtId = info.list[0].id;
