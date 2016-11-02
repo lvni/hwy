@@ -84,7 +84,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
 <div class="mask"></div>
 <!-- 竞拍详情-->
 <div class="live">
-    <img alt="加载中..." class="headphoto"> <span class="name"></span> 
+    <img  class="headphoto"> <span class="name"></span> 
     <div class="cur_offer">
         <div>当前价:</div>
         <div class="offer_money"></div>
@@ -237,6 +237,9 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                       $(".live .offer_money").html(info.offer.price + "元");
                       
                       //如果价格太大，修改字体大小
+                   } else {
+                      //暂无出价
+                      $(".live .name").html("暂无出价");
                    }
                    var effect = '<div class="effect">有效</div>';
                    var template = $("#comment_item").html();
@@ -254,13 +257,16 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                         htm += Template.renderByTemplate(template, item);
                         
                    }
-                   if (oCmtId == 0) {
-                         oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
-                   }
-                   if (nCmtId == 0) {
-                         nCmtId = info.list[0].id; //第一次更新oCmtId
-                   }
+                   
                    if (htm) {
+                   
+                        if (oCmtId == 0) {
+                             oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
+                       }
+                       if (nCmtId == 0) {
+                             nCmtId = info.list[0].id; //第一次更新oCmtId
+                       }
+                       
                        if (type == 'new') {
                           // 插入头部
                           if (nCmtId) {
@@ -425,21 +431,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
      
      
      
-     $(".auction-nav").delegate('span', 'click', function(){
-          if ($(this).hasClass('red')) {
-            return;
-          }
-          $(".auction-nav span").removeClass("red");
-          $(this).addClass("red");
-          if ($(this).attr('data') == 'comment') {
-            $(".auction-comment").addClass("show");
-                fetchCmt(nCmtId, "old", null);
-            
-          } else {
-          $(".auction-comment").removeClass("show");
-          }
-          
-     });
+     
      
      var dropload = $('.comment-content').dropload({
         domUp : {
@@ -452,7 +444,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             domClass   : 'dropload-down',
             domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
             domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
-            domNoData  : '<div class="dropload-noData">暂无数据</div>'
+            domNoData  : '<div class="dropload-noData">暂无更多</div>'
         },
         autoLoad : false,
         loadUpFn : function(me){
@@ -475,6 +467,30 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             });
         }
     });
+    
+    $(".auction-nav").delegate('span', 'click', function(){
+          if ($(this).hasClass('red')) {
+            return;
+          }
+          $(".auction-nav span").removeClass("red");
+          $(this).addClass("red");
+          if ($(this).attr('data') == 'comment') {
+            $(".auction-comment").addClass("show");
+                fetchCmt(nCmtId, "old", function(data){
+                      //第一次加载如果为空
+                      
+                      if (data.data.hasMore == 0) {
+                           dropload.lock("down");
+                           dropload.noData(true);
+                            dropload.resetload();
+                      }
+                });
+            
+          } else {
+          $(".auction-comment").removeClass("show");
+          }
+          
+     });
      
 
 
