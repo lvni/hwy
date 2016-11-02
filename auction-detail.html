@@ -464,11 +464,13 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
         loadDownFn : function(me){
             //me.resetload();
             fetchCmt(oCmtId, "old", function(data) {
-                dropload.resetload();
+                
                 if (data.data.hasMore == 0) {
                     //没有更多了
                     dropload.lock("down");
                 }
+                dropload.noData(true);
+                dropload.resetload();
             });
         }
     });
