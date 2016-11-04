@@ -330,6 +330,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                      
                      if (data.errno == 0) {
                         //刷新评论
+                        fetchCmt(nCmtId, 'new', null);
                      }
                     
                 }, 'post');
@@ -358,6 +359,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                      
                          if (data.errno == 0) {
                             //刷新评论
+                            fetchCmt(nCmtId, 'new', null);
                          }
                     }, 'post');
                 }
@@ -491,15 +493,21 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
           $(this).addClass("red");
           if ($(this).attr('data') == 'comment') {
             $(".auction-comment").addClass("show");
-                fetchCmt(nCmtId, "old", function(data){
-                      //第一次加载如果为空
-                      
-                      if (data.data.hasMore == 0) {
-                           dropload.lock("down");
-                           dropload.noData(true);
-                            dropload.resetload();
-                      }
-                });
+            
+                if (nCmtId == 0) {
+                
+                    fetchCmt(nCmtId, "old", function(data){
+                          //第一次加载如果为空
+                          
+                          if (data.data.hasMore == 0) {
+                               dropload.lock("down");
+                               dropload.noData(true);
+                                dropload.resetload();
+                          }
+                    });
+                } else {
+                    fetchCmt(nCmtId, "new", null );
+                }
             
           } else {
           $(".auction-comment").removeClass("show");
