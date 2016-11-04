@@ -260,12 +260,7 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                    
                    if (htm) {
                    
-                        if (oCmtId == 0) {
-                             oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
-                       }
-                       if (nCmtId == 0) {
-                             nCmtId = info.list[0].id; //第一次更新oCmtId
-                       }
+                        
                        
                        if (type == 'new') {
                           // 插入头部
@@ -274,13 +269,18 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
                           } else {
                               $(htm).insertBefore(".dropload-down");
                           }
-                         
-                          nCmtId = info.list[0].id;
+
                        } else {
                           //追加
                           $(htm).insertBefore(".dropload-down");
-                          oCmtId = info.list[info.list.length - 1].id;
-                          
+
+                       }
+                       
+                       if (oCmtId == 0 || type != 'new') {
+                             oCmtId = info.list[info.list.length - 1].id; //第一次更新oCmtId
+                       }
+                       if (nCmtId == 0 || type == 'new') {
+                             nCmtId = info.list[0].id; //第一次更新oCmtId
                        }
                    }
                    // dropload.resetload();
@@ -340,12 +340,12 @@ D.在收到货物5个工作日之内，得标者对拍品的真实性产生怀�
             $(".auction-offer .bnt_pls").bind('click', function() {
                    var money = parseInt($(".auction-offer .money").val());
                    var step = auctionInfo.auction.ext_info.amplitude;
-                   if (money != NaN || money <= 0) {
+                   if (money == NaN || money <= 0) {
                          money = curentMoney;
                    }
                    
                    money += step;
-                   $(".auction-offer .money").val(money);
+                   $(".auction-offer .money").val(money).trigger('change');
             }); 
             
             $(".bnt_offer").bind('click', function()    {
