@@ -1,0 +1,16 @@
+@charset "utf-8";
+@import 'extend'; /*用来被继承的占位样式*/
+@import 'color';
+
+.my_integral {
+
+    margin-top:5px;
+    background: #fff;
+    width: 100%;
+    height: 80px; 
+    line-height: 80px;
+    font-size: 2.4rem;
+    text-align: right;
+    padding-right: 10px;
+   
+}
