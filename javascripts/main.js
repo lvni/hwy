@@ -1979,7 +1979,10 @@ var Order = {
                 return ;
             }
             //是否选择运费险
-            var express_insure  = $('.placeorder-infobox input[type=checkbox]').attr('checked') ? 1 : 0;
+            var express_insure  = $('.placeorder-infobox .insure').attr('checked') ? 1 : 0;
+            
+            //是否使用积分抵扣
+            var integral_use  = $('.placeorder-infobox .integral').attr('checked') ? 1 : 0;
             
             var remarks = $('#remarks').html(); //备注信息
             //调用下单接口，获取订单号，成功的话跳转到支付页面
@@ -1989,6 +1992,7 @@ var Order = {
                 'remarks': remarks,
                 'address_id': addressId,
                 'express_insure': express_insure,
+                'integral_use' : integral_use,
             };
             lock = true;
             //请求下单接口，获得订单
@@ -2015,9 +2019,20 @@ var Order = {
             var checked = $(this).attr('checked') ? 1 : 0;
             var goods_cost =  me.order_info.goods_cost;
             var need_Pay = parseFloat(goods_cost);
-            if (checked) {
-                need_Pay += 2; //2块钱运费险
+            if ($(this).hasClass("integral")) {
+                 //积分抵扣
+                if (checked) {
+                    need_Pay -= me.order_info.integral.money;
+                }
+            } else {
+                //运费险
+                if (checked) {
+                    need_Pay += 2; //2块钱运费险
+                }
             }
+            
+            
+            
             $('#confirm_price_bottom, #confirm_price').html("￥ " + need_Pay.toFixed(2));
         });
     }
@@ -2040,6 +2055,16 @@ var Order = {
         $(html).insertAfter('.placeorder-address');
         $('#order_confirm_num').html(data.goods_count);
         $('#confirm_price_bottom, #confirm_price').html("￥ " + data.goods_cost);
+        //积分抵扣相关
+        if (data.integral.integral) {
+            //使用了积分
+            $("#integral .left").html("使用<span class='red'>"
+                        + data.integral.integral 
+                        + "</span>积分抵扣<span class='red'>" 
+                        + data.integral.money
+                        + "</span>元");
+            $("#integral").show();
+        }
         
         //渲染地址
         if (data.address) {
