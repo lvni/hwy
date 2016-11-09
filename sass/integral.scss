@@ -4,12 +4,41 @@
 
 .my_integral {
 
-    margin-top:5px;
+    
     background: #fff;
     height: 80px; 
-    line-height: 80px;
+    line-height: 40px;
     font-size: 2.8rem;
-    text-align: right;
-    padding-right: 20px;
+    text-align: center;
+    color: #fff;
+    background: #9a0d0d;
+    padding-bottom: 20px;
+    
+    h1 {
+        font-size: 1.8rem;
+    }
    
+}
+
+.instruction {
+    margin-top: 5px;
+    background: #fff;
+    padding: 20px 10px;
+    p {
+        padding-top: 10px;
+    }
+    h1 {
+        font-size: 2.4rem;
+        font-weight: 900;
+    }
+    h3 {
+        font-size: 1.8rem;
+        font-weight: 900;
+        padding-bottom: 5px;
+    }
+    .explain {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
 }

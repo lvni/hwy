@@ -23,10 +23,36 @@
 /*用来被继承的占位样式*/
 /* line 5, ../sass/integral.scss */
 .my_integral {
-  margin-top: 5px;
   background: #fff;
   height: 80px;
-  line-height: 80px;
+  line-height: 40px;
   font-size: 2.8rem;
-  text-align: right;
-  padding-right: 20px; }
+  text-align: center;
+  color: #fff;
+  background: #9a0d0d;
+  padding-bottom: 20px; }
+  /* line 17, ../sass/integral.scss */
+  .my_integral h1 {
+    font-size: 1.8rem; }
+
+/* line 23, ../sass/integral.scss */
+.instruction {
+  margin-top: 5px;
+  background: #fff;
+  padding: 20px 10px; }
+  /* line 27, ../sass/integral.scss */
+  .instruction p {
+    padding-top: 10px; }
+  /* line 30, ../sass/integral.scss */
+  .instruction h1 {
+    font-size: 2.4rem;
+    font-weight: 900; }
+  /* line 34, ../sass/integral.scss */
+  .instruction h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    padding-bottom: 5px; }
+  /* line 39, ../sass/integral.scss */
+  .instruction .explain {
+    font-size: 0.9rem;
+    color: #666; }
