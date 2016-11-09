@@ -17,8 +17,8 @@
     </a>
 </div>
 <div class="my_integral">
-<h1>当前积分</h1>
-    <span>1000</span>
+<h1>当前可用积分</h1>
+    <span id="integral">0</span>
 </div>
 <div class="instruction">
 <h1>积分说明:</h1>
@@ -39,6 +39,21 @@
 
 <div class="explain">* 洪五爷珠宝商场对积分及使用拥有最终解释权</div>
 </div>
+<script>
+var obj = {
+    init: function(data) {
+        if (data.user) {
+            $("#integral").html(data.user.integral);
+        }
+        
+    }
+};
+var CustomNaviFunc = {
+    '/webapp/integral.html' : {
+        show: false,callback:{a:obj.init,b:obj}
+    }
+};
+</script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
 <script>
