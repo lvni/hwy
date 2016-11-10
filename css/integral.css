@@ -100,3 +100,7 @@
 /* line 87, ../sass/integral.scss */
 .blue {
   color: blue; }
+
+/* line 91, ../sass/integral.scss */
+.wrap {
+  overflow: auto; }
