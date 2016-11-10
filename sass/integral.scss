@@ -45,21 +45,45 @@
 
 .item {
     position: relative;
+    background: #fff;
+    margin-top: 2px;
     .cell {
         display: inline-block;
-        
+        height: 90px;
         &.integral {
             width: 80px;
             text-align: right;
-            height: 100%;
+            height: 90px;
+            line-height: 90px;
         }
         &.detail {
-            width: 100%;
             margin-left: 100px;
             position: absolute;
             top:0;
             left:0;
+            line-height: 30px;
+            border: 1px solid #ccc;
+            border-style: none none none solid;
+            padding-left: 10px;
+            .datetime {
+                height: 30px;
+                text-align: right;
+                font-size: 1.4rem;
+                padding-right: 10px;
+            }
+            .desc {
+                    height: 60px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    -webkit-line-clamp: 2;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+            }
         }
     }
     
+}
+
+.blue {
+    color: blue;
 }

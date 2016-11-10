@@ -59,19 +59,44 @@
 
 /* line 46, ../sass/integral.scss */
 .item {
-  position: relative; }
-  /* line 48, ../sass/integral.scss */
+  position: relative;
+  background: #fff;
+  margin-top: 2px; }
+  /* line 50, ../sass/integral.scss */
   .item .cell {
-    display: inline-block; }
-    /* line 51, ../sass/integral.scss */
+    display: inline-block;
+    height: 90px; }
+    /* line 53, ../sass/integral.scss */
     .item .cell.integral {
       width: 80px;
       text-align: right;
-      height: 100%; }
-    /* line 56, ../sass/integral.scss */
+      height: 90px;
+      line-height: 90px; }
+    /* line 59, ../sass/integral.scss */
     .item .cell.detail {
-      width: 100%;
       margin-left: 100px;
       position: absolute;
       top: 0;
-      left: 0; }
+      left: 0;
+      line-height: 30px;
+      border: 1px solid #ccc;
+      border-style: none none none solid;
+      padding-left: 10px; }
+      /* line 68, ../sass/integral.scss */
+      .item .cell.detail .datetime {
+        height: 30px;
+        text-align: right;
+        font-size: 1.4rem;
+        padding-right: 10px; }
+      /* line 74, ../sass/integral.scss */
+      .item .cell.detail .desc {
+        height: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical; }
+
+/* line 87, ../sass/integral.scss */
+.blue {
+  color: blue; }

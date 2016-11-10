@@ -18,19 +18,45 @@
 </div>
 
 <div class="wrap">
+</div>
+
+<script id="item_template" type="text/template">
 <div class="item">
-    <div class="cell integral"> -1200</div>
-    <div class="cell detail">
-        <div class="datetime">2016-10-19 12:00:02</div>
-        <div class="desc">订单 20123123123123123 抵扣</div>
+    <div class="cell integral {$type}"> {$pay_points}</div>
+    <div class="cell detail ">
+        <div class="desc">{$change_desc}</div>
+        <div class="datetime">{$change_time}</div>
     </div>
 </div>
-</div>
-
-
+</script>
 <script src="javascripts/zepto.min.js"></script>
 <script src="javascripts/main.js"></script>
 <script>
-
+(function(){
+     function loadLog(q) {
+         Util.requestApi("?r=integral/list", q, function(data) {
+                 if (data.errno != 0) {
+                      messageBox.toast(data.errmsg);
+                      return ;
+                 }
+                 var template = $("#item_template").html();
+                 if (data.data.list.lenght == 0 && q.p == 1) {
+                      //没有记录
+                      Util.showTips($(".wrap"), "暂时没有相关记录");
+                      return ;
+                 } 
+                 var htm = "";
+                 for (i in data.data.list) {
+                     var item = data.data.list[i];
+                     item.type = item.pay_points > 0 ? "blue" : "red";
+                     htm += Template.renderByTemplate(template, item);
+                 }
+                 $(".wrap").append(htm);
+                 
+         });
+     }
+     
+     loadLog({p:1});
+})();
 </script>
 </body>
