@@ -42,3 +42,24 @@
     }
 
 }
+
+.item {
+    position: relative;
+    .cell {
+        display: inline-block;
+        
+        &.integral {
+            width: 80px;
+            text-align: right;
+            height: 100%;
+        }
+        &.detail {
+            width: 100%;
+            margin-left: 100px;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+    }
+    
+}

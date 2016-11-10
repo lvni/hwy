@@ -56,3 +56,22 @@
   .instruction .explain {
     font-size: 0.9rem;
     color: #666; }
+
+/* line 46, ../sass/integral.scss */
+.item {
+  position: relative; }
+  /* line 48, ../sass/integral.scss */
+  .item .cell {
+    display: inline-block; }
+    /* line 51, ../sass/integral.scss */
+    .item .cell.integral {
+      width: 80px;
+      text-align: right;
+      height: 100%; }
+    /* line 56, ../sass/integral.scss */
+    .item .cell.detail {
+      width: 100%;
+      margin-left: 100px;
+      position: absolute;
+      top: 0;
+      left: 0; }
