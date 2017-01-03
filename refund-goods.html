@@ -42,7 +42,8 @@
         <div class="cont" style="">
             <img src="{$goods_img}"  onclick="javascript:location.href='details.html?id={$goods_id}';">
             <p class="title">{$goods_name}</p>
-            <p class="money">￥{$goods_price}</p>
+            <p class="money">￥{$real_price}</p>
+            {$ext}
         </div>
         <p class="count">X {$goods_number}</p>
     </label>
@@ -65,6 +66,11 @@ $(function(){
         var html = "";
         for (i in data.data) {
            var item = data.data[i];
+           item.ext = "";
+           if (item.real_price < parseFloat(item.goods_price)) {
+               item.ext = "<p><del>￥"+item.goods_price+"</del></p>";
+           }
+           item.real_price = item.real_price.toFixed(2);
            html += Template.renderByTemplate(template, item);
         }
         

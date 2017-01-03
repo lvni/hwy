@@ -1,0 +1,106 @@
+@charset "UTF-8";
+/*项目用到的颜色*/
+/* line 25, ../sass/_color.scss */
+.red {
+  color: #a90125; }
+
+/* line 29, ../sass/_color.scss */
+.dackred {
+  color: #6b4544; }
+
+/* line 32, ../sass/_color.scss */
+.pink {
+  color: #cf4d55; }
+
+/* line 36, ../sass/_color.scss */
+.error {
+  color: #a90125; }
+  /* line 38, ../sass/_color.scss */
+  .error::-webkit-input-placeholder {
+    color: #a90125; }
+
+/*兼容大分辨率屏幕一像素边框变2px或3px的效果*/
+/*用来被继承的占位样式*/
+/* line 5, ../sass/integral.scss */
+.my_integral {
+  background: #fff;
+  height: 80px;
+  line-height: 40px;
+  font-size: 2.8rem;
+  text-align: center;
+  color: #fff;
+  background: #9a0d0d;
+  padding-bottom: 20px; }
+  /* line 17, ../sass/integral.scss */
+  .my_integral h1 {
+    font-size: 1.8rem; }
+
+/* line 23, ../sass/integral.scss */
+.instruction {
+  margin-top: 5px;
+  background: #fff;
+  padding: 20px 10px; }
+  /* line 27, ../sass/integral.scss */
+  .instruction p {
+    padding-top: 10px; }
+  /* line 30, ../sass/integral.scss */
+  .instruction h1 {
+    font-size: 2.4rem;
+    font-weight: 900; }
+  /* line 34, ../sass/integral.scss */
+  .instruction h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    padding-bottom: 5px; }
+  /* line 39, ../sass/integral.scss */
+  .instruction .explain {
+    font-size: 0.9rem;
+    color: #666; }
+
+/* line 46, ../sass/integral.scss */
+.item {
+  position: relative;
+  background: #fff;
+  margin-top: 2px; }
+  /* line 50, ../sass/integral.scss */
+  .item .cell {
+    display: inline-block;
+    height: 90px; }
+    /* line 53, ../sass/integral.scss */
+    .item .cell.integral {
+      width: 80px;
+      text-align: right;
+      height: 90px;
+      line-height: 90px; }
+    /* line 59, ../sass/integral.scss */
+    .item .cell.detail {
+      margin-left: 100px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      line-height: 30px;
+      border: 1px solid #ccc;
+      border-style: none none none solid;
+      padding-left: 10px; }
+      /* line 68, ../sass/integral.scss */
+      .item .cell.detail .datetime {
+        height: 30px;
+        text-align: right;
+        font-size: 1.4rem;
+        padding-right: 10px; }
+      /* line 74, ../sass/integral.scss */
+      .item .cell.detail .desc {
+        height: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical; }
+
+/* line 87, ../sass/integral.scss */
+.blue {
+  color: blue; }
+
+/* line 91, ../sass/integral.scss */
+.wrap {
+  overflow: auto; }

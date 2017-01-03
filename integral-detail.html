@@ -1,0 +1,110 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<META NAME="MobileOptimized" CONTENT="240">
+<title>积分详情</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/integral.css">
+    <link rel="stylesheet" href="javascripts/dropload/dropload.css">
+</head>
+
+<body>
+<div class="u-top-msg" >
+    <div class="title">
+        <p>积分详情</p>
+    </div>
+    <a href="javascript:history.go(-1)" class="turnback">
+        <img src="img/arrowleft.png">
+    </a>
+</div>
+
+<div class="wrap">
+</div>
+
+<script id="item_template" type="text/template">
+<div class="item">
+    <div class="cell integral {$type}"> {$pay_points}</div>
+    <div class="cell detail ">
+        <div class="desc">{$change_desc}</div>
+        <div class="datetime">{$change_time}</div>
+    </div>
+</div>
+</script>
+<script src="javascripts/zepto.min.js"></script>
+<script src="javascripts/main.js"></script>
+<script src="javascripts/dropload/dropload.js"></script>
+<script>
+(function(){
+
+     //设置wrap的高度
+     $(".wrap").height($(window).height() - 50);
+     var query = {p:1};
+     function loadLog(q, callback) {
+         Util.requestApi("?r=integral/list", q, function(data) {
+         
+                 
+                 if (data.errno != 0) {
+                      messageBox.toast(data.errmsg);
+                      return ;
+                 }
+                 var template = $("#item_template").html();
+                 if (data.data.list.lenght == 0 && q.p == 1) {
+                      //没有记录
+                      Util.showTips($(".wrap"), "暂时没有相关记录");
+                      return ;
+                 } 
+                 var htm = "";
+                 for (i in data.data.list) {
+                     var item = data.data.list[i];
+                     item.type = item.pay_points > 0 ? "blue" : "red";
+                     htm += Template.renderByTemplate(template, item);
+                 }
+                 // $(".wrap").append(htm);
+                 $(htm).insertBefore(".dropload-down");
+                 callback && callback(data);
+         });
+     }
+     
+     
+     var dropload = $('.wrap').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown : {
+            domClass   : 'dropload-down',
+            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            domNoData  : '<div class="dropload-noData">暂无更多</div>'
+        },
+        autoLoad : true,
+        loadUpFn : function(me){
+            //加载评价
+             setTimeout(function() {
+                dropload.resetload();
+             }, 2000);
+            //me.resetload();
+        },
+        loadDownFn : function(me){
+            //me.resetload();
+            
+            loadLog(query, function(data) {
+                  if (data.data.hasMore == 0) {
+                        dropload.lock("down");
+                        dropload.noData(true);
+                        
+                  } else {
+                      query.p ++;
+                  }
+                  dropload.resetload();
+            });
+            
+        }
+    });
+    dropload.lock('up');
+    //loadLog(query, null);
+})();
+</script>
+</body>
