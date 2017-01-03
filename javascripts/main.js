@@ -708,8 +708,8 @@ var Util = {
         return;
     }
     ,goKefu: function(param){
-        location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
-        //location.href = 'host+"/webapp/kefu/im.html?tenantId=23970";
+        //location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
+        location.href = host+"/webapp/kefu/im.html?tenantId=23970&emgroup=客服";
     }
     ,isIphone: function() {
         var ua = navigator.userAgent.toLowerCase();	
@@ -911,8 +911,9 @@ var FuncNavi = {
             }
             htmlStr = htmlStr.replace('{$cart_action}', 'shoppingCart.html')
                                      .replace('{$ucenter_action}', ucenter_page);
-            window['hwy'] =  data;  // 全局存放        
-
+            window['hwy'] =  data;  // 全局存放       
+            //存入session            
+            SStorge.setItem('hwy', JSON.stringify(data));
              // 再注册分享事件
             
         } else if (data && data.is_login == 0){
