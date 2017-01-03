@@ -1,6 +1,8 @@
-<!doctype html><html><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1"><meta name=format-detection content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no"><link href="static/css/im.css?v=43.5" rel=stylesheet></head><body><div id=EasemobKefuWebim></div><script>
+<!doctype html><html><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1"><meta name=format-detection content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no"><link href="static/css/im.css?v=43.5" rel=stylesheet></head><body><div id=EasemobKefuWebim></div>
+<script src="../javascripts/zepto.min.js"></script>
+<script>
     
-    //单次会话保存
+    //单次会
     var SStorge = {
         removeItem: function(e) {
             return sessionStorage.removeItem(e);
@@ -17,7 +19,62 @@
         }
         
     }; 
-    
+    var Client = {
+        client : 3,// 1 app 2 weixin 3 web 
+        buildNo:0,
+        channel: "web",
+        os: -1, // 0 android, 1 ios -1 web
+        sv: "", 
+        init:function() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            var appPattern = /(hwy)\/([0-9\.]+)(\s+\((\d+)\))?/i;
+            var wxPattern  = /MicroMessenger\/([0-9\.]+)/i;
+            var androidPattern = /(android)/i;
+            var iphonePattern =  /(iphone|ipad)/i;
+            var channelPattern = /channel\((\d+)\)/i;
+            var result ;
+            var me = this;
+            if (result = ua.match(appPattern)) {
+                me.client = 1;
+                me.buildNo = result[4] ? result[4] : 0;
+                me.sv = result[2];
+                
+            }
+            if (result = ua.match(wxPattern)) {
+                me.client = 2;
+            } 
+            if (result = ua.match(androidPattern)) {
+                me.os = 0;
+            } 
+            if (result = ua.match(iphonePattern)) {
+                me.os = 1;
+            } 
+            if (result = ua.match(channelPattern)) {
+                me.channel = result[1];
+            } 
+            
+        },
+        isApp: function() {
+            return this.client == 1;
+        },
+        isAndroid: function() {
+            return this.os == 0;
+        },
+        isIos: function() {
+            return this.os == 1;
+        },
+        isWeixin: function() {
+            return this.client == 2;
+        },
+        toString: function() {
+            return "client " + this.client  
+                       + " os " + this.os
+                       + " channel " + this.channel
+                       + " buildNo " + this.buildNo
+                       + " sv " + this.sv;
+        }
+        
+    };
     var hwy_data = SStorge.getItem('hwy');
     var visitor = {};
     try {
@@ -41,4 +98,16 @@
     eventCollector: true ,
     
     };
-</script><script src="static/js/main.js?v=43.5"></script></body></html>
+</script><script src="static/js/main.js?v=43.5"></script>
+<div  id="client-back" style="display:none; position: absolute; top: 0px;left: 0px;padding: 10px;z-index: 9999;color: #fff;height: 20px;font-size: 20px; background: #b50e03;">
+   返回
+</div>
+<script>
+    if (Client.isApp()) {
+        $("#client-back").show();
+    }
+    $("#client-back").bind("click", function(){
+        history.go(-1);
+    });
+</script>
+</body></html>
