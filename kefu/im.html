@@ -1,7 +1,29 @@
-<!doctype html><html><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1"><meta name=format-detection content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no"><link href="static/css/im.css?v=43.5" rel=stylesheet></head><body><div id=EasemobKefuWebim></div>
+<!doctype html><html><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1"><meta name=format-detection content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no"><link href="static/css/im.css?v=43.5" rel=stylesheet><title>洪五爷客服</title></head><body><div id=EasemobKefuWebim></div>
 <script src="../javascripts/zepto.min.js"></script>
 <script>
-    
+
+    var host = "//" + location.host;
+    var prefx = "";
+    var pathname = location.pathname;
+     if (pathname.indexOf('test') >= 0) {
+         prefx = "/test";
+     }
+     host +=  prefx;
+    var getQueryString = function(name) {
+        var url = window.location.search;
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+          var str = url.substr(1);
+          strs = str.split("&");
+          for(var i = 0; i < strs.length; i ++) {
+             theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+          }
+       }
+       if (name in theRequest) {
+           return decodeURIComponent(theRequest[name]);
+       }
+       return ''; 
+    } ;
     //单次会
     var SStorge = {
         removeItem: function(e) {
@@ -75,8 +97,10 @@
         }
         
     };
+    Client.init();
     var hwy_data = SStorge.getItem('hwy');
     var visitor = {};
+    var msgtype = {};
     try {
         if (hwy_data) {
              var jsUser = JSON.parse(hwy_data);
@@ -86,19 +110,54 @@
              }
              console.log(visitor);
         }
+        var type = getQueryString('type');
+        if (type == 'view_goods') {
+              var goodsStr = SStorge.getItem('view_goods');
+              
+              var jsGoods  = JSON.parse(goodsStr);
+              var desc = "";
+              for (i in jsGoods.attr) {
+                 if (jsGoods.attr[i].key == '描述') {
+                     desc = jsGoods.attr[i].value ;
+                 }
+              }
+              msgtype = {
+                 "track" : {
+                     "title" : "我正在看《" + jsGoods.title + "》" ,
+                     "price" : "¥:" + jsGoods.price,
+                     "desc"  : desc,
+                     'img_url' : jsGoods.thumb,
+                     'item_url' : host+"/webapp/details.html?id=" + jsGoods.id,
+                 }
+              };
+              
+              
+        }
     } catch(e) {
+        console.log(e);
     }
+    
     window.easemobim = window.easemobim || {};
     easemobim.config = {
         tenantId: '23970',   //租户id 
         domain: '//kefu.easemob.com',     //环信移动客服域,                    domain: '//kefu.easemob.com', 
-        path: '//app.hong5ye.com/webapp/kefu',       //自己服务器上im.html文件的路径,      path: '//XXX'
-        staticPath: '//app.hong5ye.com/webapp/kefu/static'  //访客插件static的路径,              staticPath: '//XXX/static'
-        ,visitor: visitor,
-    eventCollector: true ,
+        path: host+'/webapp/kefu',       //自己服务器上im.html文件的路径,      path: '//XXX'
+        staticPath: host+'/webapp/kefu/static'  //访客插件static的路径,              staticPath: '//XXX/static'
+        ,visitor: visitor
+      ,eventCollector: true ,
+      hideKeyboard:true,
     
     };
-</script><script src="static/js/main.js?v=43.5"></script>
+    
+    if (msgtype) {
+        easemobim.config.extMsg = {
+            "type": "custom",                       
+            "msgtype": msgtype
+        };
+        //console.log(JSON.stringify(easemobim.config.extMsg));
+    }
+</script>
+<script src="static/js/main.js?v=43.5"></script>
 <div  id="client-back" style="display:none; position: absolute; top: 0px;left: 0px;padding: 10px;z-index: 9999;color: #fff;height: 20px;font-size: 20px; background: #b50e03;">
    返回
 </div>

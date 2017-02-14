@@ -228,7 +228,15 @@ $(function(){
     goodsCart.bindAddEvent();
     //注册客服事件
     $("#kefu").bind('click', function(){
-         Util.goKefu();
+    
+        if (goods) {
+        
+            var strGoods = JSON.stringify(goods);
+            SStorge.setItem("view_goods", strGoods);
+            Util.goKefu('type=view_goods');
+            
+        }
+         
     });
     //猜你喜欢
     var goodsId = Util.getQueryString('id');

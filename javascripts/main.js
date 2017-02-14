@@ -19,7 +19,7 @@ if (location.href.indexOf("https://") == 0) {
 }
 //当前客户端信息
 var Client = {
-    client : 3,// 1 app 2 weixin 3 web 
+    client : 3, // 1 app 2 weixin 3 web 
     buildNo:0,
     channel: "web",
     os: -1, // 0 android, 1 ios -1 web
@@ -709,7 +709,9 @@ var Util = {
     }
     ,goKefu: function(param){
         //location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
-        location.href = host+"/webapp/kefu/im.html?tenantId=23970&emgroup=客服";
+        var ext = param  ? "&"+ param : "";
+        // location.href = host+"/webapp/kefu-webim-plugin_43.12/im.html?tenantId=23970&emgroup=客服"+ext;
+        location.href = host+"/webapp/kefu/im.html?tenantId=23970&emgroup=客服"+ext;
     }
     ,isIphone: function() {
         var ua = navigator.userAgent.toLowerCase();	
