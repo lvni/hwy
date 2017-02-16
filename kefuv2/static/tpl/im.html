@@ -26,7 +26,7 @@
 					<p class="drag-bar"></p>
 
 					<!-- 企业头像 -->
-					<img class="em-widgetHeader-portrait border-color"/>
+					<img class="em-widgetHeader-portrait border-color" id="client-back"  onclick="history.go(-1);"/>
 
 					<!-- 坐席昵称 -->
 					<span class="em-widgetHeader-nickname"></span>
@@ -318,15 +318,21 @@
 </script>
 <script src="easemob.js?v=<%=WEBIM_PLUGIN_VERSION%>"></script>
 <script src="static/js/main.js?v=<%=WEBIM_PLUGIN_VERSION%>"></script>
-<div  id="client-back" style="display:none; position: absolute; top: 0px;left: 0px;padding: 10px;z-index: 9999;color: #fff;height: 20px;font-size: 20px; background: #b50e03;">
-   &lt;
-</div>
+
 <script>
+
+    var back = '<div  id="" style="display:none; position: absolute; top: 0px;left: 0px;padding: 10px;z-index: 9999;color: #fff;height: 20px;font-size: 20px; background: #b50e03;">&lt;</div>';
+    var backImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAXVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9RKvvlAAAAHnRSTlMA2yLx6uNHDqikTCoW+vTd0rWyrFZTHRoL2J2GgVvznvdSAAAAcUlEQVQoz63QRxKAIBAFURAwIOac/v2P6QnslbN91QUz5v+5IukgCzpK+beWqNxOUkSdv7WSFvxVBMW2wndP6aHWwb6mwUObulGP7tQX4Fkru3N/cK9uJ/eyG/jqFAruu0S9534LChl48nzfNNzml3kBoMkHSeC0my4AAAAASUVORK5CYII=" ;
+   
     if (Client.isApp()) {
-        $("#client-back").show();
+        $("#client-back").hide();
+       setTimeout(function(){
+           $("#client-back").attr('src', backImg).show();
+       }, 2000);
     }
-    $("#client-back").bind("click", function(){
+    $("#em-widgetHeader").bind("click", function(){
         history.go(-1);
+       
     });
 </script>
 </body>
