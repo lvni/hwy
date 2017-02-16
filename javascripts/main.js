@@ -710,8 +710,8 @@ var Util = {
     ,goKefu: function(param){
         //location.href = "http://kefu.easemob.com/webim/im.html?tenantId=23970";
         var ext = param  ? "&"+ param : "";
-        // location.href = host+"/webapp/kefu-webim-plugin_43.12/im.html?tenantId=23970&emgroup=客服"+ext;
-        location.href = host+"/webapp/kefu/im.html?tenantId=23970&emgroup=客服"+ext;
+        //location.href = host+"/webapp/kefu-webim-plugin_43.12/im.html?tenantId=23970&emgroup=客服"+ext;
+        location.href = host+"/webapp/kefuv2/im.html?tenantId=23970&emgroup=客服"+ext;
     }
     ,isIphone: function() {
         var ua = navigator.userAgent.toLowerCase();	
