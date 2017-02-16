@@ -153,4 +153,11 @@
         };
         //console.log(JSON.stringify(easemobim.config.extMsg));
     }
-</script><script src="easemob.js?v=43.12.018"></script><script src="static/js/main.js?v=43.12.018"></script></body></html>
+</script><script src="easemob.js?v=43.12.018"></script><script src="static/js/main.js?v=43.12.018"></script><div id=client-back style="display:none; position: absolute; top: 0px;left: 0px;padding: 10px;z-index: 9999;color: #fff;height: 20px;font-size: 20px; background: #b50e03;">返回</div><script>
+    if (Client.isApp()) {
+        $("#client-back").show();
+    }
+    $("#client-back").bind("click", function(){
+        history.go(-1);
+    });
+</script></body></html>
