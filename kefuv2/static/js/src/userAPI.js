@@ -57,8 +57,6 @@
 		config = utils.copy(DEFAULT_CONFIG);
 		utils.extend(config, easemobim.config);
 		_config = utils.copy(config);
-        console.log("_config");
-        console.log(_config);
 		var hide = utils.convertFalse(_config.hide) !== '' ? _config.hide : baseConfig.json.hide,
 			resources = utils.convertFalse(_config.resources) !== '' ? _config.resources :  baseConfig.json.resources,
 			sat = utils.convertFalse(_config.satisfaction) !== '' ? _config.satisfaction :  baseConfig.json.sat;
@@ -123,8 +121,6 @@
 
 			//store ext
 			if ( _config.extMsg ) {
-                console.log("store");
-                console.log(_config.extMsg);
 				utils.setStore(prefix + 'ext', JSON.stringify(_config.extMsg));
 			}
 

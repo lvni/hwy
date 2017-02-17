@@ -6,7 +6,7 @@
 	easemobim.chat = function ( config ) {
 		var utils = easemobim.utils;
 		var _const = easemobim._const;
-
+        
 		// todo: 把dom都移到里边
 		var doms = {
 			agentStatusText: document.querySelector('.em-header-status-text'),
@@ -36,7 +36,7 @@
 		easemobim.avatar = document.querySelector('.em-widgetHeader-portrait');
 		easemobim.swfupload = null;//flash 上传
 
-
+        
 		//cache current agent
 		config.agentUserId = null;
 
@@ -80,7 +80,6 @@
 				if(config.minimum === false || config.eventCollector === true){
 					transfer.send(easemobim.EVENTS.SHOW, window.transfer.to);
 				}
-                console.log(info);
 				if ( info && config.user ) {
 					config.user.token = config.user.token || info.accessToken;
 				}
@@ -105,7 +104,7 @@
 
 					//get ext
 					var ext = utils.getStore(prefix + 'ext');
-					ext = JSON.stringify(easemobim.config.extMsg);  //yuliang
+					//ext = JSON.stringify(easemobim.config.extMsg);  //yuliang
 					try { ext && me.sendTextMsg('', false, {ext: Easemob.im.Utils.parseJSON(ext)}); } catch ( e ) {}
 					utils.clearStore(config.tenantId + config.emgroup + 'ext');
 				} else {
@@ -1050,6 +1049,16 @@
 						return false;
 					}
 					utils.addClass(easemobim.chatFaceWrapper, 'em-hide');
+                    
+                    //by yuliang, 第一次发送按钮发送轨迹
+                    if (config.extMsg) {
+                         setTimeout(function(){
+                        try {  
+                             me.sendTextMsg('', false, {ext: config.extMsg}); 
+                             delete config.extMsg;
+                        } catch ( e ) {}
+                        }, 1500);
+                    }
 					me.sendTextMsg();
 					if ( utils.isMobile ) {
 						easemobim.textarea.style.height = '34px';
