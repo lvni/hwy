@@ -105,7 +105,6 @@
                  visitor.trueName = visitor.userNickname = jsUser.user.name;
                  visitor.weixin = jsUser.user.sid;
              }
-             console.log(visitor);
         }
         var type = getQueryString('type');
         if (type == 'view_goods') {
@@ -132,7 +131,6 @@
         }
         if (type == 'view_order') {
               var orderStr = SStorge.getItem('view_order');
-              console.log(orderStr);
               if (orderStr) {
                   var jsOrder  = JSON.parse(orderStr);
                   var desc = "";
@@ -147,8 +145,7 @@
                          'item_url' : host + "/webapp/details.html?id=" + jsOrder.order_id,
                      }
                   };
-                  
-                  console.log(msgtype);
+                 
              }
               
         }
@@ -167,7 +164,6 @@
       hideKeyboard:true,
     
     };
-    console.log(easemobim.config);
     if (msgtype) {
         easemobim.config.extMsg = {
             "type": "custom",                       
