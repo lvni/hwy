@@ -105,7 +105,7 @@
 
 					//get ext
 					var ext = utils.getStore(prefix + 'ext');
-					ext = easemobim.config.extMsg;  //yuliang
+					ext = JSON.stringify(easemobim.config.extMsg);  //yuliang
 					try { ext && me.sendTextMsg('', false, {ext: Easemob.im.Utils.parseJSON(ext)}); } catch ( e ) {}
 					utils.clearStore(config.tenantId + config.emgroup + 'ext');
 				} else {

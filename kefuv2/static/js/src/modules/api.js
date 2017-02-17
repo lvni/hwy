@@ -3,7 +3,6 @@
 
 	var createObject = function ( options ) {
 		var headers = null;
-        console.log(options);
 		if ( options.msg.data && options.msg.data.headers ) {
 			headers = options.msg.data.headers;
 			delete options.msg.data.headers;

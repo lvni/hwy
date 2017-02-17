@@ -230,7 +230,6 @@ $(function(){
     $("#kefu").bind('click', function(){
     
         if (goods) {
-        
             var strGoods = JSON.stringify(goods);
             SStorge.setItem("view_goods", strGoods);
             Util.goKefu('type=view_goods');

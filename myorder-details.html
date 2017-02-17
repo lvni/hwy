@@ -114,10 +114,11 @@ Order.runDetail();
 $('body').delegate("button", 'click', function(){
     var id =  $(this).attr("id");
     if ( id == "kefu") {
-        Util.goKefu(this);  
+        Util.goKefu('type=view_order');  
     }
     if ( id == 'tel') {
-        location.href="tel:4000-111-550";
+        // location.href="tel:4000-111-550";
+        location.href="tel:0663-8833169";
     }
       
  });

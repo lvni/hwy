@@ -2440,6 +2440,8 @@ var Order = {
             $(html).insertAfter('.u-top-msg');
             return;
         }
+        
+        SStorge.setItem("view_order", JSON.stringify(data.data)); //写入缓存
         var template = $('#order_detail_template').html();
         var goods_item_template = $('#order_goods_template').html();
         var goodsList = data.data.goods_list;
@@ -2449,6 +2451,7 @@ var Order = {
             goods_list_html += Template.renderByTemplate(goods_item_template, goodsList[i]);
         }
         //获取订单不同状态的操作按钮
+        
         var BntAndTips = Order.renderPayBntsAndTips(data.data);
         data.data.buttons = BntAndTips.bnt;
         var Tips = Order.getOrderTips(data.data);
