@@ -2601,7 +2601,7 @@ var Order = {
              
              //线下联系客服
              if (payType == 'offline') {
-                  Util.goKefu('type=view_order');  
+                  Util.goKefu('type=view_order&ot=pay');  
              }
         });
 

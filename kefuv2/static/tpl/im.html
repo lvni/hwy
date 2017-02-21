@@ -297,9 +297,14 @@
                   var jsOrder  = JSON.parse(orderStr);
                   var desc = "";
                   var orderUrl = "http://119.29.86.60:8190/ecshop/admin/order.php?act=info&order_id=";
+                  var tl = "我的订单咨询";
+                  if (getQueryString('ot') == 'pay') {
+                       tl = "来自订单线下支付";
+                  }
+                  
                   msgtype = {
                      "order" : {
-                         "title" : "我的订单" ,
+                         "title" :tl,
                          "order_title" : "订单号:" + jsOrder.order_sn ,
                          "price" : "¥:" + jsOrder.order_amount,
                          "desc"  :  jsOrder.goods_list[0].goods_name + "等",
