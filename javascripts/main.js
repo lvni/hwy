@@ -2598,6 +2598,11 @@ var Order = {
              if (payType == 'alipay') {
                  me.alipay(orderSn);
              }
+             
+             //线下联系客服
+             if (payType == 'offline') {
+                  Util.goKefu('type=view_order');  
+             }
         });
 
     }
@@ -2644,7 +2649,7 @@ var Order = {
                 me.gotoDetail(orderSn);
             } else {
                 $('#order_fee').html(data.data.total_fee);
-                
+                SStorge.setItem("view_order", JSON.stringify(data.data.order)); //订单信息写入缓存
                 //可以支付再绑定事件
                 me.bindPaymentEvent(orderSn);
             }
