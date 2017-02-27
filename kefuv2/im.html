@@ -1,0 +1,194 @@
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1"><meta name=format-detection content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=no"><link href="static/css/im.css?v=43.12.018" rel=stylesheet></head><body><div id=EasemobKefuWebim><div id=em-widgetPopBar class=em-hide><a class="em-widget-pop-bar bg-color icon-easemob" href=javascript:;>联系客服</a></div><div id=em-kefu-webim-chat class="em-widget-wrapper em-hide"><div id=em-widgetHeader class="em-widgetHeader-wrapper bg-color border-color"><div id=em-widgetDrag><p class=drag-bar></p><img class="em-widgetHeader-portrait border-color" id=client-back onclick=history.go(-1);><span class=em-widgetHeader-nickname></span><span class=em-header-status-text></span><i id=em-widgetAgentStatus class="em-widget-agent-status em-hide"></i><i title=关闭 class="icon-min em-widgetHeader-min bg-color border-color bg-hover-color-light"></i><i class="icon-bell em-widgetHeader-audio fg-color"></i><i class="em-widgetHeader-keyboard icon-keyboard-up hide"></i></div></div><div class=em-widget-tip><span class=content></span> <i class="icon-close tip-close"></i></div><div class=em-widget-video style="display: none;"><video class=main autoplay></video><div class=status><p class=prompt></p><p class=time-escape>00:00</p></div><div class=sub-win><video class=sub autoplay></video><span class="btn-minimize icon-minimize"></span></div><div class=toolbar-dial><i class="btn-accept-call hide icon-answer"></i> <i class="btn-end-call icon-decline"></i></div><div class=toolbar-control><p class="btn-change icon-change"></p><p class="btn-toggle icon-camera"></p></div><span class="btn-maximize icon-maximize"></span><div class="full-screen-prompt hide"><p class=prompt>视频已结束</p><p class=time-escape>00:00</p></div></div><div id=em-widgetBody class=em-widgetBody-wrapper><div class="em-widget-tenant-logo hide"><img></div><div class=em-widget-chat></div></div><div id=EasemobKefuWebimFaceWrapper class="em-bar-face-wrapper e-face em-hide"><ul class=em-bar-face-container></ul></div><div id=em-widgetSend class=em-widget-send-wrapper><i class="em-bar-face icon-face e-face fg-hover-color" title=表情></i> <i class="em-widget-file icon-picture fg-hover-color" id=em-widgetImg title=图片></i> <i class="em-widget-file icon-attachment fg-hover-color" id=em-widgetFile title=附件></i> <i class="em-widget-note icon-note em-hide fg-hover-color" id=em-widgetNote title=留言></i> <i class="icon-video fg-hover-color em-video-invite hide" title=视频通话></i> <i class="icon-flower fg-hover-color em-widget-satisfaction hide" title=评价客服></i> <input id=em-widget-file-input type=file class="upload-file-container hide"> <input id=em-widget-img-input type=file class="upload-img-container hide" accept=image/jpg,image/gif,image/jpeg,image/png,image/bmp> <textarea class=em-widget-textarea spellcheck=false placeholder=点击输入内容...></textarea> <span class="em-widget-send bg-color disabled" id=em-widgetSendBtn>连接中</span></div><div class="em-dialog-video-confirm hide"><p class=prompt>您要邀请客服为您进行实时视频服务么？点击确认发送邀请，等待客服接受后即可体验实时视频服务。</p><div class=button-panel><span class=btn-cancel>取消</span> <span class=btn-confirm>发送</span></div></div><div class="em-widget-dialog em-widget-satisfaction-dialog hide"><h3>请对我的服务做出评价</h3><ul><li idx=1>H</li><li idx=2>H</li><li idx=3>H</li><li idx=4>H</li><li idx=5>H</li></ul><textarea spellcheck=false placeholder=请输入留言></textarea><div><button class=em-widget-cancel>取消</button> <button class=bg-color>提交</button></div><div class="em-widget-success-prompt hide"><i class=icon-circle><i class=icon-good></i></i><p>提交成功</p></div></div><div class="em-widget-error-prompt hide"><span></span></div></div></div><div class="img-view hide"><img></div><iframe id=EasemobKefuWebimIframe class=hide></iframe><script src=../javascripts/zepto.min.js></script><script>
+    var host = "//" + location.host;
+    var prefx = "";
+    var pathname = location.pathname;
+     if (pathname.indexOf('test') >= 0) {
+         prefx = "/test";
+     }
+     host +=  prefx;
+    var getQueryString = function(name) {
+        var url = window.location.search;
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+          var str = url.substr(1);
+          strs = str.split("&");
+          for(var i = 0; i < strs.length; i ++) {
+             theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+          }
+       }
+       if (name in theRequest) {
+           return decodeURIComponent(theRequest[name]);
+       }
+       return ''; 
+    } ;
+    //单次会
+    var SStorge = {
+        removeItem: function(e) {
+            return sessionStorage.removeItem(e);
+        }
+        ,getItem: function(e, d) {
+            var r = sessionStorage.getItem(e);
+            if (d != undefined && (r == undefined || r == null)) {
+                return d;
+            }
+            return r;
+        }
+        ,setItem: function(k, e) {
+            return sessionStorage.setItem(k, e);
+        }
+        
+    }; 
+    var Client = {
+        client : 3,// 1 app 2 weixin 3 web 
+        buildNo:0,
+        channel: "web",
+        os: -1, // 0 android, 1 ios -1 web
+        sv: "", 
+        init:function() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            var appPattern = /(hwy)\/([0-9\.]+)(\s+\((\d+)\))?/i;
+            var wxPattern  = /MicroMessenger\/([0-9\.]+)/i;
+            var androidPattern = /(android)/i;
+            var iphonePattern =  /(iphone|ipad)/i;
+            var channelPattern = /channel\((\d+)\)/i;
+            var result ;
+            var me = this;
+            if (result = ua.match(appPattern)) {
+                me.client = 1;
+                me.buildNo = result[4] ? result[4] : 0;
+                me.sv = result[2];
+                
+            }
+            if (result = ua.match(wxPattern)) {
+                me.client = 2;
+            } 
+            if (result = ua.match(androidPattern)) {
+                me.os = 0;
+            } 
+            if (result = ua.match(iphonePattern)) {
+                me.os = 1;
+            } 
+            if (result = ua.match(channelPattern)) {
+                me.channel = result[1];
+            } 
+            
+        },
+        isApp: function() {
+            return this.client == 1;
+        },
+        isAndroid: function() {
+            return this.os == 0;
+        },
+        isIos: function() {
+            return this.os == 1;
+        },
+        isWeixin: function() {
+            return this.client == 2;
+        },
+        toString: function() {
+            return "client " + this.client  
+                       + " os " + this.os
+                       + " channel " + this.channel
+                       + " buildNo " + this.buildNo
+                       + " sv " + this.sv;
+        }
+        
+    };
+    Client.init();
+    var hwy_data = SStorge.getItem('hwy');
+    var visitor = {};
+    var msgtype = {};
+    try {
+        if (hwy_data) {
+             var jsUser = JSON.parse(hwy_data);
+             if (jsUser.user) {
+                 visitor.trueName = visitor.userNickname = jsUser.user.name;
+                 visitor.weixin = jsUser.user.sid;
+             }
+        }
+        var type = getQueryString('type');
+        if (type == 'view_goods') {
+              var goodsStr = SStorge.getItem('view_goods');
+              if (goodsStr) {
+                  var jsGoods  = JSON.parse(goodsStr);
+                  var desc = "";
+                  for (i in jsGoods.attr) {
+                     if (jsGoods.attr[i].key == '描述') {
+                         desc = jsGoods.attr[i].value ;
+                     }
+                  }
+                  msgtype = {
+                     "track" : {
+                         "title" : "我正在看《" + jsGoods.title + "》" ,
+                         "price" : "¥:" + jsGoods.price,
+                         "desc"  : desc,
+                         'img_url' : jsGoods.thumb,
+                         'item_url' : host + "/webapp/details.html?id=" + jsGoods.id,
+                     }
+                  };
+             }
+              
+        }
+        if (type == 'view_order') {
+              var orderStr = SStorge.getItem('view_order');
+              if (orderStr) {
+                  var jsOrder  = JSON.parse(orderStr);
+                  var desc = "";
+                  var orderUrl = "http://119.29.86.60:8190/ecshop/admin/order.php?act=info&order_id=";
+                  var tl = "我的订单咨询";
+                  if (getQueryString('ot') == 'pay') {
+                       tl = "来自订单线下支付";
+                  }
+                  
+                  msgtype = {
+                     "order" : {
+                         "title" :tl,
+                         "order_title" : "订单号:" + jsOrder.order_sn ,
+                         "price" : "¥:" + jsOrder.order_amount,
+                         "desc"  :  jsOrder.goods_list[0].goods_name + "等",
+                         'img_url' : jsOrder.goods_list[0].goods_img,
+                         'item_url' : host + "/webapp/details.html?id=" + jsOrder.order_id,
+                     }
+                  };
+                 
+             }
+              
+        }
+    } catch(e) {
+        console.log(e);
+    }
+    
+    window.easemobim = window.easemobim || {};
+    easemobim.config = {
+        tenantId: '23970',   //租户id 
+        domain: '//kefu.easemob.com',     //环信移动客服域,                    domain: '//kefu.easemob.com', 
+        path: host +'/webapp/kefuv2',       //自己服务器上im.html文件的路径,      path: '//XXX'
+        staticPath:  host + '/webapp/kefuv2/static'  //访客插件static的路径,              staticPath: '//XXX/static'
+        ,visitor: visitor
+      ,eventCollector: true ,
+      hideKeyboard:true,
+    
+    };
+    if (msgtype) {
+        easemobim.config.extMsg = {
+            "type": "custom",                       
+            "msgtype": msgtype
+        };
+        //console.log(JSON.stringify(easemobim.config.extMsg));
+    }
+</script><script src="easemob.js?v=43.12.018"></script><script src="static/js/main.js?v=43.12.018"></script><script>
+
+    var back = '<div  id="" style="display:none; position: absolute; top: 0px;left: 0px;padding: 10px;z-index: 9999;color: #fff;height: 20px;font-size: 20px; background: #b50e03;">&lt;</div>';
+    var backImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAXVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9RKvvlAAAAHnRSTlMA2yLx6uNHDqikTCoW+vTd0rWyrFZTHRoL2J2GgVvznvdSAAAAcUlEQVQoz63QRxKAIBAFURAwIOac/v2P6QnslbN91QUz5v+5IukgCzpK+beWqNxOUkSdv7WSFvxVBMW2wndP6aHWwb6mwUObulGP7tQX4Fkru3N/cK9uJ/eyG/jqFAruu0S9534LChl48nzfNNzml3kBoMkHSeC0my4AAAAASUVORK5CYII=" ;
+   
+    if (Client.isApp()) {
+        $("#client-back").hide();
+       setTimeout(function(){
+           $("#client-back").attr('src', backImg).show();
+       }, 2000);
+    }
+    $("#em-widgetHeader").bind("click", function(){
+        history.go(-1);
+       
+    });
+</script></body></html>
