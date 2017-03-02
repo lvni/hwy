@@ -4370,7 +4370,7 @@ var AppCall = {
     },
     wxCallback: function(data) {
         //微信成功回调
-        
+        Util.hideLoading();
         try {
             if (typeof data == 'object') {
                 var jsObt  = data;

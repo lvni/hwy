@@ -71,7 +71,11 @@ $(function(){
             return ;
         }
         if (Util.isApp()) {
+            Util.showLoading();
             Util.goAppWxLogin('AppCall.wxCallback');
+            setTimeout(function(){
+                Util.hideLoading();
+            },5000);
             return;
         }
         //否则
