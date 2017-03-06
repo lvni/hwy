@@ -2533,6 +2533,7 @@ var Order = {
                function(res){     
                     if (res.err_code) {
                         //messageBox.toast(res.err_msg);
+                        console.log(res);
                         //有错误码，则表示支付失败
                          messageBox.toast("支付失败");
                     } else if (res.err_msg == 'get_brand_wcpay_request:cancel'){
